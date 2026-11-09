@@ -1,0 +1,176 @@
+{
+  "universe_frozen": true,
+  "universe_size": 7,
+  "source": "同花顺公开日线",
+  "adjust": "前复权",
+  "price_unit": "点",
+  "columns": [
+    "date",
+    "open",
+    "close",
+    "high",
+    "low",
+    "volume",
+    "amount"
+  ],
+  "caliber_consistent": true,
+  "caliber_differences": [],
+  "min_history_rows": 1250,
+  "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+  "entries": [
+    {
+      "code": "sh000001",
+      "name": "上证指数",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sh000001.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sz399001",
+      "name": "深证成指",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sz399001.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sz399006",
+      "name": "创业板指",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sz399006.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sh000688",
+      "name": "科创50",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sh000688.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sh000300",
+      "name": "沪深300",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sh000300.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sh000905",
+      "name": "中证500",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1460,
+      "start": "2020-10-30",
+      "end": "2026-11-06",
+      "relative_path": "data/raw/indices-ths/sh000905.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    },
+    {
+      "code": "sh000852",
+      "name": "中证1000",
+      "source": "同花顺公开日线",
+      "adjust": "前复权",
+      "price_unit": "点",
+      "columns": [
+        "date",
+        "open",
+        "close",
+        "high",
+        "low",
+        "volume",
+        "amount"
+      ],
+      "rows": 1459,
+      "start": "2020-10-30",
+      "end": "2026-11-05",
+      "relative_path": "data/raw/indices-ths/sh000852.csv",
+      "history_sufficient": true,
+      "insufficient_history_note": null
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "guotai": {
+    "rate": 0.48413793103448277,
+    "decided": 725,
+    "same": 351,
+    "hedge": 374,
+    "pending": 3,
+    "no_data": 0,
+    "start": "2023-10-31",
+    "end": "2026-10-29"
+  },
+  "citic": {
+    "rate": 0.4896551724137931,
+    "decided": 725,
+    "same": 355,
+    "hedge": 370,
+    "pending": 3,
+    "no_data": 0,
+    "start": "2023-10-31",
+    "end": "2026-10-29"
+  },
+  "others": {
+    "rate": 0.5027548209366391,
+    "decided": 726,
+    "same": 365,
+    "hedge": 361,
+    "pending": 2,
+    "no_data": 0,
+    "start": "2023-10-31",
+    "end": "2026-10-29"
+  }
+}

@@ -1,0 +1,265 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: S
+      - generic [ref=e8]:
+        - heading "SignalHub" [level=1] [ref=e9]
+        - paragraph [ref=e10]: 信号指标中心
+    - navigation [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]: 概览
+        - link "指标总览" [ref=e14] [cursor=pointer]:
+          - /url: /
+      - generic [ref=e17]:
+        - generic [ref=e18]: 板块
+        - link "板块趋势" [ref=e19] [cursor=pointer]:
+          - /url: /sectors
+      - generic [ref=e22]:
+        - generic [ref=e23]: 机构持仓
+        - link "机构多空单" [ref=e24] [cursor=pointer]:
+          - /url: /institutions
+    - generic [ref=e28]:
+      - generic [ref=e29]: 系统状态
+      - paragraph [ref=e32]: 数据实时同步中
+  - main [ref=e33]:
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - heading "指标总览" [level=2] [ref=e36]
+        - generic [ref=e37]: "|"
+        - generic [ref=e38]: 2026-11-02
+        - generic [ref=e39]: 收盘数据
+      - generic [ref=e40]:
+        - textbox "搜索指标..." [ref=e44]
+        - generic [ref=e45]:
+          - generic [ref=e46]: 更新于 16:25:42
+          - generic [ref=e47]: 每 30 秒自动刷新
+        - button "立即刷新" [ref=e60]
+        - button [ref=e49]
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]: 当日确认信号
+            - generic [ref=e66]: 2026-11-02
+          - generic [ref=e67]:
+            - generic [ref=e68]: "0"
+            - generic [ref=e69]: 条
+          - paragraph [ref=e70]: 三层确认通过后计入
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]: 待确认候选
+            - generic [ref=e74]: 观察
+          - generic [ref=e75]:
+            - generic [ref=e76]: "0"
+            - generic [ref=e77]: 个
+          - paragraph [ref=e78]: 1-3 个交易日内等待确认
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]: 已判定胜率
+            - generic [ref=e82]: 67 样本
+          - generic [ref=e83]: 94.0%
+          - paragraph [ref=e85]: 2020-10-30 ~ 2026-11-02
+          - paragraph [ref=e86]: 平均最大回撤 -4.2% · 最差 -24.8%
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: 信号最活跃指数
+            - generic [ref=e90]: 7 个
+          - generic [ref=e91]: 中证1000
+          - paragraph [ref=e93]: 历史共 14 条信号
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - heading "7 大宽基指数走势与信号" [level=3] [ref=e97]
+            - paragraph [ref=e98]: 同一范围同步展示收盘走势、已确认信号与待确认候选
+          - generic [ref=e99]:
+            - text: 时间范围
+            - combobox "指数图表时间范围" [ref=e100]:
+              - option "近一个月"
+              - option "近三个月"
+              - option "近半年"
+              - option "近一年" [selected]
+              - option "近两年"
+              - option "近三年"
+              - option "全部"
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - heading "上证指数" [level=3] [ref=e106]
+                - paragraph [ref=e107]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e108]:
+                - paragraph [ref=e109]: 3,613.10
+                - generic [ref=e110]: +0.39% ↑
+            - generic [ref=e111]:
+              - generic [ref=e112]: ▲ 已确认底部
+              - generic [ref=e113]: ▼ 已确认顶部
+              - generic [ref=e114]: △ 候选（未确认）
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - heading "深证成指" [level=3] [ref=e123]
+                - paragraph [ref=e124]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e125]:
+                - paragraph [ref=e126]: 11,010.68
+                - generic [ref=e127]: +1.63% ↑
+            - generic [ref=e128]:
+              - generic [ref=e129]: ▲ 已确认底部
+              - generic [ref=e130]: ▼ 已确认顶部
+              - generic [ref=e131]: △ 候选（未确认）
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - heading "创业板指" [level=3] [ref=e140]
+                - paragraph [ref=e141]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e142]:
+                - paragraph [ref=e143]: 2,465.36
+                - generic [ref=e144]: +2.14% ↑
+            - generic [ref=e145]:
+              - generic [ref=e146]: ▲ 已确认底部
+              - generic [ref=e147]: ▼ 已确认顶部
+              - generic [ref=e148]: △ 候选（未确认）
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - heading "科创50" [level=3] [ref=e157]
+                - paragraph [ref=e158]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e159]:
+                - paragraph [ref=e160]: 1,181.27
+                - generic [ref=e161]: +1.76% ↑
+            - generic [ref=e162]:
+              - generic [ref=e163]: ▲ 已确认底部
+              - generic [ref=e164]: ▼ 已确认顶部
+              - generic [ref=e165]: △ 候选（未确认）
+          - generic [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - heading "沪深300" [level=3] [ref=e174]
+                - paragraph [ref=e175]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e176]:
+                - paragraph [ref=e177]: 4,012.93
+                - generic [ref=e178]: +0.69% ↑
+            - generic [ref=e179]:
+              - generic [ref=e180]: ▲ 已确认底部
+              - generic [ref=e181]: ▼ 已确认顶部
+              - generic [ref=e182]: △ 候选（未确认）
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - heading "中证500" [level=3] [ref=e191]
+                - paragraph [ref=e192]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e193]:
+                - paragraph [ref=e194]: 6,423.06
+                - generic [ref=e195]: +2.50% ↑
+            - generic [ref=e196]:
+              - generic [ref=e197]: ▲ 已确认底部
+              - generic [ref=e198]: ▼ 已确认顶部
+              - generic [ref=e199]: △ 候选（未确认）
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - heading "中证1000" [level=3] [ref=e208]
+                - paragraph [ref=e209]: 2025-10-20 ~ 2026-11-02 · 252 个交易日
+              - generic [ref=e210]:
+                - paragraph [ref=e211]: 6,332.02
+                - generic [ref=e212]: +2.77% ↑
+            - generic [ref=e213]:
+              - generic [ref=e214]: ▲ 已确认底部
+              - generic [ref=e215]: ▼ 已确认顶部
+              - generic [ref=e216]: △ 候选（未确认）
+      - generic [ref=e221]:
+        - generic [ref=e222]:
+          - heading "最新信号状态" [level=3] [ref=e223]
+          - generic [ref=e224]:
+            - generic [ref=e225]: 底部（买入）
+            - generic [ref=e227]: 顶部（卖出）
+        - table [ref=e230]:
+          - rowgroup [ref=e231]:
+            - row [ref=e232]:
+              - columnheader "日期" [ref=e233]
+              - columnheader "指数" [ref=e234]
+              - columnheader "信号类型" [ref=e235]
+              - columnheader "等级" [ref=e236]
+              - columnheader "触发价" [ref=e237]
+              - columnheader "近 20 日回撤" [ref=e238]
+              - columnheader "至今涨跌幅" [ref=e239]
+              - columnheader "状态" [ref=e240]
+          - rowgroup [ref=e241]:
+            - row [ref=e242]:
+              - cell "2026-07-21" [ref=e243]
+              - cell "深证成指" [ref=e244]
+              - cell "底部" [ref=e245]
+              - cell "B" [ref=e248]
+              - cell "14,264.29" [ref=e249]
+              - cell "-6.9%" [ref=e250]
+              - cell "-22.81% ↓" [ref=e251]
+              - cell "已确认" [ref=e253]
+            - row [ref=e254]:
+              - cell "2026-04-08" [ref=e255]
+              - cell "创业板指" [ref=e256]
+              - cell "底部" [ref=e257]
+              - cell "B" [ref=e260]
+              - cell "3,347.61" [ref=e261]
+              - cell "-0.7%" [ref=e262]
+              - cell "-26.35% ↓" [ref=e263]
+              - cell "已确认" [ref=e265]
+            - row [ref=e266]:
+              - cell "2026-04-08" [ref=e267]
+              - cell "中证500" [ref=e268]
+              - cell "底部" [ref=e269]
+              - cell "B" [ref=e272]
+              - cell "7,945.15" [ref=e273]
+              - cell "-0.6%" [ref=e274]
+              - cell "-19.16% ↓" [ref=e275]
+              - cell "已确认" [ref=e277]
+            - row [ref=e278]:
+              - cell "2026-04-08" [ref=e279]
+              - cell "中证1000" [ref=e280]
+              - cell "底部" [ref=e281]
+              - cell "B" [ref=e284]
+              - cell "7,955.77" [ref=e285]
+              - cell "-0.4%" [ref=e286]
+              - cell "-20.41% ↓" [ref=e287]
+              - cell "已确认" [ref=e289]
+            - row [ref=e290]:
+              - cell "2026-02-25" [ref=e291]
+              - cell "沪深300" [ref=e292]
+              - cell "底部" [ref=e293]
+              - cell "B" [ref=e296]
+              - cell "4,735.89" [ref=e297]
+              - cell "-6.7%" [ref=e298]
+              - cell "-15.27% ↓" [ref=e299]
+              - cell "已确认" [ref=e301]
+            - row [ref=e302]:
+              - cell "2026-02-25" [ref=e303]
+              - cell "上证指数" [ref=e304]
+              - cell "底部" [ref=e305]
+              - cell "B" [ref=e308]
+              - cell "4,147.23" [ref=e309]
+              - cell "-8.1%" [ref=e310]
+              - cell "-12.88% ↓" [ref=e311]
+              - cell "已确认" [ref=e313]
+            - row [ref=e314]:
+              - cell "2025-05-27" [ref=e315]
+              - cell "创业板指" [ref=e316]
+              - cell "顶部" [ref=e317]
+              - cell "B" [ref=e320]
+              - cell "1,991.64" [ref=e321]
+              - cell "-6.9%" [ref=e322]
+              - cell "+23.79% ↑" [ref=e323]
+              - cell "已确认" [ref=e325]
+            - row [ref=e326]:
+              - cell "2025-05-23" [ref=e327]
+              - cell "中证1000" [ref=e328]
+              - cell "顶部" [ref=e329]
+              - cell "B" [ref=e332]
+              - cell "5,989.68" [ref=e333]
+              - cell "-3.8%" [ref=e334]
+              - cell "+5.72% ↑" [ref=e335]
+              - cell "已确认" [ref=e337]
+      - generic [ref=e338]:
+        - generic [ref=e339]:
+          - heading "待确认候选" [level=3] [ref=e340]
+          - generic [ref=e341]: 价格 → 动量 → 量能，三层全部通过才转为已确认
+        - generic [ref=e342]:
+          - paragraph [ref=e343]: 当前没有处于确认窗口内的候选信号
+          - paragraph [ref=e344]: 候选触发后需 1-3 个交易日观察

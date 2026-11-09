@@ -1,0 +1,1290 @@
+{
+  "algorithm_version": "etf-volume-spike-v1.2",
+  "range": {
+    "start": "2024-09-24",
+    "end": "2026-11-05"
+  },
+  "old_report_input_hash": "5149443b324ea74f133355e08b7cae434081002d36fd1a538555f90e6831029b",
+  "current_input_hash": "0b7cac9f8136d080b5f8f52bf3ab6267cfd3c59ba9d945565b81e7849a66c1c1",
+  "input_changed_since_old_report": true,
+  "v1_1_report_input_hash": "0b7cac9f8136d080b5f8f52bf3ab6267cfd3c59ba9d945565b81e7849a66c1c1",
+  "input_changed_since_v1_1": false,
+  "before": {
+    "data\\index-signals.json": {
+      "sha256": "f67a846a88d09a8f6e3af0961497b87360dadc953db751e76c56619d9e56cb15",
+      "mtime_ns": 1793934945484950600
+    },
+    "data\\sector-trends.json": {
+      "sha256": "55c366bc5a9faa69c3dfa85d6e794f1338acc3f8d0fdb48eacdb9a8c00b6f09b",
+      "mtime_ns": 1793934949454661500
+    },
+    "data\\etf-volume-events.json": {
+      "sha256": "946eb24f037676b4394f4231bda8eefd557e24a772fd29d85aa97cd38c42f2ec",
+      "mtime_ns": 1793934950185696600
+    },
+    "data\\research\\etf-volume-spike.json": {
+      "sha256": "f150553e21511082d6622d3658495d3c7ba44645fe9d656a4bd1cfdeb2131922",
+      "mtime_ns": 1793934316313407700
+    },
+    "data\\research\\etf-volume-spike.md": {
+      "sha256": "a225e12f12804c10be09db7c69d768af649d45a940fb0a1231637817dd8866e1",
+      "mtime_ns": 1793934348437267700
+    },
+    "data\\research\\etf-volume-spike-v1.1.json": {
+      "sha256": "f25ed641f4bb34b3d0f65f3bae4ac2a101af8fda2c86bec7fa24663695628935",
+      "mtime_ns": 1793946441070267200
+    },
+    "data\\research\\etf-volume-spike-v1.1.md": {
+      "sha256": "6256f4c2045e566c81acb568cd3417526759f2abfc327183a221996523977dce",
+      "mtime_ns": 1793946440944701700
+    },
+    "data\\research\\etf-volume-spike-v1.1-verification.json": {
+      "sha256": "6026391d22483a801a1960c30552d3cfc1cc6b1774fd8e14e8768615a1bde2cb",
+      "mtime_ns": 1793946087425434100
+    },
+    "data\\raw\\etf-daily\\588000.csv": {
+      "sha256": "6639280f8800d345a2b6ebf4640882fad444741a62cc1d59b0bb4b24d608e696",
+      "mtime_ns": 1793933527572966600
+    },
+    "data\\raw\\etf-daily\\159915.csv": {
+      "sha256": "99d5b9ac8c983a378940b03186072d93a3ee35e9a131fe9388123de3bdf51a79",
+      "mtime_ns": 1793933528374077100
+    },
+    "data\\raw\\etf-daily\\510300.csv": {
+      "sha256": "6c3837c1c392614c14d29d83b89caf16d65e38b85aa7958ed8e9c36a8c28fbb6",
+      "mtime_ns": 1793933529174128500
+    },
+    "data\\raw\\etf-daily\\510050.csv": {
+      "sha256": "b3028b74408740237b20eff3319e01d519aa57d69d9df401d222baa739b46441",
+      "mtime_ns": 1793933530002617700
+    },
+    "data\\raw\\etf-daily\\512100.csv": {
+      "sha256": "dcc12e5248671621dc4219737ffbfdd6d17eebfe16c07712d461cc943ff2021e",
+      "mtime_ns": 1793933530736728600
+    },
+    "data\\raw\\etf-daily\\510500.csv": {
+      "sha256": "172be2271d084961b8a42570df64786547e6fd12c47973607b01f76af230c9cc",
+      "mtime_ns": 1793933531651897700
+    },
+    "data\\raw\\indices-ths\\sh000001.csv": {
+      "sha256": "2ef9a00670275bb1da2de9bb5347c3603638bb8ad87173bbb65046cc4112ba89",
+      "mtime_ns": 1793880024213589200
+    },
+    "data\\raw\\indices-ths\\sz399001.csv": {
+      "sha256": "40525bbc1989c79c6f81ac457fe3e15d6bc5764625dafcdcccc61944ee917325",
+      "mtime_ns": 1793934884191079700
+    },
+    "data\\raw\\indices-ths\\sz399006.csv": {
+      "sha256": "12f0a2215171899e3d0c843150fdc4b9f73a12e647a5c44b99666a6a99ccd343",
+      "mtime_ns": 1793862152330979200
+    },
+    "data\\raw\\indices-ths\\sh000688.csv": {
+      "sha256": "8a64ddbb2ca2dafd03c4e0d198ef201e7a35548069c61823f95d08aa98c05ed5",
+      "mtime_ns": 1793862152954405400
+    },
+    "data\\raw\\indices-ths\\sh000300.csv": {
+      "sha256": "ccc430ee3edcacf9450bee9a20d0065b98b6b0c33f6e5fb577771322309df410",
+      "mtime_ns": 1793866778170063300
+    },
+    "data\\raw\\indices-ths\\sh000905.csv": {
+      "sha256": "e03aab26c1e1bea8d500a20a85c1630dc9782289b4b901931d37451bad00ca71",
+      "mtime_ns": 1793934886846823500
+    },
+    "data\\raw\\indices-ths\\sh000852.csv": {
+      "sha256": "450f5ee447341188abf49bd5bdeb114e7d674b080d7025138b6080621bd69451",
+      "mtime_ns": 1793934887456789600
+    }
+  },
+  "after": {
+    "data\\index-signals.json": {
+      "sha256": "f67a846a88d09a8f6e3af0961497b87360dadc953db751e76c56619d9e56cb15",
+      "mtime_ns": 1793934945484950600
+    },
+    "data\\sector-trends.json": {
+      "sha256": "55c366bc5a9faa69c3dfa85d6e794f1338acc3f8d0fdb48eacdb9a8c00b6f09b",
+      "mtime_ns": 1793934949454661500
+    },
+    "data\\etf-volume-events.json": {
+      "sha256": "946eb24f037676b4394f4231bda8eefd557e24a772fd29d85aa97cd38c42f2ec",
+      "mtime_ns": 1793934950185696600
+    },
+    "data\\research\\etf-volume-spike.json": {
+      "sha256": "f150553e21511082d6622d3658495d3c7ba44645fe9d656a4bd1cfdeb2131922",
+      "mtime_ns": 1793934316313407700
+    },
+    "data\\research\\etf-volume-spike.md": {
+      "sha256": "a225e12f12804c10be09db7c69d768af649d45a940fb0a1231637817dd8866e1",
+      "mtime_ns": 1793934348437267700
+    },
+    "data\\research\\etf-volume-spike-v1.1.json": {
+      "sha256": "f25ed641f4bb34b3d0f65f3bae4ac2a101af8fda2c86bec7fa24663695628935",
+      "mtime_ns": 1793946441070267200
+    },
+    "data\\research\\etf-volume-spike-v1.1.md": {
+      "sha256": "6256f4c2045e566c81acb568cd3417526759f2abfc327183a221996523977dce",
+      "mtime_ns": 1793946440944701700
+    },
+    "data\\research\\etf-volume-spike-v1.1-verification.json": {
+      "sha256": "6026391d22483a801a1960c30552d3cfc1cc6b1774fd8e14e8768615a1bde2cb",
+      "mtime_ns": 1793946087425434100
+    },
+    "data\\raw\\etf-daily\\588000.csv": {
+      "sha256": "6639280f8800d345a2b6ebf4640882fad444741a62cc1d59b0bb4b24d608e696",
+      "mtime_ns": 1793933527572966600
+    },
+    "data\\raw\\etf-daily\\159915.csv": {
+      "sha256": "99d5b9ac8c983a378940b03186072d93a3ee35e9a131fe9388123de3bdf51a79",
+      "mtime_ns": 1793933528374077100
+    },
+    "data\\raw\\etf-daily\\510300.csv": {
+      "sha256": "6c3837c1c392614c14d29d83b89caf16d65e38b85aa7958ed8e9c36a8c28fbb6",
+      "mtime_ns": 1793933529174128500
+    },
+    "data\\raw\\etf-daily\\510050.csv": {
+      "sha256": "b3028b74408740237b20eff3319e01d519aa57d69d9df401d222baa739b46441",
+      "mtime_ns": 1793933530002617700
+    },
+    "data\\raw\\etf-daily\\512100.csv": {
+      "sha256": "dcc12e5248671621dc4219737ffbfdd6d17eebfe16c07712d461cc943ff2021e",
+      "mtime_ns": 1793933530736728600
+    },
+    "data\\raw\\etf-daily\\510500.csv": {
+      "sha256": "172be2271d084961b8a42570df64786547e6fd12c47973607b01f76af230c9cc",
+      "mtime_ns": 1793933531651897700
+    },
+    "data\\raw\\indices-ths\\sh000001.csv": {
+      "sha256": "2ef9a00670275bb1da2de9bb5347c3603638bb8ad87173bbb65046cc4112ba89",
+      "mtime_ns": 1793880024213589200
+    },
+    "data\\raw\\indices-ths\\sz399001.csv": {
+      "sha256": "40525bbc1989c79c6f81ac457fe3e15d6bc5764625dafcdcccc61944ee917325",
+      "mtime_ns": 1793934884191079700
+    },
+    "data\\raw\\indices-ths\\sz399006.csv": {
+      "sha256": "12f0a2215171899e3d0c843150fdc4b9f73a12e647a5c44b99666a6a99ccd343",
+      "mtime_ns": 1793862152330979200
+    },
+    "data\\raw\\indices-ths\\sh000688.csv": {
+      "sha256": "8a64ddbb2ca2dafd03c4e0d198ef201e7a35548069c61823f95d08aa98c05ed5",
+      "mtime_ns": 1793862152954405400
+    },
+    "data\\raw\\indices-ths\\sh000300.csv": {
+      "sha256": "ccc430ee3edcacf9450bee9a20d0065b98b6b0c33f6e5fb577771322309df410",
+      "mtime_ns": 1793866778170063300
+    },
+    "data\\raw\\indices-ths\\sh000905.csv": {
+      "sha256": "e03aab26c1e1bea8d500a20a85c1630dc9782289b4b901931d37451bad00ca71",
+      "mtime_ns": 1793934886846823500
+    },
+    "data\\raw\\indices-ths\\sh000852.csv": {
+      "sha256": "450f5ee447341188abf49bd5bdeb114e7d674b080d7025138b6080621bd69451",
+      "mtime_ns": 1793934887456789600
+    }
+  },
+  "guarded_files_unchanged": true,
+  "tests": {
+    "command": [
+      "D:\\情绪集合\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "pipeline",
+      "server",
+      "-q"
+    ],
+    "exit_code": 0,
+    "stdout": "..............................s.s..s...................... [ 14%]\n.................................................... [ 27%]\n........................................................................ [ 45%]\n..................s.............................. [ 57%]\n..................................................... [ 70%]\n........................................................................ [ 88%]\n................................... [ 97%]\n..........                                                          [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  D:\\情绪集合\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n397 passed, 4 skipped, 1 warning, 118 subtests passed in 83.76s (0:01:23)\n",
+    "stderr": ""
+  },
+  "research": {
+    "command": [
+      "D:\\情绪集合\\.venv\\Scripts\\python.exe",
+      "pipeline/run_etf_volume_study.py",
+      "--start",
+      "2024-09-24",
+      "--end",
+      "2026-11-05",
+      "--out",
+      "etf-volume-spike-v1.2.json",
+      "--previous",
+      "etf-volume-spike.json"
+    ],
+    "exit_code": 0,
+    "stdout": "成立：核心 6 只在研究区间内是否都出现过单日成交额 ≥ 100 亿元（n=6）\n不成立：是否只有这 6 只宽基 ETF 单日成交破百亿（n=10）\n成立：核心 6 只全部同日破百亿的交易日是否不止一天（即不是孤例）（n=2）\n不成立：L1 单只放量事件后 5 日胜率是否高于同状态非放量日基线（n=9）\n成立：L2 多只放量事件后 5 日胜率是否高于同状态非放量日基线（n=8）\n样本不足，暂不能判断：L3 全池放量事件后 5 日胜率是否高于同状态非放量日基线（n=0）\n样本不足，暂不能判断：下跌底部区内放量事件后 5 日胜率是否高于同状态非放量日基线（n=2）\n不成立：趋势上行区内放量事件后 5 日胜率是否高于同状态非放量日基线（n=10）\n样本不足，暂不能判断：中性过渡区内放量事件后 5 日胜率是否高于同状态非放量日基线（n=5）\n已写入 D:\\情绪集合\\data\\research\\etf-volume-spike-v1.2.json 与 D:\\情绪集合\\data\\research\\etf-volume-spike-v1.2.md\n",
+    "stderr": "\n  0%|          | 0/16 [00:00<?, ?it/s]\n  6%|▋         | 1/16 [00:01<00:22,  1.53s/it]\n 12%|█▎        | 2/16 [00:02<00:17,  1.25s/it]\n 19%|█▉        | 3/16 [00:04<00:19,  1.52s/it]\n 25%|██▌       | 4/16 [00:05<00:16,  1.36s/it]\n 31%|███▏      | 5/16 [00:07<00:16,  1.47s/it]\n 38%|███▊      | 6/16 [00:08<00:14,  1.43s/it]\n 44%|████▍     | 7/16 [00:09<00:11,  1.28s/it]\n 50%|█████     | 8/16 [00:10<00:09,  1.18s/it]\n 56%|█████▋    | 9/16 [00:11<00:08,  1.22s/it]\n 62%|██████▎   | 10/16 [00:13<00:08,  1.39s/it]\n 69%|██████▉   | 11/16 [00:15<00:07,  1.43s/it]\n 75%|███████▌  | 12/16 [00:16<00:06,  1.53s/it]\n 81%|████████▏ | 13/16 [00:18<00:04,  1.62s/it]\n 88%|████████▊ | 14/16 [00:20<00:03,  1.68s/it]\n 94%|█████████▍| 15/16 [00:21<00:01,  1.51s/it]\n100%|██████████| 16/16 [00:23<00:00,  1.50s/it]\n                                               \n"
+  },
+  "isolated_rebuild": {
+    "index-signals.json": {
+      "equal": true,
+      "sha256": "f67a846a88d09a8f6e3af0961497b87360dadc953db751e76c56619d9e56cb15"
+    },
+    "sector-trends.json": {
+      "equal": true,
+      "sha256": "55c366bc5a9faa69c3dfa85d6e794f1338acc3f8d0fdb48eacdb9a8c00b6f09b"
+    },
+    "etf-volume-events.json": {
+      "schema_valid": true,
+      "daily_markers_unchanged": true,
+      "event_levels_equal_first_day": true,
+      "research_first_day_attributes_match": true,
+      "research_event_count": 17
+    }
+  },
+  "build_log": "已校验并写入 D:\\情绪集合\\.tmp-etf-v1.2-hvkl_yze\\index-signals.json\n已校验并写入 D:\\情绪集合\\.tmp-etf-v1.2-hvkl_yze\\sector-trends.json\n已校验并写入 D:\\情绪集合\\.tmp-etf-v1.2-hvkl_yze\\etf-volume-events.json\nindex-signals.json schema 校验通过\nsector-trends.json schema 校验通过\netf-volume-events.json schema 校验通过\n",
+  "same_input_comparison": {
+    "basis": "相同当前本地输入、同一研究区间和冻结参数；旧短历史最高级、旧短历史首日级别、新完整预热首日级别三版对照",
+    "range": [
+      "2024-09-24",
+      "2026-11-05"
+    ],
+    "level_changes_v1_0_to_v1_1": [
+      {
+        "start_date": "2024-09-24",
+        "old_level": "L3",
+        "new_level": "L1"
+      },
+      {
+        "start_date": "2026-10-15",
+        "old_level": "L3",
+        "new_level": "L2"
+      }
+    ],
+    "state_changes_v1_1_to_v1_2": [
+      {
+        "start_date": "2024-11-05",
+        "old_state": "中性过渡区",
+        "new_state": "趋势上行区"
+      },
+      {
+        "start_date": "2024-12-10",
+        "old_state": "中性过渡区",
+        "new_state": "趋势上行区"
+      },
+      {
+        "start_date": "2025-02-21",
+        "old_state": "中性过渡区",
+        "new_state": "趋势上行区"
+      },
+      {
+        "start_date": "2025-04-07",
+        "old_state": "中性过渡区",
+        "new_state": "下跌底部区"
+      },
+      {
+        "start_date": "2025-08-22",
+        "old_state": "中性过渡区",
+        "new_state": "趋势上行区"
+      }
+    ],
+    "removed_start_dates": [],
+    "added_start_dates": [],
+    "v1_1_matches_saved_report": true,
+    "versions": {
+      "v1.0_short_history_highest_level": {
+        "event_count": 17,
+        "events": [
+          {
+            "start_date": "2024-09-24",
+            "end_date": "2024-10-22",
+            "days": 15,
+            "level": "L3",
+            "state": "中性过渡区",
+            "peak_amount": 138842785219.325
+          },
+          {
+            "start_date": "2024-11-05",
+            "end_date": "2024-11-11",
+            "days": 5,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 33582198422.192
+          },
+          {
+            "start_date": "2024-12-10",
+            "end_date": "2024-12-10",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10257484391.0
+          },
+          {
+            "start_date": "2025-02-21",
+            "end_date": "2025-02-21",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10419850454.0
+          },
+          {
+            "start_date": "2025-04-07",
+            "end_date": "2025-04-08",
+            "days": 2,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 51416600219.0
+          },
+          {
+            "start_date": "2025-08-22",
+            "end_date": "2025-08-28",
+            "days": 4,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 12714444608.0
+          },
+          {
+            "start_date": "2026-01-14",
+            "end_date": "2026-02-04",
+            "days": 15,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 83307599724.0
+          },
+          {
+            "start_date": "2026-05-07",
+            "end_date": "2026-05-11",
+            "days": 2,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 20989744033.0
+          },
+          {
+            "start_date": "2026-05-15",
+            "end_date": "2026-05-15",
+            "days": 1,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 11374703475.0
+          },
+          {
+            "start_date": "2026-06-23",
+            "end_date": "2026-06-25",
+            "days": 3,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 13252886361.0
+          },
+          {
+            "start_date": "2026-06-30",
+            "end_date": "2026-07-02",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10527602171.0
+          },
+          {
+            "start_date": "2026-07-09",
+            "end_date": "2026-07-10",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10899194362.0
+          },
+          {
+            "start_date": "2026-07-17",
+            "end_date": "2026-07-23",
+            "days": 5,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 61471725532.639
+          },
+          {
+            "start_date": "2026-07-28",
+            "end_date": "2026-08-05",
+            "days": 7,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 32132771495.513
+          },
+          {
+            "start_date": "2026-08-19",
+            "end_date": "2026-08-19",
+            "days": 1,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 21499543435.554
+          },
+          {
+            "start_date": "2026-10-09",
+            "end_date": "2026-10-09",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10766454856.0
+          },
+          {
+            "start_date": "2026-10-15",
+            "end_date": "2026-11-05",
+            "days": 14,
+            "level": "L3",
+            "state": "下跌底部区",
+            "peak_amount": 97149727269.537
+          }
+        ],
+        "layers_5d": {
+          "L1": {
+            "samples": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "wins": 2,
+            "rate": 0.25,
+            "mean": -0.01404042079369705,
+            "avg_max_drawdown": -0.02238198666454036,
+            "wilson95": [
+              0.07147768885802763,
+              0.5907301208974108
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.512477822439389,
+              0.6064472072219126
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "不成立"
+          },
+          "L2": {
+            "samples": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "wins": 6,
+            "rate": 0.8571428571428571,
+            "mean": 0.012885578928876509,
+            "avg_max_drawdown": -0.004209895919194152,
+            "wilson95": [
+              0.48686549668097007,
+              0.9743210440510253
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.512477822439389,
+              0.6064472072219126
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "L3": {
+            "samples": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "wins": 1,
+            "rate": 0.5,
+            "mean": 0.11930917795631907,
+            "avg_max_drawdown": -0.015567653462185638,
+            "wilson95": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 285,
+            "baseline_rate": 0.5684210526315789,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.5103833812778474,
+              0.6246387208016314
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "下跌底部区": {
+            "samples": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "wins": 0,
+            "rate": 0.0,
+            "mean": -0.031135306924371275,
+            "avg_max_drawdown": -0.031135306924371275,
+            "wilson95": [
+              0.0,
+              0.7934567085261071
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.0,
+            "baseline_start": "2026-10-12",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.0,
+              0.43449149475208104
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "趋势上行区": {
+            "samples": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "wins": 2,
+            "rate": 0.3333333333333333,
+            "mean": -0.010991013792640614,
+            "avg_max_drawdown": -0.018588539951549816,
+            "wilson95": [
+              0.09676933255921683,
+              0.7000116786584712
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.5241379310344828,
+            "baseline_start": "2025-10-09",
+            "baseline_end": "2026-08-17",
+            "baseline_wilson95": [
+              0.4432787340193019,
+              0.6037511285997509
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "中性过渡区": {
+            "samples": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "wins": 7,
+            "rate": 0.7,
+            "mean": 0.03135754317454122,
+            "avg_max_drawdown": -0.009699392504138305,
+            "wilson95": [
+              0.39677321997956516,
+              0.892210712513788
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5785714285714286,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.520052344197931,
+              0.634963692915727
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "成立"
+          }
+        }
+      },
+      "v1.1_short_history_first_day": {
+        "event_count": 17,
+        "events": [
+          {
+            "start_date": "2024-09-24",
+            "end_date": "2024-10-22",
+            "days": 15,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 138842785219.325
+          },
+          {
+            "start_date": "2024-11-05",
+            "end_date": "2024-11-11",
+            "days": 5,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 33582198422.192
+          },
+          {
+            "start_date": "2024-12-10",
+            "end_date": "2024-12-10",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10257484391.0
+          },
+          {
+            "start_date": "2025-02-21",
+            "end_date": "2025-02-21",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10419850454.0
+          },
+          {
+            "start_date": "2025-04-07",
+            "end_date": "2025-04-08",
+            "days": 2,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 51416600219.0
+          },
+          {
+            "start_date": "2025-08-22",
+            "end_date": "2025-08-28",
+            "days": 4,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 12714444608.0
+          },
+          {
+            "start_date": "2026-01-14",
+            "end_date": "2026-02-04",
+            "days": 15,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 83307599724.0
+          },
+          {
+            "start_date": "2026-05-07",
+            "end_date": "2026-05-11",
+            "days": 2,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 20989744033.0
+          },
+          {
+            "start_date": "2026-05-15",
+            "end_date": "2026-05-15",
+            "days": 1,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 11374703475.0
+          },
+          {
+            "start_date": "2026-06-23",
+            "end_date": "2026-06-25",
+            "days": 3,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 13252886361.0
+          },
+          {
+            "start_date": "2026-06-30",
+            "end_date": "2026-07-02",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10527602171.0
+          },
+          {
+            "start_date": "2026-07-09",
+            "end_date": "2026-07-10",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10899194362.0
+          },
+          {
+            "start_date": "2026-07-17",
+            "end_date": "2026-07-23",
+            "days": 5,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 61471725532.639
+          },
+          {
+            "start_date": "2026-07-28",
+            "end_date": "2026-08-05",
+            "days": 7,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 32132771495.513
+          },
+          {
+            "start_date": "2026-08-19",
+            "end_date": "2026-08-19",
+            "days": 1,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 21499543435.554
+          },
+          {
+            "start_date": "2026-10-09",
+            "end_date": "2026-10-09",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10766454856.0
+          },
+          {
+            "start_date": "2026-10-15",
+            "end_date": "2026-11-05",
+            "days": 14,
+            "level": "L2",
+            "state": "下跌底部区",
+            "peak_amount": 97149727269.537
+          }
+        ],
+        "layers_5d": {
+          "L1": {
+            "samples": 9,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "wins": 3,
+            "rate": 0.3333333333333333,
+            "mean": 0.017492255165270334,
+            "avg_max_drawdown": -0.01989509925736921,
+            "wilson95": [
+              0.12058159868274293,
+              0.6458026525009102
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.512477822439389,
+              0.6064472072219126
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "不成立"
+          },
+          "L2": {
+            "samples": 8,
+            "start": "2024-11-05",
+            "end": "2026-10-15",
+            "wins": 6,
+            "rate": 0.75,
+            "mean": 0.007382968197220535,
+            "avg_max_drawdown": -0.007575572294841293,
+            "wilson95": [
+              0.40926987910258916,
+              0.9285223111419724
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 430,
+            "baseline_rate": 0.5534883720930233,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.5062322468891147,
+              0.5997972348387786
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "成立"
+          },
+          "L3": {
+            "samples": 0,
+            "start": null,
+            "end": null,
+            "wins": 0,
+            "rate": null,
+            "mean": null,
+            "avg_max_drawdown": null,
+            "wilson95": [
+              null,
+              null
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 0,
+            "baseline_rate": null,
+            "baseline_start": null,
+            "baseline_end": null,
+            "baseline_wilson95": [
+              null,
+              null
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "下跌底部区": {
+            "samples": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "wins": 0,
+            "rate": 0.0,
+            "mean": -0.031135306924371275,
+            "avg_max_drawdown": -0.031135306924371275,
+            "wilson95": [
+              0.0,
+              0.7934567085261071
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.0,
+            "baseline_start": "2026-10-12",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.0,
+              0.43449149475208104
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "趋势上行区": {
+            "samples": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "wins": 2,
+            "rate": 0.3333333333333333,
+            "mean": -0.010991013792640614,
+            "avg_max_drawdown": -0.018588539951549816,
+            "wilson95": [
+              0.09676933255921683,
+              0.7000116786584712
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.5241379310344828,
+            "baseline_start": "2025-10-09",
+            "baseline_end": "2026-08-17",
+            "baseline_wilson95": [
+              0.4432787340193019,
+              0.6037511285997509
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "中性过渡区": {
+            "samples": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "wins": 7,
+            "rate": 0.7,
+            "mean": 0.03135754317454122,
+            "avg_max_drawdown": -0.009699392504138305,
+            "wilson95": [
+              0.39677321997956516,
+              0.892210712513788
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5785714285714286,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.520052344197931,
+              0.634963692915727
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "成立"
+          }
+        }
+      },
+      "v1.2_full_history_first_day": {
+        "event_count": 17,
+        "events": [
+          {
+            "start_date": "2024-09-24",
+            "end_date": "2024-10-22",
+            "days": 15,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 138842785219.325
+          },
+          {
+            "start_date": "2024-11-05",
+            "end_date": "2024-11-11",
+            "days": 5,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 33582198422.192
+          },
+          {
+            "start_date": "2024-12-10",
+            "end_date": "2024-12-10",
+            "days": 1,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10257484391.0
+          },
+          {
+            "start_date": "2025-02-21",
+            "end_date": "2025-02-21",
+            "days": 1,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10419850454.0
+          },
+          {
+            "start_date": "2025-04-07",
+            "end_date": "2025-04-08",
+            "days": 2,
+            "level": "L2",
+            "state": "下跌底部区",
+            "peak_amount": 51416600219.0
+          },
+          {
+            "start_date": "2025-08-22",
+            "end_date": "2025-08-28",
+            "days": 4,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 12714444608.0
+          },
+          {
+            "start_date": "2026-01-14",
+            "end_date": "2026-02-04",
+            "days": 15,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 83307599724.0
+          },
+          {
+            "start_date": "2026-05-07",
+            "end_date": "2026-05-11",
+            "days": 2,
+            "level": "L2",
+            "state": "趋势上行区",
+            "peak_amount": 20989744033.0
+          },
+          {
+            "start_date": "2026-05-15",
+            "end_date": "2026-05-15",
+            "days": 1,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 11374703475.0
+          },
+          {
+            "start_date": "2026-06-23",
+            "end_date": "2026-06-25",
+            "days": 3,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 13252886361.0
+          },
+          {
+            "start_date": "2026-06-30",
+            "end_date": "2026-07-02",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10527602171.0
+          },
+          {
+            "start_date": "2026-07-09",
+            "end_date": "2026-07-10",
+            "days": 2,
+            "level": "L1",
+            "state": "趋势上行区",
+            "peak_amount": 10899194362.0
+          },
+          {
+            "start_date": "2026-07-17",
+            "end_date": "2026-07-23",
+            "days": 5,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 61471725532.639
+          },
+          {
+            "start_date": "2026-07-28",
+            "end_date": "2026-08-05",
+            "days": 7,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 32132771495.513
+          },
+          {
+            "start_date": "2026-08-19",
+            "end_date": "2026-08-19",
+            "days": 1,
+            "level": "L2",
+            "state": "中性过渡区",
+            "peak_amount": 21499543435.554
+          },
+          {
+            "start_date": "2026-10-09",
+            "end_date": "2026-10-09",
+            "days": 1,
+            "level": "L1",
+            "state": "中性过渡区",
+            "peak_amount": 10766454856.0
+          },
+          {
+            "start_date": "2026-10-15",
+            "end_date": "2026-11-05",
+            "days": 14,
+            "level": "L2",
+            "state": "下跌底部区",
+            "peak_amount": 97149727269.537
+          }
+        ],
+        "layers_5d": {
+          "L1": {
+            "samples": 9,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "wins": 3,
+            "rate": 0.3333333333333333,
+            "mean": 0.017492255165270334,
+            "avg_max_drawdown": -0.01989509925736921,
+            "wilson95": [
+              0.12058159868274293,
+              0.6458026525009102
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.512477822439389,
+              0.6064472072219126
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "不成立"
+          },
+          "L2": {
+            "samples": 8,
+            "start": "2024-11-05",
+            "end": "2026-10-15",
+            "wins": 6,
+            "rate": 0.75,
+            "mean": 0.007382968197220535,
+            "avg_max_drawdown": -0.007575572294841293,
+            "wilson95": [
+              0.40926987910258916,
+              0.9285223111419724
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 430,
+            "baseline_rate": 0.5534883720930233,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.5062322468891147,
+              0.5997972348387786
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "成立"
+          },
+          "L3": {
+            "samples": 0,
+            "start": null,
+            "end": null,
+            "wins": 0,
+            "rate": null,
+            "mean": null,
+            "avg_max_drawdown": null,
+            "wilson95": [
+              null,
+              null
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 0,
+            "baseline_rate": null,
+            "baseline_start": null,
+            "baseline_end": null,
+            "baseline_wilson95": [
+              null,
+              null
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "下跌底部区": {
+            "samples": 2,
+            "start": "2025-04-07",
+            "end": "2026-10-15",
+            "wins": 1,
+            "rate": 0.5,
+            "mean": 0.008071131417907107,
+            "avg_max_drawdown": -0.015567653462185638,
+            "wilson95": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.0,
+            "baseline_start": "2026-10-12",
+            "baseline_end": "2026-10-27",
+            "baseline_wilson95": [
+              0.0,
+              0.43449149475208104
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "趋势上行区": {
+            "samples": 10,
+            "start": "2024-11-05",
+            "end": "2026-07-09",
+            "wins": 4,
+            "rate": 0.4,
+            "mean": -0.006928029294610449,
+            "avg_max_drawdown": -0.01597379536165221,
+            "wilson95": [
+              0.16817758120350967,
+              0.6873304525498135
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 271,
+            "baseline_rate": 0.5424354243542435,
+            "baseline_start": "2024-10-23",
+            "baseline_end": "2026-08-17",
+            "baseline_wilson95": [
+              0.48293932882265145,
+              0.6007452371236973
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "不成立"
+          },
+          "中性过渡区": {
+            "samples": 5,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "wins": 4,
+            "rate": 0.8,
+            "mean": 0.05392641443509751,
+            "avg_max_drawdown": -0.00975744222683197,
+            "wilson95": [
+              0.3755282641185388,
+              0.9637768390302125
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 154,
+            "baseline_rate": 0.5909090909090909,
+            "baseline_start": "2024-10-16",
+            "baseline_end": "2026-10-08",
+            "baseline_wilson95": [
+              0.5119610397730553,
+              0.6654319922286477
+            ],
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_baseline_start": "2024-10-16",
+            "normal_baseline_end": "2026-10-27",
+            "normal_baseline_wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        }
+      }
+    }
+  },
+  "browser_verified": false
+}

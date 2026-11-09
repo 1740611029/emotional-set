@@ -1,0 +1,135 @@
+{
+  "decision": "观察",
+  "reason": "稳健性不足：训练段方向正确率 14.3% 低于现行算法 65.5%，而验证段方向相反；两段结论不一致，不能据此更换。注意：此判断依据的是两段表现相反这一稳健性事实，不是重新引入已被用户放宽的样本数门槛。",
+  "support": {
+    "new_algorithm_signal_count": 9,
+    "legacy_algorithm_signal_count": 82,
+    "train_20d": {
+      "triggers": 7,
+      "resolved": 7,
+      "successes": 1,
+      "failures": 6,
+      "pending": 0,
+      "direction_correct_rate": 0.14285714285714285,
+      "effective_amplitude_rate": 0.0,
+      "direction_correct_wilson95": [
+        0.02567962434474355,
+        0.5131278292743189
+      ],
+      "covered_universe": [
+        "sh000001",
+        "sz399001",
+        "sz399006",
+        "sh000688",
+        "sh000300",
+        "sh000905",
+        "sh000852"
+      ],
+      "universe_size": 7
+    },
+    "train_20d_legacy_algorithm": {
+      "triggers": 55,
+      "resolved": 55,
+      "successes": 36,
+      "failures": 19,
+      "pending": 0,
+      "direction_correct_rate": 0.6545454545454545,
+      "effective_amplitude_rate": 0.14545454545454545,
+      "direction_correct_wilson95": [
+        0.5225390350756162,
+        0.7663729045791027
+      ],
+      "covered_universe": [
+        "sh000001",
+        "sz399001",
+        "sz399006",
+        "sh000688",
+        "sh000300",
+        "sh000905",
+        "sh000852"
+      ],
+      "universe_size": 7
+    },
+    "robustness": {
+      "train_not_worse_than_legacy": false,
+      "validation_better_than_legacy": true,
+      "signal_count_not_more_than_legacy": true,
+      "train_validation_consistent": false,
+      "validation_new_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "validation_legacy_wilson95": [
+        0.4537345197425524,
+        0.8280524739491653
+      ],
+      "note": "验证段 Wilson 区间与现行算法大幅重叠；训练段与验证段结论相反"
+    },
+    "validation_20d_new_algorithm": {
+      "triggers": 2,
+      "resolved": 2,
+      "successes": 2,
+      "failures": 0,
+      "pending": 0,
+      "direction_correct_rate": 1.0,
+      "effective_amplitude_rate": 0.0,
+      "direction_correct_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "covered_universe": [
+        "sh000001",
+        "sz399001",
+        "sz399006",
+        "sh000688",
+        "sh000300",
+        "sh000905",
+        "sh000852"
+      ],
+      "universe_size": 7
+    },
+    "validation_20d_legacy_algorithm": {
+      "triggers": 22,
+      "resolved": 21,
+      "successes": 14,
+      "failures": 7,
+      "pending": 1,
+      "direction_correct_rate": 0.6666666666666666,
+      "effective_amplitude_rate": 0.3333333333333333,
+      "direction_correct_wilson95": [
+        0.4537345197425524,
+        0.8280524739491653
+      ],
+      "covered_universe": [
+        "sh000001",
+        "sz399001",
+        "sz399006",
+        "sh000688",
+        "sh000300",
+        "sh000905",
+        "sh000852"
+      ],
+      "universe_size": 7
+    },
+    "legacy_ma_reversal_baseline": {
+      "successes": 75,
+      "resolved": 77,
+      "pending": 5,
+      "triggers": 82,
+      "matches_expected": true
+    },
+    "statistical_interval": {
+      "start": "2025-01-02",
+      "end": "2026-11-06"
+    },
+    "sample_note": "样本量门槛已按 2026-11-09 用户指令放宽；样本量与 Wilson 区间仍如实披露"
+  },
+  "gate": {
+    "name": "4.5 决策闸门",
+    "user_confirmed_continue": true,
+    "confirmed_on": "2026-11-09",
+    "proceed_to_phase_5": true,
+    "production_signal_switch_requires_separate_confirmation": true,
+    "note": "结论为观察/保留现行亦继续第 5~7 组；生产信号算法切换须在 5.2 前单独确认"
+  }
+}

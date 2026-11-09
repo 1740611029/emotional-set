@@ -1,0 +1,62 @@
+{
+  "algorithm_version": "index-swing6-v2.0",
+  "entry_point": "pipeline/confirmed_index_signals.py:evaluate_signals + swing_details",
+  "rule": "信号后任意时点首次均线反转（旧口径，无限窗口，未决剔除分母）",
+  "successes": 75,
+  "resolved": 77,
+  "pending": 5,
+  "triggers": 82,
+  "rate": 0.974025974025974,
+  "expected_baseline": {
+    "successes": 75,
+    "resolved": 77,
+    "pending": 5,
+    "triggers": 82
+  },
+  "matches_expected": true,
+  "per_index": {
+    "sh000001": {
+      "success": 13,
+      "failure": 0,
+      "pending": 1,
+      "signal_count": 14
+    },
+    "sz399001": {
+      "success": 9,
+      "failure": 0,
+      "pending": 0,
+      "signal_count": 9
+    },
+    "sz399006": {
+      "success": 14,
+      "failure": 1,
+      "pending": 0,
+      "signal_count": 15
+    },
+    "sh000688": {
+      "success": 10,
+      "failure": 0,
+      "pending": 2,
+      "signal_count": 12
+    },
+    "sh000300": {
+      "success": 8,
+      "failure": 0,
+      "pending": 1,
+      "signal_count": 9
+    },
+    "sh000905": {
+      "success": 9,
+      "failure": 0,
+      "pending": 0,
+      "signal_count": 9
+    },
+    "sh000852": {
+      "success": 12,
+      "failure": 1,
+      "pending": 1,
+      "signal_count": 14
+    }
+  },
+  "note": "旧口径与本次固定持有期矩阵口径不可直接比较"
+}

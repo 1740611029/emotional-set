@@ -1,0 +1,5234 @@
+{
+  "generated_at": "2026-11-04 09:10:41",
+  "change_reason": "板块日线数据源由申万行业指数切换为东方财富行业板块（申万接口不稳定），同时板块清单由一级/二级两层改为单层 31 个行业",
+  "impact_scope": "影响板块四态、有向强度与横截面宽度输入，进而重算指数顶底信号历史；判定阈值、六维权重与三层确认规则均未调整",
+  "algorithm_version": "sector-donchian20-ma60-v2.0-em-source",
+  "old_source": {
+    "label": "申万行业指数",
+    "directory": "data\\raw\\sectors\\first",
+    "sectors": 31,
+    "insufficient_history": []
+  },
+  "new_source": {
+    "label": "东财行业板块",
+    "directory": "data\\raw\\sectors-em-industry",
+    "sectors": 31,
+    "insufficient_history": []
+  },
+  "name_matching": {
+    "matched": 31,
+    "only_in_old": [],
+    "only_in_new": []
+  },
+  "skipped_sectors": [],
+  "windows": {
+    "研究段": {
+      "segment": "研究段",
+      "sectors_compared": 31,
+      "sector_days": 30140,
+      "start": "2020-10-30",
+      "end": "2024-12-31",
+      "state_match_rate": 0.7059,
+      "state_flip_rate": 0.2941,
+      "severe_bull_bear_flip_rate": 0.052,
+      "flip_breakdown_top": {
+        "rise->bull": 1398,
+        "bear->rise": 1345,
+        "warn->bull": 1183,
+        "bear->warn": 1098,
+        "bear->bull": 1053,
+        "bull->rise": 670,
+        "rise->bear": 538,
+        "bull->bear": 515,
+        "bull->warn": 502,
+        "warn->bear": 473,
+        "rise->warn": 48,
+        "warn->rise": 40
+      },
+      "strength_abs_gap_mean": 10.8164,
+      "strength_signed_gap_mean": 4.1181,
+      "per_state": {
+        "bull": {
+          "sw_days": 10132,
+          "em_days": 12079,
+          "both_days": 8445,
+          "either_days": 13766,
+          "match_rate": 0.6135
+        },
+        "warn": {
+          "sw_days": 3252,
+          "em_days": 3204,
+          "both_days": 1556,
+          "either_days": 4900,
+          "match_rate": 0.3176
+        },
+        "bear": {
+          "sw_days": 12616,
+          "em_days": 10646,
+          "both_days": 9120,
+          "either_days": 14142,
+          "match_rate": 0.6449
+        },
+        "rise": {
+          "sw_days": 4140,
+          "em_days": 4211,
+          "both_days": 2156,
+          "either_days": 6195,
+          "match_rate": 0.348
+        }
+      }
+    },
+    "验证段": {
+      "segment": "验证段",
+      "sectors_compared": 31,
+      "sector_days": 13702,
+      "start": "2025-01-02",
+      "end": "2026-11-03",
+      "state_match_rate": 0.7546,
+      "state_flip_rate": 0.2454,
+      "severe_bull_bear_flip_rate": 0.0425,
+      "flip_breakdown_top": {
+        "rise->bull": 594,
+        "bear->warn": 532,
+        "bear->bull": 475,
+        "warn->bull": 458,
+        "bear->rise": 395,
+        "bull->warn": 233,
+        "bull->rise": 183,
+        "rise->bear": 179,
+        "warn->bear": 176,
+        "bull->bear": 108,
+        "warn->rise": 20,
+        "rise->warn": 10
+      },
+      "strength_abs_gap_mean": 9.0693,
+      "strength_signed_gap_mean": 4.4339,
+      "per_state": {
+        "bull": {
+          "sw_days": 5571,
+          "em_days": 6574,
+          "both_days": 5047,
+          "either_days": 7098,
+          "match_rate": 0.711
+        },
+        "warn": {
+          "sw_days": 1499,
+          "em_days": 1620,
+          "both_days": 845,
+          "either_days": 2274,
+          "match_rate": 0.3716
+        },
+        "bear": {
+          "sw_days": 4823,
+          "em_days": 3884,
+          "both_days": 3421,
+          "either_days": 5286,
+          "match_rate": 0.6472
+        },
+        "rise": {
+          "sw_days": 1809,
+          "em_days": 1624,
+          "both_days": 1026,
+          "either_days": 2407,
+          "match_rate": 0.4263
+        }
+      }
+    },
+    "展示窗口": {
+      "segment": "展示窗口",
+      "sectors_compared": 31,
+      "sector_days": 7750,
+      "start": "2025-10-22",
+      "end": "2026-11-03",
+      "state_match_rate": 0.7546,
+      "state_flip_rate": 0.2454,
+      "severe_bull_bear_flip_rate": 0.0425,
+      "flip_breakdown_top": {
+        "bear->warn": 355,
+        "rise->bull": 261,
+        "bear->bull": 236,
+        "warn->bull": 226,
+        "bear->rise": 204,
+        "rise->bear": 149,
+        "bull->rise": 127,
+        "bull->warn": 112,
+        "warn->bear": 112,
+        "bull->bear": 93,
+        "warn->rise": 19,
+        "rise->warn": 8
+      },
+      "strength_abs_gap_mean": 8.948,
+      "strength_signed_gap_mean": 3.2338,
+      "per_state": {
+        "bull": {
+          "sw_days": 2549,
+          "em_days": 2940,
+          "both_days": 2217,
+          "either_days": 3272,
+          "match_rate": 0.6776
+        },
+        "warn": {
+          "sw_days": 834,
+          "em_days": 952,
+          "both_days": 477,
+          "either_days": 1309,
+          "match_rate": 0.3644
+        },
+        "bear": {
+          "sw_days": 3365,
+          "em_days": 2924,
+          "both_days": 2570,
+          "either_days": 3719,
+          "match_rate": 0.691
+        },
+        "rise": {
+          "sw_days": 1002,
+          "em_days": 934,
+          "both_days": 584,
+          "either_days": 1352,
+          "match_rate": 0.432
+        }
+      }
+    }
+  },
+  "per_sector": [
+    {
+      "name": "农林牧渔",
+      "sw_code": "801010",
+      "em_code": "BK0433",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 701,
+          "state_flip_days": 303,
+          "flip_breakdown": {
+            "bear->rise": 61,
+            "rise->bull": 48,
+            "warn->bull": 39,
+            "bear->warn": 35,
+            "warn->bear": 35,
+            "bear->bull": 31,
+            "bull->warn": 19,
+            "rise->bear": 14,
+            "bull->bear": 9,
+            "bull->rise": 9,
+            "warn->rise": 3
+          },
+          "severe_bull_bear_flips": 40,
+          "strength_signed_gap_mean": 4.9348,
+          "strength_abs_gap_mean": 11.5691,
+          "strength_abs_gap_median": 9.2371,
+          "strength_abs_gap_p90": 23.1125,
+          "per_state": {
+            "bull": {
+              "sw_days": 279,
+              "em_days": 360,
+              "both_days": 242,
+              "either_days": 397
+            },
+            "warn": {
+              "sw_days": 123,
+              "em_days": 100,
+              "both_days": 46,
+              "either_days": 177
+            },
+            "bear": {
+              "sw_days": 461,
+              "em_days": 392,
+              "both_days": 334,
+              "either_days": 519
+            },
+            "rise": {
+              "sw_days": 141,
+              "em_days": 152,
+              "both_days": 79,
+              "either_days": 214
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 332,
+          "state_flip_days": 110,
+          "flip_breakdown": {
+            "bear->warn": 25,
+            "bear->bull": 19,
+            "warn->bull": 15,
+            "rise->bear": 13,
+            "bear->rise": 10,
+            "bull->warn": 9,
+            "warn->bear": 8,
+            "rise->bull": 7,
+            "bull->bear": 2,
+            "rise->warn": 1,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 21,
+          "strength_signed_gap_mean": 4.0885,
+          "strength_abs_gap_mean": 9.3585,
+          "strength_abs_gap_median": 7.6047,
+          "strength_abs_gap_p90": 19.3138,
+          "per_state": {
+            "bull": {
+              "sw_days": 166,
+              "em_days": 195,
+              "both_days": 154,
+              "either_days": 207
+            },
+            "warn": {
+              "sw_days": 72,
+              "em_days": 84,
+              "both_days": 49,
+              "either_days": 107
+            },
+            "bear": {
+              "sw_days": 147,
+              "em_days": 116,
+              "both_days": 93,
+              "either_days": 170
+            },
+            "rise": {
+              "sw_days": 57,
+              "em_days": 47,
+              "both_days": 36,
+              "either_days": 68
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 178,
+          "state_flip_days": 72,
+          "flip_breakdown": {
+            "bear->warn": 25,
+            "bear->bull": 18,
+            "rise->bear": 13,
+            "rise->bull": 4,
+            "bull->warn": 4,
+            "bear->rise": 3,
+            "bull->bear": 2,
+            "warn->bull": 1,
+            "bull->rise": 1,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 20,
+          "strength_signed_gap_mean": 4.5341,
+          "strength_abs_gap_mean": 10.3623,
+          "strength_abs_gap_median": 6.8906,
+          "strength_abs_gap_p90": 22.7393,
+          "per_state": {
+            "bull": {
+              "sw_days": 72,
+              "em_days": 88,
+              "both_days": 65,
+              "either_days": 95
+            },
+            "warn": {
+              "sw_days": 19,
+              "em_days": 46,
+              "both_days": 17,
+              "either_days": 48
+            },
+            "bear": {
+              "sw_days": 117,
+              "em_days": 87,
+              "both_days": 71,
+              "either_days": 133
+            },
+            "rise": {
+              "sw_days": 42,
+              "em_days": 29,
+              "both_days": 25,
+              "either_days": 46
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "基础化工",
+      "sw_code": "801030",
+      "em_code": "BK1206",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 680,
+          "state_flip_days": 324,
+          "flip_breakdown": {
+            "rise->bull": 67,
+            "bear->warn": 48,
+            "bear->rise": 46,
+            "warn->bull": 44,
+            "bull->rise": 27,
+            "bear->bull": 26,
+            "bull->bear": 23,
+            "warn->bear": 21,
+            "rise->bear": 10,
+            "bull->warn": 7,
+            "rise->warn": 4,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 49,
+          "strength_signed_gap_mean": 3.9002,
+          "strength_abs_gap_mean": 10.4784,
+          "strength_abs_gap_median": 6.6034,
+          "strength_abs_gap_p90": 26.3151,
+          "per_state": {
+            "bull": {
+              "sw_days": 358,
+              "em_days": 438,
+              "both_days": 301,
+              "either_days": 495
+            },
+            "warn": {
+              "sw_days": 101,
+              "em_days": 94,
+              "both_days": 35,
+              "either_days": 160
+            },
+            "bear": {
+              "sw_days": 399,
+              "em_days": 333,
+              "both_days": 279,
+              "either_days": 453
+            },
+            "rise": {
+              "sw_days": 146,
+              "em_days": 139,
+              "both_days": 65,
+              "either_days": 220
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 352,
+          "state_flip_days": 90,
+          "flip_breakdown": {
+            "rise->bull": 21,
+            "bear->bull": 13,
+            "bear->warn": 13,
+            "warn->bull": 9,
+            "bull->warn": 8,
+            "bull->rise": 7,
+            "warn->bear": 6,
+            "rise->bear": 6,
+            "bear->rise": 4,
+            "bull->bear": 3
+          },
+          "severe_bull_bear_flips": 16,
+          "strength_signed_gap_mean": 3.7215,
+          "strength_abs_gap_mean": 8.2302,
+          "strength_abs_gap_median": 6.4214,
+          "strength_abs_gap_p90": 17.8475,
+          "per_state": {
+            "bull": {
+              "sw_days": 233,
+              "em_days": 258,
+              "both_days": 215,
+              "either_days": 276
+            },
+            "warn": {
+              "sw_days": 36,
+              "em_days": 42,
+              "both_days": 21,
+              "either_days": 57
+            },
+            "bear": {
+              "sw_days": 119,
+              "em_days": 104,
+              "both_days": 89,
+              "either_days": 134
+            },
+            "rise": {
+              "sw_days": 54,
+              "em_days": 38,
+              "both_days": 27,
+              "either_days": 65
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 186,
+          "state_flip_days": 64,
+          "flip_breakdown": {
+            "bear->warn": 12,
+            "bear->bull": 10,
+            "rise->bull": 9,
+            "bull->rise": 7,
+            "warn->bull": 6,
+            "warn->bear": 6,
+            "rise->bear": 6,
+            "bull->warn": 4,
+            "bull->bear": 3,
+            "bear->rise": 1
+          },
+          "severe_bull_bear_flips": 13,
+          "strength_signed_gap_mean": 1.9811,
+          "strength_abs_gap_mean": 8.3709,
+          "strength_abs_gap_median": 5.9353,
+          "strength_abs_gap_p90": 19.9383,
+          "per_state": {
+            "bull": {
+              "sw_days": 98,
+              "em_days": 109,
+              "both_days": 84,
+              "either_days": 123
+            },
+            "warn": {
+              "sw_days": 23,
+              "em_days": 27,
+              "both_days": 11,
+              "either_days": 39
+            },
+            "bear": {
+              "sw_days": 96,
+              "em_days": 88,
+              "both_days": 73,
+              "either_days": 111
+            },
+            "rise": {
+              "sw_days": 33,
+              "em_days": 26,
+              "both_days": 18,
+              "either_days": 41
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "钢铁",
+      "sw_code": "801040",
+      "em_code": "BK0479",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 800,
+          "state_flip_days": 204,
+          "flip_breakdown": {
+            "rise->bull": 47,
+            "warn->bull": 41,
+            "bear->rise": 36,
+            "bull->warn": 24,
+            "bear->warn": 22,
+            "bull->rise": 13,
+            "warn->bear": 12,
+            "rise->bear": 4,
+            "bull->bear": 2,
+            "bear->bull": 2,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 3.5632,
+          "strength_abs_gap_mean": 6.8518,
+          "strength_abs_gap_median": 4.9165,
+          "strength_abs_gap_p90": 16.8128,
+          "per_state": {
+            "bull": {
+              "sw_days": 344,
+              "em_days": 395,
+              "both_days": 305,
+              "either_days": 434
+            },
+            "warn": {
+              "sw_days": 129,
+              "em_days": 123,
+              "both_days": 76,
+              "either_days": 176
+            },
+            "bear": {
+              "sw_days": 388,
+              "em_days": 346,
+              "both_days": 328,
+              "either_days": 406
+            },
+            "rise": {
+              "sw_days": 143,
+              "em_days": 140,
+              "both_days": 91,
+              "either_days": 192
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 362,
+          "state_flip_days": 80,
+          "flip_breakdown": {
+            "rise->bull": 19,
+            "bear->rise": 11,
+            "bear->bull": 11,
+            "bear->warn": 11,
+            "bull->rise": 10,
+            "warn->bull": 8,
+            "warn->bear": 4,
+            "bull->warn": 3,
+            "rise->bear": 3
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": 3.2536,
+          "strength_abs_gap_mean": 5.3276,
+          "strength_abs_gap_median": 3.3499,
+          "strength_abs_gap_p90": 12.655,
+          "per_state": {
+            "bull": {
+              "sw_days": 163,
+              "em_days": 188,
+              "both_days": 150,
+              "either_days": 201
+            },
+            "warn": {
+              "sw_days": 47,
+              "em_days": 49,
+              "both_days": 35,
+              "either_days": 61
+            },
+            "bear": {
+              "sw_days": 176,
+              "em_days": 150,
+              "both_days": 143,
+              "either_days": 183
+            },
+            "rise": {
+              "sw_days": 56,
+              "em_days": 55,
+              "both_days": 34,
+              "either_days": 77
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 221,
+          "state_flip_days": 29,
+          "flip_breakdown": {
+            "bear->warn": 8,
+            "warn->bear": 4,
+            "rise->bull": 4,
+            "bear->bull": 4,
+            "bull->warn": 3,
+            "rise->bear": 3,
+            "bear->rise": 2,
+            "warn->bull": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 2.3247,
+          "strength_abs_gap_mean": 4.3158,
+          "strength_abs_gap_median": 2.679,
+          "strength_abs_gap_p90": 11.0824,
+          "per_state": {
+            "bull": {
+              "sw_days": 80,
+              "em_days": 86,
+              "both_days": 77,
+              "either_days": 89
+            },
+            "warn": {
+              "sw_days": 20,
+              "em_days": 26,
+              "both_days": 15,
+              "either_days": 31
+            },
+            "bear": {
+              "sw_days": 118,
+              "em_days": 111,
+              "both_days": 104,
+              "either_days": 125
+            },
+            "rise": {
+              "sw_days": 32,
+              "em_days": 27,
+              "both_days": 25,
+              "either_days": 34
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "有色金属",
+      "sw_code": "801050",
+      "em_code": "BK0478",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 682,
+          "state_flip_days": 322,
+          "flip_breakdown": {
+            "warn->bull": 70,
+            "bear->warn": 56,
+            "bear->bull": 35,
+            "rise->bull": 34,
+            "bull->rise": 30,
+            "bull->warn": 28,
+            "rise->bear": 24,
+            "bear->rise": 24,
+            "warn->bear": 12,
+            "bull->bear": 7,
+            "rise->warn": 2
+          },
+          "severe_bull_bear_flips": 42,
+          "strength_signed_gap_mean": 4.0431,
+          "strength_abs_gap_mean": 11.3945,
+          "strength_abs_gap_median": 8.3711,
+          "strength_abs_gap_p90": 26.419,
+          "per_state": {
+            "bull": {
+              "sw_days": 359,
+              "em_days": 433,
+              "both_days": 294,
+              "either_days": 498
+            },
+            "warn": {
+              "sw_days": 117,
+              "em_days": 121,
+              "both_days": 35,
+              "either_days": 203
+            },
+            "bear": {
+              "sw_days": 406,
+              "em_days": 334,
+              "both_days": 291,
+              "either_days": 449
+            },
+            "rise": {
+              "sw_days": 122,
+              "em_days": 116,
+              "both_days": 62,
+              "either_days": 176
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 358,
+          "state_flip_days": 84,
+          "flip_breakdown": {
+            "warn->bull": 18,
+            "bear->warn": 16,
+            "bull->warn": 13,
+            "rise->bull": 11,
+            "bull->rise": 9,
+            "rise->bear": 7,
+            "bear->bull": 7,
+            "bear->rise": 2,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 7,
+          "strength_signed_gap_mean": 2.115,
+          "strength_abs_gap_mean": 6.6798,
+          "strength_abs_gap_median": 4.6006,
+          "strength_abs_gap_p90": 15.4434,
+          "per_state": {
+            "bull": {
+              "sw_days": 234,
+              "em_days": 248,
+              "both_days": 212,
+              "either_days": 270
+            },
+            "warn": {
+              "sw_days": 46,
+              "em_days": 56,
+              "both_days": 27,
+              "either_days": 75
+            },
+            "bear": {
+              "sw_days": 117,
+              "em_days": 100,
+              "both_days": 92,
+              "either_days": 125
+            },
+            "rise": {
+              "sw_days": 45,
+              "em_days": 38,
+              "both_days": 27,
+              "either_days": 56
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 197,
+          "state_flip_days": 53,
+          "flip_breakdown": {
+            "bear->warn": 15,
+            "warn->bull": 10,
+            "rise->bull": 9,
+            "bull->rise": 7,
+            "bull->warn": 6,
+            "bear->bull": 2,
+            "rise->bear": 2,
+            "warn->bear": 1,
+            "bear->rise": 1
+          },
+          "severe_bull_bear_flips": 2,
+          "strength_signed_gap_mean": 3.2782,
+          "strength_abs_gap_mean": 6.5358,
+          "strength_abs_gap_median": 4.5284,
+          "strength_abs_gap_p90": 14.755,
+          "per_state": {
+            "bull": {
+              "sw_days": 97,
+              "em_days": 105,
+              "both_days": 84,
+              "either_days": 118
+            },
+            "warn": {
+              "sw_days": 35,
+              "em_days": 45,
+              "both_days": 24,
+              "either_days": 56
+            },
+            "bear": {
+              "sw_days": 96,
+              "em_days": 81,
+              "both_days": 78,
+              "either_days": 99
+            },
+            "rise": {
+              "sw_days": 22,
+              "em_days": 19,
+              "both_days": 11,
+              "either_days": 30
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "电子",
+      "sw_code": "801080",
+      "em_code": "BK1201",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 750,
+          "state_flip_days": 254,
+          "flip_breakdown": {
+            "rise->bull": 47,
+            "warn->bull": 35,
+            "bear->warn": 35,
+            "warn->bear": 32,
+            "bear->rise": 27,
+            "bull->warn": 20,
+            "bull->bear": 19,
+            "bull->rise": 19,
+            "rise->bear": 12,
+            "bear->bull": 7,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 26,
+          "strength_signed_gap_mean": 1.9708,
+          "strength_abs_gap_mean": 8.381,
+          "strength_abs_gap_median": 5.8475,
+          "strength_abs_gap_p90": 18.1916,
+          "per_state": {
+            "bull": {
+              "sw_days": 369,
+              "em_days": 400,
+              "both_days": 311,
+              "either_days": 458
+            },
+            "warn": {
+              "sw_days": 139,
+              "em_days": 126,
+              "both_days": 71,
+              "either_days": 194
+            },
+            "bear": {
+              "sw_days": 367,
+              "em_days": 361,
+              "both_days": 298,
+              "either_days": 430
+            },
+            "rise": {
+              "sw_days": 129,
+              "em_days": 117,
+              "both_days": 70,
+              "either_days": 176
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 363,
+          "state_flip_days": 79,
+          "flip_breakdown": {
+            "bear->rise": 20,
+            "rise->bull": 19,
+            "warn->bull": 16,
+            "bear->warn": 13,
+            "bull->rise": 4,
+            "rise->bear": 2,
+            "bull->warn": 2,
+            "warn->bear": 2,
+            "bear->bull": 1
+          },
+          "severe_bull_bear_flips": 1,
+          "strength_signed_gap_mean": 3.9507,
+          "strength_abs_gap_mean": 7.0508,
+          "strength_abs_gap_median": 5.0679,
+          "strength_abs_gap_p90": 17.0811,
+          "per_state": {
+            "bull": {
+              "sw_days": 209,
+              "em_days": 239,
+              "both_days": 203,
+              "either_days": 245
+            },
+            "warn": {
+              "sw_days": 51,
+              "em_days": 48,
+              "both_days": 33,
+              "either_days": 66
+            },
+            "bear": {
+              "sw_days": 124,
+              "em_days": 94,
+              "both_days": 90,
+              "either_days": 128
+            },
+            "rise": {
+              "sw_days": 58,
+              "em_days": 61,
+              "both_days": 37,
+              "either_days": 82
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 208,
+          "state_flip_days": 42,
+          "flip_breakdown": {
+            "warn->bull": 12,
+            "bear->rise": 11,
+            "rise->bull": 11,
+            "bear->warn": 6,
+            "warn->bear": 2
+          },
+          "severe_bull_bear_flips": 0,
+          "strength_signed_gap_mean": 4.4362,
+          "strength_abs_gap_mean": 7.0662,
+          "strength_abs_gap_median": 4.7602,
+          "strength_abs_gap_p90": 17.1127,
+          "per_state": {
+            "bull": {
+              "sw_days": 99,
+              "em_days": 122,
+              "both_days": 99,
+              "either_days": 122
+            },
+            "warn": {
+              "sw_days": 39,
+              "em_days": 31,
+              "both_days": 25,
+              "either_days": 45
+            },
+            "bear": {
+              "sw_days": 81,
+              "em_days": 66,
+              "both_days": 64,
+              "either_days": 83
+            },
+            "rise": {
+              "sw_days": 31,
+              "em_days": 31,
+              "both_days": 20,
+              "either_days": 42
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "汽车",
+      "sw_code": "801880",
+      "em_code": "BK1211",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 697,
+          "state_flip_days": 307,
+          "flip_breakdown": {
+            "bear->warn": 60,
+            "warn->bull": 45,
+            "bear->rise": 42,
+            "rise->bull": 29,
+            "bull->bear": 28,
+            "bull->rise": 24,
+            "warn->bear": 21,
+            "bull->warn": 20,
+            "bear->bull": 19,
+            "rise->bear": 16,
+            "warn->rise": 2,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 47,
+          "strength_signed_gap_mean": 2.9182,
+          "strength_abs_gap_mean": 12.4853,
+          "strength_abs_gap_median": 9.0855,
+          "strength_abs_gap_p90": 28.4535,
+          "per_state": {
+            "bull": {
+              "sw_days": 420,
+              "em_days": 441,
+              "both_days": 348,
+              "either_days": 513
+            },
+            "warn": {
+              "sw_days": 111,
+              "em_days": 124,
+              "both_days": 43,
+              "either_days": 192
+            },
+            "bear": {
+              "sw_days": 367,
+              "em_days": 311,
+              "both_days": 246,
+              "either_days": 432
+            },
+            "rise": {
+              "sw_days": 106,
+              "em_days": 128,
+              "both_days": 60,
+              "either_days": 174
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 351,
+          "state_flip_days": 91,
+          "flip_breakdown": {
+            "bear->bull": 21,
+            "warn->bull": 16,
+            "bear->warn": 16,
+            "rise->bull": 13,
+            "bear->rise": 8,
+            "bull->rise": 7,
+            "bull->warn": 7,
+            "warn->bear": 2,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 22,
+          "strength_signed_gap_mean": 5.6729,
+          "strength_abs_gap_mean": 7.7276,
+          "strength_abs_gap_median": 4.5722,
+          "strength_abs_gap_p90": 20.8264,
+          "per_state": {
+            "bull": {
+              "sw_days": 169,
+              "em_days": 204,
+              "both_days": 154,
+              "either_days": 219
+            },
+            "warn": {
+              "sw_days": 43,
+              "em_days": 48,
+              "both_days": 25,
+              "either_days": 66
+            },
+            "bear": {
+              "sw_days": 166,
+              "em_days": 124,
+              "both_days": 121,
+              "either_days": 169
+            },
+            "rise": {
+              "sw_days": 64,
+              "em_days": 66,
+              "both_days": 51,
+              "either_days": 79
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 190,
+          "state_flip_days": 60,
+          "flip_breakdown": {
+            "bear->bull": 16,
+            "warn->bull": 9,
+            "rise->bull": 9,
+            "bear->rise": 8,
+            "bear->warn": 7,
+            "bull->warn": 6,
+            "bull->rise": 2,
+            "warn->bear": 2,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 17,
+          "strength_signed_gap_mean": 4.5207,
+          "strength_abs_gap_mean": 6.9503,
+          "strength_abs_gap_median": 4.2203,
+          "strength_abs_gap_p90": 18.7533,
+          "per_state": {
+            "bull": {
+              "sw_days": 46,
+              "em_days": 71,
+              "both_days": 37,
+              "either_days": 80
+            },
+            "warn": {
+              "sw_days": 21,
+              "em_days": 23,
+              "both_days": 10,
+              "either_days": 34
+            },
+            "bear": {
+              "sw_days": 133,
+              "em_days": 105,
+              "both_days": 102,
+              "either_days": 136
+            },
+            "rise": {
+              "sw_days": 50,
+              "em_days": 51,
+              "both_days": 41,
+              "either_days": 60
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "家用电器",
+      "sw_code": "801110",
+      "em_code": "BK0456",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 546,
+          "state_flip_days": 458,
+          "flip_breakdown": {
+            "bear->bull": 93,
+            "warn->bull": 74,
+            "rise->bull": 69,
+            "bear->rise": 55,
+            "bull->bear": 40,
+            "bear->warn": 29,
+            "bull->rise": 25,
+            "warn->bear": 24,
+            "bull->warn": 23,
+            "rise->bear": 18,
+            "rise->warn": 5,
+            "warn->rise": 3
+          },
+          "severe_bull_bear_flips": 133,
+          "strength_signed_gap_mean": 7.2724,
+          "strength_abs_gap_mean": 17.7667,
+          "strength_abs_gap_median": 13.4485,
+          "strength_abs_gap_p90": 40.0109,
+          "per_state": {
+            "bull": {
+              "sw_days": 321,
+              "em_days": 469,
+              "both_days": 233,
+              "either_days": 557
+            },
+            "warn": {
+              "sw_days": 135,
+              "em_days": 91,
+              "both_days": 34,
+              "either_days": 192
+            },
+            "bear": {
+              "sw_days": 394,
+              "em_days": 299,
+              "both_days": 217,
+              "either_days": 476
+            },
+            "rise": {
+              "sw_days": 154,
+              "em_days": 145,
+              "both_days": 62,
+              "either_days": 237
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 280,
+          "state_flip_days": 162,
+          "flip_breakdown": {
+            "bear->bull": 36,
+            "bear->warn": 20,
+            "bear->rise": 18,
+            "warn->bull": 17,
+            "bull->warn": 15,
+            "bull->bear": 13,
+            "rise->bear": 12,
+            "bull->rise": 11,
+            "rise->bull": 9,
+            "warn->bear": 6,
+            "warn->rise": 5
+          },
+          "severe_bull_bear_flips": 49,
+          "strength_signed_gap_mean": 6.3077,
+          "strength_abs_gap_mean": 13.71,
+          "strength_abs_gap_median": 10.0448,
+          "strength_abs_gap_p90": 30.9238,
+          "per_state": {
+            "bull": {
+              "sw_days": 198,
+              "em_days": 221,
+              "both_days": 159,
+              "either_days": 260
+            },
+            "warn": {
+              "sw_days": 45,
+              "em_days": 52,
+              "both_days": 17,
+              "either_days": 80
+            },
+            "bear": {
+              "sw_days": 160,
+              "em_days": 117,
+              "both_days": 86,
+              "either_days": 191
+            },
+            "rise": {
+              "sw_days": 39,
+              "em_days": 52,
+              "both_days": 18,
+              "either_days": 73
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 153,
+          "state_flip_days": 97,
+          "flip_breakdown": {
+            "bear->bull": 18,
+            "bull->bear": 13,
+            "rise->bear": 12,
+            "bull->rise": 11,
+            "warn->bull": 11,
+            "bear->warn": 10,
+            "bear->rise": 7,
+            "warn->bear": 5,
+            "warn->rise": 5,
+            "rise->bull": 3,
+            "bull->warn": 2
+          },
+          "severe_bull_bear_flips": 31,
+          "strength_signed_gap_mean": 2.1308,
+          "strength_abs_gap_mean": 13.1937,
+          "strength_abs_gap_median": 9.6304,
+          "strength_abs_gap_p90": 30.1094,
+          "per_state": {
+            "bull": {
+              "sw_days": 90,
+              "em_days": 96,
+              "both_days": 64,
+              "either_days": 122
+            },
+            "warn": {
+              "sw_days": 29,
+              "em_days": 20,
+              "both_days": 8,
+              "either_days": 41
+            },
+            "bear": {
+              "sw_days": 100,
+              "em_days": 95,
+              "both_days": 65,
+              "either_days": 130
+            },
+            "rise": {
+              "sw_days": 31,
+              "em_days": 39,
+              "both_days": 16,
+              "either_days": 54
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "食品饮料",
+      "sw_code": "801120",
+      "em_code": "BK0438",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 585,
+          "state_flip_days": 419,
+          "flip_breakdown": {
+            "bear->rise": 77,
+            "warn->bull": 55,
+            "bear->bull": 45,
+            "rise->bull": 43,
+            "bear->warn": 39,
+            "bull->rise": 36,
+            "bull->bear": 35,
+            "rise->bear": 35,
+            "bull->warn": 29,
+            "warn->bear": 20,
+            "warn->rise": 3,
+            "rise->warn": 2
+          },
+          "severe_bull_bear_flips": 80,
+          "strength_signed_gap_mean": 3.9347,
+          "strength_abs_gap_mean": 16.1444,
+          "strength_abs_gap_median": 12.3097,
+          "strength_abs_gap_p90": 37.0047,
+          "per_state": {
+            "bull": {
+              "sw_days": 308,
+              "em_days": 351,
+              "both_days": 208,
+              "either_days": 451
+            },
+            "warn": {
+              "sw_days": 119,
+              "em_days": 111,
+              "both_days": 41,
+              "either_days": 189
+            },
+            "bear": {
+              "sw_days": 455,
+              "em_days": 384,
+              "both_days": 294,
+              "either_days": 545
+            },
+            "rise": {
+              "sw_days": 122,
+              "em_days": 158,
+              "both_days": 42,
+              "either_days": 238
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 233,
+          "state_flip_days": 209,
+          "flip_breakdown": {
+            "bear->bull": 61,
+            "bear->warn": 36,
+            "bear->rise": 27,
+            "rise->bull": 20,
+            "warn->bull": 20,
+            "rise->bear": 17,
+            "bull->warn": 11,
+            "bull->rise": 5,
+            "rise->warn": 5,
+            "bull->bear": 5,
+            "warn->bear": 2
+          },
+          "severe_bull_bear_flips": 66,
+          "strength_signed_gap_mean": 10.6275,
+          "strength_abs_gap_mean": 17.6447,
+          "strength_abs_gap_median": 14.0812,
+          "strength_abs_gap_p90": 38.5013,
+          "per_state": {
+            "bull": {
+              "sw_days": 100,
+              "em_days": 180,
+              "both_days": 79,
+              "either_days": 201
+            },
+            "warn": {
+              "sw_days": 31,
+              "em_days": 61,
+              "both_days": 9,
+              "either_days": 83
+            },
+            "bear": {
+              "sw_days": 250,
+              "em_days": 150,
+              "both_days": 126,
+              "either_days": 274
+            },
+            "rise": {
+              "sw_days": 61,
+              "em_days": 51,
+              "both_days": 19,
+              "either_days": 93
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 123,
+          "state_flip_days": 127,
+          "flip_breakdown": {
+            "bear->bull": 28,
+            "bear->warn": 22,
+            "bear->rise": 21,
+            "warn->bull": 17,
+            "rise->bear": 16,
+            "rise->bull": 6,
+            "rise->warn": 5,
+            "bull->bear": 5,
+            "bull->rise": 4,
+            "bull->warn": 3
+          },
+          "severe_bull_bear_flips": 33,
+          "strength_signed_gap_mean": 8.1842,
+          "strength_abs_gap_mean": 18.2502,
+          "strength_abs_gap_median": 15.1495,
+          "strength_abs_gap_p90": 38.5721,
+          "per_state": {
+            "bull": {
+              "sw_days": 36,
+              "em_days": 75,
+              "both_days": 24,
+              "either_days": 87
+            },
+            "warn": {
+              "sw_days": 17,
+              "em_days": 30,
+              "both_days": 0,
+              "either_days": 47
+            },
+            "bear": {
+              "sw_days": 162,
+              "em_days": 112,
+              "both_days": 91,
+              "either_days": 183
+            },
+            "rise": {
+              "sw_days": 35,
+              "em_days": 33,
+              "both_days": 8,
+              "either_days": 60
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "纺织服饰",
+      "sw_code": "801130",
+      "em_code": "BK0436",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 798,
+          "state_flip_days": 206,
+          "flip_breakdown": {
+            "rise->bull": 46,
+            "bear->rise": 38,
+            "warn->bull": 31,
+            "bear->warn": 20,
+            "bear->bull": 20,
+            "bull->rise": 20,
+            "rise->bear": 18,
+            "bull->warn": 7,
+            "warn->bear": 4,
+            "rise->warn": 1,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 21,
+          "strength_signed_gap_mean": 3.7065,
+          "strength_abs_gap_mean": 7.1307,
+          "strength_abs_gap_median": 5.4562,
+          "strength_abs_gap_p90": 15.0298,
+          "per_state": {
+            "bull": {
+              "sw_days": 353,
+              "em_days": 422,
+              "both_days": 325,
+              "either_days": 450
+            },
+            "warn": {
+              "sw_days": 92,
+              "em_days": 85,
+              "both_days": 57,
+              "either_days": 120
+            },
+            "bear": {
+              "sw_days": 399,
+              "em_days": 344,
+              "both_days": 321,
+              "either_days": 422
+            },
+            "rise": {
+              "sw_days": 160,
+              "em_days": 153,
+              "both_days": 95,
+              "either_days": 218
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 351,
+          "state_flip_days": 91,
+          "flip_breakdown": {
+            "bear->warn": 27,
+            "warn->bull": 25,
+            "rise->bull": 24,
+            "bear->rise": 8,
+            "bear->bull": 6,
+            "rise->bear": 1
+          },
+          "severe_bull_bear_flips": 6,
+          "strength_signed_gap_mean": 6.5132,
+          "strength_abs_gap_mean": 7.3265,
+          "strength_abs_gap_median": 6.2901,
+          "strength_abs_gap_p90": 15.484,
+          "per_state": {
+            "bull": {
+              "sw_days": 194,
+              "em_days": 249,
+              "both_days": 194,
+              "either_days": 249
+            },
+            "warn": {
+              "sw_days": 52,
+              "em_days": 54,
+              "both_days": 27,
+              "either_days": 79
+            },
+            "bear": {
+              "sw_days": 131,
+              "em_days": 91,
+              "both_days": 90,
+              "either_days": 132
+            },
+            "rise": {
+              "sw_days": 65,
+              "em_days": 48,
+              "both_days": 40,
+              "either_days": 73
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 205,
+          "state_flip_days": 45,
+          "flip_breakdown": {
+            "bear->warn": 20,
+            "warn->bull": 15,
+            "rise->bull": 5,
+            "bear->bull": 3,
+            "rise->bear": 1,
+            "bear->rise": 1
+          },
+          "severe_bull_bear_flips": 3,
+          "strength_signed_gap_mean": 4.9501,
+          "strength_abs_gap_mean": 6.2612,
+          "strength_abs_gap_median": 5.1047,
+          "strength_abs_gap_p90": 13.3841,
+          "per_state": {
+            "bull": {
+              "sw_days": 91,
+              "em_days": 114,
+              "both_days": 91,
+              "either_days": 114
+            },
+            "warn": {
+              "sw_days": 27,
+              "em_days": 32,
+              "both_days": 12,
+              "either_days": 47
+            },
+            "bear": {
+              "sw_days": 99,
+              "em_days": 76,
+              "both_days": 75,
+              "either_days": 100
+            },
+            "rise": {
+              "sw_days": 33,
+              "em_days": 28,
+              "both_days": 27,
+              "either_days": 34
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "轻工制造",
+      "sw_code": "801140",
+      "em_code": "BK1212",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 736,
+          "state_flip_days": 268,
+          "flip_breakdown": {
+            "rise->bull": 53,
+            "warn->bull": 40,
+            "bear->rise": 40,
+            "bull->rise": 37,
+            "bear->bull": 32,
+            "bear->warn": 23,
+            "rise->bear": 20,
+            "bull->warn": 13,
+            "bull->bear": 5,
+            "warn->bear": 4,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 37,
+          "strength_signed_gap_mean": 3.6104,
+          "strength_abs_gap_mean": 8.712,
+          "strength_abs_gap_median": 6.0364,
+          "strength_abs_gap_p90": 21.0525,
+          "per_state": {
+            "bull": {
+              "sw_days": 367,
+              "em_days": 437,
+              "both_days": 312,
+              "either_days": 492
+            },
+            "warn": {
+              "sw_days": 87,
+              "em_days": 78,
+              "both_days": 42,
+              "either_days": 123
+            },
+            "bear": {
+              "sw_days": 393,
+              "em_days": 327,
+              "both_days": 298,
+              "either_days": 422
+            },
+            "rise": {
+              "sw_days": 157,
+              "em_days": 162,
+              "both_days": 84,
+              "either_days": 235
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 379,
+          "state_flip_days": 63,
+          "flip_breakdown": {
+            "rise->bull": 28,
+            "warn->bull": 13,
+            "bear->rise": 9,
+            "bear->warn": 8,
+            "bull->warn": 3,
+            "warn->bear": 1,
+            "bear->bull": 1
+          },
+          "severe_bull_bear_flips": 1,
+          "strength_signed_gap_mean": 5.2645,
+          "strength_abs_gap_mean": 5.9995,
+          "strength_abs_gap_median": 5.2445,
+          "strength_abs_gap_p90": 12.6213,
+          "per_state": {
+            "bull": {
+              "sw_days": 208,
+              "em_days": 247,
+              "both_days": 205,
+              "either_days": 250
+            },
+            "warn": {
+              "sw_days": 53,
+              "em_days": 50,
+              "both_days": 39,
+              "either_days": 64
+            },
+            "bear": {
+              "sw_days": 116,
+              "em_days": 99,
+              "both_days": 98,
+              "either_days": 117
+            },
+            "rise": {
+              "sw_days": 65,
+              "em_days": 46,
+              "both_days": 37,
+              "either_days": 74
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 223,
+          "state_flip_days": 27,
+          "flip_breakdown": {
+            "rise->bull": 9,
+            "warn->bull": 6,
+            "bear->warn": 6,
+            "bull->warn": 2,
+            "bear->rise": 2,
+            "warn->bear": 1,
+            "bear->bull": 1
+          },
+          "severe_bull_bear_flips": 1,
+          "strength_signed_gap_mean": 3.4294,
+          "strength_abs_gap_mean": 4.6815,
+          "strength_abs_gap_median": 3.4779,
+          "strength_abs_gap_p90": 10.1611,
+          "per_state": {
+            "bull": {
+              "sw_days": 103,
+              "em_days": 117,
+              "both_days": 101,
+              "either_days": 119
+            },
+            "warn": {
+              "sw_days": 26,
+              "em_days": 27,
+              "both_days": 19,
+              "either_days": 34
+            },
+            "bear": {
+              "sw_days": 89,
+              "em_days": 81,
+              "both_days": 80,
+              "either_days": 90
+            },
+            "rise": {
+              "sw_days": 32,
+              "em_days": 25,
+              "both_days": 23,
+              "either_days": 34
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "医药生物",
+      "sw_code": "801150",
+      "em_code": "BK1216",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 706,
+          "state_flip_days": 298,
+          "flip_breakdown": {
+            "bear->rise": 63,
+            "rise->bull": 45,
+            "bear->warn": 39,
+            "warn->bull": 38,
+            "bull->bear": 31,
+            "bear->bull": 31,
+            "rise->bear": 18,
+            "warn->bear": 12,
+            "bull->rise": 11,
+            "bull->warn": 7,
+            "warn->rise": 3
+          },
+          "severe_bull_bear_flips": 62,
+          "strength_signed_gap_mean": 4.4097,
+          "strength_abs_gap_mean": 10.9541,
+          "strength_abs_gap_median": 7.5012,
+          "strength_abs_gap_p90": 24.412,
+          "per_state": {
+            "bull": {
+              "sw_days": 268,
+              "em_days": 333,
+              "both_days": 219,
+              "either_days": 382
+            },
+            "warn": {
+              "sw_days": 105,
+              "em_days": 98,
+              "both_days": 52,
+              "either_days": 151
+            },
+            "bear": {
+              "sw_days": 483,
+              "em_days": 411,
+              "both_days": 350,
+              "either_days": 544
+            },
+            "rise": {
+              "sw_days": 148,
+              "em_days": 162,
+              "both_days": 85,
+              "either_days": 225
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 326,
+          "state_flip_days": 116,
+          "flip_breakdown": {
+            "rise->bull": 24,
+            "bear->rise": 21,
+            "warn->bull": 17,
+            "bear->warn": 16,
+            "bull->warn": 10,
+            "warn->bear": 10,
+            "bear->bull": 8,
+            "rise->bear": 4,
+            "bull->rise": 3,
+            "bull->bear": 3
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": 4.0712,
+          "strength_abs_gap_mean": 7.4083,
+          "strength_abs_gap_median": 5.4597,
+          "strength_abs_gap_p90": 16.361,
+          "per_state": {
+            "bull": {
+              "sw_days": 153,
+              "em_days": 186,
+              "both_days": 137,
+              "either_days": 202
+            },
+            "warn": {
+              "sw_days": 50,
+              "em_days": 49,
+              "both_days": 23,
+              "either_days": 76
+            },
+            "bear": {
+              "sw_days": 177,
+              "em_days": 149,
+              "both_days": 132,
+              "either_days": 194
+            },
+            "rise": {
+              "sw_days": 62,
+              "em_days": 58,
+              "both_days": 34,
+              "either_days": 86
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 175,
+          "state_flip_days": 75,
+          "flip_breakdown": {
+            "bear->warn": 16,
+            "bear->rise": 14,
+            "rise->bull": 11,
+            "warn->bull": 11,
+            "bear->bull": 8,
+            "warn->bear": 5,
+            "rise->bear": 4,
+            "bull->rise": 3,
+            "bull->bear": 3
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": 4.7,
+          "strength_abs_gap_mean": 8.1244,
+          "strength_abs_gap_median": 5.6153,
+          "strength_abs_gap_p90": 18.6961,
+          "per_state": {
+            "bull": {
+              "sw_days": 47,
+              "em_days": 71,
+              "both_days": 41,
+              "either_days": 77
+            },
+            "warn": {
+              "sw_days": 25,
+              "em_days": 25,
+              "both_days": 9,
+              "either_days": 41
+            },
+            "bear": {
+              "sw_days": 139,
+              "em_days": 113,
+              "both_days": 101,
+              "either_days": 151
+            },
+            "rise": {
+              "sw_days": 39,
+              "em_days": 41,
+              "both_days": 24,
+              "either_days": 56
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "公用事业",
+      "sw_code": "801160",
+      "em_code": "BK0427",
+      "common_days": 6481,
+      "common_start": "2000-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 627,
+          "state_flip_days": 377,
+          "flip_breakdown": {
+            "warn->bull": 62,
+            "bull->rise": 58,
+            "bear->rise": 44,
+            "bull->bear": 39,
+            "bear->warn": 35,
+            "bear->bull": 33,
+            "rise->bull": 28,
+            "warn->bear": 26,
+            "bull->warn": 25,
+            "rise->bear": 22,
+            "warn->rise": 3,
+            "rise->warn": 2
+          },
+          "severe_bull_bear_flips": 72,
+          "strength_signed_gap_mean": 1.6079,
+          "strength_abs_gap_mean": 13.5038,
+          "strength_abs_gap_median": 10.0739,
+          "strength_abs_gap_p90": 30.5011,
+          "per_state": {
+            "bull": {
+              "sw_days": 391,
+              "em_days": 392,
+              "both_days": 269,
+              "either_days": 514
+            },
+            "warn": {
+              "sw_days": 142,
+              "em_days": 113,
+              "both_days": 51,
+              "either_days": 204
+            },
+            "bear": {
+              "sw_days": 342,
+              "em_days": 317,
+              "both_days": 230,
+              "either_days": 429
+            },
+            "rise": {
+              "sw_days": 129,
+              "em_days": 182,
+              "both_days": 77,
+              "either_days": 234
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 303,
+          "state_flip_days": 139,
+          "flip_breakdown": {
+            "bear->bull": 32,
+            "bear->warn": 22,
+            "rise->bull": 15,
+            "bull->warn": 13,
+            "warn->bull": 12,
+            "bear->rise": 11,
+            "bull->rise": 11,
+            "warn->bear": 11,
+            "rise->bear": 6,
+            "bull->bear": 5,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 37,
+          "strength_signed_gap_mean": 4.8474,
+          "strength_abs_gap_mean": 11.3316,
+          "strength_abs_gap_median": 8.7172,
+          "strength_abs_gap_p90": 24.8729,
+          "per_state": {
+            "bull": {
+              "sw_days": 183,
+              "em_days": 213,
+              "both_days": 154,
+              "either_days": 242
+            },
+            "warn": {
+              "sw_days": 51,
+              "em_days": 62,
+              "both_days": 27,
+              "either_days": 86
+            },
+            "bear": {
+              "sw_days": 159,
+              "em_days": 116,
+              "both_days": 94,
+              "either_days": 181
+            },
+            "rise": {
+              "sw_days": 49,
+              "em_days": 51,
+              "both_days": 28,
+              "either_days": 72
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 197,
+          "state_flip_days": 53,
+          "flip_breakdown": {
+            "bear->warn": 19,
+            "rise->bull": 9,
+            "bear->bull": 7,
+            "rise->bear": 5,
+            "warn->bull": 4,
+            "bear->rise": 4,
+            "bull->warn": 2,
+            "bull->bear": 2,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 9,
+          "strength_signed_gap_mean": 3.4251,
+          "strength_abs_gap_mean": 8.2433,
+          "strength_abs_gap_median": 6.0312,
+          "strength_abs_gap_p90": 18.1991,
+          "per_state": {
+            "bull": {
+              "sw_days": 90,
+              "em_days": 106,
+              "both_days": 86,
+              "either_days": 110
+            },
+            "warn": {
+              "sw_days": 25,
+              "em_days": 41,
+              "both_days": 20,
+              "either_days": 46
+            },
+            "bear": {
+              "sw_days": 104,
+              "em_days": 82,
+              "both_days": 74,
+              "either_days": 112
+            },
+            "rise": {
+              "sw_days": 31,
+              "em_days": 21,
+              "both_days": 17,
+              "either_days": 35
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "交通运输",
+      "sw_code": "801170",
+      "em_code": "BK1210",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 675,
+          "state_flip_days": 329,
+          "flip_breakdown": {
+            "rise->bull": 62,
+            "bear->warn": 51,
+            "bear->bull": 47,
+            "warn->bull": 47,
+            "bear->rise": 44,
+            "bull->rise": 34,
+            "bull->bear": 16,
+            "warn->bear": 10,
+            "bull->warn": 9,
+            "rise->bear": 9
+          },
+          "severe_bull_bear_flips": 63,
+          "strength_signed_gap_mean": 5.7615,
+          "strength_abs_gap_mean": 10.5725,
+          "strength_abs_gap_median": 7.9936,
+          "strength_abs_gap_p90": 23.248,
+          "per_state": {
+            "bull": {
+              "sw_days": 363,
+              "em_days": 460,
+              "both_days": 304,
+              "either_days": 519
+            },
+            "warn": {
+              "sw_days": 121,
+              "em_days": 124,
+              "both_days": 64,
+              "either_days": 181
+            },
+            "bear": {
+              "sw_days": 393,
+              "em_days": 286,
+              "both_days": 251,
+              "either_days": 428
+            },
+            "rise": {
+              "sw_days": 127,
+              "em_days": 134,
+              "both_days": 56,
+              "either_days": 205
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 322,
+          "state_flip_days": 120,
+          "flip_breakdown": {
+            "warn->bull": 27,
+            "bear->warn": 23,
+            "bear->rise": 21,
+            "rise->bull": 21,
+            "bear->bull": 11,
+            "rise->bear": 6,
+            "bull->rise": 5,
+            "bull->warn": 4,
+            "bull->bear": 2
+          },
+          "severe_bull_bear_flips": 13,
+          "strength_signed_gap_mean": 6.6995,
+          "strength_abs_gap_mean": 9.3203,
+          "strength_abs_gap_median": 7.2901,
+          "strength_abs_gap_p90": 20.1903,
+          "per_state": {
+            "bull": {
+              "sw_days": 171,
+              "em_days": 219,
+              "both_days": 160,
+              "either_days": 230
+            },
+            "warn": {
+              "sw_days": 52,
+              "em_days": 52,
+              "both_days": 25,
+              "either_days": 79
+            },
+            "bear": {
+              "sw_days": 160,
+              "em_days": 113,
+              "both_days": 105,
+              "either_days": 168
+            },
+            "rise": {
+              "sw_days": 59,
+              "em_days": 58,
+              "both_days": 32,
+              "either_days": 85
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 203,
+          "state_flip_days": 47,
+          "flip_breakdown": {
+            "bear->warn": 12,
+            "bear->rise": 7,
+            "rise->bear": 6,
+            "bear->bull": 6,
+            "bull->rise": 5,
+            "rise->bull": 4,
+            "warn->bull": 3,
+            "bull->warn": 2,
+            "bull->bear": 2
+          },
+          "severe_bull_bear_flips": 8,
+          "strength_signed_gap_mean": 3.0153,
+          "strength_abs_gap_mean": 7.2207,
+          "strength_abs_gap_median": 5.4583,
+          "strength_abs_gap_p90": 16.3997,
+          "per_state": {
+            "bull": {
+              "sw_days": 91,
+              "em_days": 95,
+              "both_days": 82,
+              "either_days": 104
+            },
+            "warn": {
+              "sw_days": 23,
+              "em_days": 34,
+              "both_days": 20,
+              "either_days": 37
+            },
+            "bear": {
+              "sw_days": 105,
+              "em_days": 88,
+              "both_days": 80,
+              "either_days": 113
+            },
+            "rise": {
+              "sw_days": 31,
+              "em_days": 33,
+              "both_days": 21,
+              "either_days": 43
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "房地产",
+      "sw_code": "801180",
+      "em_code": "BK1202",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 724,
+          "state_flip_days": 280,
+          "flip_breakdown": {
+            "bear->rise": 60,
+            "bear->bull": 49,
+            "rise->bull": 44,
+            "bear->warn": 43,
+            "warn->bull": 35,
+            "rise->bear": 17,
+            "bull->rise": 15,
+            "bull->warn": 9,
+            "warn->bear": 7,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 50,
+          "strength_signed_gap_mean": 7.3883,
+          "strength_abs_gap_mean": 10.8022,
+          "strength_abs_gap_median": 8.2287,
+          "strength_abs_gap_p90": 24.238,
+          "per_state": {
+            "bull": {
+              "sw_days": 214,
+              "em_days": 317,
+              "both_days": 189,
+              "either_days": 342
+            },
+            "warn": {
+              "sw_days": 95,
+              "em_days": 105,
+              "both_days": 53,
+              "either_days": 147
+            },
+            "bear": {
+              "sw_days": 531,
+              "em_days": 404,
+              "both_days": 379,
+              "either_days": 556
+            },
+            "rise": {
+              "sw_days": 164,
+              "em_days": 178,
+              "both_days": 103,
+              "either_days": 239
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 329,
+          "state_flip_days": 113,
+          "flip_breakdown": {
+            "warn->bull": 27,
+            "bear->warn": 26,
+            "bear->rise": 17,
+            "bear->bull": 16,
+            "rise->bull": 16,
+            "bull->warn": 4,
+            "rise->bear": 4,
+            "warn->bear": 2,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 16,
+          "strength_signed_gap_mean": 7.0735,
+          "strength_abs_gap_mean": 9.1102,
+          "strength_abs_gap_median": 6.5811,
+          "strength_abs_gap_p90": 21.1743,
+          "per_state": {
+            "bull": {
+              "sw_days": 126,
+              "em_days": 180,
+              "both_days": 121,
+              "either_days": 185
+            },
+            "warn": {
+              "sw_days": 41,
+              "em_days": 42,
+              "both_days": 12,
+              "either_days": 71
+            },
+            "bear": {
+              "sw_days": 194,
+              "em_days": 141,
+              "both_days": 135,
+              "either_days": 200
+            },
+            "rise": {
+              "sw_days": 81,
+              "em_days": 79,
+              "both_days": 61,
+              "either_days": 99
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 187,
+          "state_flip_days": 63,
+          "flip_breakdown": {
+            "bear->warn": 23,
+            "warn->bull": 21,
+            "rise->bull": 6,
+            "rise->bear": 4,
+            "bear->rise": 4,
+            "warn->bear": 2,
+            "bear->bull": 2,
+            "bull->warn": 1
+          },
+          "severe_bull_bear_flips": 2,
+          "strength_signed_gap_mean": 7.3416,
+          "strength_abs_gap_mean": 8.5956,
+          "strength_abs_gap_median": 6.8217,
+          "strength_abs_gap_p90": 18.0391,
+          "per_state": {
+            "bull": {
+              "sw_days": 57,
+              "em_days": 85,
+              "both_days": 56,
+              "either_days": 86
+            },
+            "warn": {
+              "sw_days": 30,
+              "em_days": 31,
+              "both_days": 7,
+              "either_days": 54
+            },
+            "bear": {
+              "sw_days": 126,
+              "em_days": 103,
+              "both_days": 97,
+              "either_days": 132
+            },
+            "rise": {
+              "sw_days": 37,
+              "em_days": 31,
+              "both_days": 27,
+              "either_days": 41
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "商贸零售",
+      "sw_code": "801200",
+      "em_code": "BK1213",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 604,
+          "state_flip_days": 400,
+          "flip_breakdown": {
+            "bear->bull": 101,
+            "rise->bull": 98,
+            "bear->rise": 76,
+            "bear->warn": 43,
+            "warn->bull": 21,
+            "rise->bear": 18,
+            "bull->warn": 16,
+            "warn->bear": 13,
+            "bull->rise": 7,
+            "bull->bear": 4,
+            "warn->rise": 2,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 105,
+          "strength_signed_gap_mean": 10.2238,
+          "strength_abs_gap_mean": 13.6582,
+          "strength_abs_gap_median": 10.6185,
+          "strength_abs_gap_p90": 31.8565,
+          "per_state": {
+            "bull": {
+              "sw_days": 236,
+              "em_days": 429,
+              "both_days": 209,
+              "either_days": 456
+            },
+            "warn": {
+              "sw_days": 61,
+              "em_days": 85,
+              "both_days": 25,
+              "either_days": 121
+            },
+            "bear": {
+              "sw_days": 510,
+              "em_days": 325,
+              "both_days": 290,
+              "either_days": 545
+            },
+            "rise": {
+              "sw_days": 197,
+              "em_days": 165,
+              "both_days": 80,
+              "either_days": 282
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 319,
+          "state_flip_days": 123,
+          "flip_breakdown": {
+            "bear->warn": 34,
+            "warn->bull": 28,
+            "rise->bull": 27,
+            "bear->bull": 20,
+            "bear->rise": 8,
+            "bull->warn": 3,
+            "rise->bear": 2,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 20,
+          "strength_signed_gap_mean": 7.8605,
+          "strength_abs_gap_mean": 8.8347,
+          "strength_abs_gap_median": 7.7365,
+          "strength_abs_gap_p90": 17.7024,
+          "per_state": {
+            "bull": {
+              "sw_days": 151,
+              "em_days": 222,
+              "both_days": 147,
+              "either_days": 226
+            },
+            "warn": {
+              "sw_days": 48,
+              "em_days": 57,
+              "both_days": 20,
+              "either_days": 85
+            },
+            "bear": {
+              "sw_days": 184,
+              "em_days": 124,
+              "both_days": 122,
+              "either_days": 186
+            },
+            "rise": {
+              "sw_days": 59,
+              "em_days": 39,
+              "both_days": 30,
+              "either_days": 68
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 188,
+          "state_flip_days": 62,
+          "flip_breakdown": {
+            "bear->warn": 20,
+            "warn->bull": 13,
+            "bear->bull": 11,
+            "rise->bull": 9,
+            "bear->rise": 5,
+            "bull->warn": 2,
+            "rise->bear": 2
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": 7.4567,
+          "strength_abs_gap_mean": 8.6461,
+          "strength_abs_gap_median": 7.5579,
+          "strength_abs_gap_p90": 17.3934,
+          "per_state": {
+            "bull": {
+              "sw_days": 61,
+              "em_days": 92,
+              "both_days": 59,
+              "either_days": 94
+            },
+            "warn": {
+              "sw_days": 21,
+              "em_days": 30,
+              "both_days": 8,
+              "either_days": 43
+            },
+            "bear": {
+              "sw_days": 133,
+              "em_days": 99,
+              "both_days": 97,
+              "either_days": 135
+            },
+            "rise": {
+              "sw_days": 35,
+              "em_days": 29,
+              "both_days": 24,
+              "either_days": 40
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "社会服务",
+      "sw_code": "801210",
+      "em_code": "BK1214",
+      "common_days": 4068,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 604,
+          "state_flip_days": 400,
+          "flip_breakdown": {
+            "rise->bull": 77,
+            "bear->bull": 76,
+            "bull->bear": 52,
+            "warn->bull": 52,
+            "bear->rise": 48,
+            "bear->warn": 46,
+            "bull->rise": 15,
+            "rise->bear": 12,
+            "bull->warn": 9,
+            "warn->bear": 6,
+            "rise->warn": 5,
+            "warn->rise": 2
+          },
+          "severe_bull_bear_flips": 128,
+          "strength_signed_gap_mean": 5.7787,
+          "strength_abs_gap_mean": 15.0622,
+          "strength_abs_gap_median": 9.9897,
+          "strength_abs_gap_p90": 36.1285,
+          "per_state": {
+            "bull": {
+              "sw_days": 304,
+              "em_days": 433,
+              "both_days": 228,
+              "either_days": 509
+            },
+            "warn": {
+              "sw_days": 92,
+              "em_days": 92,
+              "both_days": 32,
+              "either_days": 152
+            },
+            "bear": {
+              "sw_days": 434,
+              "em_days": 334,
+              "both_days": 264,
+              "either_days": 504
+            },
+            "rise": {
+              "sw_days": 174,
+              "em_days": 145,
+              "both_days": 80,
+              "either_days": 239
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 363,
+          "state_flip_days": 79,
+          "flip_breakdown": {
+            "rise->bull": 37,
+            "bear->rise": 13,
+            "rise->bear": 9,
+            "bear->warn": 7,
+            "warn->bull": 4,
+            "bear->bull": 3,
+            "bull->rise": 2,
+            "rise->warn": 1,
+            "bull->bear": 1,
+            "bull->warn": 1,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 3.6273,
+          "strength_abs_gap_mean": 4.7604,
+          "strength_abs_gap_median": 3.4453,
+          "strength_abs_gap_p90": 10.3205,
+          "per_state": {
+            "bull": {
+              "sw_days": 157,
+              "em_days": 197,
+              "both_days": 153,
+              "either_days": 201
+            },
+            "warn": {
+              "sw_days": 31,
+              "em_days": 35,
+              "both_days": 26,
+              "either_days": 40
+            },
+            "bear": {
+              "sw_days": 172,
+              "em_days": 159,
+              "both_days": 149,
+              "either_days": 182
+            },
+            "rise": {
+              "sw_days": 82,
+              "em_days": 51,
+              "both_days": 35,
+              "either_days": 98
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 203,
+          "state_flip_days": 47,
+          "flip_breakdown": {
+            "rise->bull": 20,
+            "rise->bear": 7,
+            "bear->rise": 6,
+            "bear->warn": 6,
+            "warn->bull": 3,
+            "rise->warn": 1,
+            "bull->bear": 1,
+            "bull->warn": 1,
+            "warn->rise": 1,
+            "bear->bull": 1
+          },
+          "severe_bull_bear_flips": 2,
+          "strength_signed_gap_mean": 2.7131,
+          "strength_abs_gap_mean": 4.4023,
+          "strength_abs_gap_median": 3.4243,
+          "strength_abs_gap_p90": 9.1963,
+          "per_state": {
+            "bull": {
+              "sw_days": 60,
+              "em_days": 82,
+              "both_days": 58,
+              "either_days": 84
+            },
+            "warn": {
+              "sw_days": 23,
+              "em_days": 27,
+              "both_days": 19,
+              "either_days": 31
+            },
+            "bear": {
+              "sw_days": 122,
+              "em_days": 117,
+              "both_days": 109,
+              "either_days": 130
+            },
+            "rise": {
+              "sw_days": 45,
+              "em_days": 24,
+              "both_days": 17,
+              "either_days": 52
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "银行",
+      "sw_code": "801780",
+      "em_code": "BK1283",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 792,
+          "state_flip_days": 212,
+          "flip_breakdown": {
+            "bear->warn": 38,
+            "bull->warn": 33,
+            "rise->bear": 21,
+            "warn->bull": 20,
+            "rise->bull": 20,
+            "bear->bull": 18,
+            "bull->bear": 17,
+            "bull->rise": 17,
+            "bear->rise": 15,
+            "warn->bear": 10,
+            "rise->warn": 3
+          },
+          "severe_bull_bear_flips": 35,
+          "strength_signed_gap_mean": 0.3153,
+          "strength_abs_gap_mean": 7.2494,
+          "strength_abs_gap_median": 4.6612,
+          "strength_abs_gap_p90": 17.3386,
+          "per_state": {
+            "bull": {
+              "sw_days": 373,
+              "em_days": 364,
+              "both_days": 306,
+              "either_days": 431
+            },
+            "warn": {
+              "sw_days": 126,
+              "em_days": 170,
+              "both_days": 96,
+              "either_days": 200
+            },
+            "bear": {
+              "sw_days": 415,
+              "em_days": 392,
+              "both_days": 344,
+              "either_days": 463
+            },
+            "rise": {
+              "sw_days": 90,
+              "em_days": 78,
+              "both_days": 46,
+              "either_days": 122
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 365,
+          "state_flip_days": 77,
+          "flip_breakdown": {
+            "bull->warn": 18,
+            "rise->bull": 17,
+            "warn->bear": 12,
+            "bear->warn": 8,
+            "warn->bull": 6,
+            "bear->rise": 6,
+            "rise->bear": 4,
+            "bull->bear": 2,
+            "bull->rise": 2,
+            "bear->bull": 2
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 0.696,
+          "strength_abs_gap_mean": 5.2735,
+          "strength_abs_gap_median": 3.6215,
+          "strength_abs_gap_p90": 12.1565,
+          "per_state": {
+            "bull": {
+              "sw_days": 207,
+              "em_days": 210,
+              "both_days": 185,
+              "either_days": 232
+            },
+            "warn": {
+              "sw_days": 62,
+              "em_days": 70,
+              "both_days": 44,
+              "either_days": 88
+            },
+            "bear": {
+              "sw_days": 133,
+              "em_days": 135,
+              "both_days": 117,
+              "either_days": 151
+            },
+            "rise": {
+              "sw_days": 40,
+              "em_days": 27,
+              "both_days": 19,
+              "either_days": 48
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 203,
+          "state_flip_days": 47,
+          "flip_breakdown": {
+            "rise->bull": 17,
+            "bull->warn": 11,
+            "bear->warn": 4,
+            "rise->bear": 4,
+            "bear->rise": 4,
+            "warn->bull": 3,
+            "bear->bull": 2,
+            "warn->bear": 1,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 2,
+          "strength_signed_gap_mean": 1.0809,
+          "strength_abs_gap_mean": 5.3781,
+          "strength_abs_gap_median": 3.5942,
+          "strength_abs_gap_p90": 12.3394,
+          "per_state": {
+            "bull": {
+              "sw_days": 104,
+              "em_days": 114,
+              "both_days": 92,
+              "either_days": 126
+            },
+            "warn": {
+              "sw_days": 26,
+              "em_days": 37,
+              "both_days": 22,
+              "either_days": 41
+            },
+            "bear": {
+              "sw_days": 87,
+              "em_days": 82,
+              "both_days": 77,
+              "either_days": 92
+            },
+            "rise": {
+              "sw_days": 33,
+              "em_days": 17,
+              "both_days": 12,
+              "either_days": 38
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "非银金融",
+      "sw_code": "801790",
+      "em_code": "BK1203",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 721,
+          "state_flip_days": 283,
+          "flip_breakdown": {
+            "rise->bull": 57,
+            "bear->warn": 51,
+            "bear->rise": 44,
+            "warn->bull": 31,
+            "bull->rise": 20,
+            "bear->bull": 20,
+            "warn->bear": 16,
+            "rise->bear": 15,
+            "bull->warn": 14,
+            "bull->bear": 14,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 34,
+          "strength_signed_gap_mean": 3.1422,
+          "strength_abs_gap_mean": 9.1791,
+          "strength_abs_gap_median": 7.2077,
+          "strength_abs_gap_p90": 19.5623,
+          "per_state": {
+            "bull": {
+              "sw_days": 261,
+              "em_days": 321,
+              "both_days": 213,
+              "either_days": 369
+            },
+            "warn": {
+              "sw_days": 125,
+              "em_days": 144,
+              "both_days": 78,
+              "either_days": 191
+            },
+            "bear": {
+              "sw_days": 489,
+              "em_days": 419,
+              "both_days": 374,
+              "either_days": 534
+            },
+            "rise": {
+              "sw_days": 129,
+              "em_days": 120,
+              "both_days": 56,
+              "either_days": 193
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 356,
+          "state_flip_days": 86,
+          "flip_breakdown": {
+            "bull->rise": 19,
+            "bear->warn": 16,
+            "rise->bear": 13,
+            "rise->bull": 10,
+            "warn->bull": 8,
+            "bull->bear": 8,
+            "bear->bull": 6,
+            "warn->bear": 4,
+            "bull->warn": 2
+          },
+          "severe_bull_bear_flips": 14,
+          "strength_signed_gap_mean": 1.825,
+          "strength_abs_gap_mean": 6.8245,
+          "strength_abs_gap_median": 5.2793,
+          "strength_abs_gap_p90": 14.511,
+          "per_state": {
+            "bull": {
+              "sw_days": 136,
+              "em_days": 131,
+              "both_days": 107,
+              "either_days": 160
+            },
+            "warn": {
+              "sw_days": 45,
+              "em_days": 51,
+              "both_days": 33,
+              "either_days": 63
+            },
+            "bear": {
+              "sw_days": 193,
+              "em_days": 196,
+              "both_days": 171,
+              "either_days": 218
+            },
+            "rise": {
+              "sw_days": 68,
+              "em_days": 64,
+              "both_days": 45,
+              "either_days": 87
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 190,
+          "state_flip_days": 60,
+          "flip_breakdown": {
+            "bull->rise": 18,
+            "rise->bear": 13,
+            "bull->bear": 8,
+            "bear->warn": 6,
+            "warn->bull": 5,
+            "rise->bull": 4,
+            "bear->bull": 3,
+            "warn->bear": 3
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": 0.3013,
+          "strength_abs_gap_mean": 8.1661,
+          "strength_abs_gap_median": 6.7019,
+          "strength_abs_gap_p90": 18.2602,
+          "per_state": {
+            "bull": {
+              "sw_days": 64,
+              "em_days": 50,
+              "both_days": 38,
+              "either_days": 76
+            },
+            "warn": {
+              "sw_days": 24,
+              "em_days": 22,
+              "both_days": 16,
+              "either_days": 30
+            },
+            "bear": {
+              "sw_days": 127,
+              "em_days": 142,
+              "both_days": 118,
+              "either_days": 151
+            },
+            "rise": {
+              "sw_days": 35,
+              "em_days": 36,
+              "both_days": 18,
+              "either_days": 53
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "综合",
+      "sw_code": "801230",
+      "em_code": "BK1217",
+      "common_days": 4067,
+      "common_start": "2010-01-04",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 651,
+          "state_flip_days": 353,
+          "flip_breakdown": {
+            "bear->rise": 60,
+            "bear->bull": 60,
+            "rise->bull": 42,
+            "warn->bull": 36,
+            "bull->warn": 34,
+            "bull->bear": 30,
+            "bear->warn": 30,
+            "bull->rise": 25,
+            "rise->bear": 22,
+            "warn->bear": 14
+          },
+          "severe_bull_bear_flips": 90,
+          "strength_signed_gap_mean": 3.6474,
+          "strength_abs_gap_mean": 13.1766,
+          "strength_abs_gap_median": 9.863,
+          "strength_abs_gap_p90": 29.1001,
+          "per_state": {
+            "bull": {
+              "sw_days": 405,
+              "em_days": 454,
+              "both_days": 316,
+              "either_days": 543
+            },
+            "warn": {
+              "sw_days": 73,
+              "em_days": 87,
+              "both_days": 23,
+              "either_days": 137
+            },
+            "bear": {
+              "sw_days": 395,
+              "em_days": 311,
+              "both_days": 245,
+              "either_days": 461
+            },
+            "rise": {
+              "sw_days": 131,
+              "em_days": 152,
+              "both_days": 67,
+              "either_days": 216
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 296,
+          "state_flip_days": 146,
+          "flip_breakdown": {
+            "bear->warn": 23,
+            "rise->bull": 22,
+            "warn->bear": 18,
+            "rise->bear": 16,
+            "bear->bull": 15,
+            "bull->rise": 14,
+            "warn->bull": 11,
+            "bull->warn": 11,
+            "bear->rise": 9,
+            "bull->bear": 7
+          },
+          "severe_bull_bear_flips": 22,
+          "strength_signed_gap_mean": -0.0547,
+          "strength_abs_gap_mean": 12.9914,
+          "strength_abs_gap_median": 9.8715,
+          "strength_abs_gap_p90": 30.2236,
+          "per_state": {
+            "bull": {
+              "sw_days": 204,
+              "em_days": 220,
+              "both_days": 172,
+              "either_days": 252
+            },
+            "warn": {
+              "sw_days": 55,
+              "em_days": 60,
+              "both_days": 26,
+              "either_days": 89
+            },
+            "bear": {
+              "sw_days": 123,
+              "em_days": 117,
+              "both_days": 76,
+              "either_days": 164
+            },
+            "rise": {
+              "sw_days": 60,
+              "em_days": 45,
+              "both_days": 22,
+              "either_days": 83
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 159,
+          "state_flip_days": 91,
+          "flip_breakdown": {
+            "bear->warn": 17,
+            "bull->rise": 13,
+            "rise->bear": 12,
+            "warn->bull": 9,
+            "warn->bear": 9,
+            "bear->bull": 9,
+            "bull->warn": 7,
+            "bear->rise": 7,
+            "rise->bull": 6,
+            "bull->bear": 2
+          },
+          "severe_bull_bear_flips": 11,
+          "strength_signed_gap_mean": -0.3176,
+          "strength_abs_gap_mean": 15.566,
+          "strength_abs_gap_median": 12.4417,
+          "strength_abs_gap_p90": 33.299,
+          "per_state": {
+            "bull": {
+              "sw_days": 95,
+              "em_days": 97,
+              "both_days": 73,
+              "either_days": 119
+            },
+            "warn": {
+              "sw_days": 37,
+              "em_days": 43,
+              "both_days": 19,
+              "either_days": 61
+            },
+            "bear": {
+              "sw_days": 94,
+              "em_days": 84,
+              "both_days": 61,
+              "either_days": 117
+            },
+            "rise": {
+              "sw_days": 24,
+              "em_days": 26,
+              "both_days": 6,
+              "either_days": 44
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "建筑材料",
+      "sw_code": "801710",
+      "em_code": "BK1208",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 723,
+          "state_flip_days": 281,
+          "flip_breakdown": {
+            "bear->rise": 69,
+            "rise->bull": 37,
+            "bear->bull": 36,
+            "warn->bull": 29,
+            "bear->warn": 25,
+            "bull->rise": 24,
+            "rise->bear": 17,
+            "warn->bear": 16,
+            "bull->warn": 15,
+            "bull->bear": 11,
+            "rise->warn": 2
+          },
+          "severe_bull_bear_flips": 47,
+          "strength_signed_gap_mean": 6.7512,
+          "strength_abs_gap_mean": 12.0381,
+          "strength_abs_gap_median": 9.2014,
+          "strength_abs_gap_p90": 26.8141,
+          "per_state": {
+            "bull": {
+              "sw_days": 316,
+              "em_days": 368,
+              "both_days": 266,
+              "either_days": 418
+            },
+            "warn": {
+              "sw_days": 87,
+              "em_days": 84,
+              "both_days": 42,
+              "either_days": 129
+            },
+            "bear": {
+              "sw_days": 477,
+              "em_days": 391,
+              "both_days": 347,
+              "either_days": 521
+            },
+            "rise": {
+              "sw_days": 124,
+              "em_days": 161,
+              "both_days": 68,
+              "either_days": 217
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 294,
+          "state_flip_days": 148,
+          "flip_breakdown": {
+            "rise->bull": 28,
+            "bear->bull": 22,
+            "bear->warn": 20,
+            "bull->rise": 15,
+            "bear->rise": 14,
+            "bull->bear": 13,
+            "bull->warn": 11,
+            "warn->bull": 10,
+            "warn->bear": 10,
+            "rise->bear": 4,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 35,
+          "strength_signed_gap_mean": 3.5041,
+          "strength_abs_gap_mean": 13.3268,
+          "strength_abs_gap_median": 8.7779,
+          "strength_abs_gap_p90": 32.0707,
+          "per_state": {
+            "bull": {
+              "sw_days": 214,
+              "em_days": 235,
+              "both_days": 175,
+              "either_days": 274
+            },
+            "warn": {
+              "sw_days": 40,
+              "em_days": 52,
+              "both_days": 20,
+              "either_days": 72
+            },
+            "bear": {
+              "sw_days": 128,
+              "em_days": 99,
+              "both_days": 72,
+              "either_days": 155
+            },
+            "rise": {
+              "sw_days": 60,
+              "em_days": 56,
+              "both_days": 27,
+              "either_days": 89
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 158,
+          "state_flip_days": 92,
+          "flip_breakdown": {
+            "bear->warn": 14,
+            "bull->bear": 13,
+            "bull->rise": 12,
+            "warn->bear": 10,
+            "bear->bull": 10,
+            "warn->bull": 8,
+            "bull->warn": 7,
+            "bear->rise": 7,
+            "rise->bull": 7,
+            "rise->bear": 3,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 23,
+          "strength_signed_gap_mean": -0.0071,
+          "strength_abs_gap_mean": 15.6168,
+          "strength_abs_gap_median": 11.9719,
+          "strength_abs_gap_p90": 35.8533,
+          "per_state": {
+            "bull": {
+              "sw_days": 113,
+              "em_days": 106,
+              "both_days": 81,
+              "either_days": 138
+            },
+            "warn": {
+              "sw_days": 30,
+              "em_days": 34,
+              "both_days": 12,
+              "either_days": 52
+            },
+            "bear": {
+              "sw_days": 84,
+              "em_days": 79,
+              "both_days": 53,
+              "either_days": 110
+            },
+            "rise": {
+              "sw_days": 23,
+              "em_days": 31,
+              "both_days": 12,
+              "either_days": 42
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "建筑装饰",
+      "sw_code": "801720",
+      "em_code": "BK1209",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 697,
+          "state_flip_days": 307,
+          "flip_breakdown": {
+            "rise->bull": 71,
+            "bear->bull": 55,
+            "bear->rise": 50,
+            "bull->rise": 28,
+            "warn->bull": 26,
+            "bear->warn": 24,
+            "rise->bear": 18,
+            "bull->warn": 13,
+            "warn->bear": 12,
+            "bull->bear": 9,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 64,
+          "strength_signed_gap_mean": 4.8612,
+          "strength_abs_gap_mean": 10.4282,
+          "strength_abs_gap_median": 7.0909,
+          "strength_abs_gap_p90": 24.4355,
+          "per_state": {
+            "bull": {
+              "sw_days": 352,
+              "em_days": 454,
+              "both_days": 302,
+              "either_days": 504
+            },
+            "warn": {
+              "sw_days": 71,
+              "em_days": 69,
+              "both_days": 32,
+              "either_days": 108
+            },
+            "bear": {
+              "sw_days": 423,
+              "em_days": 333,
+              "both_days": 294,
+              "either_days": 462
+            },
+            "rise": {
+              "sw_days": 158,
+              "em_days": 148,
+              "both_days": 69,
+              "either_days": 237
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 308,
+          "state_flip_days": 134,
+          "flip_breakdown": {
+            "rise->bull": 44,
+            "bear->warn": 28,
+            "warn->bull": 26,
+            "bear->bull": 16,
+            "bear->rise": 12,
+            "bull->warn": 3,
+            "rise->bear": 2,
+            "warn->rise": 2,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 16,
+          "strength_signed_gap_mean": 8.1799,
+          "strength_abs_gap_mean": 9.7979,
+          "strength_abs_gap_median": 8.4644,
+          "strength_abs_gap_p90": 19.0556,
+          "per_state": {
+            "bull": {
+              "sw_days": 154,
+              "em_days": 237,
+              "both_days": 151,
+              "either_days": 240
+            },
+            "warn": {
+              "sw_days": 48,
+              "em_days": 50,
+              "both_days": 19,
+              "either_days": 79
+            },
+            "bear": {
+              "sw_days": 160,
+              "em_days": 107,
+              "both_days": 104,
+              "either_days": 163
+            },
+            "rise": {
+              "sw_days": 80,
+              "em_days": 48,
+              "both_days": 34,
+              "either_days": 94
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 176,
+          "state_flip_days": 74,
+          "flip_breakdown": {
+            "rise->bull": 24,
+            "bear->warn": 20,
+            "bear->bull": 9,
+            "bear->rise": 8,
+            "warn->bull": 6,
+            "rise->bear": 2,
+            "bull->warn": 2,
+            "warn->rise": 2,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 9,
+          "strength_signed_gap_mean": 5.914,
+          "strength_abs_gap_mean": 8.5764,
+          "strength_abs_gap_median": 7.1383,
+          "strength_abs_gap_p90": 16.9051,
+          "per_state": {
+            "bull": {
+              "sw_days": 72,
+              "em_days": 109,
+              "both_days": 70,
+              "either_days": 111
+            },
+            "warn": {
+              "sw_days": 18,
+              "em_days": 31,
+              "both_days": 9,
+              "either_days": 40
+            },
+            "bear": {
+              "sw_days": 118,
+              "em_days": 84,
+              "both_days": 81,
+              "either_days": 121
+            },
+            "rise": {
+              "sw_days": 42,
+              "em_days": 26,
+              "both_days": 16,
+              "either_days": 52
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "电力设备",
+      "sw_code": "801730",
+      "em_code": "BK1200",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 696,
+          "state_flip_days": 308,
+          "flip_breakdown": {
+            "warn->bull": 59,
+            "rise->bull": 46,
+            "bear->warn": 44,
+            "bear->rise": 38,
+            "rise->bear": 30,
+            "bull->warn": 21,
+            "bear->bull": 21,
+            "warn->bear": 17,
+            "bull->bear": 16,
+            "bull->rise": 8,
+            "warn->rise": 5,
+            "rise->warn": 3
+          },
+          "severe_bull_bear_flips": 37,
+          "strength_signed_gap_mean": 4.3828,
+          "strength_abs_gap_mean": 11.7775,
+          "strength_abs_gap_median": 8.6574,
+          "strength_abs_gap_p90": 26.252,
+          "per_state": {
+            "bull": {
+              "sw_days": 329,
+              "em_days": 410,
+              "both_days": 284,
+              "either_days": 455
+            },
+            "warn": {
+              "sw_days": 107,
+              "em_days": 94,
+              "both_days": 26,
+              "either_days": 175
+            },
+            "bear": {
+              "sw_days": 418,
+              "em_days": 378,
+              "both_days": 315,
+              "either_days": 481
+            },
+            "rise": {
+              "sw_days": 150,
+              "em_days": 122,
+              "both_days": 71,
+              "either_days": 201
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 358,
+          "state_flip_days": 84,
+          "flip_breakdown": {
+            "bear->rise": 24,
+            "bear->bull": 16,
+            "rise->bull": 14,
+            "warn->bull": 13,
+            "warn->bear": 7,
+            "bear->warn": 6,
+            "bull->warn": 3,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 17,
+          "strength_signed_gap_mean": 6.2089,
+          "strength_abs_gap_mean": 9.3407,
+          "strength_abs_gap_median": 6.5981,
+          "strength_abs_gap_p90": 22.3243,
+          "per_state": {
+            "bull": {
+              "sw_days": 189,
+              "em_days": 228,
+              "both_days": 185,
+              "either_days": 232
+            },
+            "warn": {
+              "sw_days": 50,
+              "em_days": 39,
+              "both_days": 30,
+              "either_days": 59
+            },
+            "bear": {
+              "sw_days": 162,
+              "em_days": 124,
+              "both_days": 116,
+              "either_days": 170
+            },
+            "rise": {
+              "sw_days": 41,
+              "em_days": 51,
+              "both_days": 27,
+              "either_days": 65
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 214,
+          "state_flip_days": 36,
+          "flip_breakdown": {
+            "bear->rise": 11,
+            "warn->bull": 7,
+            "warn->bear": 7,
+            "bear->bull": 4,
+            "bull->warn": 3,
+            "rise->bull": 2,
+            "bear->warn": 1,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 5,
+          "strength_signed_gap_mean": 4.7677,
+          "strength_abs_gap_mean": 8.54,
+          "strength_abs_gap_median": 5.3994,
+          "strength_abs_gap_p90": 21.5381,
+          "per_state": {
+            "bull": {
+              "sw_days": 91,
+              "em_days": 100,
+              "both_days": 87,
+              "either_days": 104
+            },
+            "warn": {
+              "sw_days": 37,
+              "em_days": 27,
+              "both_days": 23,
+              "either_days": 41
+            },
+            "bear": {
+              "sw_days": 107,
+              "em_days": 99,
+              "both_days": 91,
+              "either_days": 115
+            },
+            "rise": {
+              "sw_days": 15,
+              "em_days": 24,
+              "both_days": 13,
+              "either_days": 26
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "机械设备",
+      "sw_code": "801890",
+      "em_code": "BK1205",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 706,
+          "state_flip_days": 298,
+          "flip_breakdown": {
+            "bear->warn": 48,
+            "bull->bear": 44,
+            "rise->bull": 39,
+            "bear->rise": 37,
+            "warn->bull": 27,
+            "warn->bear": 26,
+            "bull->rise": 25,
+            "bear->bull": 25,
+            "bull->warn": 13,
+            "rise->warn": 5,
+            "rise->bear": 5,
+            "warn->rise": 4
+          },
+          "severe_bull_bear_flips": 69,
+          "strength_signed_gap_mean": 2.3046,
+          "strength_abs_gap_mean": 10.7313,
+          "strength_abs_gap_median": 7.0661,
+          "strength_abs_gap_p90": 24.1293,
+          "per_state": {
+            "bull": {
+              "sw_days": 415,
+              "em_days": 424,
+              "both_days": 333,
+              "either_days": 506
+            },
+            "warn": {
+              "sw_days": 113,
+              "em_days": 122,
+              "both_days": 56,
+              "either_days": 179
+            },
+            "bear": {
+              "sw_days": 355,
+              "em_days": 320,
+              "both_days": 245,
+              "either_days": 430
+            },
+            "rise": {
+              "sw_days": 121,
+              "em_days": 138,
+              "both_days": 72,
+              "either_days": 187
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 325,
+          "state_flip_days": 117,
+          "flip_breakdown": {
+            "bear->bull": 26,
+            "rise->bull": 22,
+            "bull->rise": 17,
+            "bull->warn": 11,
+            "warn->bear": 11,
+            "bear->warn": 9,
+            "warn->bull": 8,
+            "bear->rise": 6,
+            "bull->bear": 5,
+            "rise->bear": 2
+          },
+          "severe_bull_bear_flips": 31,
+          "strength_signed_gap_mean": 2.9255,
+          "strength_abs_gap_mean": 10.9334,
+          "strength_abs_gap_median": 7.757,
+          "strength_abs_gap_p90": 28.384,
+          "per_state": {
+            "bull": {
+              "sw_days": 226,
+              "em_days": 249,
+              "both_days": 193,
+              "either_days": 282
+            },
+            "warn": {
+              "sw_days": 39,
+              "em_days": 40,
+              "both_days": 20,
+              "either_days": 59
+            },
+            "bear": {
+              "sw_days": 120,
+              "em_days": 97,
+              "both_days": 79,
+              "either_days": 138
+            },
+            "rise": {
+              "sw_days": 57,
+              "em_days": 56,
+              "both_days": 33,
+              "either_days": 80
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 175,
+          "state_flip_days": 75,
+          "flip_breakdown": {
+            "bull->rise": 15,
+            "rise->bull": 11,
+            "bear->bull": 10,
+            "warn->bear": 10,
+            "bull->warn": 9,
+            "bear->warn": 6,
+            "bull->bear": 5,
+            "warn->bull": 4,
+            "bear->rise": 3,
+            "rise->bear": 2
+          },
+          "severe_bull_bear_flips": 15,
+          "strength_signed_gap_mean": 0.2802,
+          "strength_abs_gap_mean": 11.8279,
+          "strength_abs_gap_median": 8.7137,
+          "strength_abs_gap_p90": 29.7143,
+          "per_state": {
+            "bull": {
+              "sw_days": 111,
+              "em_days": 107,
+              "both_days": 82,
+              "either_days": 136
+            },
+            "warn": {
+              "sw_days": 24,
+              "em_days": 25,
+              "both_days": 10,
+              "either_days": 39
+            },
+            "bear": {
+              "sw_days": 82,
+              "em_days": 80,
+              "both_days": 63,
+              "either_days": 99
+            },
+            "rise": {
+              "sw_days": 33,
+              "em_days": 38,
+              "both_days": 20,
+              "either_days": 51
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "国防军工",
+      "sw_code": "801740",
+      "em_code": "BK1204",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 847,
+          "state_flip_days": 157,
+          "flip_breakdown": {
+            "bear->warn": 27,
+            "bear->rise": 23,
+            "warn->bear": 20,
+            "bull->warn": 19,
+            "rise->bear": 16,
+            "rise->bull": 16,
+            "bull->rise": 14,
+            "warn->bull": 12,
+            "bull->bear": 5,
+            "bear->bull": 5
+          },
+          "severe_bull_bear_flips": 10,
+          "strength_signed_gap_mean": 0.9413,
+          "strength_abs_gap_mean": 6.3958,
+          "strength_abs_gap_median": 4.9008,
+          "strength_abs_gap_p90": 14.0297,
+          "per_state": {
+            "bull": {
+              "sw_days": 368,
+              "em_days": 363,
+              "both_days": 330,
+              "either_days": 401
+            },
+            "warn": {
+              "sw_days": 92,
+              "em_days": 106,
+              "both_days": 60,
+              "either_days": 138
+            },
+            "bear": {
+              "sw_days": 423,
+              "em_days": 409,
+              "both_days": 368,
+              "either_days": 464
+            },
+            "rise": {
+              "sw_days": 121,
+              "em_days": 126,
+              "both_days": 89,
+              "either_days": 158
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 368,
+          "state_flip_days": 74,
+          "flip_breakdown": {
+            "rise->bull": 18,
+            "bear->rise": 15,
+            "warn->bull": 10,
+            "bear->bull": 7,
+            "rise->bear": 6,
+            "bear->warn": 5,
+            "warn->bear": 5,
+            "bull->rise": 5,
+            "bull->warn": 3
+          },
+          "severe_bull_bear_flips": 7,
+          "strength_signed_gap_mean": 3.2285,
+          "strength_abs_gap_mean": 5.6743,
+          "strength_abs_gap_median": 3.951,
+          "strength_abs_gap_p90": 13.0297,
+          "per_state": {
+            "bull": {
+              "sw_days": 164,
+              "em_days": 191,
+              "both_days": 156,
+              "either_days": 199
+            },
+            "warn": {
+              "sw_days": 43,
+              "em_days": 36,
+              "both_days": 28,
+              "either_days": 51
+            },
+            "bear": {
+              "sw_days": 169,
+              "em_days": 153,
+              "both_days": 142,
+              "either_days": 180
+            },
+            "rise": {
+              "sw_days": 66,
+              "em_days": 62,
+              "both_days": 42,
+              "either_days": 86
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 209,
+          "state_flip_days": 41,
+          "flip_breakdown": {
+            "bear->rise": 12,
+            "rise->bull": 11,
+            "rise->bear": 5,
+            "bear->bull": 3,
+            "bear->warn": 3,
+            "bull->rise": 3,
+            "bull->warn": 2,
+            "warn->bear": 2
+          },
+          "severe_bull_bear_flips": 3,
+          "strength_signed_gap_mean": 2.0939,
+          "strength_abs_gap_mean": 5.4543,
+          "strength_abs_gap_median": 3.7923,
+          "strength_abs_gap_p90": 13.4584,
+          "per_state": {
+            "bull": {
+              "sw_days": 66,
+              "em_days": 75,
+              "both_days": 61,
+              "either_days": 80
+            },
+            "warn": {
+              "sw_days": 23,
+              "em_days": 26,
+              "both_days": 21,
+              "either_days": 28
+            },
+            "bear": {
+              "sw_days": 120,
+              "em_days": 109,
+              "both_days": 102,
+              "either_days": 127
+            },
+            "rise": {
+              "sw_days": 41,
+              "em_days": 40,
+              "both_days": 25,
+              "either_days": 56
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "计算机",
+      "sw_code": "801750",
+      "em_code": "BK1207",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 798,
+          "state_flip_days": 206,
+          "flip_breakdown": {
+            "bear->rise": 53,
+            "rise->bull": 38,
+            "warn->bull": 35,
+            "rise->bear": 23,
+            "bear->warn": 20,
+            "bull->rise": 12,
+            "bear->bull": 11,
+            "bull->warn": 7,
+            "bull->bear": 3,
+            "warn->bear": 3,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 14,
+          "strength_signed_gap_mean": 4.5692,
+          "strength_abs_gap_mean": 8.6949,
+          "strength_abs_gap_median": 6.7609,
+          "strength_abs_gap_p90": 18.7416,
+          "per_state": {
+            "bull": {
+              "sw_days": 321,
+              "em_days": 383,
+              "both_days": 299,
+              "either_days": 405
+            },
+            "warn": {
+              "sw_days": 84,
+              "em_days": 74,
+              "both_days": 46,
+              "either_days": 112
+            },
+            "bear": {
+              "sw_days": 465,
+              "em_days": 410,
+              "both_days": 381,
+              "either_days": 494
+            },
+            "rise": {
+              "sw_days": 134,
+              "em_days": 137,
+              "both_days": 72,
+              "either_days": 199
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 349,
+          "state_flip_days": 93,
+          "flip_breakdown": {
+            "bear->rise": 23,
+            "bear->warn": 16,
+            "bear->bull": 16,
+            "warn->bull": 10,
+            "rise->bull": 8,
+            "bull->warn": 8,
+            "rise->bear": 6,
+            "warn->bear": 3,
+            "warn->rise": 2,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 16,
+          "strength_signed_gap_mean": 5.7464,
+          "strength_abs_gap_mean": 8.4785,
+          "strength_abs_gap_median": 6.7609,
+          "strength_abs_gap_p90": 19.7309,
+          "per_state": {
+            "bull": {
+              "sw_days": 146,
+              "em_days": 171,
+              "both_days": 137,
+              "either_days": 180
+            },
+            "warn": {
+              "sw_days": 44,
+              "em_days": 53,
+              "both_days": 29,
+              "either_days": 68
+            },
+            "bear": {
+              "sw_days": 197,
+              "em_days": 151,
+              "both_days": 142,
+              "either_days": 206
+            },
+            "rise": {
+              "sw_days": 55,
+              "em_days": 67,
+              "both_days": 41,
+              "either_days": 81
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 195,
+          "state_flip_days": 55,
+          "flip_breakdown": {
+            "bear->rise": 14,
+            "bear->bull": 12,
+            "bear->warn": 10,
+            "warn->bull": 7,
+            "rise->bear": 6,
+            "warn->rise": 2,
+            "rise->bull": 2,
+            "bull->rise": 1,
+            "warn->bear": 1
+          },
+          "severe_bull_bear_flips": 12,
+          "strength_signed_gap_mean": 6.1761,
+          "strength_abs_gap_mean": 8.5565,
+          "strength_abs_gap_median": 6.7289,
+          "strength_abs_gap_p90": 19.4224,
+          "per_state": {
+            "bull": {
+              "sw_days": 50,
+              "em_days": 70,
+              "both_days": 49,
+              "either_days": 71
+            },
+            "warn": {
+              "sw_days": 23,
+              "em_days": 23,
+              "both_days": 13,
+              "either_days": 33
+            },
+            "bear": {
+              "sw_days": 148,
+              "em_days": 119,
+              "both_days": 112,
+              "either_days": 155
+            },
+            "rise": {
+              "sw_days": 29,
+              "em_days": 38,
+              "both_days": 21,
+              "either_days": 46
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "传媒",
+      "sw_code": "801760",
+      "em_code": "BK0486",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 800,
+          "state_flip_days": 204,
+          "flip_breakdown": {
+            "bear->rise": 37,
+            "bear->warn": 36,
+            "rise->bull": 27,
+            "warn->bull": 25,
+            "bear->bull": 24,
+            "rise->bear": 17,
+            "bull->rise": 12,
+            "bull->warn": 11,
+            "warn->bear": 10,
+            "rise->warn": 4,
+            "bull->bear": 1
+          },
+          "severe_bull_bear_flips": 25,
+          "strength_signed_gap_mean": 4.4165,
+          "strength_abs_gap_mean": 8.608,
+          "strength_abs_gap_median": 6.2651,
+          "strength_abs_gap_p90": 19.2492,
+          "per_state": {
+            "bull": {
+              "sw_days": 332,
+              "em_days": 384,
+              "both_days": 308,
+              "either_days": 408
+            },
+            "warn": {
+              "sw_days": 79,
+              "em_days": 95,
+              "both_days": 44,
+              "either_days": 130
+            },
+            "bear": {
+              "sw_days": 462,
+              "em_days": 393,
+              "both_days": 365,
+              "either_days": 490
+            },
+            "rise": {
+              "sw_days": 131,
+              "em_days": 132,
+              "both_days": 83,
+              "either_days": 180
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 336,
+          "state_flip_days": 106,
+          "flip_breakdown": {
+            "rise->bull": 20,
+            "bear->rise": 16,
+            "bear->warn": 16,
+            "warn->bull": 11,
+            "warn->bear": 10,
+            "bull->warn": 10,
+            "bear->bull": 10,
+            "bull->bear": 5,
+            "rise->bear": 4,
+            "bull->rise": 2,
+            "warn->rise": 2
+          },
+          "severe_bull_bear_flips": 15,
+          "strength_signed_gap_mean": 1.2361,
+          "strength_abs_gap_mean": 9.2686,
+          "strength_abs_gap_median": 6.145,
+          "strength_abs_gap_p90": 22.2142,
+          "per_state": {
+            "bull": {
+              "sw_days": 165,
+              "em_days": 189,
+              "both_days": 148,
+              "either_days": 206
+            },
+            "warn": {
+              "sw_days": 40,
+              "em_days": 43,
+              "both_days": 17,
+              "either_days": 66
+            },
+            "bear": {
+              "sw_days": 168,
+              "em_days": 145,
+              "both_days": 126,
+              "either_days": 187
+            },
+            "rise": {
+              "sw_days": 69,
+              "em_days": 65,
+              "both_days": 45,
+              "either_days": 89
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 177,
+          "state_flip_days": 73,
+          "flip_breakdown": {
+            "rise->bull": 19,
+            "bear->warn": 16,
+            "bear->rise": 11,
+            "warn->bull": 11,
+            "bear->bull": 10,
+            "rise->bear": 3,
+            "warn->rise": 2,
+            "bull->rise": 1
+          },
+          "severe_bull_bear_flips": 10,
+          "strength_signed_gap_mean": 7.4766,
+          "strength_abs_gap_mean": 9.4466,
+          "strength_abs_gap_median": 6.4907,
+          "strength_abs_gap_p90": 21.8045,
+          "per_state": {
+            "bull": {
+              "sw_days": 55,
+              "em_days": 94,
+              "both_days": 54,
+              "either_days": 95
+            },
+            "warn": {
+              "sw_days": 20,
+              "em_days": 23,
+              "both_days": 7,
+              "either_days": 36
+            },
+            "bear": {
+              "sw_days": 134,
+              "em_days": 100,
+              "both_days": 97,
+              "either_days": 137
+            },
+            "rise": {
+              "sw_days": 41,
+              "em_days": 33,
+              "both_days": 19,
+              "either_days": 55
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "通信",
+      "sw_code": "801770",
+      "em_code": "BK1215",
+      "common_days": 3070,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1004,
+          "state_match_days": 754,
+          "state_flip_days": 250,
+          "flip_breakdown": {
+            "rise->bull": 48,
+            "bull->rise": 41,
+            "bear->rise": 39,
+            "warn->bull": 27,
+            "bull->warn": 20,
+            "bear->warn": 18,
+            "bear->bull": 17,
+            "warn->bear": 17,
+            "rise->bear": 14,
+            "bull->bear": 8,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 25,
+          "strength_signed_gap_mean": 2.6109,
+          "strength_abs_gap_mean": 9.2253,
+          "strength_abs_gap_median": 6.5265,
+          "strength_abs_gap_p90": 21.8579,
+          "per_state": {
+            "bull": {
+              "sw_days": 384,
+              "em_days": 407,
+              "both_days": 315,
+              "either_days": 476
+            },
+            "warn": {
+              "sw_days": 109,
+              "em_days": 104,
+              "both_days": 65,
+              "either_days": 148
+            },
+            "bear": {
+              "sw_days": 386,
+              "em_days": 351,
+              "both_days": 312,
+              "either_days": 425
+            },
+            "rise": {
+              "sw_days": 125,
+              "em_days": 142,
+              "both_days": 62,
+              "either_days": 205
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 311,
+          "state_flip_days": 131,
+          "flip_breakdown": {
+            "bull->warn": 28,
+            "warn->bull": 21,
+            "warn->bear": 15,
+            "bull->bear": 13,
+            "bear->bull": 12,
+            "rise->bull": 11,
+            "bear->warn": 10,
+            "bear->rise": 10,
+            "warn->rise": 7,
+            "bull->rise": 3,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 25,
+          "strength_signed_gap_mean": -0.5069,
+          "strength_abs_gap_mean": 13.6539,
+          "strength_abs_gap_median": 9.2556,
+          "strength_abs_gap_p90": 32.8369,
+          "per_state": {
+            "bull": {
+              "sw_days": 248,
+              "em_days": 248,
+              "both_days": 204,
+              "either_days": 292
+            },
+            "warn": {
+              "sw_days": 52,
+              "em_days": 48,
+              "both_days": 9,
+              "either_days": 91
+            },
+            "bear": {
+              "sw_days": 101,
+              "em_days": 97,
+              "both_days": 69,
+              "either_days": 129
+            },
+            "rise": {
+              "sw_days": 41,
+              "em_days": 49,
+              "both_days": 29,
+              "either_days": 61
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 156,
+          "state_flip_days": 94,
+          "flip_breakdown": {
+            "bull->warn": 20,
+            "bull->bear": 13,
+            "warn->bear": 13,
+            "bear->bull": 11,
+            "warn->bull": 8,
+            "bear->rise": 8,
+            "warn->rise": 7,
+            "rise->bull": 7,
+            "bull->rise": 3,
+            "bear->warn": 3,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 24,
+          "strength_signed_gap_mean": -2.766,
+          "strength_abs_gap_mean": 17.672,
+          "strength_abs_gap_median": 13.6643,
+          "strength_abs_gap_p90": 40.7046,
+          "per_state": {
+            "bull": {
+              "sw_days": 135,
+              "em_days": 125,
+              "both_days": 99,
+              "either_days": 161
+            },
+            "warn": {
+              "sw_days": 34,
+              "em_days": 30,
+              "both_days": 6,
+              "either_days": 58
+            },
+            "bear": {
+              "sw_days": 64,
+              "em_days": 68,
+              "both_days": 42,
+              "either_days": 90
+            },
+            "rise": {
+              "sw_days": 17,
+              "em_days": 27,
+              "both_days": 9,
+              "either_days": 35
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "煤炭",
+      "sw_code": "801950",
+      "em_code": "BK0437",
+      "common_days": 3077,
+      "common_start": "2014-02-21",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2020-10-30",
+          "end": "2024-12-31",
+          "sector_days": 1007,
+          "state_match_days": 799,
+          "state_flip_days": 208,
+          "flip_breakdown": {
+            "warn->bull": 37,
+            "bear->warn": 29,
+            "warn->bear": 26,
+            "bear->bull": 22,
+            "bull->rise": 19,
+            "bull->warn": 18,
+            "rise->bull": 17,
+            "bull->bear": 14,
+            "bear->rise": 12,
+            "rise->bear": 11,
+            "rise->warn": 2,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 36,
+          "strength_signed_gap_mean": 1.3615,
+          "strength_abs_gap_mean": 7.702,
+          "strength_abs_gap_median": 5.2352,
+          "strength_abs_gap_p90": 16.5915,
+          "per_state": {
+            "bull": {
+              "sw_days": 432,
+              "em_days": 457,
+              "both_days": 381,
+              "either_days": 508
+            },
+            "warn": {
+              "sw_days": 193,
+              "em_days": 178,
+              "both_days": 129,
+              "either_days": 242
+            },
+            "bear": {
+              "sw_days": 303,
+              "em_days": 291,
+              "both_days": 240,
+              "either_days": 354
+            },
+            "rise": {
+              "sw_days": 79,
+              "em_days": 81,
+              "both_days": 49,
+              "either_days": 111
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 332,
+          "state_flip_days": 110,
+          "flip_breakdown": {
+            "bear->bull": 20,
+            "rise->bull": 18,
+            "bull->rise": 12,
+            "bull->warn": 12,
+            "warn->bear": 12,
+            "bear->rise": 11,
+            "rise->bear": 11,
+            "warn->bull": 6,
+            "bear->warn": 5,
+            "bull->bear": 3
+          },
+          "severe_bull_bear_flips": 23,
+          "strength_signed_gap_mean": 2.1589,
+          "strength_abs_gap_mean": 8.2289,
+          "strength_abs_gap_median": 6.116,
+          "strength_abs_gap_p90": 17.6149,
+          "per_state": {
+            "bull": {
+              "sw_days": 173,
+              "em_days": 190,
+              "both_days": 146,
+              "either_days": 217
+            },
+            "warn": {
+              "sw_days": 68,
+              "em_days": 67,
+              "both_days": 50,
+              "either_days": 85
+            },
+            "bear": {
+              "sw_days": 150,
+              "em_days": 140,
+              "both_days": 114,
+              "either_days": 176
+            },
+            "rise": {
+              "sw_days": 51,
+              "em_days": 45,
+              "both_days": 22,
+              "either_days": 74
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 204,
+          "state_flip_days": 46,
+          "flip_breakdown": {
+            "warn->bear": 12,
+            "bull->warn": 9,
+            "bull->rise": 8,
+            "bear->rise": 4,
+            "warn->bull": 3,
+            "bull->bear": 3,
+            "bear->warn": 2,
+            "rise->bear": 2,
+            "rise->bull": 2,
+            "bear->bull": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": -1.5967,
+          "strength_abs_gap_mean": 6.712,
+          "strength_abs_gap_median": 4.7835,
+          "strength_abs_gap_p90": 14.2719,
+          "per_state": {
+            "bull": {
+              "sw_days": 111,
+              "em_days": 97,
+              "both_days": 91,
+              "either_days": 117
+            },
+            "warn": {
+              "sw_days": 50,
+              "em_days": 46,
+              "both_days": 35,
+              "either_days": 61
+            },
+            "bear": {
+              "sw_days": 68,
+              "em_days": 78,
+              "both_days": 61,
+              "either_days": 85
+            },
+            "rise": {
+              "sw_days": 21,
+              "em_days": 29,
+              "both_days": 17,
+              "either_days": 33
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "石油石化",
+      "sw_code": "801960",
+      "em_code": "BK0464",
+      "common_days": 1176,
+      "common_start": "2021-12-13",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2022-03-15",
+          "end": "2024-12-31",
+          "sector_days": 675,
+          "state_match_days": 379,
+          "state_flip_days": 296,
+          "flip_breakdown": {
+            "bear->bull": 54,
+            "rise->bull": 41,
+            "bear->warn": 36,
+            "warn->bull": 32,
+            "bull->bear": 28,
+            "rise->bear": 26,
+            "bull->rise": 25,
+            "bear->rise": 23,
+            "warn->bear": 19,
+            "bull->warn": 9,
+            "rise->warn": 2,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 82,
+          "strength_signed_gap_mean": 4.2789,
+          "strength_abs_gap_mean": 15.6228,
+          "strength_abs_gap_median": 11.5868,
+          "strength_abs_gap_p90": 35.4988,
+          "per_state": {
+            "bull": {
+              "sw_days": 225,
+              "em_days": 290,
+              "both_days": 163,
+              "either_days": 352
+            },
+            "warn": {
+              "sw_days": 98,
+              "em_days": 93,
+              "both_days": 46,
+              "either_days": 145
+            },
+            "bear": {
+              "sw_days": 265,
+              "em_days": 225,
+              "both_days": 152,
+              "either_days": 338
+            },
+            "rise": {
+              "sw_days": 87,
+              "em_days": 67,
+              "both_days": 18,
+              "either_days": 136
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 338,
+          "state_flip_days": 104,
+          "flip_breakdown": {
+            "bear->bull": 17,
+            "warn->bull": 14,
+            "bear->rise": 13,
+            "bull->bear": 13,
+            "rise->bull": 11,
+            "warn->bear": 10,
+            "bull->rise": 9,
+            "rise->bear": 9,
+            "bull->warn": 4,
+            "bear->warn": 3,
+            "rise->warn": 1
+          },
+          "severe_bull_bear_flips": 30,
+          "strength_signed_gap_mean": 2.1576,
+          "strength_abs_gap_mean": 10.0979,
+          "strength_abs_gap_median": 6.6358,
+          "strength_abs_gap_p90": 22.7549,
+          "per_state": {
+            "bull": {
+              "sw_days": 177,
+              "em_days": 193,
+              "both_days": 151,
+              "either_days": 219
+            },
+            "warn": {
+              "sw_days": 97,
+              "em_days": 81,
+              "both_days": 73,
+              "either_days": 105
+            },
+            "bear": {
+              "sw_days": 125,
+              "em_days": 124,
+              "both_days": 92,
+              "either_days": 157
+            },
+            "rise": {
+              "sw_days": 43,
+              "em_days": 44,
+              "both_days": 22,
+              "either_days": 65
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 206,
+          "state_flip_days": 44,
+          "flip_breakdown": {
+            "bull->bear": 13,
+            "warn->bear": 10,
+            "rise->bear": 9,
+            "bull->rise": 5,
+            "bull->warn": 3,
+            "warn->bull": 2,
+            "bear->rise": 2
+          },
+          "severe_bull_bear_flips": 13,
+          "strength_signed_gap_mean": -3.7225,
+          "strength_abs_gap_mean": 8.3309,
+          "strength_abs_gap_median": 5.3959,
+          "strength_abs_gap_p90": 21.2014,
+          "per_state": {
+            "bull": {
+              "sw_days": 116,
+              "em_days": 97,
+              "both_days": 95,
+              "either_days": 118
+            },
+            "warn": {
+              "sw_days": 60,
+              "em_days": 51,
+              "both_days": 48,
+              "either_days": 63
+            },
+            "bear": {
+              "sw_days": 59,
+              "em_days": 89,
+              "both_days": 57,
+              "either_days": 91
+            },
+            "rise": {
+              "sw_days": 15,
+              "em_days": 13,
+              "both_days": 6,
+              "either_days": 22
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "环保",
+      "sw_code": "801970",
+      "em_code": "BK0728",
+      "common_days": 1176,
+      "common_start": "2021-12-13",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2022-03-15",
+          "end": "2024-12-31",
+          "sector_days": 675,
+          "state_match_days": 552,
+          "state_flip_days": 123,
+          "flip_breakdown": {
+            "rise->bull": 27,
+            "bear->warn": 24,
+            "warn->bull": 18,
+            "bear->rise": 12,
+            "rise->bear": 10,
+            "warn->bear": 8,
+            "bull->warn": 7,
+            "bear->bull": 7,
+            "bull->rise": 6,
+            "bull->bear": 3,
+            "warn->rise": 1
+          },
+          "severe_bull_bear_flips": 10,
+          "strength_signed_gap_mean": 2.0628,
+          "strength_abs_gap_mean": 6.6631,
+          "strength_abs_gap_median": 5.0035,
+          "strength_abs_gap_p90": 14.6786,
+          "per_state": {
+            "bull": {
+              "sw_days": 203,
+              "em_days": 239,
+              "both_days": 187,
+              "either_days": 255
+            },
+            "warn": {
+              "sw_days": 62,
+              "em_days": 66,
+              "both_days": 35,
+              "either_days": 93
+            },
+            "bear": {
+              "sw_days": 278,
+              "em_days": 256,
+              "both_days": 235,
+              "either_days": 299
+            },
+            "rise": {
+              "sw_days": 132,
+              "em_days": 114,
+              "both_days": 95,
+              "either_days": 151
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 383,
+          "state_flip_days": 59,
+          "flip_breakdown": {
+            "bear->warn": 20,
+            "warn->bull": 13,
+            "rise->bull": 12,
+            "bear->rise": 5,
+            "bear->bull": 4,
+            "bull->warn": 3,
+            "warn->bear": 1,
+            "rise->bear": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 5.0305,
+          "strength_abs_gap_mean": 6.1316,
+          "strength_abs_gap_median": 4.7332,
+          "strength_abs_gap_p90": 13.8445,
+          "per_state": {
+            "bull": {
+              "sw_days": 222,
+              "em_days": 248,
+              "both_days": 219,
+              "either_days": 251
+            },
+            "warn": {
+              "sw_days": 36,
+              "em_days": 45,
+              "both_days": 22,
+              "either_days": 59
+            },
+            "bear": {
+              "sw_days": 132,
+              "em_days": 105,
+              "both_days": 103,
+              "either_days": 134
+            },
+            "rise": {
+              "sw_days": 52,
+              "em_days": 44,
+              "both_days": 39,
+              "either_days": 57
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 210,
+          "state_flip_days": 40,
+          "flip_breakdown": {
+            "bear->warn": 20,
+            "rise->bull": 7,
+            "warn->bull": 5,
+            "bear->bull": 4,
+            "bull->warn": 1,
+            "warn->bear": 1,
+            "bear->rise": 1,
+            "rise->bear": 1
+          },
+          "severe_bull_bear_flips": 4,
+          "strength_signed_gap_mean": 4.7506,
+          "strength_abs_gap_mean": 6.1952,
+          "strength_abs_gap_median": 4.7332,
+          "strength_abs_gap_p90": 13.6797,
+          "per_state": {
+            "bull": {
+              "sw_days": 100,
+              "em_days": 115,
+              "both_days": 99,
+              "either_days": 116
+            },
+            "warn": {
+              "sw_days": 15,
+              "em_days": 30,
+              "both_days": 9,
+              "either_days": 36
+            },
+            "bear": {
+              "sw_days": 108,
+              "em_days": 85,
+              "both_days": 83,
+              "either_days": 110
+            },
+            "rise": {
+              "sw_days": 27,
+              "em_days": 20,
+              "both_days": 19,
+              "either_days": 28
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "美容护理",
+      "sw_code": "801980",
+      "em_code": "BK1035",
+      "common_days": 1176,
+      "common_start": "2021-12-13",
+      "common_end": "2026-11-03",
+      "windows": {
+        "研究段": {
+          "segment": "研究段",
+          "start": "2022-03-15",
+          "end": "2024-12-31",
+          "sector_days": 675,
+          "state_match_days": 447,
+          "state_flip_days": 228,
+          "flip_breakdown": {
+            "bear->rise": 52,
+            "warn->bull": 40,
+            "rise->bull": 35,
+            "bear->bull": 31,
+            "rise->bear": 26,
+            "bear->warn": 24,
+            "bull->rise": 14,
+            "bull->warn": 3,
+            "warn->rise": 3
+          },
+          "severe_bull_bear_flips": 31,
+          "strength_signed_gap_mean": 7.4806,
+          "strength_abs_gap_mean": 13.4276,
+          "strength_abs_gap_median": 11.1154,
+          "strength_abs_gap_p90": 27.1114,
+          "per_state": {
+            "bull": {
+              "sw_days": 162,
+              "em_days": 251,
+              "both_days": 145,
+              "either_days": 268
+            },
+            "warn": {
+              "sw_days": 64,
+              "em_days": 48,
+              "both_days": 21,
+              "either_days": 91
+            },
+            "bear": {
+              "sw_days": 340,
+              "em_days": 259,
+              "both_days": 233,
+              "either_days": 366
+            },
+            "rise": {
+              "sw_days": 109,
+              "em_days": 117,
+              "both_days": 48,
+              "either_days": 178
+            }
+          }
+        },
+        "验证段": {
+          "segment": "验证段",
+          "start": "2025-01-02",
+          "end": "2026-11-03",
+          "sector_days": 442,
+          "state_match_days": 297,
+          "state_flip_days": 145,
+          "flip_breakdown": {
+            "bear->warn": 34,
+            "rise->bull": 28,
+            "bear->rise": 23,
+            "bear->bull": 20,
+            "warn->bull": 19,
+            "rise->bear": 9,
+            "bull->rise": 7,
+            "bull->bear": 3,
+            "warn->bear": 2
+          },
+          "severe_bull_bear_flips": 23,
+          "strength_signed_gap_mean": 9.4209,
+          "strength_abs_gap_mean": 11.3065,
+          "strength_abs_gap_median": 10.1715,
+          "strength_abs_gap_p90": 22.59,
+          "per_state": {
+            "bull": {
+              "sw_days": 131,
+              "em_days": 188,
+              "both_days": 121,
+              "either_days": 198
+            },
+            "warn": {
+              "sw_days": 31,
+              "em_days": 44,
+              "both_days": 10,
+              "either_days": 65
+            },
+            "bear": {
+              "sw_days": 210,
+              "em_days": 147,
+              "both_days": 133,
+              "either_days": 224
+            },
+            "rise": {
+              "sw_days": 70,
+              "em_days": 63,
+              "both_days": 33,
+              "either_days": 100
+            }
+          }
+        },
+        "展示窗口": {
+          "segment": "展示窗口",
+          "start": "2025-10-22",
+          "end": "2026-11-03",
+          "sector_days": 250,
+          "state_match_days": 179,
+          "state_flip_days": 71,
+          "flip_breakdown": {
+            "bear->rise": 15,
+            "rise->bull": 14,
+            "bear->bull": 13,
+            "bull->rise": 7,
+            "bear->warn": 6,
+            "rise->bear": 6,
+            "warn->bull": 5,
+            "bull->bear": 3,
+            "warn->bear": 2
+          },
+          "severe_bull_bear_flips": 16,
+          "strength_signed_gap_mean": 7.3955,
+          "strength_abs_gap_mean": 10.1293,
+          "strength_abs_gap_median": 8.0357,
+          "strength_abs_gap_p90": 20.8412,
+          "per_state": {
+            "bull": {
+              "sw_days": 48,
+              "em_days": 70,
+              "both_days": 38,
+              "either_days": 80
+            },
+            "warn": {
+              "sw_days": 10,
+              "em_days": 9,
+              "both_days": 3,
+              "either_days": 16
+            },
+            "bear": {
+              "sw_days": 145,
+              "em_days": 122,
+              "both_days": 111,
+              "either_days": 156
+            },
+            "rise": {
+              "sw_days": 47,
+              "em_days": 49,
+              "both_days": 27,
+              "either_days": 69
+            }
+          }
+        }
+      }
+    }
+  ],
+  "note": "对照结果仅作换源核对，不进入生产链路；两遍计算使用同一套四态与有向强度算法，差异全部来自数据源切换。展示窗口为最近 250 个两源均有状态的交易日，统计区间按板块分别取起止后合并。"
+}

@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalHub · 信号指标中心</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9f4',
+                            100: '#dcf0e6',
+                            200: '#bbe0cd',
+                            300: '#8cc9aa',
+                            400: '#5aaf83',
+                            500: '#3a9a6a',
+                            600: '#2d7d56',
+                            700: '#266346',
+                            800: '#224f39',
+                            900: '#1d4130',
+                        },
+                        ocean: {
+                            50: '#f0f7ff',
+                            100: '#e0efff',
+                            200: '#b8dbff',
+                            300: '#7ab8ff',
+                            400: '#3a90f5',
+                            500: '#1a73e8',
+                            600: '#0d5cc0',
+                            700: '#0a4899',
+                        },
+                        coral: {
+                            50: '#fff5f0',
+                            100: '#ffe8db',
+                            200: '#ffcdb3',
+                            300: '#ffaa80',
+                            400: '#ff8552',
+                            500: '#f26522',
+                            600: '#d94e1a',
+                            700: '#b33d17',
+                        },
+                        mint: {
+                            50: '#f0fdf9',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f9f4 50%, #f0f7ff 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.03);
+            transform: translateY(-2px);
+        }
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+            background: rgba(58, 154, 106, 0.08);
+            color: #2d7d56;
+        }
+        .nav-item.active {
+            background: rgba(58, 154, 106, 0.1);
+            color: #2d7d56;
+            border-right: 3px solid #3a9a6a;
+        }
+        .trend-up { color: #14b8a6; }
+        .trend-down { color: #f26522; }
+        .badge-confirm {
+            background: linear-gradient(135deg, #3a9a6a, #2dd4bf);
+            color: white;
+        }
+        .badge-pending {
+            background: linear-gradient(135deg, #f26522, #ffaa80);
+            color: white;
+        }
+        .chart-placeholder {
+            background: linear-gradient(180deg, rgba(58,154,106,0.05) 0%, rgba(26,115,232,0.03) 100%);
+        }
+        .sidebar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+        }
+        .metric-value {
+            background: linear-gradient(135deg, #2d7d56, #3a9a6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .signal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .signal-dot.confirm { background: #14b8a6; box-shadow: 0 0 6px rgba(20,184,166,0.4); }
+        .signal-dot.pending { background: #f26522; box-shadow: 0 0 6px rgba(242,101,34,0.4); }
+        .signal-dot.neutral { background: #94a3b8; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .page-transition {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 flex-shrink-0 border-r border-slate-100 flex flex-col">
+            <div class="p-6 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-mint-400 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-brand-200/50">
+                        S
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-800 text-lg leading-tight">SignalHub</h1>
+                        <p class="text-xs text-slate-400">信号指标中心</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto py-4">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">概览</span>
+                </div>
+                <a href="#" onclick="showPage('dashboard')" id="nav-dashboard" class="nav-item active flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    指标总览
+                </a>
+
+                <div class="px-4 mt-6 mb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">信号指标</span>
+                </div>
+                <a href="#" onclick="showPage('ma-cross')" id="nav-ma-cross" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    均线交叉
+                </a>
+                <a href="#" onclick="showPage('momentum')" id="nav-momentum" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+                    动量指标
+                </a>
+                <a href="#" onclick="showPage('bollinger')" id="nav-bollinger" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                    布林带
+                </a>
+                <a href="#" onclick="showPage('volume')" id="nav-volume" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    量能指标
+                </a>
+                <a href="#" onclick="showPage('drawdown')" id="nav-drawdown" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    回撤/反弹
+                </a>
+                <a href="#" onclick="showPage('composite')" id="nav-composite" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    综合评分
+                </a>
+
+                <div class="px-4 mt-6 mb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">指数</span>
+                </div>
+                <a href="#" onclick="showPage('indices')" id="nav-indices" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+                    宽基指数
+                </a>
+
+                <div class="px-4 mt-6 mb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">机构持仓</span>
+                </div>
+                <a href="#" onclick="showPage('institution')" id="nav-institution" class="nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+                    机构多空单
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <div class="glass-card rounded-xl p-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-2 h-2 rounded-full bg-mint-500 animate-pulse"></div>
+                        <span class="text-xs font-medium text-slate-600">系统状态</span>
+                    </div>
+                    <p class="text-xs text-slate-400">数据实时同步中</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Top Bar -->
+            <header class="sticky top-0 z-10 glass-card border-b border-slate-100 px-8 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <h2 id="page-title" class="text-xl font-bold text-slate-800">指标总览</h2>
+                    <span class="text-sm text-slate-400">|</span>
+                    <span class="text-sm text-slate-500">2026-10-31</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-1.5 border border-slate-200">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <input type="text" placeholder="搜索指标..." class="bg-transparent text-sm outline-none w-48 text-slate-600 placeholder-slate-400">
+                    </div>
+                    <button class="p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page-transition p-8">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">今日确认信号</span>
+                            <span class="badge-confirm text-xs px-2.5 py-1 rounded-full font-medium">3</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold metric-value">12</span>
+                            <span class="text-sm text-mint-600 font-medium mb-1">↑ 2</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">较昨日增加</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.05s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">待确认候选</span>
+                            <span class="badge-pending text-xs px-2.5 py-1 rounded-full font-medium">观察</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-coral-500">8</span>
+                            <span class="text-sm text-slate-400 mb-1">个</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">1-3日内确认</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.1s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">平均胜率</span>
+                            <span class="bg-ocean-100 text-ocean-700 text-xs px-2.5 py-1 rounded-full font-medium">稳健</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-ocean-600">68.5%</span>
+                            <span class="text-sm text-mint-600 font-medium mb-1">↑ 1.2%</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">近30日统计</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.15s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">活跃指数</span>
+                            <span class="bg-brand-100 text-brand-700 text-xs px-2.5 py-1 rounded-full font-medium">7个</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-slate-700">沪深300</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">信号最活跃</p>
+                    </div>
+                </div>
+
+                <!-- Signal Status Table -->
+                <div class="glass-card rounded-2xl p-6 mb-8 fade-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-slate-800">最新信号状态</h3>
+                        <div class="flex gap-2">
+                            <span class="flex items-center gap-1 text-xs text-slate-500"><span class="signal-dot confirm"></span>已确认</span>
+                            <span class="flex items-center gap-1 text-xs text-slate-500"><span class="signal-dot pending"></span>待确认</span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-slate-100">
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">时间</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">指数</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">指标</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">信号类型</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">状态</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">确认层数</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-3 px-4 text-slate-600">10-31 14:30</td>
+                                    <td class="py-3 px-4 font-medium text-slate-800">沪深300</td>
+                                    <td class="py-3 px-4 text-slate-600">均线交叉</td>
+                                    <td class="py-3 px-4"><span class="text-mint-600 font-medium">买入</span></td>
+                                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-mint-50 text-mint-700"><span class="signal-dot confirm"></span>已确认</span></td>
+                                    <td class="py-3 px-4"><span class="text-xs font-medium text-slate-600">3/3 层</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-3 px-4 text-slate-600">10-31 14:28</td>
+                                    <td class="py-3 px-4 font-medium text-slate-800">中证500</td>
+                                    <td class="py-3 px-4 text-slate-600">动量指标</td>
+                                    <td class="py-3 px-4"><span class="text-coral-500 font-medium">卖出</span></td>
+                                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-coral-50 text-coral-600"><span class="signal-dot pending"></span>待确认</span></td>
+                                    <td class="py-3 px-4"><span class="text-xs font-medium text-slate-600">1/3 层</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-3 px-4 text-slate-600">10-31 14:15</td>
+                                    <td class="py-3 px-4 font-medium text-slate-800">上证50</td>
+                                    <td class="py-3 px-4 text-slate-600">布林带</td>
+                                    <td class="py-3 px-4"><span class="text-mint-600 font-medium">买入</span></td>
+                                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-mint-50 text-mint-700"><span class="signal-dot confirm"></span>已确认</span></td>
+                                    <td class="py-3 px-4"><span class="text-xs font-medium text-slate-600">3/3 层</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-3 px-4 text-slate-600">10-31 13:52</td>
+                                    <td class="py-3 px-4 font-medium text-slate-800">创业板指</td>
+                                    <td class="py-3 px-4 text-slate-600">量能指标</td>
+                                    <td class="py-3 px-4"><span class="text-mint-600 font-medium">买入</span></td>
+                                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-500"><span class="signal-dot neutral"></span>观察中</span></td>
+                                    <td class="py-3 px-4"><span class="text-xs font-medium text-slate-600">0/3 层</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-3 px-4 text-slate-600">10-31 11:20</td>
+                                    <td class="py-3 px-4 font-medium text-slate-800">科创50</td>
+                                    <td class="py-3 px-4 text-slate-600">综合评分</td>
+                                    <td class="py-3 px-4"><span class="text-coral-500 font-medium">卖出</span></td>
+                                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-mint-50 text-mint-700"><span class="signal-dot confirm"></span>已确认</span></td>
+                                    <td class="py-3 px-4"><span class="text-xs font-medium text-slate-600">3/3 层</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Index Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in" style="animation-delay: 0.25s">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">7大宽基指数信号分布</h3>
+                        <div class="chart-placeholder rounded-xl h-48 flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 mx-auto mb-2 text-brand-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+                                <p class="text-sm text-slate-400">环形图占位 - 各指数信号占比</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">近30日信号趋势</h3>
+                        <div class="chart-placeholder rounded-xl h-48 flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 mx-auto mb-2 text-ocean-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                                <p class="text-sm text-slate-400">折线图占位 - 信号数量趋势</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicator Detail Page Template -->
+            <div id="page-ma-cross" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-mint-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">均线交叉</h3>
+                        <p class="text-sm text-slate-500">MA Crossover · 基于短期与长期均线交叉点的趋势确认信号</p>
+                    </div>
+                    <div class="ml-auto flex gap-3">
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-mint-50 text-mint-700"><span class="signal-dot confirm"></span>今日确认 3</span>
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-coral-50 text-coral-600"><span class="signal-dot pending"></span>待确认 2</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="lg:col-span-2 glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-slate-800">信号历史走势</h4>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 text-xs rounded-lg bg-brand-50 text-brand-700 font-medium">近7日</button>
+                                <button class="px-3 py-1 text-xs rounded-lg hover:bg-slate-100 text-slate-500">近30日</button>
+                                <button class="px-3 py-1 text-xs rounded-lg hover:bg-slate-100 text-slate-500">近90日</button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder rounded-xl h-64 flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 mx-auto mb-2 text-brand-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                                <p class="text-sm text-slate-400">K线图 + 均线 + 信号标记</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="glass-card rounded-2xl p-6">
+                            <h4 class="font-bold text-slate-800 mb-4">指标参数</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center py-2 border-b border-slate-50">
+                                    <span class="text-sm text-slate-500">短期均线</span>
+                                    <span class="text-sm font-medium text-slate-700">MA5</span>
+                                </div>
+                                <div class="flex justify-between items-center py-2 border-b border-slate-50">
+                                    <span class="text-sm text-slate-500">长期均线</span>
+                                    <span class="text-sm font-medium text-slate-700">MA20</span>
+                                </div>
+                                <div class="flex justify-between items-center py-2 border-b border-slate-50">
+                                    <span class="text-sm text-slate-500">确认周期</span>
+                                    <span class="text-sm font-medium text-slate-700">1-3 交易日</span>
+                                </div>
+                                <div class="flex justify-between items-center py-2">
+                                    <span class="text-sm text-slate-500">当前状态</span>
+                                    <span class="text-sm font-medium text-mint-600">多头趋势</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-card rounded-2xl p-6">
+                            <h4 class="font-bold text-slate-800 mb-4">统计概览</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-3 bg-brand-50 rounded-xl">
+                                    <div class="text-2xl font-bold text-brand-600">72%</div>
+                                    <div class="text-xs text-slate-500 mt-1">胜率</div>
+                                </div>
+                                <div class="text-center p-3 bg-ocean-50 rounded-xl">
+                                    <div class="text-2xl font-bold text-ocean-600">1.8</div>
+                                    <div class="text-xs text-slate-500 mt-1">盈亏比</div>
+                                </div>
+                                <div class="text-center p-3 bg-mint-50 rounded-xl">
+                                    <div class="text-2xl font-bold text-mint-600">45</div>
+                                    <div class="text-xs text-slate-500 mt-1">近30日信号</div>
+                                </div>
+                                <div class="text-center p-3 bg-coral-50 rounded-xl">
+                                    <div class="text-2xl font-bold text-coral-500">-2.1%</div>
+                                    <div class="text-xs text-slate-500 mt-1">最大回撤</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <h4 class="font-bold text-slate-800 mb-4">确认机制日志</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 p-4 bg-mint-50 rounded-xl border border-mint-100">
+                            <div class="w-10 h-10 rounded-full bg-mint-100 flex items-center justify-center text-mint-600 font-bold text-sm">✓</div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-slate-800">价格确认</span>
+                                    <span class="text-xs text-mint-600 bg-mint-100 px-2 py-0.5 rounded-full">已通过</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">收盘价站稳MA20上方，满足价格确认条件</p>
+                            </div>
+                            <span class="text-xs text-slate-400">10-31 14:30</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-mint-50 rounded-xl border border-mint-100">
+                            <div class="w-10 h-10 rounded-full bg-mint-100 flex items-center justify-center text-mint-600 font-bold text-sm">✓</div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-slate-800">动量确认</span>
+                                    <span class="text-xs text-mint-600 bg-mint-100 px-2 py-0.5 rounded-full">已通过</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">RSI(14)处于50-70健康区间，动量充足</p>
+                            </div>
+                            <span class="text-xs text-slate-400">10-31 14:30</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-mint-50 rounded-xl border border-mint-100">
+                            <div class="w-10 h-10 rounded-full bg-mint-100 flex items-center justify-center text-mint-600 font-bold text-sm">✓</div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-slate-800">量能确认</span>
+                                    <span class="text-xs text-mint-600 bg-mint-100 px-2 py-0.5 rounded-full">已通过</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">成交量较20日均量放大1.5倍，资金流入明显</p>
+                            </div>
+                            <span class="text-xs text-slate-400">10-31 14:30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other indicator pages (simplified placeholders) -->
+            <div id="page-momentum" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-ocean-400 to-brand-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">动量指标</h3>
+                        <p class="text-sm text-slate-500">Momentum · 基于RSI/MACD等动量指标的反转与趋势确认</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-12 text-center">
+                    <p class="text-slate-400">动量指标页面内容（与均线交叉同构）</p>
+                </div>
+            </div>
+
+            <div id="page-bollinger" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-coral-400 to-brand-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">布林带</h3>
+                        <p class="text-sm text-slate-500">Bollinger Bands · 基于价格波动率通道的突破与回归信号</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-12 text-center">
+                    <p class="text-slate-400">布林带页面内容（与均线交叉同构）</p>
+                </div>
+            </div>
+
+            <div id="page-volume" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-mint-400 to-ocean-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">量能指标</h3>
+                        <p class="text-sm text-slate-500">Volume · 基于成交量变化的量价配合确认信号</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-12 text-center">
+                    <p class="text-slate-400">量能指标页面内容（与均线交叉同构）</p>
+                </div>
+            </div>
+
+            <div id="page-drawdown" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-coral-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">回撤/反弹</h3>
+                        <p class="text-sm text-slate-500">Drawdown/Rebound · 基于最大回撤与反弹力度的反转信号</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-12 text-center">
+                    <p class="text-slate-400">回撤/反弹页面内容（与均线交叉同构）</p>
+                </div>
+            </div>
+
+            <div id="page-composite" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-ocean-400 to-mint-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">综合评分</h3>
+                        <p class="text-sm text-slate-500">Composite Score · 多因子加权综合评分与分层确认</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-12 text-center">
+                    <p class="text-slate-400">综合评分页面内容（与均线交叉同构）</p>
+                </div>
+            </div>
+
+            <div id="page-indices" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-ocean-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">宽基指数</h3>
+                        <p class="text-sm text-slate-500">7大宽基指数实时监控与信号汇总</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">沪深300</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-mint-50 text-mint-700">多头</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">3,845.21</div>
+                        <div class="text-sm text-mint-600 font-medium">+0.82% ↑</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 3</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 71%</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">中证500</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600">空头</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">6,124.58</div>
+                        <div class="text-sm text-coral-500 font-medium">-0.35% ↓</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 1</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 65%</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">上证50</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-mint-50 text-mint-700">多头</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">2,654.33</div>
+                        <div class="text-sm text-mint-600 font-medium">+0.56% ↑</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 2</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 73%</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">创业板指</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600">震荡</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">2,198.76</div>
+                        <div class="text-sm text-slate-500 font-medium">+0.12% →</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 0</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 69%</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">科创50</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600">空头</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">1,024.55</div>
+                        <div class="text-sm text-coral-500 font-medium">-1.24% ↓</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 2</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 62%</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-bold text-slate-800">深证100</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-mint-50 text-mint-700">多头</span>
+                        </div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">4,521.89</div>
+                        <div class="text-sm text-mint-600 font-medium">+0.45% ↑</div>
+                        <div class="mt-3 flex gap-2">
+                            <span class="text-xs px-2 py-1 bg-brand-50 text-brand-700 rounded-full">信号: 1</span>
+                            <span class="text-xs px-2 py-1 bg-ocean-50 text-ocean-700 rounded-full">胜率: 70%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institution Position Page -->
+            <div id="page-institution" class="page-transition p-8 hidden">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-coral-400 flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">机构多空单</h3>
+                        <p class="text-sm text-slate-500">中信、国泰等机构多空持仓与大盘走势对比分析</p>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">中信总空单</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600 font-medium">净空</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-coral-500" id="citic-total-short">12,450</span>
+                            <span class="text-sm text-slate-400 mb-1">手</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">较昨日 +320</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.05s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">国泰总空单</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600 font-medium">净空</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-coral-500" id="guotai-total-short">8,230</span>
+                            <span class="text-sm text-slate-400 mb-1">手</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">较昨日 -150</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.1s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">中信对冲准确率</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-ocean-50 text-ocean-700 font-medium">观察</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-ocean-600">64.2%</span>
+                            <span class="text-sm text-mint-600 font-medium mb-1">↑ 2.1%</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">近30日统计</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.15s">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-500">国泰对冲准确率</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-ocean-50 text-ocean-700 font-medium">观察</span>
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <span class="text-3xl font-bold text-ocean-600">58.7%</span>
+                            <span class="text-sm text-mint-600 font-medium mb-1">↑ 0.8%</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">近30日统计</p>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="glass-card rounded-2xl p-6 mb-8 fade-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-slate-800">机构多空持仓与大盘走势对比</h3>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 text-xs rounded-lg bg-brand-50 text-brand-700 font-medium">近7日</button>
+                            <button class="px-3 py-1 text-xs rounded-lg hover:bg-slate-100 text-slate-500">近30日</button>
+                            <button class="px-3 py-1 text-xs rounded-lg hover:bg-slate-100 text-slate-500">近90日</button>
+                        </div>
+                    </div>
+                    <div id="institution-chart" class="rounded-xl h-80 flex items-center justify-center">
+                        <canvas id="institutionCanvas" width="900" height="320"></canvas>
+                    </div>
+                    <div class="flex items-center justify-center gap-6 mt-4 flex-wrap">
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-coral-500"></span><span class="text-xs text-slate-600">中信空单</span></div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-coral-300"></span><span class="text-xs text-slate-600">国泰空单</span></div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span><span class="text-xs text-slate-600">其他机构空单</span></div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brand-500"></span><span class="text-xs text-slate-600">中信多单</span></div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-ocean-400"></span><span class="text-xs text-slate-600">国泰多单</span></div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="glass-card rounded-2xl p-6 mb-8 fade-in" style="animation-delay: 0.25s">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-slate-800">机构多空单明细</h3>
+                        <div class="flex items-center gap-3">
+                            <button onclick="refreshInstitutionData()" class="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-brand-50 text-brand-700 hover:bg-brand-100 transition-colors">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m0 0H15"/></svg>
+                                刷新数据
+                            </button>
+                            <span class="flex items-center gap-1 text-xs text-slate-500"><span class="w-2 h-2 rounded-full bg-mint-500"></span>同向</span>
+                            <span class="flex items-center gap-1 text-xs text-slate-500"><span class="w-2 h-2 rounded-full bg-coral-500"></span>对冲</span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-slate-100">
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">日期</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">中信多单</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">中信空单</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">国泰多单</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">国泰空单</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">大盘涨跌</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">中信关系</th>
+                                    <th class="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-3 px-4">国泰关系</th>
+                                </tr>
+                            </thead>
+                            <tbody id="institution-table-body" class="text-sm">
+                                <!-- Rows will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Institution data - loaded from JSON file or fallback to mock
+        let institutionData = [];
+        
+        // Load data from JSON file
+        async function loadInstitutionData() {
+            try {
+                const response = await fetch('data/institution-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load data: ' + response.status);
+                }
+                const data = await response.json();
+                institutionData = data.data || [];
+                console.log('Loaded institution data:', institutionData.length, 'records');
+                return institutionData;
+            } catch (error) {
+                console.warn('Failed to load from JSON, using fallback data:', error);
+                // Fallback mock data
+                institutionData = [
+                    { date: '2026-10-31', citicLong: 5420, citicShort: 12450, guotaiLong: 3890, guotaiShort: 8230, otherLong: 14850, otherShort: 27800, marketIndex: 3435.20, marketChange: 0.82 },
+                    { date: '2026-10-30', citicLong: 5380, citicShort: 12130, guotaiLong: 3920, guotaiShort: 8380, otherLong: 14700, otherShort: 27550, marketIndex: 3407.12, marketChange: -0.35 },
+                    { date: '2026-10-29', citicLong: 5350, citicShort: 11980, guotaiLong: 3950, guotaiShort: 8450, otherLong: 14620, otherShort: 27300, marketIndex: 3419.05, marketChange: 0.56 },
+                    { date: '2026-10-28', citicLong: 5400, citicShort: 11850, guotaiLong: 3910, guotaiShort: 8520, otherLong: 14580, otherShort: 27100, marketIndex: 3400.12, marketChange: -0.12 },
+                    { date: '2026-10-27', citicLong: 5370, citicShort: 11620, guotaiLong: 3880, guotaiShort: 8490, otherLong: 14450, otherShort: 26900, marketIndex: 3395.80, marketChange: 0.45 },
+                    { date: '2026-10-24', citicLong: 5320, citicShort: 11480, guotaiLong: 3850, guotaiShort: 8550, otherLong: 14300, otherShort: 26750, marketIndex: 3380.50, marketChange: -0.78 },
+                    { date: '2026-10-23', citicLong: 5290, citicShort: 11250, guotaiLong: 3820, guotaiShort: 8610, otherLong: 14150, otherShort: 26500, marketIndex: 3406.80, marketChange: 0.23 },
+                ];
+                return institutionData;
+            }
+        }
+
+        function getHedgeRelation(instLong, instShort, marketChange) {
+            const netPosition = instLong - instShort;
+            // If net position is negative (net short) and market goes down, it's hedging (profiting from decline)
+            // If net position is positive (net long) and market goes up, it's same direction
+            if (netPosition < 0 && marketChange < 0) return { type: 'hedge', label: '对冲' };
+            if (netPosition > 0 && marketChange > 0) return { type: 'same', label: '同向' };
+            if (netPosition < 0 && marketChange > 0) return { type: 'same', label: '同向' };
+            if (netPosition > 0 && marketChange < 0) return { type: 'hedge', label: '对冲' };
+            return { type: 'same', label: '同向' };
+        }
+
+        function renderInstitutionTable() {
+            const tbody = document.getElementById('institution-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = institutionData.map(row => {
+                const citicRelation = getHedgeRelation(row.citicLong, row.citicShort, row.marketChange);
+                const guotaiRelation = getHedgeRelation(row.guotaiLong, row.guotaiShort, row.marketChange);
+                const citicNet = row.citicLong - row.citicShort;
+                const guotaiNet = row.guotaiLong - row.guotaiShort;
+                return `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                    <td class="py-3 px-4 text-slate-600">${row.date}</td>
+                    <td class="py-3 px-4 text-mint-600 font-medium">${row.citicLong.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-coral-500 font-medium">${row.citicShort.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-mint-600 font-medium">${row.guotaiLong.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-coral-500 font-medium">${row.guotaiShort.toLocaleString()}</td>
+                    <td class="py-3 px-4 ${row.marketChange > 0 ? 'text-mint-600' : 'text-coral-500'} font-medium">${row.marketChange > 0 ? '+' : ''}${row.marketChange}%</td>
+                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${citicRelation.type === 'same' ? 'bg-mint-50 text-mint-700' : 'bg-coral-50 text-coral-600'}">${citicRelation.label}</span></td>
+                    <td class="py-3 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${guotaiRelation.type === 'same' ? 'bg-mint-50 text-mint-700' : 'bg-coral-50 text-coral-600'}">${guotaiRelation.label}</span></td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Refresh data from source
+        async function refreshInstitutionData() {
+            console.log('Refreshing institution data...');
+            const btn = document.querySelector('button[onclick="refreshInstitutionData()"]');
+            if (btn) {
+                btn.innerHTML = '<svg class="w-3 h-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m0 0H15"/></svg> 刷新中...';
+            }
+            
+            await loadInstitutionData();
+            renderInstitutionTable();
+            drawInstitutionChart();
+            
+            if (btn) {
+                btn.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m0 0H15"/></svg> 刷新数据';
+            }
+            console.log('Data refreshed successfully');
+        }
+
+        function drawInstitutionChart() {
+            const canvas = document.getElementById('institutionCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 40, left: 60 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Find max values for scaling
+            const allValues = institutionData.flatMap(d => [d.citicShort, d.guotaiShort, d.citicLong, d.guotaiLong]);
+            const maxVal = Math.max(...allValues) * 1.1;
+            const minVal = 0;
+
+            // Draw grid lines
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(width - padding.right, y);
+                ctx.stroke();
+                // Y-axis labels
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '10px Inter, sans-serif';
+                ctx.textAlign = 'right';
+                const val = Math.round(maxVal - (maxVal / 5) * i);
+                ctx.fillText(val.toLocaleString(), padding.left - 8, y + 3);
+            }
+
+            // X-axis labels
+            institutionData.forEach((d, i) => {
+                const x = padding.left + (chartWidth / (institutionData.length - 1)) * (institutionData.length - 1 - i);
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '10px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(d.date.slice(5), x, height - padding.bottom + 15);
+            });
+
+            // Helper to draw line
+            function drawLine(dataKey, color, isDashed) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2.5;
+                if (isDashed) ctx.setLineDash([5, 5]);
+                else ctx.setLineDash([]);
+                ctx.beginPath();
+                institutionData.forEach((d, i) => {
+                    const x = padding.left + (chartWidth / (institutionData.length - 1)) * (institutionData.length - 1 - i);
+                    const y = padding.top + chartHeight - ((d[dataKey] - minVal) / (maxVal - minVal)) * chartHeight;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw lines
+            drawLine('citicShort', '#f26522', false);    // 中信空单 - coral
+            drawLine('guotaiShort', '#ffaa80', false);     // 国泰空单 - light coral
+            drawLine('citicLong', '#3a9a6a', true);        // 中信多单 - brand green dashed
+            drawLine('guotaiLong', '#7ab8ff', true);       // 国泰多单 - ocean blue dashed
+        }
+
+        async function showPage(pageId) {
+            console.log('Navigating to page:', pageId);
+            
+            // Hide all pages
+            const pages = document.querySelectorAll('[id^="page-"]');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById('page-' + pageId);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+                console.log('Page shown:', 'page-' + pageId);
+            } else {
+                console.error('Page not found:', 'page-' + pageId);
+            }
+
+            // Render institution page data when navigated to
+            if (pageId === 'institution') {
+                console.log('Rendering institution page...');
+                // Load data first, then render
+                await loadInstitutionData();
+                renderInstitutionTable();
+                setTimeout(drawInstitutionChart, 100);
+            }
+            
+            // Update nav active state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+            
+            // Update page title
+            const titles = {
+                'dashboard': '指标总览',
+                'ma-cross': '均线交叉',
+                'momentum': '动量指标',
+                'bollinger': '布林带',
+                'volume': '量能指标',
+                'drawdown': '回撤/反弹',
+                'composite': '综合评分',
+                'indices': '宽基指数',
+                'institution': '机构多空单'
+            };
+            document.getElementById('page-title').textContent = titles[pageId] || '指标总览';
+        }
+    </script>
+</body>
+</html>

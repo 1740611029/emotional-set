@@ -1,0 +1,4665 @@
+{
+  "algorithm_version": "etf-volume-spike-v1.0",
+  "generated_at": "2026-11-06T11:05:16",
+  "range": {
+    "start": "2024-09-24",
+    "end": "2026-11-05"
+  },
+  "mode_basis_index": "sh000300",
+  "input_hash": "5149443b324ea74f133355e08b7cae434081002d36fd1a538555f90e6831029b",
+  "preregistered": {
+    "algorithm_version": "etf-volume-spike-v1.0",
+    "放量阈值(元)": 10000000000.0,
+    "普通放量基线带(元)": [
+      5000000000.0,
+      10000000000.0
+    ],
+    "簇合并间隔(交易日)": 2,
+    "状态基准指数": "sh000300",
+    "趋势均线窗口": 120,
+    "回撤观察窗口": 250,
+    "底部区回撤阈值": 0.15,
+    "上行区回撤阈值": 0.08,
+    "前瞻期(交易日)": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "单层样本下限": 8,
+    "L3样本下限": 3,
+    "状态集合": [
+      "下跌底部区",
+      "趋势上行区",
+      "中性过渡区"
+    ],
+    "研究区间": [
+      "2024-09-24",
+      "2026-11-05"
+    ],
+    "宽基全集口径": "^(沪深300|上证50|中证500|中证1000|创业板|科创50)ETF",
+    "主口径前瞻期(交易日)": 5
+  },
+  "lists": {
+    "core": {
+      "rows": [
+        {
+          "code": "588000",
+          "name": "科创50ETF华夏",
+          "index": "科创50",
+          "days": 45,
+          "first_date": "2024-09-30",
+          "max_amount": 28101905067.0
+        },
+        {
+          "code": "159915",
+          "name": "创业板ETF易方达",
+          "index": "创业板指",
+          "days": 35,
+          "first_date": "2024-09-27",
+          "max_amount": 47486377734.325
+        },
+        {
+          "code": "510300",
+          "name": "沪深300ETF华泰柏瑞",
+          "index": "沪深300",
+          "days": 47,
+          "first_date": "2024-09-24",
+          "max_amount": 40100175381.0
+        },
+        {
+          "code": "510050",
+          "name": "上证50ETF华夏",
+          "index": "上证50",
+          "days": 10,
+          "first_date": "2024-09-30",
+          "max_amount": 21454832756.0
+        },
+        {
+          "code": "512100",
+          "name": "中证1000ETF南方",
+          "index": "中证1000",
+          "days": 6,
+          "first_date": "2024-09-30",
+          "max_amount": 18225690670.0
+        },
+        {
+          "code": "510500",
+          "name": "中证500ETF南方",
+          "index": "中证500",
+          "days": 18,
+          "first_date": "2024-09-30",
+          "max_amount": 26329578450.0
+        }
+      ],
+      "codes": [
+        "588000",
+        "159915",
+        "510300",
+        "510050",
+        "512100",
+        "510500"
+      ],
+      "complete": true,
+      "break_count": 6
+    },
+    "broad": {
+      "scanned": 96,
+      "rows": [
+        {
+          "code": "510050",
+          "name": "上证50ETF华夏",
+          "days": 10,
+          "first_date": "2024-09-30",
+          "max_amount": 21454832756.0
+        },
+        {
+          "code": "510330",
+          "name": "沪深300ETF华夏",
+          "days": 6,
+          "first_date": "2025-04-08",
+          "max_amount": 26819307218.0
+        },
+        {
+          "code": "159919",
+          "name": "沪深300ETF嘉实",
+          "days": 8,
+          "first_date": "2025-04-08",
+          "max_amount": 17715464761.623
+        },
+        {
+          "code": "510310",
+          "name": "沪深300ETF易方达",
+          "days": 11,
+          "first_date": "2025-04-07",
+          "max_amount": 31934862016.0
+        },
+        {
+          "code": "510300",
+          "name": "沪深300ETF华泰柏瑞",
+          "days": 47,
+          "first_date": "2024-09-24",
+          "max_amount": 40100175381.0
+        },
+        {
+          "code": "588080",
+          "name": "科创50ETF易方达",
+          "days": 4,
+          "first_date": "2024-10-08",
+          "max_amount": 17399379260.0
+        },
+        {
+          "code": "588000",
+          "name": "科创50ETF华夏",
+          "days": 45,
+          "first_date": "2024-09-30",
+          "max_amount": 28101905067.0
+        },
+        {
+          "code": "510500",
+          "name": "中证500ETF南方",
+          "days": 18,
+          "first_date": "2024-09-30",
+          "max_amount": 26329578450.0
+        },
+        {
+          "code": "512100",
+          "name": "中证1000ETF南方",
+          "days": 6,
+          "first_date": "2024-09-30",
+          "max_amount": 18225690670.0
+        },
+        {
+          "code": "159915",
+          "name": "创业板ETF易方达",
+          "days": 35,
+          "first_date": "2024-09-27",
+          "max_amount": 47486377734.325
+        }
+      ],
+      "failed": [],
+      "codes": [
+        "510050",
+        "510330",
+        "159919",
+        "510310",
+        "510300",
+        "588080",
+        "588000",
+        "510500",
+        "512100",
+        "159915"
+      ],
+      "extra": [
+        {
+          "code": "510330",
+          "name": "沪深300ETF华夏",
+          "days": 6,
+          "first_date": "2025-04-08",
+          "max_amount": 26819307218.0
+        },
+        {
+          "code": "159919",
+          "name": "沪深300ETF嘉实",
+          "days": 8,
+          "first_date": "2025-04-08",
+          "max_amount": 17715464761.623
+        },
+        {
+          "code": "510310",
+          "name": "沪深300ETF易方达",
+          "days": 11,
+          "first_date": "2025-04-07",
+          "max_amount": 31934862016.0
+        },
+        {
+          "code": "588080",
+          "name": "科创50ETF易方达",
+          "days": 4,
+          "first_date": "2024-10-08",
+          "max_amount": 17399379260.0
+        }
+      ]
+    },
+    "all_six": {
+      "dates": [
+        "2024-09-30",
+        "2026-11-03"
+      ]
+    }
+  },
+  "stats": {
+    "horizons": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "layers": [
+      {
+        "n": 8,
+        "start": "2024-12-10",
+        "end": "2026-10-09",
+        "horizons": {
+          "1": {
+            "samples": 8,
+            "wins": 2,
+            "rate": 0.25,
+            "mean": -0.0017620799243737023,
+            "avg_max_drawdown": -0.004967009830589411,
+            "wilson95": [
+              0.07147768885802763,
+              0.5907301208974108
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5317647058823529,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "不成立"
+          },
+          "3": {
+            "samples": 8,
+            "wins": 1,
+            "rate": 0.125,
+            "mean": -0.012206467458445308,
+            "avg_max_drawdown": -0.017299832013437266,
+            "wilson95": [
+              0.02241690886329617,
+              0.4708948057698615
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "不成立"
+          },
+          "5": {
+            "samples": 8,
+            "wins": 2,
+            "rate": 0.25,
+            "mean": -0.01404042079369705,
+            "avg_max_drawdown": -0.02238198666454036,
+            "wilson95": [
+              0.07147768885802763,
+              0.5907301208974108
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "不成立"
+          },
+          "10": {
+            "samples": 8,
+            "wins": 2,
+            "rate": 0.25,
+            "mean": -0.01602859808361627,
+            "avg_max_drawdown": -0.03527906083107975,
+            "wilson95": [
+              0.07147768885802763,
+              0.5907301208974108
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5435294117647059,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "不成立"
+          },
+          "20": {
+            "samples": 7,
+            "wins": 1,
+            "rate": 0.14285714285714285,
+            "mean": -0.03162735094384069,
+            "avg_max_drawdown": -0.05058485968156569,
+            "wilson95": [
+              0.02567895594897479,
+              0.51313450331903
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5552941176470588,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        },
+        "key": "L1",
+        "kind": "level",
+        "label": "L1 放量事件",
+        "states": [
+          "中性过渡区",
+          "趋势上行区"
+        ]
+      },
+      {
+        "n": 7,
+        "start": "2024-11-05",
+        "end": "2026-08-19",
+        "horizons": {
+          "1": {
+            "samples": 7,
+            "wins": 5,
+            "rate": 0.7142857142857143,
+            "mean": 0.004446756404694528,
+            "avg_max_drawdown": -0.0015503899666849316,
+            "wilson95": [
+              0.35892909014821267,
+              0.9177828342909844
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5317647058823529,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "3": {
+            "samples": 7,
+            "wins": 5,
+            "rate": 0.7142857142857143,
+            "mean": 0.01478191605685524,
+            "avg_max_drawdown": -0.0032685246009221797,
+            "wilson95": [
+              0.35892909014821267,
+              0.9177828342909844
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "5": {
+            "samples": 7,
+            "wins": 6,
+            "rate": 0.8571428571428571,
+            "mean": 0.012885578928876509,
+            "avg_max_drawdown": -0.004209895919194152,
+            "wilson95": [
+              0.48686549668097007,
+              0.9743210440510253
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.56,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "10": {
+            "samples": 7,
+            "wins": 3,
+            "rate": 0.42857142857142855,
+            "mean": 0.004786934915988964,
+            "avg_max_drawdown": -0.010029219566147583,
+            "wilson95": [
+              0.15821692226262685,
+              0.7495457695909742
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5435294117647059,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "20": {
+            "samples": 7,
+            "wins": 3,
+            "rate": 0.42857142857142855,
+            "mean": 0.006880593086177405,
+            "avg_max_drawdown": -0.019877843200302107,
+            "wilson95": [
+              0.15821692226262685,
+              0.7495457695909742
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 425,
+            "baseline_rate": 0.5552941176470588,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        },
+        "key": "L2",
+        "kind": "level",
+        "label": "L2 放量事件",
+        "states": [
+          "中性过渡区",
+          "趋势上行区"
+        ]
+      },
+      {
+        "n": 2,
+        "start": "2024-09-24",
+        "end": "2026-10-15",
+        "horizons": {
+          "1": {
+            "samples": 2,
+            "wins": 2,
+            "rate": 1.0,
+            "mean": 0.007953837055900692,
+            "avg_max_drawdown": 0.0,
+            "wilson95": [
+              0.34237195288961925,
+              1.0
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 285,
+            "baseline_rate": 0.5403508771929825,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "3": {
+            "samples": 2,
+            "wins": 1,
+            "rate": 0.5,
+            "mean": 0.050804804676060966,
+            "avg_max_drawdown": -0.0016682629182359632,
+            "wilson95": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 285,
+            "baseline_rate": 0.5719298245614035,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "5": {
+            "samples": 2,
+            "wins": 1,
+            "rate": 0.5,
+            "mean": 0.11930917795631907,
+            "avg_max_drawdown": -0.015567653462185638,
+            "wilson95": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 285,
+            "baseline_rate": 0.5684210526315789,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "10": {
+            "samples": 2,
+            "wins": 1,
+            "rate": 0.5,
+            "mean": 0.06029020101817911,
+            "avg_max_drawdown": -0.015567653462185638,
+            "wilson95": [
+              0.09452865480086614,
+              0.9054713451991339
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 284,
+            "baseline_rate": 0.5704225352112676,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "20": {
+            "samples": 1,
+            "wins": 1,
+            "rate": 1.0,
+            "mean": 0.17086974292269197,
+            "avg_max_drawdown": 0.0,
+            "wilson95": [
+              0.20654329147389294,
+              1.0
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5928571428571429,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        },
+        "key": "L3",
+        "kind": "level",
+        "label": "L3 放量事件",
+        "states": [
+          "下跌底部区",
+          "中性过渡区"
+        ]
+      },
+      {
+        "n": 1,
+        "start": "2026-10-15",
+        "end": "2026-10-15",
+        "horizons": {
+          "1": {
+            "samples": 1,
+            "wins": 1,
+            "rate": 1.0,
+            "mean": 0.0011041740178250325,
+            "avg_max_drawdown": 0.0,
+            "wilson95": [
+              0.20654329147389294,
+              1.0
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.2,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "3": {
+            "samples": 1,
+            "wins": 0,
+            "rate": 0.0,
+            "mean": -0.0033365258364719264,
+            "avg_max_drawdown": -0.0033365258364719264,
+            "wilson95": [
+              0.0,
+              0.7934567085261071
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.0,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "5": {
+            "samples": 1,
+            "wins": 0,
+            "rate": 0.0,
+            "mean": -0.031135306924371275,
+            "avg_max_drawdown": -0.031135306924371275,
+            "wilson95": [
+              0.0,
+              0.7934567085261071
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 5,
+            "baseline_rate": 0.0,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "10": {
+            "samples": 1,
+            "wins": 0,
+            "rate": 0.0,
+            "mean": -0.029805497346381826,
+            "avg_max_drawdown": -0.031135306924371275,
+            "wilson95": [
+              0.0,
+              0.7934567085261071
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 4,
+            "baseline_rate": 0.0,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "20": {
+            "samples": 0,
+            "wins": 0,
+            "rate": null,
+            "mean": null,
+            "avg_max_drawdown": null,
+            "wilson95": [
+              null,
+              null
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 0,
+            "baseline_rate": null,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        },
+        "key": "下跌底部区",
+        "kind": "state",
+        "label": "下跌底部区 放量事件",
+        "states": [
+          "下跌底部区"
+        ]
+      },
+      {
+        "n": 6,
+        "start": "2026-01-14",
+        "end": "2026-07-09",
+        "horizons": {
+          "1": {
+            "samples": 6,
+            "wins": 2,
+            "rate": 0.3333333333333333,
+            "mean": -0.004681568454895739,
+            "avg_max_drawdown": -0.0058160425806373746,
+            "wilson95": [
+              0.09676933255921683,
+              0.7000116786584712
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.503448275862069,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "3": {
+            "samples": 6,
+            "wins": 1,
+            "rate": 0.16666666666666666,
+            "mean": -0.008006272242872406,
+            "avg_max_drawdown": -0.01573198847903795,
+            "wilson95": [
+              0.03005258587173032,
+              0.563509436563646
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.5172413793103449,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "5": {
+            "samples": 6,
+            "wins": 2,
+            "rate": 0.3333333333333333,
+            "mean": -0.010991013792640614,
+            "avg_max_drawdown": -0.018588539951549816,
+            "wilson95": [
+              0.09676933255921683,
+              0.7000116786584712
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.5241379310344828,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "10": {
+            "samples": 6,
+            "wins": 1,
+            "rate": 0.16666666666666666,
+            "mean": -0.019217915081190844,
+            "avg_max_drawdown": -0.0336841114572361,
+            "wilson95": [
+              0.03005258587173032,
+              0.563509436563646
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.47586206896551725,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "样本不足，暂不能判断"
+          },
+          "20": {
+            "samples": 6,
+            "wins": 1,
+            "rate": 0.16666666666666666,
+            "mean": -0.03117945046972938,
+            "avg_max_drawdown": -0.05394007578029978,
+            "wilson95": [
+              0.03005258587173032,
+              0.563509436563646
+            ],
+            "small_sample": true,
+            "verdict": "样本不足，暂不能判断",
+            "baseline_samples": 145,
+            "baseline_rate": 0.4827586206896552,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "样本不足，暂不能判断"
+          }
+        },
+        "key": "趋势上行区",
+        "kind": "state",
+        "label": "趋势上行区 放量事件",
+        "states": [
+          "趋势上行区"
+        ]
+      },
+      {
+        "n": 10,
+        "start": "2024-09-24",
+        "end": "2026-10-09",
+        "horizons": {
+          "1": {
+            "samples": 10,
+            "wins": 6,
+            "rate": 0.6,
+            "mean": 0.005992356626122286,
+            "avg_max_drawdown": -0.0015692552927685567,
+            "wilson95": [
+              0.3126695474501864,
+              0.8318224187964902
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5464285714285714,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5066079295154186,
+            "normal_verdict": "成立"
+          },
+          "3": {
+            "samples": 10,
+            "wins": 6,
+            "rate": 0.6,
+            "mean": 0.01588054413762525,
+            "avg_max_drawdown": -0.006688639743972569,
+            "wilson95": [
+              0.3126695474501864,
+              0.8318224187964902
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5821428571428572,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.5286343612334802,
+            "normal_verdict": "成立"
+          },
+          "5": {
+            "samples": 10,
+            "wins": 7,
+            "rate": 0.7,
+            "mean": 0.03135754317454122,
+            "avg_max_drawdown": -0.009699392504138305,
+            "wilson95": [
+              0.39677321997956516,
+              0.892210712513788
+            ],
+            "small_sample": false,
+            "verdict": "成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5785714285714286,
+            "normal_baseline_samples": 227,
+            "normal_baseline_rate": 0.4933920704845815,
+            "normal_verdict": "成立"
+          },
+          "10": {
+            "samples": 10,
+            "wins": 5,
+            "rate": 0.5,
+            "mean": 0.017097314961287767,
+            "avg_max_drawdown": -0.015033235486825447,
+            "wilson95": [
+              0.23658959361548731,
+              0.7634104063845126
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5785714285714286,
+            "normal_baseline_samples": 226,
+            "normal_baseline_rate": 0.4690265486725664,
+            "normal_verdict": "成立"
+          },
+          "20": {
+            "samples": 9,
+            "wins": 4,
+            "rate": 0.4444444444444444,
+            "mean": 0.020524348970825026,
+            "avg_max_drawdown": -0.0188442739434751,
+            "wilson95": [
+              0.188775429471914,
+              0.7333526542559703
+            ],
+            "small_sample": false,
+            "verdict": "不成立",
+            "baseline_samples": 280,
+            "baseline_rate": 0.5928571428571429,
+            "normal_baseline_samples": 222,
+            "normal_baseline_rate": 0.46846846846846846,
+            "normal_verdict": "不成立"
+          }
+        },
+        "key": "中性过渡区",
+        "kind": "state",
+        "label": "中性过渡区 放量事件",
+        "states": [
+          "中性过渡区"
+        ]
+      }
+    ],
+    "baselines": {
+      "same_state": {
+        "下跌底部区": {
+          "n": 5,
+          "start": "2026-10-12",
+          "end": "2026-10-27",
+          "horizons": {
+            "1": {
+              "samples": 5,
+              "wins": 1,
+              "rate": 0.2,
+              "mean": -0.0051160073759355384,
+              "avg_max_drawdown": -0.006811010524433492,
+              "wilson95": [
+                0.03622316096978745,
+                0.6244717358814613
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 5,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.022435704553005986,
+              "avg_max_drawdown": -0.02305488858635123,
+              "wilson95": [
+                0.0,
+                0.43449149475208104
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 5,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.02149648784399516,
+              "avg_max_drawdown": -0.026269520573463635,
+              "wilson95": [
+                0.0,
+                0.43449149475208104
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 4,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.04134546882462975,
+              "avg_max_drawdown": -0.050741787284891426,
+              "wilson95": [
+                0.0,
+                0.48990002040399916
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 0,
+              "wins": 0,
+              "rate": null,
+              "mean": null,
+              "avg_max_drawdown": null,
+              "wilson95": [
+                null,
+                null
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "趋势上行区": {
+          "n": 145,
+          "start": "2025-10-09",
+          "end": "2026-08-17",
+          "horizons": {
+            "1": {
+              "samples": 145,
+              "wins": 73,
+              "rate": 0.503448275862069,
+              "mean": 0.00019723426748555724,
+              "avg_max_drawdown": -0.00404149810750614,
+              "wilson95": [
+                0.4230336998006518,
+                0.58368485200207
+              ],
+              "small_sample": false
+            },
+            "3": {
+              "samples": 145,
+              "wins": 75,
+              "rate": 0.5172413793103449,
+              "mean": -0.00024354542499783788,
+              "avg_max_drawdown": -0.009533020226887144,
+              "wilson95": [
+                0.43651548037286786,
+                0.5970772786407412
+              ],
+              "small_sample": false
+            },
+            "5": {
+              "samples": 145,
+              "wins": 76,
+              "rate": 0.5241379310344828,
+              "mean": 0.0004813815298843443,
+              "avg_max_drawdown": -0.012975507641748403,
+              "wilson95": [
+                0.4432787340193019,
+                0.6037511285997509
+              ],
+              "small_sample": false
+            },
+            "10": {
+              "samples": 145,
+              "wins": 69,
+              "rate": 0.47586206896551725,
+              "mean": 3.114339942735876e-06,
+              "avg_max_drawdown": -0.019537500632494657,
+              "wilson95": [
+                0.39624887140024906,
+                0.556721265980698
+              ],
+              "small_sample": false
+            },
+            "20": {
+              "samples": 145,
+              "wins": 70,
+              "rate": 0.4827586206896552,
+              "mean": -0.0025796633587257646,
+              "avg_max_drawdown": -0.029266297246683923,
+              "wilson95": [
+                0.4029227213592587,
+                0.5634845196271321
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "中性过渡区": {
+          "n": 280,
+          "start": "2024-10-16",
+          "end": "2026-10-08",
+          "horizons": {
+            "1": {
+              "samples": 280,
+              "wins": 153,
+              "rate": 0.5464285714285714,
+              "mean": 0.00010283572248784528,
+              "avg_max_drawdown": -0.0035601201626248597,
+              "wilson95": [
+                0.48787957938818244,
+                0.6037208061789788
+              ],
+              "small_sample": false
+            },
+            "3": {
+              "samples": 280,
+              "wins": 163,
+              "rate": 0.5821428571428572,
+              "mean": 0.00110801573235459,
+              "avg_max_drawdown": -0.007649906971972628,
+              "wilson95": [
+                0.5236421632996976,
+                0.6384200573191264
+              ],
+              "small_sample": false
+            },
+            "5": {
+              "samples": 280,
+              "wins": 162,
+              "rate": 0.5785714285714286,
+              "mean": 0.002109713551794375,
+              "avg_max_drawdown": -0.01085087417964804,
+              "wilson95": [
+                0.520052344197931,
+                0.634963692915727
+              ],
+              "small_sample": false
+            },
+            "10": {
+              "samples": 280,
+              "wins": 162,
+              "rate": 0.5785714285714286,
+              "mean": 0.0039394299955538906,
+              "avg_max_drawdown": -0.016614311781445974,
+              "wilson95": [
+                0.520052344197931,
+                0.634963692915727
+              ],
+              "small_sample": false
+            },
+            "20": {
+              "samples": 280,
+              "wins": 166,
+              "rate": 0.5928571428571429,
+              "mean": 0.007085403996647564,
+              "avg_max_drawdown": -0.02588643426876738,
+              "wilson95": [
+                0.5344299573122131,
+                0.6487708138221098
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "normal_volume": {
+        "n": 227,
+        "start": "2024-10-16",
+        "end": "2026-10-27",
+        "horizons": {
+          "1": {
+            "samples": 227,
+            "wins": 115,
+            "rate": 0.5066079295154186,
+            "mean": -0.0005318517642336186,
+            "avg_max_drawdown": -0.004466046264995296,
+            "wilson95": [
+              0.4420021169487617,
+              0.570993807529322
+            ],
+            "small_sample": false
+          },
+          "3": {
+            "samples": 227,
+            "wins": 120,
+            "rate": 0.5286343612334802,
+            "mean": -0.0007225098904278711,
+            "avg_max_drawdown": -0.00970638463574335,
+            "wilson95": [
+              0.4637605482759517,
+              0.592555124462411
+            ],
+            "small_sample": false
+          },
+          "5": {
+            "samples": 227,
+            "wins": 112,
+            "rate": 0.4933920704845815,
+            "mean": -0.0004470141645749849,
+            "avg_max_drawdown": -0.01336413449193909,
+            "wilson95": [
+              0.42900619247067795,
+              0.5579978830512383
+            ],
+            "small_sample": false
+          },
+          "10": {
+            "samples": 226,
+            "wins": 106,
+            "rate": 0.4690265486725664,
+            "mean": -0.00118313278011895,
+            "avg_max_drawdown": -0.0197962882749906,
+            "wilson95": [
+              0.40502476382268326,
+              0.5340637214645754
+            ],
+            "small_sample": false
+          },
+          "20": {
+            "samples": 222,
+            "wins": 104,
+            "rate": 0.46846846846846846,
+            "mean": -0.006142520227805568,
+            "avg_max_drawdown": -0.031163838273749633,
+            "wilson95": [
+              0.4039209279248763,
+              0.5340887213160074
+            ],
+            "small_sample": false
+          }
+        }
+      }
+    },
+    "range": [
+      "2024-09-24",
+      "2026-11-05"
+    ],
+    "by_index": {
+      "sh000001": {
+        "name": "上证指数",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 4,
+                "rate": 0.5,
+                "mean": 0.0008013768955611039,
+                "avg_max_drawdown": -0.002136011486725334,
+                "wilson95": [
+                  0.21521252682444186,
+                  0.7847874731755582
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.008735117202861853,
+                "avg_max_drawdown": -0.013027358164368771,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 1,
+                "rate": 0.125,
+                "mean": -0.015527118464164782,
+                "avg_max_drawdown": -0.020817388624773545,
+                "wilson95": [
+                  0.02241690886329617,
+                  0.4708948057698615
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.02016658813810783,
+                "avg_max_drawdown": -0.03147119278624054,
+                "wilson95": [
+                  0.0,
+                  0.3244156195108769
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.03548236557556913,
+                "avg_max_drawdown": -0.053017296646675885,
+                "wilson95": [
+                  0.0,
+                  0.35433884297520657
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.0037816822034593134,
+                "avg_max_drawdown": -0.0006059739925394769,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.013532669534774102,
+                "avg_max_drawdown": -0.0017542517743739067,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.011652755942469728,
+                "avg_max_drawdown": -0.0018236282710522023,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.01345053170041101,
+                "avg_max_drawdown": -0.007792066970754423,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.016398660330481367,
+                "avg_max_drawdown": -0.014796548267206031,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.006981147871940374,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.04294919675696485,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.10276547981338213,
+                "avg_max_drawdown": -0.006668950338235113,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.05149520901535981,
+                "avg_max_drawdown": -0.007981162406810016,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.14783820504133582,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.0023735798979360734,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.007522629926526969,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.013337900676470227,
+                "avg_max_drawdown": -0.013337900676470227,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.015118085599922337,
+                "avg_max_drawdown": -0.015962324813620032,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.0014555424752097739,
+                "avg_max_drawdown": -0.002375369578405414,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.006177327142865267,
+                "avg_max_drawdown": -0.012080479206801572,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.012449370281887326,
+                "avg_max_drawdown": -0.017217172747329108,
+                "wilson95": [
+                  0.0,
+                  0.3903430336530645
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.022264035974453072,
+                "avg_max_drawdown": -0.0310782764008406,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.03570981041695348,
+                "avg_max_drawdown": -0.055007812150271285,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 7,
+                "rate": 0.7,
+                "mean": 0.005320476128590735,
+                "avg_max_drawdown": -0.0007077692371146527,
+                "wilson95": [
+                  0.39677321997956516,
+                  0.892210712513788
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.014028747556511822,
+                "avg_max_drawdown": -0.0044015752494758085,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 7,
+                "rate": 0.7,
+                "mean": 0.02509174258785283,
+                "avg_max_drawdown": -0.007600147041157912,
+                "wilson95": [
+                  0.39677321997956516,
+                  0.892210712513788
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 5,
+                "rate": 0.5,
+                "mean": 0.01845137362753748,
+                "avg_max_drawdown": -0.01198443526801617,
+                "wilson95": [
+                  0.23658959361548731,
+                  0.7634104063845126
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 4,
+                "rate": 0.4444444444444444,
+                "mean": 0.025390125647493593,
+                "avg_max_drawdown": -0.016072226832838415,
+                "wilson95": [
+                  0.188775429471914,
+                  0.7333526542559703
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sz399001": {
+        "name": "深证成指",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.00161607981337146,
+                "avg_max_drawdown": -0.006410160409620738,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.014519267573840228,
+                "avg_max_drawdown": -0.021339144734736984,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.02224872558031457,
+                "avg_max_drawdown": -0.03384457647275248,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.03360217748761152,
+                "avg_max_drawdown": -0.05567285403988963,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.06032706036325216,
+                "avg_max_drawdown": -0.08812530308802677,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.001699666356321445,
+                "avg_max_drawdown": -0.0022240879542842406,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 6,
+                "rate": 0.8571428571428571,
+                "mean": 0.01352926220173456,
+                "avg_max_drawdown": -0.005577390019537197,
+                "wilson95": [
+                  0.48686549668097007,
+                  0.9743210440510253
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 6,
+                "rate": 0.8571428571428571,
+                "mean": 0.017115652665562236,
+                "avg_max_drawdown": -0.007007500739896121,
+                "wilson95": [
+                  0.48686549668097007,
+                  0.9743210440510253
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 3,
+                "rate": 0.42857142857142855,
+                "mean": 0.0059094904037257446,
+                "avg_max_drawdown": -0.020165700240868372,
+                "wilson95": [
+                  0.15821692226262685,
+                  0.7495457695909742
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.012970476454326332,
+                "avg_max_drawdown": -0.02955088498676839,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.005441171719151927,
+                "avg_max_drawdown": -0.0006063406390399706,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.06330802137805952,
+                "avg_max_drawdown": -0.0006558464693034449,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.1618950579059355,
+                "avg_max_drawdown": -0.019441404983925437,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.06794884794444034,
+                "avg_max_drawdown": -0.028712958426103885,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.24984648576881585,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.0012126812780799412,
+                "avg_max_drawdown": -0.0012126812780799412,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.0013116929386068898,
+                "avg_max_drawdown": -0.0013116929386068898,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.03888280996785087,
+                "avg_max_drawdown": -0.03888280996785087,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.05742591685220777,
+                "avg_max_drawdown": -0.05742591685220777,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.00311238099467237,
+                "avg_max_drawdown": -0.005864547243024765,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 3,
+                "rate": 0.5,
+                "mean": -0.009564918473935221,
+                "avg_max_drawdown": -0.01867086419807427,
+                "wilson95": [
+                  0.18761280689940868,
+                  0.8123871931005913
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": -0.014672238484578992,
+                "avg_max_drawdown": -0.025973958880420922,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.036543418068645285,
+                "avg_max_drawdown": -0.05193314289533322,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.06560699660697024,
+                "avg_max_drawdown": -0.09127936456658413,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.0029738336671696454,
+                "avg_max_drawdown": -0.0031662615498807,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.016386794135975734,
+                "avg_max_drawdown": -0.009772970282621063,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.039252612070361494,
+                "avg_max_drawdown": -0.01639653636787671,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 4,
+                "rate": 0.4,
+                "mean": 0.018513313407814824,
+                "avg_max_drawdown": -0.02749438766331963,
+                "wilson95": [
+                  0.16817758120350967,
+                  0.6873304525498135
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 5,
+                "rate": 0.5555555555555556,
+                "mean": 0.0346658197831285,
+                "avg_max_drawdown": -0.030673014347117927,
+                "wilson95": [
+                  0.2666473457440297,
+                  0.811224570528086
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sz399006": {
+        "name": "创业板指",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.006993178705894082,
+                "avg_max_drawdown": -0.012507559588825906,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.022333804115110184,
+                "avg_max_drawdown": -0.030273397600418486,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.02875939041696675,
+                "avg_max_drawdown": -0.04637904012149237,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.041686667772379365,
+                "avg_max_drawdown": -0.07712627074951445,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.07458885804546404,
+                "avg_max_drawdown": -0.11543704885349558,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.004273725047022757,
+                "avg_max_drawdown": -0.0028742926853327594,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.017430691018294846,
+                "avg_max_drawdown": -0.008615570081024235,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.02506823847078773,
+                "avg_max_drawdown": -0.012572644064240397,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 2,
+                "rate": 0.2857142857142857,
+                "mean": 0.006930015701650194,
+                "avg_max_drawdown": -0.028418546482294502,
+                "wilson95": [
+                  0.0822171657090155,
+                  0.6410709098517873
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.02618814052166604,
+                "avg_max_drawdown": -0.03538344444425797,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.006177601821381384,
+                "avg_max_drawdown": -0.001938437105890034,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.07572812676980856,
+                "avg_max_drawdown": -0.00789926594494772,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.2523472915099296,
+                "avg_max_drawdown": -0.03705666560073584,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.09797761711553454,
+                "avg_max_drawdown": -0.04771178188899705,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.3479124879280886,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.003876874211780068,
+                "avg_max_drawdown": -0.003876874211780068,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.01579853188989544,
+                "avg_max_drawdown": -0.01579853188989544,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.07411333120147168,
+                "avg_max_drawdown": -0.07411333120147168,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.0954235637779941,
+                "avg_max_drawdown": -0.0954235637779941,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.00934152090678588,
+                "avg_max_drawdown": -0.012630864770681594,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.015690507211617282,
+                "avg_max_drawdown": -0.027765688639376285,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 3,
+                "rate": 0.5,
+                "mean": -0.02119282526103326,
+                "avg_max_drawdown": -0.039401665594405076,
+                "wilson95": [
+                  0.18761280689940868,
+                  0.8123871931005913
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.04516558801274904,
+                "avg_max_drawdown": -0.0687179398862428,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.07622174851230067,
+                "avg_max_drawdown": -0.11363277307249443,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.004625184897726476,
+                "avg_max_drawdown": -0.004439533688384701,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.02047422329063987,
+                "avg_max_drawdown": -0.013590203953425983,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.06513674117473106,
+                "avg_max_drawdown": -0.02226308358551913,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 4,
+                "rate": 0.4,
+                "mean": 0.027738909381807387,
+                "avg_max_drawdown": -0.04036323520547204,
+                "wilson95": [
+                  0.16817758120350967,
+                  0.6873304525498135
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 5,
+                "rate": 0.5555555555555556,
+                "mean": 0.05182643959281183,
+                "avg_max_drawdown": -0.04154964607214536,
+                "wilson95": [
+                  0.2666473457440297,
+                  0.811224570528086
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sh000688": {
+        "name": "科创50",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 4,
+                "rate": 0.5,
+                "mean": -0.0027125049596479905,
+                "avg_max_drawdown": -0.013095138178735019,
+                "wilson95": [
+                  0.21521252682444186,
+                  0.7847874731755582
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 4,
+                "rate": 0.5,
+                "mean": -0.008728945293860868,
+                "avg_max_drawdown": -0.033319818991065356,
+                "wilson95": [
+                  0.21521252682444186,
+                  0.7847874731755582
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.011388379713796637,
+                "avg_max_drawdown": -0.04821062518330735,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 5,
+                "rate": 0.625,
+                "mean": -0.029906244882864225,
+                "avg_max_drawdown": -0.06422663840528338,
+                "wilson95": [
+                  0.30573785458380187,
+                  0.863158240538479
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.0688048157788076,
+                "avg_max_drawdown": -0.11737858006038103,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 3,
+                "rate": 0.42857142857142855,
+                "mean": -0.0034121776955853755,
+                "avg_max_drawdown": -0.00642240195067989,
+                "wilson95": [
+                  0.15821692226262685,
+                  0.7495457695909742
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.020589336036386605,
+                "avg_max_drawdown": -0.01837987661121237,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.025371617059030127,
+                "avg_max_drawdown": -0.02241941916858048,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.01783075672860882,
+                "avg_max_drawdown": -0.03693298446273668,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.006081779763984004,
+                "avg_max_drawdown": -0.0544578130431872,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": -0.00010259086093744596,
+                "avg_max_drawdown": -0.0003199658703071373,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.048407065423964724,
+                "avg_max_drawdown": -0.011154672237260188,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.24780493803520315,
+                "avg_max_drawdown": -0.019731228668942002,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.1253981892880407,
+                "avg_max_drawdown": -0.04833691302812759,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.4622142268195788,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.0006399317406142746,
+                "avg_max_drawdown": -0.0006399317406142746,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.012577968694833408,
+                "avg_max_drawdown": -0.022309344474520376,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.039462457337884005,
+                "avg_max_drawdown": -0.039462457337884005,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.09667382605625519,
+                "avg_max_drawdown": -0.09667382605625519,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.010226211807148056,
+                "avg_max_drawdown": -0.017940784358991917,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": -0.0024085817647903998,
+                "avg_max_drawdown": -0.03672308565539876,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": 0.0016528042033931063,
+                "avg_max_drawdown": -0.049182231450633974,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": -0.017875451346376043,
+                "avg_max_drawdown": -0.059207408766954704,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.07936828693542287,
+                "avg_max_drawdown": -0.12688323221646042,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.0016206737315346165,
+                "avg_max_drawdown": -0.004207321293068789,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.019813738003532456,
+                "avg_max_drawdown": -0.017487917427461686,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 5,
+                "rate": 0.5,
+                "mean": 0.06116497898907695,
+                "avg_max_drawdown": -0.02475275469427183,
+                "wilson95": [
+                  0.23658959361548731,
+                  0.7634104063845126
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 7,
+                "rate": 0.7,
+                "mean": 0.03402882507479408,
+                "avg_max_drawdown": -0.041709954587969555,
+                "wilson95": [
+                  0.39677321997956516,
+                  0.892210712513788
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 5,
+                "rate": 0.5555555555555556,
+                "mean": 0.05548474403648344,
+                "avg_max_drawdown": -0.04906170649180167,
+                "wilson95": [
+                  0.2666473457440297,
+                  0.811224570528086
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sh000300": {
+        "name": "沪深300",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.0017620799243737023,
+                "avg_max_drawdown": -0.004967009830589411,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 1,
+                "rate": 0.125,
+                "mean": -0.012206467458445308,
+                "avg_max_drawdown": -0.017299832013437266,
+                "wilson95": [
+                  0.02241690886329617,
+                  0.4708948057698615
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.01404042079369705,
+                "avg_max_drawdown": -0.02238198666454036,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.01602859808361627,
+                "avg_max_drawdown": -0.03527906083107975,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.03162735094384069,
+                "avg_max_drawdown": -0.05058485968156569,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.004446756404694528,
+                "avg_max_drawdown": -0.0015503899666849316,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.01478191605685524,
+                "avg_max_drawdown": -0.0032685246009221797,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 6,
+                "rate": 0.8571428571428571,
+                "mean": 0.012885578928876509,
+                "avg_max_drawdown": -0.004209895919194152,
+                "wilson95": [
+                  0.48686549668097007,
+                  0.9743210440510253
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 3,
+                "rate": 0.42857142857142855,
+                "mean": 0.004786934915988964,
+                "avg_max_drawdown": -0.010029219566147583,
+                "wilson95": [
+                  0.15821692226262685,
+                  0.7495457695909742
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 3,
+                "rate": 0.42857142857142855,
+                "mean": 0.006880593086177405,
+                "avg_max_drawdown": -0.019877843200302107,
+                "wilson95": [
+                  0.15821692226262685,
+                  0.7495457695909742
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.007953837055900692,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.050804804676060966,
+                "avg_max_drawdown": -0.0016682629182359632,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.11930917795631907,
+                "avg_max_drawdown": -0.015567653462185638,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.06029020101817911,
+                "avg_max_drawdown": -0.015567653462185638,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.17086974292269197,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.0011041740178250325,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.0033365258364719264,
+                "avg_max_drawdown": -0.0033365258364719264,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.031135306924371275,
+                "avg_max_drawdown": -0.031135306924371275,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.029805497346381826,
+                "avg_max_drawdown": -0.031135306924371275,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.004681568454895739,
+                "avg_max_drawdown": -0.0058160425806373746,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.008006272242872406,
+                "avg_max_drawdown": -0.01573198847903795,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": -0.010991013792640614,
+                "avg_max_drawdown": -0.018588539951549816,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.019217915081190844,
+                "avg_max_drawdown": -0.0336841114572361,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.03117945046972938,
+                "avg_max_drawdown": -0.05394007578029978,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.005992356626122286,
+                "avg_max_drawdown": -0.0015692552927685567,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.01588054413762525,
+                "avg_max_drawdown": -0.006688639743972569,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 7,
+                "rate": 0.7,
+                "mean": 0.03135754317454122,
+                "avg_max_drawdown": -0.009699392504138305,
+                "wilson95": [
+                  0.39677321997956516,
+                  0.892210712513788
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 5,
+                "rate": 0.5,
+                "mean": 0.017097314961287767,
+                "avg_max_drawdown": -0.015033235486825447,
+                "wilson95": [
+                  0.23658959361548731,
+                  0.7634104063845126
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 4,
+                "rate": 0.4444444444444444,
+                "mean": 0.020524348970825026,
+                "avg_max_drawdown": -0.0188442739434751,
+                "wilson95": [
+                  0.188775429471914,
+                  0.7333526542559703
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sh000905": {
+        "name": "中证500",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 4,
+                "rate": 0.5,
+                "mean": 0.0008378779422730659,
+                "avg_max_drawdown": -0.005156882477467137,
+                "wilson95": [
+                  0.21521252682444186,
+                  0.7847874731755582
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.011563449037984855,
+                "avg_max_drawdown": -0.01844202388555609,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.023043826408031515,
+                "avg_max_drawdown": -0.034386776661904886,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 1,
+                "rate": 0.125,
+                "mean": -0.03767001381392411,
+                "avg_max_drawdown": -0.05571206132050904,
+                "wilson95": [
+                  0.02241690886329617,
+                  0.4708948057698615
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.06789080121144382,
+                "avg_max_drawdown": -0.09911609989600825,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.0021173457795670625,
+                "avg_max_drawdown": -0.002067974215264406,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 6,
+                "rate": 0.8571428571428571,
+                "mean": 0.016313684830855695,
+                "avg_max_drawdown": -0.005855025252554388,
+                "wilson95": [
+                  0.48686549668097007,
+                  0.9743210440510253
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.017526175087035595,
+                "avg_max_drawdown": -0.006362299911193874,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 3,
+                "rate": 0.42857142857142855,
+                "mean": 0.016125295140629547,
+                "avg_max_drawdown": -0.01892784815114818,
+                "wilson95": [
+                  0.15821692226262685,
+                  0.7495457695909742
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.017426607249310666,
+                "avg_max_drawdown": -0.030626617538776286,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.004723721583418605,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.059928541600097196,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.14788074644889482,
+                "avg_max_drawdown": -0.00842043062377662,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.06017220806800555,
+                "avg_max_drawdown": -0.02330612697123019,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.2394511258955987,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.00051704398567054,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.01066440152158643,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.01684086124755324,
+                "avg_max_drawdown": -0.01684086124755324,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.04661225394246038,
+                "avg_max_drawdown": -0.04661225394246038,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 2,
+                "rate": 0.3333333333333333,
+                "mean": 0.0002584011062541358,
+                "avg_max_drawdown": -0.003051864726604847,
+                "wilson95": [
+                  0.09676933255921683,
+                  0.7000116786584712
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": -0.006979629064329529,
+                "avg_max_drawdown": -0.01627587459299033,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 3,
+                "rate": 0.5,
+                "mean": -0.013937110645198961,
+                "avg_max_drawdown": -0.025946672804856297,
+                "wilson95": [
+                  0.18761280689940868,
+                  0.8123871931005913
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.03627551575266841,
+                "avg_max_drawdown": -0.05269483376144644,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.07512612212476784,
+                "avg_max_drawdown": -0.103416384530039,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 7,
+                "rate": 0.7,
+                "mean": 0.002890443653879582,
+                "avg_max_drawdown": -0.003741969096695885,
+                "wilson95": [
+                  0.39677321997956516,
+                  0.892210712513788
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.017275865757669616,
+                "avg_max_drawdown": -0.009086612029438746,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.03345576323615337,
+                "avg_max_drawdown": -0.016395027584445842,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 4,
+                "rate": 0.4,
+                "mean": 0.019612672006749588,
+                "avg_max_drawdown": -0.026202242505343098,
+                "wilson95": [
+                  0.16817758120350967,
+                  0.6873304525498135
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 5,
+                "rate": 0.5555555555555556,
+                "mean": 0.037439833434363745,
+                "avg_max_drawdown": -0.03196674609591753,
+                "wilson95": [
+                  0.2666473457440297,
+                  0.811224570528086
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      },
+      "sh000852": {
+        "name": "中证1000",
+        "layers": {
+          "L1": {
+            "n": 8,
+            "start": "2024-12-10",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 8,
+                "wins": 6,
+                "rate": 0.75,
+                "mean": 0.0031541987462357507,
+                "avg_max_drawdown": -0.0038810744684814186,
+                "wilson95": [
+                  0.40926987910258916,
+                  0.9285223111419724
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 8,
+                "wins": 2,
+                "rate": 0.25,
+                "mean": -0.011153032444418787,
+                "avg_max_drawdown": -0.016762661709841017,
+                "wilson95": [
+                  0.07147768885802763,
+                  0.5907301208974108
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 8,
+                "wins": 3,
+                "rate": 0.375,
+                "mean": -0.030003987775507862,
+                "avg_max_drawdown": -0.03747031529148341,
+                "wilson95": [
+                  0.13684175946152105,
+                  0.6942621454161981
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 8,
+                "wins": 1,
+                "rate": 0.125,
+                "mean": -0.05067817163153468,
+                "avg_max_drawdown": -0.06822934411708087,
+                "wilson95": [
+                  0.02241690886329617,
+                  0.4708948057698615
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 7,
+                "wins": 1,
+                "rate": 0.14285714285714285,
+                "mean": -0.08866619956917235,
+                "avg_max_drawdown": -0.1192443362275346,
+                "wilson95": [
+                  0.02567895594897479,
+                  0.51313450331903
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L2": {
+            "n": 7,
+            "start": "2024-11-05",
+            "end": "2026-08-19",
+            "horizons": {
+              "1": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.0003647126267808546,
+                "avg_max_drawdown": -0.004321748668447732,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.013283179181830926,
+                "avg_max_drawdown": -0.0075144944841316775,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.01973680721791195,
+                "avg_max_drawdown": -0.008379197524035169,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 7,
+                "wins": 4,
+                "rate": 0.5714285714285714,
+                "mean": 0.020942841731410127,
+                "avg_max_drawdown": -0.019669610939623525,
+                "wilson95": [
+                  0.2504542304090258,
+                  0.8417830777373732
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 7,
+                "wins": 5,
+                "rate": 0.7142857142857143,
+                "mean": 0.03641079387222233,
+                "avg_max_drawdown": -0.027188280958925577,
+                "wilson95": [
+                  0.35892909014821267,
+                  0.9177828342909844
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "L3": {
+            "n": 2,
+            "start": "2024-09-24",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.004952762321972837,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 2,
+                "wins": 2,
+                "rate": 1.0,
+                "mean": 0.059797355257594775,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.34237195288961925,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.16043437234168506,
+                "avg_max_drawdown": -0.007514991802235416,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 2,
+                "wins": 1,
+                "rate": 0.5,
+                "mean": 0.07066898637403463,
+                "avg_max_drawdown": -0.02244989631138028,
+                "wilson95": [
+                  0.09452865480086614,
+                  0.9054713451991339
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.2889095671353734,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "下跌底部区": {
+            "n": 1,
+            "start": "2026-10-15",
+            "end": "2026-10-15",
+            "horizons": {
+              "1": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.0004926145253905112,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 1,
+                "wins": 1,
+                "rate": 1.0,
+                "mean": 0.013213748287453253,
+                "avg_max_drawdown": 0.0,
+                "wilson95": [
+                  0.20654329147389294,
+                  1.0
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.015029983604470831,
+                "avg_max_drawdown": -0.015029983604470831,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 1,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.04489979262276056,
+                "avg_max_drawdown": -0.04489979262276056,
+                "wilson95": [
+                  0.0,
+                  0.7934567085261071
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 0,
+                "wins": 0,
+                "rate": null,
+                "mean": null,
+                "avg_max_drawdown": null,
+                "wilson95": [
+                  null,
+                  null
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "趋势上行区": {
+            "n": 6,
+            "start": "2026-01-14",
+            "end": "2026-07-09",
+            "horizons": {
+              "1": {
+                "samples": 6,
+                "wins": 4,
+                "rate": 0.6666666666666666,
+                "mean": 0.0022989666400749877,
+                "avg_max_drawdown": -0.002374378195608836,
+                "wilson95": [
+                  0.29998832134152864,
+                  0.9032306674407831
+                ],
+                "small_sample": true
+              },
+              "3": {
+                "samples": 6,
+                "wins": 3,
+                "rate": 0.5,
+                "mean": -0.00796616340640316,
+                "avg_max_drawdown": -0.01586430578157298,
+                "wilson95": [
+                  0.18761280689940868,
+                  0.8123871931005913
+                ],
+                "small_sample": true
+              },
+              "5": {
+                "samples": 6,
+                "wins": 3,
+                "rate": 0.5,
+                "mean": -0.019310310093213084,
+                "avg_max_drawdown": -0.029414267440829107,
+                "wilson95": [
+                  0.18761280689940868,
+                  0.8123871931005913
+                ],
+                "small_sample": true
+              },
+              "10": {
+                "samples": 6,
+                "wins": 1,
+                "rate": 0.16666666666666666,
+                "mean": -0.052460064446531895,
+                "avg_max_drawdown": -0.06405866409051429,
+                "wilson95": [
+                  0.03005258587173032,
+                  0.563509436563646
+                ],
+                "small_sample": true
+              },
+              "20": {
+                "samples": 6,
+                "wins": 0,
+                "rate": 0.0,
+                "mean": -0.09166300159402035,
+                "avg_max_drawdown": -0.12021228917588339,
+                "wilson95": [
+                  0.0,
+                  0.3903430336530645
+                ],
+                "small_sample": true
+              }
+            }
+          },
+          "中性过渡区": {
+            "n": 10,
+            "start": "2024-09-24",
+            "end": "2026-10-09",
+            "horizons": {
+              "1": {
+                "samples": 10,
+                "wins": 8,
+                "rate": 0.8,
+                "mean": 0.0023405688635457222,
+                "avg_max_drawdown": -0.004705456725333246,
+                "wilson95": [
+                  0.49015684672072335,
+                  0.9433190520193067
+                ],
+                "small_sample": false
+              },
+              "3": {
+                "samples": 10,
+                "wins": 5,
+                "rate": 0.5,
+                "mean": 0.015793593738362144,
+                "avg_max_drawdown": -0.009151692037821202,
+                "wilson95": [
+                  0.23658959361548731,
+                  0.7634104063845126
+                ],
+                "small_sample": false
+              },
+              "5": {
+                "samples": 10,
+                "wins": 6,
+                "rate": 0.6,
+                "mean": 0.03498863371684402,
+                "avg_max_drawdown": -0.018193130035513882,
+                "wilson95": [
+                  0.3126695474501864,
+                  0.8318224187964902
+                ],
+                "small_sample": false
+              },
+              "10": {
+                "samples": 10,
+                "wins": 5,
+                "rate": 0.5,
+                "mean": 0.024217267111761465,
+                "avg_max_drawdown": -0.029917004497092593,
+                "wilson95": [
+                  0.23658959361548731,
+                  0.7634104063845126
+                ],
+                "small_sample": false
+              },
+              "20": {
+                "samples": 9,
+                "wins": 7,
+                "rate": 0.7777777777777778,
+                "mean": 0.052566637424538376,
+                "avg_max_drawdown": -0.033750509472213426,
+                "wilson95": [
+                  0.4525833436728054,
+                  0.9367762376877727
+                ],
+                "small_sample": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "segments": {
+      "cutoff": "2025-10-17",
+      "first": {
+        "L1": {
+          "n": 3,
+          "start": "2024-12-10",
+          "end": "2025-08-22",
+          "horizons": {
+            "1": {
+              "samples": 3,
+              "wins": 1,
+              "rate": 0.3333333333333333,
+              "mean": 0.0056466088486460215,
+              "avg_max_drawdown": -0.0012987238755811648,
+              "wilson95": [
+                0.0614903152761605,
+                0.7923450448735121
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 3,
+              "wins": 1,
+              "rate": 0.3333333333333333,
+              "mean": -0.00614169681071534,
+              "avg_max_drawdown": -0.009633686313440637,
+              "wilson95": [
+                0.0614903152761605,
+                0.7923450448735121
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 3,
+              "wins": 1,
+              "rate": 0.3333333333333333,
+              "mean": -0.004504429931918834,
+              "avg_max_drawdown": -0.01439670380021755,
+              "wilson95": [
+                0.0614903152761605,
+                0.7923450448735121
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 3,
+              "wins": 1,
+              "rate": 0.3333333333333333,
+              "mean": 0.0023860668889549666,
+              "avg_max_drawdown": -0.015775193468177167,
+              "wilson95": [
+                0.0614903152761605,
+                0.7923450448735121
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 3,
+              "wins": 1,
+              "rate": 0.3333333333333333,
+              "mean": -0.013125834586101726,
+              "avg_max_drawdown": -0.027694018320599662,
+              "wilson95": [
+                0.0614903152761605,
+                0.7923450448735121
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "L2": {
+          "n": 2,
+          "start": "2024-11-05",
+          "end": "2025-04-07",
+          "horizons": {
+            "1": {
+              "samples": 2,
+              "wins": 1,
+              "rate": 0.5,
+              "mean": 0.0060334211323793685,
+              "avg_max_drawdown": -0.002508301253285272,
+              "wilson95": [
+                0.09452865480086614,
+                0.9054713451991339
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 2,
+              "wins": 2,
+              "rate": 1.0,
+              "mean": 0.027645927488186173,
+              "avg_max_drawdown": -0.002508301253285272,
+              "wilson95": [
+                0.34237195288961925,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 2,
+              "wins": 2,
+              "rate": 1.0,
+              "mean": 0.02872832468284059,
+              "avg_max_drawdown": -0.002508301253285272,
+              "wilson95": [
+                0.34237195288961925,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 2,
+              "wins": 1,
+              "rate": 0.5,
+              "mean": 0.018857529168853027,
+              "avg_max_drawdown": -0.011644006655837313,
+              "wilson95": [
+                0.09452865480086614,
+                0.9054713451991339
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 2,
+              "wins": 1,
+              "rate": 0.5,
+              "mean": 0.025241981372827405,
+              "avg_max_drawdown": -0.02526721011133448,
+              "wilson95": [
+                0.09452865480086614,
+                0.9054713451991339
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "L3": {
+          "n": 1,
+          "start": "2024-09-24",
+          "end": "2024-09-24",
+          "horizons": {
+            "1": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.014803500093976352,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.10494613518859386,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.2697536628370094,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.15038589938274005,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.17086974292269197,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "second": {
+        "L1": {
+          "n": 5,
+          "start": "2026-05-15",
+          "end": "2026-10-09",
+          "horizons": {
+            "1": {
+              "samples": 5,
+              "wins": 1,
+              "rate": 0.2,
+              "mean": -0.006207293188185537,
+              "avg_max_drawdown": -0.007167981403594359,
+              "wilson95": [
+                0.03622316096978745,
+                0.6244717358814613
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 5,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.01584532984708329,
+              "avg_max_drawdown": -0.021899519433435245,
+              "wilson95": [
+                0.0,
+                0.43449149475208104
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 5,
+              "wins": 1,
+              "rate": 0.2,
+              "mean": -0.01976201531076398,
+              "avg_max_drawdown": -0.027173156383134046,
+              "wilson95": [
+                0.03622316096978745,
+                0.6244717358814613
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 5,
+              "wins": 1,
+              "rate": 0.2,
+              "mean": -0.027077397067159014,
+              "avg_max_drawdown": -0.0469813812488213,
+              "wilson95": [
+                0.03622316096978745,
+                0.6244717358814613
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 4,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.04550348821214492,
+              "avg_max_drawdown": -0.06775299070229021,
+              "wilson95": [
+                0.0,
+                0.48990002040399916
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "L2": {
+          "n": 5,
+          "start": "2026-01-14",
+          "end": "2026-08-19",
+          "horizons": {
+            "1": {
+              "samples": 5,
+              "wins": 4,
+              "rate": 0.8,
+              "mean": 0.003812090513620592,
+              "avg_max_drawdown": -0.0011672254520447955,
+              "wilson95": [
+                0.3755282641185388,
+                0.9637768390302125
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 5,
+              "wins": 3,
+              "rate": 0.6,
+              "mean": 0.009636311484322868,
+              "avg_max_drawdown": -0.003572613939976943,
+              "wilson95": [
+                0.23071993220883708,
+                0.8823817688407467
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 5,
+              "wins": 4,
+              "rate": 0.8,
+              "mean": 0.006548480627290876,
+              "avg_max_drawdown": -0.004890533785557705,
+              "wilson95": [
+                0.3755282641185388,
+                0.9637768390302125
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 5,
+              "wins": 2,
+              "rate": 0.4,
+              "mean": -0.0008413027851566612,
+              "avg_max_drawdown": -0.00938330473027169,
+              "wilson95": [
+                0.1176182311592533,
+                0.769280067791163
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 5,
+              "wins": 2,
+              "rate": 0.4,
+              "mean": -0.00046396222848259504,
+              "avg_max_drawdown": -0.017722096435889158,
+              "wilson95": [
+                0.1176182311592533,
+                0.769280067791163
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "L3": {
+          "n": 1,
+          "start": "2026-10-15",
+          "end": "2026-10-15",
+          "horizons": {
+            "1": {
+              "samples": 1,
+              "wins": 1,
+              "rate": 1.0,
+              "mean": 0.0011041740178250325,
+              "avg_max_drawdown": 0.0,
+              "wilson95": [
+                0.20654329147389294,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "3": {
+              "samples": 1,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.0033365258364719264,
+              "avg_max_drawdown": -0.0033365258364719264,
+              "wilson95": [
+                0.0,
+                0.7934567085261071
+              ],
+              "small_sample": true
+            },
+            "5": {
+              "samples": 1,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.031135306924371275,
+              "avg_max_drawdown": -0.031135306924371275,
+              "wilson95": [
+                0.0,
+                0.7934567085261071
+              ],
+              "small_sample": true
+            },
+            "10": {
+              "samples": 1,
+              "wins": 0,
+              "rate": 0.0,
+              "mean": -0.029805497346381826,
+              "avg_max_drawdown": -0.031135306924371275,
+              "wilson95": [
+                0.0,
+                0.7934567085261071
+              ],
+              "small_sample": true
+            },
+            "20": {
+              "samples": 0,
+              "wins": 0,
+              "rate": null,
+              "mean": null,
+              "avg_max_drawdown": null,
+              "wilson95": [
+                null,
+                null
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "start_date": "2024-09-24",
+      "end_date": "2024-10-22",
+      "days": 15,
+      "level": "L3",
+      "state": "中性过渡区",
+      "peak_amount": 138842785219.325
+    },
+    {
+      "start_date": "2024-11-05",
+      "end_date": "2024-11-11",
+      "days": 5,
+      "level": "L2",
+      "state": "中性过渡区",
+      "peak_amount": 33582198422.192
+    },
+    {
+      "start_date": "2024-12-10",
+      "end_date": "2024-12-10",
+      "days": 1,
+      "level": "L1",
+      "state": "中性过渡区",
+      "peak_amount": 10257484391.0
+    },
+    {
+      "start_date": "2025-02-21",
+      "end_date": "2025-02-21",
+      "days": 1,
+      "level": "L1",
+      "state": "中性过渡区",
+      "peak_amount": 10419850454.0
+    },
+    {
+      "start_date": "2025-04-07",
+      "end_date": "2025-04-08",
+      "days": 2,
+      "level": "L2",
+      "state": "中性过渡区",
+      "peak_amount": 51416600219.0
+    },
+    {
+      "start_date": "2025-08-22",
+      "end_date": "2025-08-28",
+      "days": 4,
+      "level": "L1",
+      "state": "中性过渡区",
+      "peak_amount": 12714444608.0
+    },
+    {
+      "start_date": "2026-01-14",
+      "end_date": "2026-02-04",
+      "days": 15,
+      "level": "L2",
+      "state": "趋势上行区",
+      "peak_amount": 83307599724.0
+    },
+    {
+      "start_date": "2026-05-07",
+      "end_date": "2026-05-11",
+      "days": 2,
+      "level": "L2",
+      "state": "趋势上行区",
+      "peak_amount": 20989744033.0
+    },
+    {
+      "start_date": "2026-05-15",
+      "end_date": "2026-05-15",
+      "days": 1,
+      "level": "L1",
+      "state": "趋势上行区",
+      "peak_amount": 11374703475.0
+    },
+    {
+      "start_date": "2026-06-23",
+      "end_date": "2026-06-25",
+      "days": 3,
+      "level": "L1",
+      "state": "趋势上行区",
+      "peak_amount": 13252886361.0
+    },
+    {
+      "start_date": "2026-06-30",
+      "end_date": "2026-07-02",
+      "days": 2,
+      "level": "L1",
+      "state": "趋势上行区",
+      "peak_amount": 10527602171.0
+    },
+    {
+      "start_date": "2026-07-09",
+      "end_date": "2026-07-10",
+      "days": 2,
+      "level": "L1",
+      "state": "趋势上行区",
+      "peak_amount": 10899194362.0
+    },
+    {
+      "start_date": "2026-07-17",
+      "end_date": "2026-07-23",
+      "days": 5,
+      "level": "L2",
+      "state": "中性过渡区",
+      "peak_amount": 61471725532.639
+    },
+    {
+      "start_date": "2026-07-28",
+      "end_date": "2026-08-05",
+      "days": 7,
+      "level": "L2",
+      "state": "中性过渡区",
+      "peak_amount": 32132771495.513
+    },
+    {
+      "start_date": "2026-08-19",
+      "end_date": "2026-08-19",
+      "days": 1,
+      "level": "L2",
+      "state": "中性过渡区",
+      "peak_amount": 21499543435.554
+    },
+    {
+      "start_date": "2026-10-09",
+      "end_date": "2026-10-09",
+      "days": 1,
+      "level": "L1",
+      "state": "中性过渡区",
+      "peak_amount": 10766454856.0
+    },
+    {
+      "start_date": "2026-10-15",
+      "end_date": "2026-11-05",
+      "days": 14,
+      "level": "L3",
+      "state": "下跌底部区",
+      "peak_amount": 97149727269.537
+    }
+  ],
+  "event_dates": [
+    "2024-09-24",
+    "2024-11-05",
+    "2024-12-10",
+    "2025-02-21",
+    "2025-04-07",
+    "2025-08-22",
+    "2026-01-14",
+    "2026-05-07",
+    "2026-05-15",
+    "2026-06-23",
+    "2026-06-30",
+    "2026-07-09",
+    "2026-07-17",
+    "2026-07-28",
+    "2026-08-19",
+    "2026-10-09",
+    "2026-10-15"
+  ],
+  "limits": [
+    "ETF 成交额含二级市场换手与套利资金，不等于净申购，不能直接当作增量资金。",
+    "2024 年以前 ETF 份额基数小，同一 100 亿阈值的含义不同；本报告结论只在研究区间内成立。",
+    "L3 事件样本量极小，只能作为个例描述，不得当作胜率依据。",
+    "市场状态只用沪深300 这一基准指数判定，其余指数仅作同期收益对照。",
+    "宽基全集口径按名称前缀筛选，未核对基金合同中的跟踪指数，可能与第三方口径存在差异。"
+  ],
+  "questions": [
+    {
+      "id": "core-six-all-break-100",
+      "question": "核心 6 只在研究区间内是否都出现过单日成交额 ≥ 100 亿元",
+      "verdict": "成立",
+      "samples": 6,
+      "range": [
+        "2024-09-24",
+        "2026-11-05"
+      ],
+      "evidence": "588000 首次 2024-09-30（45 天）、159915 首次 2024-09-27（35 天）、510300 首次 2024-09-24（47 天）、510050 首次 2024-09-30（10 天）、512100 首次 2024-09-30（6 天）、510500 首次 2024-09-30（18 天）"
+    },
+    {
+      "id": "only-six-broad-etfs",
+      "question": "是否只有这 6 只宽基 ETF 单日成交破百亿",
+      "verdict": "不成立",
+      "samples": 10,
+      "range": [
+        "2024-09-24",
+        "2026-11-05"
+      ],
+      "evidence": "510330 沪深300ETF华夏 首次 2025-04-08、159919 沪深300ETF嘉实 首次 2025-04-08、510310 沪深300ETF易方达 首次 2025-04-07、588080 科创50ETF易方达 首次 2024-10-08"
+    },
+    {
+      "id": "all-six-same-day-not-single",
+      "question": "核心 6 只全部同日破百亿的交易日是否不止一天（即不是孤例）",
+      "verdict": "成立",
+      "samples": 2,
+      "range": [
+        "2024-09-24",
+        "2026-11-05"
+      ],
+      "evidence": "2024-09-30、2026-11-03"
+    },
+    {
+      "id": "l1-beats-same-state",
+      "question": "L1 单只放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "不成立",
+      "samples": 8,
+      "range": [
+        "2024-12-10",
+        "2026-10-09"
+      ],
+      "evidence": "事件胜率 25.0% [7%, 59%]，基线 56.0% —（基线 n=425）"
+    },
+    {
+      "id": "l2-beats-same-state",
+      "question": "L2 多只放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "样本不足，暂不能判断",
+      "samples": 7,
+      "range": [
+        "2024-11-05",
+        "2026-08-19"
+      ],
+      "evidence": "事件胜率 85.7% [49%, 97%]，基线 56.0% —（基线 n=425）"
+    },
+    {
+      "id": "l3-beats-same-state",
+      "question": "L3 全池放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "样本不足，暂不能判断",
+      "samples": 2,
+      "range": [
+        "2024-09-24",
+        "2026-10-15"
+      ],
+      "evidence": "事件胜率 50.0% [9%, 91%]，基线 56.8% —（基线 n=285）"
+    },
+    {
+      "id": "state-0-beats-baseline",
+      "question": "下跌底部区内放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "样本不足，暂不能判断",
+      "samples": 1,
+      "range": [
+        "2026-10-15",
+        "2026-10-15"
+      ],
+      "evidence": "事件胜率 0.0% [0%, 79%]，基线 n=5"
+    },
+    {
+      "id": "state-1-beats-baseline",
+      "question": "趋势上行区内放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "样本不足，暂不能判断",
+      "samples": 6,
+      "range": [
+        "2026-01-14",
+        "2026-07-09"
+      ],
+      "evidence": "事件胜率 33.3% [10%, 70%]，基线 n=145"
+    },
+    {
+      "id": "state-2-beats-baseline",
+      "question": "中性过渡区内放量事件后 5 日胜率是否高于同状态非放量日基线",
+      "verdict": "成立",
+      "samples": 10,
+      "range": [
+        "2024-09-24",
+        "2026-10-09"
+      ],
+      "evidence": "事件胜率 70.0% [40%, 89%]，基线 n=280"
+    }
+  ]
+}

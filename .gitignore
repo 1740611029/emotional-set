@@ -1,0 +1,47 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 原始行情数据体积约 45MB，不入库；首次启动自动拉取
+data/raw/
+
+# 临时文件
+*.tmp
+
+# 前端
+signal-hub-web/node_modules/
+signal-hub-web/dist/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# ===== 本地 AI / Agent 工具目录（含本机路径与状态，不入库，避免泄漏本机地址）=====
+.workbuddy-ai/
+.codebuddy/
+.qoder/
+.trae/
+.kimi-code/
+.agents/
+.qwen/
+.loomy-attachments/
+.playwright-cli/
+.idea/
+
+# ===== 备份 / 临时 / 截图（非代码，不入库）=====
+.backup/
+.tmp-drill*/
+.tmp-drill2/
+.tmp-drill-etf/
+.screenshots/
+野人素材/
+
+# ===== 安装包（29MB 自包含 Python 安装器，非项目代码）=====
+初始化-1-安装Python.exe
+
+# ===== 杂项 =====
+*.bak
+*.log
+(3

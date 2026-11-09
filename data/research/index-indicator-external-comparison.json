@@ -1,0 +1,309 @@
+{
+  "algorithm_version": "index-mf4-participation-v1.0",
+  "production_ready": true,
+  "decision": "keep_v1_total_std_user_confirmed_2026-10-30",
+  "note": "用户确认保留 v1.0 的 BOLL 总体标准差。全部最终指标已由7指数×3日样本的独立逐行计算覆盖；OBV远端记录因逐日差分与同日带符号成交量矛盾而作为无效参照剔除，本地OBV数值按同一恒等式核验，不声称与同花顺OBV显示值一致。",
+  "verification_resolution": {
+    "status": "full_indicator_coverage_with_documented_external_exceptions",
+    "sample_matrix": "7个指数，每个指数2024-12-31、2025-12-31、2026-10-28，共21组",
+    "independent_reference": "使用标准库从固定同花顺OHLCV逐行计算全部最终指标，与生产pandas/numpy结果逐项断言一致",
+    "obv_numeric_identity": "每日OBV差分=收盘方向×当日成交量；累计起点和成交量固定倍数不影响差分符号",
+    "external_actuals_used": ["MFI14两日", "MA20/BOLL中轨一日", "BOLL上下轨口径", "收盘价四日", "成交量四日"],
+    "limitations": ["不声称原OBV远端查询值通过", "自定义Z20、回撤、波动率及其中位数以独立公式核对，不冒充软件原生字段"]
+  },
+  "source": {
+    "name": "同花顺问财（官方网页，用户本人登录会话）",
+    "query": "上证指数000001.SH；指定日线MFI14、BOLL(20,2)上中下轨、OBV；另查收盘价与成交量",
+    "urls": [
+      "https://www.iwencai.com/screener/result?w=上证指数000001.SH；2026年10月28日日线BOLL%2820%2C2%29布林线上轨、中轨、下轨&querytype=azhishu",
+      "https://www.iwencai.com/screener/result?w=上证指数000001.SH；2026年10月23日日线OBV；2026年10月26日日线OBV；2026年10月27日日线OBV；2026年10月28日日线OBV&querytype=azhishu",
+      "https://www.iwencai.com/screener/result?w=上证指数000001.SH；2026年10月28日日线MFI%2814%29；2026年10月27日日线MFI%2814%29&querytype=azhishu"
+    ],
+    "limitations": [
+      "返回表头不含参数元数据；BOLL(26,2)查询返回与(20,2)完全相同的字段和数值，不能靠查询文本证明参数生效",
+      "OBV 字段未标注单位、公式或累计起点",
+      "以上为指定日期的软件输出，不是全历史对照"
+    ]
+  },
+  "checks": [
+    {
+      "indicator": "mfi14",
+      "date": "2026-10-28",
+      "remote": 41.116,
+      "remote_display_rounding": 3,
+      "local": 41.115806,
+      "abs_diff": 0.000194,
+      "unit": "0-100 指数值",
+      "status": "match_within_display_precision"
+    },
+    {
+      "indicator": "mfi14",
+      "date": "2026-10-27",
+      "remote": 34.06,
+      "remote_display_rounding": 3,
+      "local": 34.059707,
+      "abs_diff": 0.000293,
+      "unit": "0-100 指数值",
+      "status": "match_within_display_precision"
+    },
+    {
+      "indicator": "boll_upper",
+      "date": "2026-10-28",
+      "remote": 3922.027,
+      "remote_display_rounding": 3,
+      "local": 3922.027267,
+      "abs_diff": 0.000267,
+      "unit": "指数点位",
+      "status": "matches_sample_std",
+      "local_total_std": 3918.0399,
+      "local_sample_std": 3922.0273
+    },
+    {
+      "indicator": "boll_mid",
+      "date": "2026-10-28",
+      "remote": 3764.553,
+      "remote_display_rounding": 3,
+      "local": 3764.5525,
+      "abs_diff": 0.0005,
+      "unit": "指数点位",
+      "status": "matches_sample_std",
+      "local_total_std": 3764.5525,
+      "local_sample_std": 3764.5525
+    },
+    {
+      "indicator": "boll_lower",
+      "date": "2026-10-28",
+      "remote": 3607.078,
+      "remote_display_rounding": 3,
+      "local": 3607.077733,
+      "abs_diff": 0.000267,
+      "unit": "指数点位",
+      "status": "matches_sample_std",
+      "local_total_std": 3611.0651,
+      "local_sample_std": 3607.0777
+    },
+    {
+      "indicator": "obv",
+      "segment": [
+        "2026-10-23",
+        "2026-10-28"
+      ],
+      "remote_level": {
+        "2026-10-23": 261562980,
+        "2026-10-26": 269479280,
+        "2026-10-27": 261508310,
+        "2026-10-28": 261812860
+      },
+      "local_level": {
+        "2026-10-23": 3728374766000.0,
+        "2026-10-26": 3771654198000.0,
+        "2026-10-27": 3729875245000.0,
+        "2026-10-28": 3773237528000.0
+      },
+      "remote_change": 249880,
+      "local_change": 44862762000.0,
+      "status": "rejected_invalid_reference_signed_volume_mismatch",
+      "note": "远端单位与累计起点未标注，且三日差分均不等于同日带符号成交量，违反OBV基本恒等式，不能作为有效外部参照；本地差分已独立核验",
+      "remote_daily_deltas": {
+        "2026-10-26": 7916300,
+        "2026-10-27": -7970970,
+        "2026-10-28": 304550
+      },
+      "signed_volume_expected_from_remote_quotes": {
+        "2026-10-26": 43279431800,
+        "2026-10-27": -41778953200,
+        "2026-10-28": 43362282900
+      }
+    },
+    {
+      "indicator": "close",
+      "dates": [
+        "2026-10-23",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28"
+      ],
+      "remote": {
+        "2026-10-23": 3690.4753,
+        "2026-10-26": 3697.5199,
+        "2026-10-27": 3648.301,
+        "2026-10-28": 3681.4691
+      },
+      "local": {
+        "2026-10-23": 3690.48,
+        "2026-10-26": 3697.52,
+        "2026-10-27": 3648.3,
+        "2026-10-28": 3681.47
+      },
+      "status": "source_rows_compared"
+    },
+    {
+      "indicator": "volume",
+      "dates": [
+        "2026-10-23",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28"
+      ],
+      "remote": {
+        "2026-10-23": 55284291200,
+        "2026-10-26": 43279431800,
+        "2026-10-27": 41778953200,
+        "2026-10-28": 43362282900
+      },
+      "local": {
+        "2026-10-23": 55284291000.0,
+        "2026-10-26": 43279432000.0,
+        "2026-10-27": 41778953000.0,
+        "2026-10-28": 43362283000.0
+      },
+      "status": "source_rows_compared"
+    }
+  ],
+  "boll_finding": {
+    "remote_period": 20,
+    "period_evidence": "远期中轨 3764.553 等于 20 日均线 3764.5525，26 日均线为 3797.5554",
+    "remote_multiplier": 2.0,
+    "multiplier_evidence": "(上轨-中轨)/样本标准差 = 2.0000",
+    "remote_std": "样本标准差 n-1",
+    "remote_std_evidence": "上轨 3922.027 与 n-1 下 3922.0273 一致；n 下为 3918.0399",
+    "project_std": "总体标准差 ddof=0",
+    "affected_layers": [
+      "percent_b 衰竭条件",
+      "zscore20 衰竭条件"
+    ]
+  },
+  "impact_if_aligned_to_sample_std": {
+    "sh000001": {
+      "name": "上证指数",
+      "signals_current": 8,
+      "signals_sample_std": 7,
+      "signal_days_changed": 1,
+      "changed_examples": [
+        {
+          "date": "2023-12-25",
+          "current": "bottom",
+          "sample_std": "none"
+        }
+      ]
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "signals_current": 14,
+      "signals_sample_std": 13,
+      "signal_days_changed": 1,
+      "changed_examples": [
+        {
+          "date": "2026-05-14",
+          "current": "top",
+          "sample_std": "none"
+        }
+      ]
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "signals_current": 18,
+      "signals_sample_std": 18,
+      "signal_days_changed": 2,
+      "changed_examples": [
+        {
+          "date": "2021-03-11",
+          "current": "bottom",
+          "sample_std": "none"
+        },
+        {
+          "date": "2021-03-16",
+          "current": "none",
+          "sample_std": "bottom"
+        }
+      ]
+    },
+    "sh000688": {
+      "name": "科创50",
+      "signals_current": 15,
+      "signals_sample_std": 13,
+      "signal_days_changed": 4,
+      "changed_examples": [
+        {
+          "date": "2021-06-24",
+          "current": "top",
+          "sample_std": "none"
+        },
+        {
+          "date": "2021-07-01",
+          "current": "none",
+          "sample_std": "top"
+        },
+        {
+          "date": "2025-04-09",
+          "current": "bottom",
+          "sample_std": "none"
+        },
+        {
+          "date": "2026-03-27",
+          "current": "bottom",
+          "sample_std": "none"
+        }
+      ]
+    },
+    "sh000300": {
+      "name": "沪深300",
+      "signals_current": 13,
+      "signals_sample_std": 11,
+      "signal_days_changed": 2,
+      "changed_examples": [
+        {
+          "date": "2021-03-11",
+          "current": "bottom",
+          "sample_std": "none"
+        },
+        {
+          "date": "2022-01-26",
+          "current": "bottom",
+          "sample_std": "none"
+        }
+      ]
+    },
+    "sh000905": {
+      "name": "中证500",
+      "signals_current": 16,
+      "signals_sample_std": 14,
+      "signal_days_changed": 2,
+      "changed_examples": [
+        {
+          "date": "2022-03-17",
+          "current": "bottom",
+          "sample_std": "none"
+        },
+        {
+          "date": "2024-05-10",
+          "current": "top",
+          "sample_std": "none"
+        }
+      ]
+    },
+    "sh000852": {
+      "name": "中证1000",
+      "signals_current": 22,
+      "signals_sample_std": 21,
+      "signal_days_changed": 1,
+      "changed_examples": [
+        {
+          "date": "2024-05-10",
+          "current": "top",
+          "sample_std": "none"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "raw_unchanged": true,
+    "production_unchanged": true,
+    "raw_sha256": "dc08089d02fc2cc5ee17df9ff376215d3123e051a88555ef0e6723b90e3c8b1e",
+    "production_sha256": {
+      "index-signals.json": "338477291ecc5e89ac7a3e67a898acaf3164454d3294a7b18f0295b391a84e89",
+      "sector-trends.json": "d74690fe403668401ff5f94bf3cb831f61e65e5bf26ee7011ea8707733a638c5",
+      "etf-ratio.json": "4dcd2ac006596d9742d95361e89a102c7b8f7d7fc4343be212a68b823ec24075"
+    }
+  }
+}

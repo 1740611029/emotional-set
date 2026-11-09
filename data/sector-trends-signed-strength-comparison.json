@@ -1,0 +1,1561 @@
+{
+  "status": "pass",
+  "baseline_as_of": "2026-10-30",
+  "current_as_of": "2026-10-30",
+  "compared_items": 162,
+  "problem_count": 0,
+  "problems": [],
+  "strength_change_count": 155,
+  "strength_changes": [
+    {
+      "code": "801120",
+      "name": "食品饮料",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 79.8448,
+      "expected_strength": 29.844800000000006,
+      "current_strength": 29.8448,
+      "matches_expected": true
+    },
+    {
+      "code": "801124",
+      "name": "食品加工",
+      "parent": "食品饮料",
+      "old_basis": "inverted",
+      "old_strength": 61.7988,
+      "expected_strength": -11.7988,
+      "current_strength": -11.7988,
+      "matches_expected": true
+    },
+    {
+      "code": "801125",
+      "name": "白酒Ⅱ",
+      "parent": "食品饮料",
+      "old_basis": "directional",
+      "old_strength": 85.5148,
+      "expected_strength": 35.514799999999994,
+      "current_strength": 35.5148,
+      "matches_expected": true
+    },
+    {
+      "code": "801126",
+      "name": "非白酒",
+      "parent": "食品饮料",
+      "old_basis": "inverted",
+      "old_strength": 80.9278,
+      "expected_strength": -30.927800000000005,
+      "current_strength": -30.9278,
+      "matches_expected": true
+    },
+    {
+      "code": "801127",
+      "name": "饮料乳品",
+      "parent": "食品饮料",
+      "old_basis": "directional",
+      "old_strength": 78.0291,
+      "expected_strength": 28.0291,
+      "current_strength": 28.0291,
+      "matches_expected": true
+    },
+    {
+      "code": "801128",
+      "name": "休闲食品",
+      "parent": "食品饮料",
+      "old_basis": "directional",
+      "old_strength": 61.5181,
+      "expected_strength": 11.518099999999997,
+      "current_strength": 11.5181,
+      "matches_expected": true
+    },
+    {
+      "code": "801129",
+      "name": "调味发酵品Ⅱ",
+      "parent": "食品饮料",
+      "old_basis": "inverted",
+      "old_strength": 67.9262,
+      "expected_strength": -17.926199999999994,
+      "current_strength": -17.9262,
+      "matches_expected": true
+    },
+    {
+      "code": "801780",
+      "name": "银行",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 89.0687,
+      "expected_strength": 39.06870000000001,
+      "current_strength": 39.0687,
+      "matches_expected": true
+    },
+    {
+      "code": "801782",
+      "name": "国有大型银行Ⅱ",
+      "parent": "银行",
+      "old_basis": "directional",
+      "old_strength": 89.2721,
+      "expected_strength": 39.272099999999995,
+      "current_strength": 39.2721,
+      "matches_expected": true
+    },
+    {
+      "code": "801783",
+      "name": "股份制银行Ⅱ",
+      "parent": "银行",
+      "old_basis": "directional",
+      "old_strength": 87.1231,
+      "expected_strength": 37.123099999999994,
+      "current_strength": 37.1231,
+      "matches_expected": true
+    },
+    {
+      "code": "801784",
+      "name": "城商行Ⅱ",
+      "parent": "银行",
+      "old_basis": "directional",
+      "old_strength": 79.7873,
+      "expected_strength": 29.787300000000002,
+      "current_strength": 29.7873,
+      "matches_expected": true
+    },
+    {
+      "code": "801785",
+      "name": "农商行Ⅱ",
+      "parent": "银行",
+      "old_basis": "directional",
+      "old_strength": 78.9095,
+      "expected_strength": 28.909499999999994,
+      "current_strength": 28.9095,
+      "matches_expected": true
+    },
+    {
+      "code": "801950",
+      "name": "煤炭",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 58.7817,
+      "expected_strength": 8.7817,
+      "current_strength": 8.7817,
+      "matches_expected": true
+    },
+    {
+      "code": "801951",
+      "name": "煤炭开采",
+      "parent": "煤炭",
+      "old_basis": "directional",
+      "old_strength": 63.1208,
+      "expected_strength": 13.120800000000003,
+      "current_strength": 13.1208,
+      "matches_expected": true
+    },
+    {
+      "code": "801952",
+      "name": "焦炭Ⅱ",
+      "parent": "煤炭",
+      "old_basis": "inverted",
+      "old_strength": 93.2939,
+      "expected_strength": -43.293899999999994,
+      "current_strength": -43.2939,
+      "matches_expected": true
+    },
+    {
+      "code": "801960",
+      "name": "石油石化",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 72.5182,
+      "expected_strength": 22.518199999999993,
+      "current_strength": 22.5182,
+      "matches_expected": true
+    },
+    {
+      "code": "801962",
+      "name": "油服工程",
+      "parent": "石油石化",
+      "old_basis": "directional",
+      "old_strength": 45.6985,
+      "expected_strength": -4.301499999999997,
+      "current_strength": -4.3015,
+      "matches_expected": true
+    },
+    {
+      "code": "801963",
+      "name": "炼化及贸易",
+      "parent": "石油石化",
+      "old_basis": "directional",
+      "old_strength": 71.0985,
+      "expected_strength": 21.0985,
+      "current_strength": 21.0985,
+      "matches_expected": true
+    },
+    {
+      "code": "801010",
+      "name": "农林牧渔",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 85.9221,
+      "expected_strength": -35.9221,
+      "current_strength": -35.9221,
+      "matches_expected": true
+    },
+    {
+      "code": "801016",
+      "name": "种植业",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 95.3539,
+      "expected_strength": -45.353899999999996,
+      "current_strength": -45.3539,
+      "matches_expected": true
+    },
+    {
+      "code": "801015",
+      "name": "渔业",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 89.9888,
+      "expected_strength": -39.9888,
+      "current_strength": -39.9888,
+      "matches_expected": true
+    },
+    {
+      "code": "801014",
+      "name": "饲料",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 62.475,
+      "expected_strength": -12.475000000000001,
+      "current_strength": -12.475,
+      "matches_expected": true
+    },
+    {
+      "code": "801012",
+      "name": "农产品加工",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 86.945,
+      "expected_strength": -36.94499999999999,
+      "current_strength": -36.945,
+      "matches_expected": true
+    },
+    {
+      "code": "801017",
+      "name": "养殖业",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 64.5712,
+      "expected_strength": -14.571200000000005,
+      "current_strength": -14.5712,
+      "matches_expected": true
+    },
+    {
+      "code": "801018",
+      "name": "动物保健Ⅱ",
+      "parent": "农林牧渔",
+      "old_basis": "inverted",
+      "old_strength": 89.3997,
+      "expected_strength": -39.399699999999996,
+      "current_strength": -39.3997,
+      "matches_expected": true
+    },
+    {
+      "code": "801030",
+      "name": "基础化工",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 96.8937,
+      "expected_strength": -46.893699999999995,
+      "current_strength": -46.8937,
+      "matches_expected": true
+    },
+    {
+      "code": "801033",
+      "name": "化学原料",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 92.5858,
+      "expected_strength": -42.585800000000006,
+      "current_strength": -42.5858,
+      "matches_expected": true
+    },
+    {
+      "code": "801034",
+      "name": "化学制品",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 92.9864,
+      "expected_strength": -42.9864,
+      "current_strength": -42.9864,
+      "matches_expected": true
+    },
+    {
+      "code": "801032",
+      "name": "化学纤维",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 94.0365,
+      "expected_strength": -44.036500000000004,
+      "current_strength": -44.0365,
+      "matches_expected": true
+    },
+    {
+      "code": "801036",
+      "name": "塑料",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 92.6522,
+      "expected_strength": -42.65219999999999,
+      "current_strength": -42.6522,
+      "matches_expected": true
+    },
+    {
+      "code": "801037",
+      "name": "橡胶",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 97.5728,
+      "expected_strength": -47.5728,
+      "current_strength": -47.5728,
+      "matches_expected": true
+    },
+    {
+      "code": "801038",
+      "name": "农化制品",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 92.8209,
+      "expected_strength": -42.820899999999995,
+      "current_strength": -42.8209,
+      "matches_expected": true
+    },
+    {
+      "code": "801039",
+      "name": "非金属材料Ⅱ",
+      "parent": "基础化工",
+      "old_basis": "inverted",
+      "old_strength": 98.021,
+      "expected_strength": -48.021,
+      "current_strength": -48.021,
+      "matches_expected": true
+    },
+    {
+      "code": "801040",
+      "name": "钢铁",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 90.8505,
+      "expected_strength": -40.8505,
+      "current_strength": -40.8505,
+      "matches_expected": true
+    },
+    {
+      "code": "801043",
+      "name": "冶钢原料",
+      "parent": "钢铁",
+      "old_basis": "inverted",
+      "old_strength": 93.097,
+      "expected_strength": -43.096999999999994,
+      "current_strength": -43.097,
+      "matches_expected": true
+    },
+    {
+      "code": "801044",
+      "name": "普钢",
+      "parent": "钢铁",
+      "old_basis": "inverted",
+      "old_strength": 85.3047,
+      "expected_strength": -35.3047,
+      "current_strength": -35.3047,
+      "matches_expected": true
+    },
+    {
+      "code": "801045",
+      "name": "特钢Ⅱ",
+      "parent": "钢铁",
+      "old_basis": "inverted",
+      "old_strength": 90.249,
+      "expected_strength": -40.248999999999995,
+      "current_strength": -40.249,
+      "matches_expected": true
+    },
+    {
+      "code": "801050",
+      "name": "有色金属",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 98.0881,
+      "expected_strength": -48.0881,
+      "current_strength": -48.0881,
+      "matches_expected": true
+    },
+    {
+      "code": "801051",
+      "name": "金属新材料",
+      "parent": "有色金属",
+      "old_basis": "inverted",
+      "old_strength": 96.1965,
+      "expected_strength": -46.1965,
+      "current_strength": -46.1965,
+      "matches_expected": true
+    },
+    {
+      "code": "801055",
+      "name": "工业金属",
+      "parent": "有色金属",
+      "old_basis": "inverted",
+      "old_strength": 94.1293,
+      "expected_strength": -44.1293,
+      "current_strength": -44.1293,
+      "matches_expected": true
+    },
+    {
+      "code": "801053",
+      "name": "贵金属",
+      "parent": "有色金属",
+      "old_basis": "inverted",
+      "old_strength": 98.3982,
+      "expected_strength": -48.3982,
+      "current_strength": -48.3982,
+      "matches_expected": true
+    },
+    {
+      "code": "801054",
+      "name": "小金属",
+      "parent": "有色金属",
+      "old_basis": "inverted",
+      "old_strength": 97.1138,
+      "expected_strength": -47.1138,
+      "current_strength": -47.1138,
+      "matches_expected": true
+    },
+    {
+      "code": "801056",
+      "name": "能源金属",
+      "parent": "有色金属",
+      "old_basis": "inverted",
+      "old_strength": 97.7399,
+      "expected_strength": -47.739900000000006,
+      "current_strength": -47.7399,
+      "matches_expected": true
+    },
+    {
+      "code": "801080",
+      "name": "电子",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 99.7082,
+      "expected_strength": -49.708200000000005,
+      "current_strength": -49.7082,
+      "matches_expected": true
+    },
+    {
+      "code": "801081",
+      "name": "半导体",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 98.8218,
+      "expected_strength": -48.821799999999996,
+      "current_strength": -48.8218,
+      "matches_expected": true
+    },
+    {
+      "code": "801083",
+      "name": "元件",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 98.0974,
+      "expected_strength": -48.09739999999999,
+      "current_strength": -48.0974,
+      "matches_expected": true
+    },
+    {
+      "code": "801084",
+      "name": "光学光电子",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 97.1918,
+      "expected_strength": -47.1918,
+      "current_strength": -47.1918,
+      "matches_expected": true
+    },
+    {
+      "code": "801082",
+      "name": "其他电子Ⅱ",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 98.7846,
+      "expected_strength": -48.7846,
+      "current_strength": -48.7846,
+      "matches_expected": true
+    },
+    {
+      "code": "801085",
+      "name": "消费电子",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 97.1402,
+      "expected_strength": -47.14019999999999,
+      "current_strength": -47.1402,
+      "matches_expected": true
+    },
+    {
+      "code": "801086",
+      "name": "电子化学品Ⅱ",
+      "parent": "电子",
+      "old_basis": "inverted",
+      "old_strength": 98.8413,
+      "expected_strength": -48.841300000000004,
+      "current_strength": -48.8413,
+      "matches_expected": true
+    },
+    {
+      "code": "801880",
+      "name": "汽车",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 86.5993,
+      "expected_strength": -36.5993,
+      "current_strength": -36.5993,
+      "matches_expected": true
+    },
+    {
+      "code": "801093",
+      "name": "汽车零部件",
+      "parent": "汽车",
+      "old_basis": "inverted",
+      "old_strength": 84.7875,
+      "expected_strength": -34.787499999999994,
+      "current_strength": -34.7875,
+      "matches_expected": true
+    },
+    {
+      "code": "801092",
+      "name": "汽车服务",
+      "parent": "汽车",
+      "old_basis": "inverted",
+      "old_strength": 90.2779,
+      "expected_strength": -40.2779,
+      "current_strength": -40.2779,
+      "matches_expected": true
+    },
+    {
+      "code": "801881",
+      "name": "摩托车及其他",
+      "parent": "汽车",
+      "old_basis": "inverted",
+      "old_strength": 87.7793,
+      "expected_strength": -37.779300000000006,
+      "current_strength": -37.7793,
+      "matches_expected": true
+    },
+    {
+      "code": "801095",
+      "name": "乘用车",
+      "parent": "汽车",
+      "old_basis": "inverted",
+      "old_strength": 76.977,
+      "expected_strength": -26.977000000000004,
+      "current_strength": -26.977,
+      "matches_expected": true
+    },
+    {
+      "code": "801096",
+      "name": "商用车",
+      "parent": "汽车",
+      "old_basis": "inverted",
+      "old_strength": 89.8859,
+      "expected_strength": -39.88590000000001,
+      "current_strength": -39.8859,
+      "matches_expected": true
+    },
+    {
+      "code": "801130",
+      "name": "纺织服饰",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 86.6443,
+      "expected_strength": -36.6443,
+      "current_strength": -36.6443,
+      "matches_expected": true
+    },
+    {
+      "code": "801131",
+      "name": "纺织制造",
+      "parent": "纺织服饰",
+      "old_basis": "inverted",
+      "old_strength": 79.1224,
+      "expected_strength": -29.1224,
+      "current_strength": -29.1224,
+      "matches_expected": true
+    },
+    {
+      "code": "801132",
+      "name": "服装家纺",
+      "parent": "纺织服饰",
+      "old_basis": "inverted",
+      "old_strength": 82.9645,
+      "expected_strength": -32.9645,
+      "current_strength": -32.9645,
+      "matches_expected": true
+    },
+    {
+      "code": "801133",
+      "name": "饰品",
+      "parent": "纺织服饰",
+      "old_basis": "inverted",
+      "old_strength": 90.5526,
+      "expected_strength": -40.5526,
+      "current_strength": -40.5526,
+      "matches_expected": true
+    },
+    {
+      "code": "801140",
+      "name": "轻工制造",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 94.2842,
+      "expected_strength": -44.2842,
+      "current_strength": -44.2842,
+      "matches_expected": true
+    },
+    {
+      "code": "801143",
+      "name": "造纸",
+      "parent": "轻工制造",
+      "old_basis": "inverted",
+      "old_strength": 87.0841,
+      "expected_strength": -37.08410000000001,
+      "current_strength": -37.0841,
+      "matches_expected": true
+    },
+    {
+      "code": "801141",
+      "name": "包装印刷",
+      "parent": "轻工制造",
+      "old_basis": "inverted",
+      "old_strength": 93.1625,
+      "expected_strength": -43.162499999999994,
+      "current_strength": -43.1625,
+      "matches_expected": true
+    },
+    {
+      "code": "801142",
+      "name": "家居用品",
+      "parent": "轻工制造",
+      "old_basis": "inverted",
+      "old_strength": 90.1653,
+      "expected_strength": -40.1653,
+      "current_strength": -40.1653,
+      "matches_expected": true
+    },
+    {
+      "code": "801145",
+      "name": "文娱用品",
+      "parent": "轻工制造",
+      "old_basis": "inverted",
+      "old_strength": 90.5314,
+      "expected_strength": -40.531400000000005,
+      "current_strength": -40.5314,
+      "matches_expected": true
+    },
+    {
+      "code": "801150",
+      "name": "医药生物",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 78.9338,
+      "expected_strength": -28.933800000000005,
+      "current_strength": -28.9338,
+      "matches_expected": true
+    },
+    {
+      "code": "801151",
+      "name": "化学制药",
+      "parent": "医药生物",
+      "old_basis": "inverted",
+      "old_strength": 86.297,
+      "expected_strength": -36.297,
+      "current_strength": -36.297,
+      "matches_expected": true
+    },
+    {
+      "code": "801155",
+      "name": "中药Ⅱ",
+      "parent": "医药生物",
+      "old_basis": "inverted",
+      "old_strength": 68.2033,
+      "expected_strength": -18.2033,
+      "current_strength": -18.2033,
+      "matches_expected": true
+    },
+    {
+      "code": "801152",
+      "name": "生物制品",
+      "parent": "医药生物",
+      "old_basis": "inverted",
+      "old_strength": 85.6373,
+      "expected_strength": -35.637299999999996,
+      "current_strength": -35.6373,
+      "matches_expected": true
+    },
+    {
+      "code": "801154",
+      "name": "医药商业",
+      "parent": "医药生物",
+      "old_basis": "directional",
+      "old_strength": 58.2541,
+      "expected_strength": 8.254100000000001,
+      "current_strength": 8.2541,
+      "matches_expected": true
+    },
+    {
+      "code": "801153",
+      "name": "医疗器械",
+      "parent": "医药生物",
+      "old_basis": "inverted",
+      "old_strength": 58.7538,
+      "expected_strength": -8.753799999999998,
+      "current_strength": -8.7538,
+      "matches_expected": true
+    },
+    {
+      "code": "801156",
+      "name": "医疗服务",
+      "parent": "医药生物",
+      "old_basis": "inverted",
+      "old_strength": 77.1206,
+      "expected_strength": -27.120599999999996,
+      "current_strength": -27.1206,
+      "matches_expected": true
+    },
+    {
+      "code": "801160",
+      "name": "公用事业",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 77.7049,
+      "expected_strength": -27.704899999999995,
+      "current_strength": -27.7049,
+      "matches_expected": true
+    },
+    {
+      "code": "801161",
+      "name": "电力",
+      "parent": "公用事业",
+      "old_basis": "inverted",
+      "old_strength": 71.5034,
+      "expected_strength": -21.5034,
+      "current_strength": -21.5034,
+      "matches_expected": true
+    },
+    {
+      "code": "801163",
+      "name": "燃气Ⅱ",
+      "parent": "公用事业",
+      "old_basis": "inverted",
+      "old_strength": 79.5832,
+      "expected_strength": -29.583200000000005,
+      "current_strength": -29.5832,
+      "matches_expected": true
+    },
+    {
+      "code": "801180",
+      "name": "房地产",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 92.8713,
+      "expected_strength": -42.871300000000005,
+      "current_strength": -42.8713,
+      "matches_expected": true
+    },
+    {
+      "code": "801181",
+      "name": "房地产开发",
+      "parent": "房地产",
+      "old_basis": "inverted",
+      "old_strength": 89.613,
+      "expected_strength": -39.613,
+      "current_strength": -39.613,
+      "matches_expected": true
+    },
+    {
+      "code": "801183",
+      "name": "房地产服务",
+      "parent": "房地产",
+      "old_basis": "inverted",
+      "old_strength": 90.8141,
+      "expected_strength": -40.814099999999996,
+      "current_strength": -40.8141,
+      "matches_expected": true
+    },
+    {
+      "code": "801200",
+      "name": "商贸零售",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 83.6349,
+      "expected_strength": -33.6349,
+      "current_strength": -33.6349,
+      "matches_expected": true
+    },
+    {
+      "code": "801202",
+      "name": "贸易Ⅱ",
+      "parent": "商贸零售",
+      "old_basis": "inverted",
+      "old_strength": 88.9227,
+      "expected_strength": -38.922700000000006,
+      "current_strength": -38.9227,
+      "matches_expected": true
+    },
+    {
+      "code": "801203",
+      "name": "一般零售",
+      "parent": "商贸零售",
+      "old_basis": "inverted",
+      "old_strength": 77.9955,
+      "expected_strength": -27.995500000000007,
+      "current_strength": -27.9955,
+      "matches_expected": true
+    },
+    {
+      "code": "801204",
+      "name": "专业连锁Ⅱ",
+      "parent": "商贸零售",
+      "old_basis": "inverted",
+      "old_strength": 92.5323,
+      "expected_strength": -42.532300000000006,
+      "current_strength": -42.5323,
+      "matches_expected": true
+    },
+    {
+      "code": "801206",
+      "name": "互联网电商",
+      "parent": "商贸零售",
+      "old_basis": "inverted",
+      "old_strength": 87.5929,
+      "expected_strength": -37.5929,
+      "current_strength": -37.5929,
+      "matches_expected": true
+    },
+    {
+      "code": "801210",
+      "name": "社会服务",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 90.4196,
+      "expected_strength": -40.4196,
+      "current_strength": -40.4196,
+      "matches_expected": true
+    },
+    {
+      "code": "801218",
+      "name": "专业服务",
+      "parent": "社会服务",
+      "old_basis": "inverted",
+      "old_strength": 86.2759,
+      "expected_strength": -36.27589999999999,
+      "current_strength": -36.2759,
+      "matches_expected": true
+    },
+    {
+      "code": "801219",
+      "name": "酒店餐饮",
+      "parent": "社会服务",
+      "old_basis": "directional",
+      "old_strength": 54.8276,
+      "expected_strength": 4.827599999999997,
+      "current_strength": 4.8276,
+      "matches_expected": true
+    },
+    {
+      "code": "801993",
+      "name": "旅游及景区",
+      "parent": "社会服务",
+      "old_basis": "inverted",
+      "old_strength": 86.7406,
+      "expected_strength": -36.7406,
+      "current_strength": -36.7406,
+      "matches_expected": true
+    },
+    {
+      "code": "801994",
+      "name": "教育",
+      "parent": "社会服务",
+      "old_basis": "inverted",
+      "old_strength": 96.39,
+      "expected_strength": -46.39,
+      "current_strength": -46.39,
+      "matches_expected": true
+    },
+    {
+      "code": "801790",
+      "name": "非银金融",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 86.0806,
+      "expected_strength": -36.080600000000004,
+      "current_strength": -36.0806,
+      "matches_expected": true
+    },
+    {
+      "code": "801193",
+      "name": "证券Ⅱ",
+      "parent": "非银金融",
+      "old_basis": "inverted",
+      "old_strength": 88.9576,
+      "expected_strength": -38.9576,
+      "current_strength": -38.9576,
+      "matches_expected": true
+    },
+    {
+      "code": "801194",
+      "name": "保险Ⅱ",
+      "parent": "非银金融",
+      "old_basis": "directional",
+      "old_strength": 47.4573,
+      "expected_strength": -2.5427000000000035,
+      "current_strength": -2.5427,
+      "matches_expected": true
+    },
+    {
+      "code": "801191",
+      "name": "多元金融",
+      "parent": "非银金融",
+      "old_basis": "inverted",
+      "old_strength": 82.2863,
+      "expected_strength": -32.2863,
+      "current_strength": -32.2863,
+      "matches_expected": true
+    },
+    {
+      "code": "801230",
+      "name": "综合",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 94.4959,
+      "expected_strength": -44.495900000000006,
+      "current_strength": -44.4959,
+      "matches_expected": true
+    },
+    {
+      "code": "801231",
+      "name": "综合Ⅱ",
+      "parent": "综合",
+      "old_basis": "inverted",
+      "old_strength": 92.9793,
+      "expected_strength": -42.979299999999995,
+      "current_strength": -42.9793,
+      "matches_expected": true
+    },
+    {
+      "code": "801710",
+      "name": "建筑材料",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 97.3387,
+      "expected_strength": -47.3387,
+      "current_strength": -47.3387,
+      "matches_expected": true
+    },
+    {
+      "code": "801711",
+      "name": "水泥",
+      "parent": "建筑材料",
+      "old_basis": "inverted",
+      "old_strength": 77.5635,
+      "expected_strength": -27.563500000000005,
+      "current_strength": -27.5635,
+      "matches_expected": true
+    },
+    {
+      "code": "801712",
+      "name": "玻璃玻纤",
+      "parent": "建筑材料",
+      "old_basis": "inverted",
+      "old_strength": 98.4677,
+      "expected_strength": -48.467699999999994,
+      "current_strength": -48.4677,
+      "matches_expected": true
+    },
+    {
+      "code": "801713",
+      "name": "装修建材",
+      "parent": "建筑材料",
+      "old_basis": "inverted",
+      "old_strength": 86.5258,
+      "expected_strength": -36.525800000000004,
+      "current_strength": -36.5258,
+      "matches_expected": true
+    },
+    {
+      "code": "801720",
+      "name": "建筑装饰",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 93.7687,
+      "expected_strength": -43.768699999999995,
+      "current_strength": -43.7687,
+      "matches_expected": true
+    },
+    {
+      "code": "801721",
+      "name": "房屋建设Ⅱ",
+      "parent": "建筑装饰",
+      "old_basis": "inverted",
+      "old_strength": 61.9598,
+      "expected_strength": -11.959800000000001,
+      "current_strength": -11.9598,
+      "matches_expected": true
+    },
+    {
+      "code": "801722",
+      "name": "装修装饰Ⅱ",
+      "parent": "建筑装饰",
+      "old_basis": "inverted",
+      "old_strength": 96.9305,
+      "expected_strength": -46.930499999999995,
+      "current_strength": -46.9305,
+      "matches_expected": true
+    },
+    {
+      "code": "801723",
+      "name": "基础建设",
+      "parent": "建筑装饰",
+      "old_basis": "inverted",
+      "old_strength": 77.4708,
+      "expected_strength": -27.470799999999997,
+      "current_strength": -27.4708,
+      "matches_expected": true
+    },
+    {
+      "code": "801724",
+      "name": "专业工程",
+      "parent": "建筑装饰",
+      "old_basis": "inverted",
+      "old_strength": 94.1293,
+      "expected_strength": -44.1293,
+      "current_strength": -44.1293,
+      "matches_expected": true
+    },
+    {
+      "code": "801726",
+      "name": "工程咨询服务Ⅱ",
+      "parent": "建筑装饰",
+      "old_basis": "inverted",
+      "old_strength": 97.9315,
+      "expected_strength": -47.9315,
+      "current_strength": -47.9315,
+      "matches_expected": true
+    },
+    {
+      "code": "801730",
+      "name": "电力设备",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 98.7467,
+      "expected_strength": -48.746700000000004,
+      "current_strength": -48.7467,
+      "matches_expected": true
+    },
+    {
+      "code": "801731",
+      "name": "电机Ⅱ",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 71.7118,
+      "expected_strength": -21.711799999999997,
+      "current_strength": -21.7118,
+      "matches_expected": true
+    },
+    {
+      "code": "801733",
+      "name": "其他电源设备Ⅱ",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 97.5452,
+      "expected_strength": -47.545199999999994,
+      "current_strength": -47.5452,
+      "matches_expected": true
+    },
+    {
+      "code": "801735",
+      "name": "光伏设备",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 97.1183,
+      "expected_strength": -47.118300000000005,
+      "current_strength": -47.1183,
+      "matches_expected": true
+    },
+    {
+      "code": "801736",
+      "name": "风电设备",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 95.3722,
+      "expected_strength": -45.37220000000001,
+      "current_strength": -45.3722,
+      "matches_expected": true
+    },
+    {
+      "code": "801737",
+      "name": "电池",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 93.2793,
+      "expected_strength": -43.279300000000006,
+      "current_strength": -43.2793,
+      "matches_expected": true
+    },
+    {
+      "code": "801738",
+      "name": "电网设备",
+      "parent": "电力设备",
+      "old_basis": "inverted",
+      "old_strength": 93.994,
+      "expected_strength": -43.994,
+      "current_strength": -43.994,
+      "matches_expected": true
+    },
+    {
+      "code": "801890",
+      "name": "机械设备",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 98.279,
+      "expected_strength": -48.278999999999996,
+      "current_strength": -48.279,
+      "matches_expected": true
+    },
+    {
+      "code": "801072",
+      "name": "通用设备",
+      "parent": "机械设备",
+      "old_basis": "inverted",
+      "old_strength": 97.0444,
+      "expected_strength": -47.044399999999996,
+      "current_strength": -47.0444,
+      "matches_expected": true
+    },
+    {
+      "code": "801074",
+      "name": "专用设备",
+      "parent": "机械设备",
+      "old_basis": "inverted",
+      "old_strength": 96.2865,
+      "expected_strength": -46.286500000000004,
+      "current_strength": -46.2865,
+      "matches_expected": true
+    },
+    {
+      "code": "801076",
+      "name": "轨交设备Ⅱ",
+      "parent": "机械设备",
+      "old_basis": "inverted",
+      "old_strength": 67.9831,
+      "expected_strength": -17.983099999999993,
+      "current_strength": -17.9831,
+      "matches_expected": true
+    },
+    {
+      "code": "801077",
+      "name": "工程机械",
+      "parent": "机械设备",
+      "old_basis": "inverted",
+      "old_strength": 81.0253,
+      "expected_strength": -31.0253,
+      "current_strength": -31.0253,
+      "matches_expected": true
+    },
+    {
+      "code": "801078",
+      "name": "自动化设备",
+      "parent": "机械设备",
+      "old_basis": "inverted",
+      "old_strength": 97.074,
+      "expected_strength": -47.074,
+      "current_strength": -47.074,
+      "matches_expected": true
+    },
+    {
+      "code": "801740",
+      "name": "国防军工",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 95.376,
+      "expected_strength": -45.376000000000005,
+      "current_strength": -45.376,
+      "matches_expected": true
+    },
+    {
+      "code": "801741",
+      "name": "航天装备Ⅱ",
+      "parent": "国防军工",
+      "old_basis": "inverted",
+      "old_strength": 68.7231,
+      "expected_strength": -18.723100000000002,
+      "current_strength": -18.7231,
+      "matches_expected": true
+    },
+    {
+      "code": "801742",
+      "name": "航空装备Ⅱ",
+      "parent": "国防军工",
+      "old_basis": "inverted",
+      "old_strength": 93.844,
+      "expected_strength": -43.843999999999994,
+      "current_strength": -43.844,
+      "matches_expected": true
+    },
+    {
+      "code": "801743",
+      "name": "地面兵装Ⅱ",
+      "parent": "国防军工",
+      "old_basis": "inverted",
+      "old_strength": 92.646,
+      "expected_strength": -42.646,
+      "current_strength": -42.646,
+      "matches_expected": true
+    },
+    {
+      "code": "801744",
+      "name": "航海装备Ⅱ",
+      "parent": "国防军工",
+      "old_basis": "inverted",
+      "old_strength": 92.7997,
+      "expected_strength": -42.7997,
+      "current_strength": -42.7997,
+      "matches_expected": true
+    },
+    {
+      "code": "801745",
+      "name": "军工电子Ⅱ",
+      "parent": "国防军工",
+      "old_basis": "inverted",
+      "old_strength": 95.902,
+      "expected_strength": -45.902,
+      "current_strength": -45.902,
+      "matches_expected": true
+    },
+    {
+      "code": "801750",
+      "name": "计算机",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 96.8956,
+      "expected_strength": -46.8956,
+      "current_strength": -46.8956,
+      "matches_expected": true
+    },
+    {
+      "code": "801101",
+      "name": "计算机设备",
+      "parent": "计算机",
+      "old_basis": "inverted",
+      "old_strength": 94.5648,
+      "expected_strength": -44.564800000000005,
+      "current_strength": -44.5648,
+      "matches_expected": true
+    },
+    {
+      "code": "801103",
+      "name": "IT服务Ⅱ",
+      "parent": "计算机",
+      "old_basis": "inverted",
+      "old_strength": 96.5278,
+      "expected_strength": -46.5278,
+      "current_strength": -46.5278,
+      "matches_expected": true
+    },
+    {
+      "code": "801104",
+      "name": "软件开发",
+      "parent": "计算机",
+      "old_basis": "inverted",
+      "old_strength": 95.4151,
+      "expected_strength": -45.415099999999995,
+      "current_strength": -45.4151,
+      "matches_expected": true
+    },
+    {
+      "code": "801760",
+      "name": "传媒",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 91.6226,
+      "expected_strength": -41.622600000000006,
+      "current_strength": -41.6226,
+      "matches_expected": true
+    },
+    {
+      "code": "801764",
+      "name": "游戏Ⅱ",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 91.3876,
+      "expected_strength": -41.387600000000006,
+      "current_strength": -41.3876,
+      "matches_expected": true
+    },
+    {
+      "code": "801765",
+      "name": "广告营销",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 87.1496,
+      "expected_strength": -37.14960000000001,
+      "current_strength": -37.1496,
+      "matches_expected": true
+    },
+    {
+      "code": "801766",
+      "name": "影视院线",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 73.6531,
+      "expected_strength": -23.653099999999995,
+      "current_strength": -23.6531,
+      "matches_expected": true
+    },
+    {
+      "code": "801767",
+      "name": "数字媒体",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 68.7373,
+      "expected_strength": -18.737300000000005,
+      "current_strength": -18.7373,
+      "matches_expected": true
+    },
+    {
+      "code": "801769",
+      "name": "出版",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 61.3751,
+      "expected_strength": -11.375100000000003,
+      "current_strength": -11.3751,
+      "matches_expected": true
+    },
+    {
+      "code": "801995",
+      "name": "电视广播Ⅱ",
+      "parent": "传媒",
+      "old_basis": "inverted",
+      "old_strength": 93.9046,
+      "expected_strength": -43.9046,
+      "current_strength": -43.9046,
+      "matches_expected": true
+    },
+    {
+      "code": "801770",
+      "name": "通信",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 99.8773,
+      "expected_strength": -49.877300000000005,
+      "current_strength": -49.8773,
+      "matches_expected": true
+    },
+    {
+      "code": "801223",
+      "name": "通信服务",
+      "parent": "通信",
+      "old_basis": "inverted",
+      "old_strength": 80.3216,
+      "expected_strength": -30.321600000000004,
+      "current_strength": -30.3216,
+      "matches_expected": true
+    },
+    {
+      "code": "801102",
+      "name": "通信设备",
+      "parent": "通信",
+      "old_basis": "inverted",
+      "old_strength": 98.9139,
+      "expected_strength": -48.9139,
+      "current_strength": -48.9139,
+      "matches_expected": true
+    },
+    {
+      "code": "801970",
+      "name": "环保",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 96.6624,
+      "expected_strength": -46.662400000000005,
+      "current_strength": -46.6624,
+      "matches_expected": true
+    },
+    {
+      "code": "801971",
+      "name": "环境治理",
+      "parent": "环保",
+      "old_basis": "inverted",
+      "old_strength": 93.0153,
+      "expected_strength": -43.015299999999996,
+      "current_strength": -43.0153,
+      "matches_expected": true
+    },
+    {
+      "code": "801972",
+      "name": "环保设备Ⅱ",
+      "parent": "环保",
+      "old_basis": "inverted",
+      "old_strength": 96.8195,
+      "expected_strength": -46.819500000000005,
+      "current_strength": -46.8195,
+      "matches_expected": true
+    },
+    {
+      "code": "801980",
+      "name": "美容护理",
+      "parent": null,
+      "old_basis": "inverted",
+      "old_strength": 89.5136,
+      "expected_strength": -39.5136,
+      "current_strength": -39.5136,
+      "matches_expected": true
+    },
+    {
+      "code": "801981",
+      "name": "个护用品",
+      "parent": "美容护理",
+      "old_basis": "inverted",
+      "old_strength": 68.9135,
+      "expected_strength": -18.9135,
+      "current_strength": -18.9135,
+      "matches_expected": true
+    },
+    {
+      "code": "801982",
+      "name": "化妆品",
+      "parent": "美容护理",
+      "old_basis": "inverted",
+      "old_strength": 91.6476,
+      "expected_strength": -41.6476,
+      "current_strength": -41.6476,
+      "matches_expected": true
+    },
+    {
+      "code": "801110",
+      "name": "家用电器",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 49.8224,
+      "expected_strength": -0.1775999999999982,
+      "current_strength": -0.1776,
+      "matches_expected": true
+    },
+    {
+      "code": "801111",
+      "name": "白色家电",
+      "parent": "家用电器",
+      "old_basis": "directional",
+      "old_strength": 77.8233,
+      "expected_strength": 27.823300000000003,
+      "current_strength": 27.8233,
+      "matches_expected": true
+    },
+    {
+      "code": "801112",
+      "name": "黑色家电",
+      "parent": "家用电器",
+      "old_basis": "inverted",
+      "old_strength": 94.4174,
+      "expected_strength": -44.4174,
+      "current_strength": -44.4174,
+      "matches_expected": true
+    },
+    {
+      "code": "801113",
+      "name": "小家电",
+      "parent": "家用电器",
+      "old_basis": "inverted",
+      "old_strength": 60.8078,
+      "expected_strength": -10.8078,
+      "current_strength": -10.8078,
+      "matches_expected": true
+    },
+    {
+      "code": "801114",
+      "name": "厨卫电器",
+      "parent": "家用电器",
+      "old_basis": "inverted",
+      "old_strength": 87.0392,
+      "expected_strength": -37.039199999999994,
+      "current_strength": -37.0392,
+      "matches_expected": true
+    },
+    {
+      "code": "801115",
+      "name": "照明设备Ⅱ",
+      "parent": "家用电器",
+      "old_basis": "inverted",
+      "old_strength": 71.0943,
+      "expected_strength": -21.094300000000004,
+      "current_strength": -21.0943,
+      "matches_expected": true
+    },
+    {
+      "code": "801116",
+      "name": "家电零部件Ⅱ",
+      "parent": "家用电器",
+      "old_basis": "inverted",
+      "old_strength": 88.057,
+      "expected_strength": -38.057,
+      "current_strength": -38.057,
+      "matches_expected": true
+    },
+    {
+      "code": "801170",
+      "name": "交通运输",
+      "parent": null,
+      "old_basis": "directional",
+      "old_strength": 47.5281,
+      "expected_strength": -2.471899999999998,
+      "current_strength": -2.4719,
+      "matches_expected": true
+    },
+    {
+      "code": "801178",
+      "name": "物流",
+      "parent": "交通运输",
+      "old_basis": "inverted",
+      "old_strength": 56.9577,
+      "expected_strength": -6.957700000000003,
+      "current_strength": -6.9577,
+      "matches_expected": true
+    },
+    {
+      "code": "801179",
+      "name": "铁路公路",
+      "parent": "交通运输",
+      "old_basis": "directional",
+      "old_strength": 57.7779,
+      "expected_strength": 7.7779000000000025,
+      "current_strength": 7.7779,
+      "matches_expected": true
+    },
+    {
+      "code": "801991",
+      "name": "航空机场",
+      "parent": "交通运输",
+      "old_basis": "directional",
+      "old_strength": 46.0006,
+      "expected_strength": -3.9994000000000014,
+      "current_strength": -3.9994,
+      "matches_expected": true
+    },
+    {
+      "code": "801992",
+      "name": "航运港口",
+      "parent": "交通运输",
+      "old_basis": "inverted",
+      "old_strength": 52.6734,
+      "expected_strength": -2.673400000000001,
+      "current_strength": -2.6734,
+      "matches_expected": true
+    }
+  ]
+}

@@ -1,0 +1,1462 @@
+{
+  "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+  "determined_on": "train 2020-10-30~2024-12-31 (7 indices)",
+  "amplitude": 0.05,
+  "min_gap": 8,
+  "by_index": {
+    "sh000001": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 32,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 3224.53,
+          "confirm_index": 16,
+          "confirm_date": "2020-11-23"
+        },
+        {
+          "index": 74,
+          "date": "2021-02-19",
+          "type": "top",
+          "price": 3696.17,
+          "confirm_index": 79,
+          "confirm_date": "2021-02-26"
+        },
+        {
+          "index": 87,
+          "date": "2021-03-10",
+          "type": "bottom",
+          "price": 3357.74,
+          "confirm_index": 132,
+          "confirm_date": "2021-05-18"
+        },
+        {
+          "index": 142,
+          "date": "2021-06-01",
+          "type": "top",
+          "price": 3624.71,
+          "confirm_index": 181,
+          "confirm_date": "2021-07-27"
+        },
+        {
+          "index": 182,
+          "date": "2021-07-28",
+          "type": "bottom",
+          "price": 3361.59,
+          "confirm_index": 191,
+          "confirm_date": "2021-08-10"
+        },
+        {
+          "index": 215,
+          "date": "2021-09-13",
+          "type": "top",
+          "price": 3715.37,
+          "confirm_index": 241,
+          "confirm_date": "2021-10-28"
+        },
+        {
+          "index": 247,
+          "date": "2021-11-05",
+          "type": "bottom",
+          "price": 3491.57,
+          "confirm_index": 271,
+          "confirm_date": "2021-12-09"
+        },
+        {
+          "index": 273,
+          "date": "2021-12-13",
+          "type": "top",
+          "price": 3681.08,
+          "confirm_index": 303,
+          "confirm_date": "2022-01-25"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 3063.97,
+          "confirm_index": 336,
+          "confirm_date": "2022-03-18"
+        },
+        {
+          "index": 347,
+          "date": "2022-04-06",
+          "type": "top",
+          "price": 3283.43,
+          "confirm_index": 358,
+          "confirm_date": "2022-04-21"
+        },
+        {
+          "index": 361,
+          "date": "2022-04-26",
+          "type": "bottom",
+          "price": 2886.43,
+          "confirm_index": 364,
+          "confirm_date": "2022-04-29"
+        },
+        {
+          "index": 402,
+          "date": "2022-06-28",
+          "type": "top",
+          "price": 3409.21,
+          "confirm_index": 415,
+          "confirm_date": "2022-07-15"
+        },
+        {
+          "index": 485,
+          "date": "2022-10-31",
+          "type": "bottom",
+          "price": 2893.48,
+          "confirm_index": 489,
+          "confirm_date": "2022-11-04"
+        },
+        {
+          "index": 511,
+          "date": "2022-12-06",
+          "type": "top",
+          "price": 3212.53,
+          "confirm_index": 524,
+          "confirm_date": "2022-12-23"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 3045.87,
+          "confirm_index": 539,
+          "confirm_date": "2023-01-16"
+        },
+        {
+          "index": 610,
+          "date": "2023-05-08",
+          "type": "top",
+          "price": 3395.0,
+          "confirm_index": 622,
+          "confirm_date": "2023-05-24"
+        },
+        {
+          "index": 786,
+          "date": "2024-01-22",
+          "type": "bottom",
+          "price": 2756.34,
+          "confirm_index": 789,
+          "confirm_date": "2024-01-25"
+        },
+        {
+          "index": 860,
+          "date": "2024-05-20",
+          "type": "top",
+          "price": 3171.15,
+          "confirm_index": 882,
+          "confirm_date": "2024-06-20"
+        },
+        {
+          "index": 943,
+          "date": "2024-09-13",
+          "type": "bottom",
+          "price": 2704.09,
+          "confirm_index": 948,
+          "confirm_date": "2024-09-24"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 3489.78,
+          "confirm_index": 954,
+          "confirm_date": "2024-10-09"
+        },
+        {
+          "index": 1021,
+          "date": "2025-01-13",
+          "type": "bottom",
+          "price": 3160.76,
+          "confirm_index": 1035,
+          "confirm_date": "2025-02-10"
+        },
+        {
+          "index": 1061,
+          "date": "2025-03-18",
+          "type": "top",
+          "price": 3429.76,
+          "confirm_index": 1074,
+          "confirm_date": "2025-04-07"
+        },
+        {
+          "index": 1074,
+          "date": "2025-04-07",
+          "type": "bottom",
+          "price": 3096.58,
+          "confirm_index": 1079,
+          "confirm_date": "2025-04-14"
+        },
+        {
+          "index": 1222,
+          "date": "2025-11-13",
+          "type": "top",
+          "price": 4029.5,
+          "confirm_index": 1245,
+          "confirm_date": "2025-12-16"
+        },
+        {
+          "index": 1245,
+          "date": "2025-12-16",
+          "type": "bottom",
+          "price": 3824.81,
+          "confirm_index": 1257,
+          "confirm_date": "2026-01-05"
+        },
+        {
+          "index": 1291,
+          "date": "2026-03-02",
+          "type": "top",
+          "price": 4182.59,
+          "confirm_index": 1305,
+          "confirm_date": "2026-03-20"
+        },
+        {
+          "index": 1306,
+          "date": "2026-03-23",
+          "type": "bottom",
+          "price": 3813.28,
+          "confirm_index": 1321,
+          "confirm_date": "2026-04-14"
+        },
+        {
+          "index": 1339,
+          "date": "2026-05-13",
+          "type": "top",
+          "price": 4242.57,
+          "confirm_index": 1356,
+          "confirm_date": "2026-06-05"
+        },
+        {
+          "index": 1357,
+          "date": "2026-06-08",
+          "type": "bottom",
+          "price": 3959.34,
+          "confirm_index": 1366,
+          "confirm_date": "2026-06-22"
+        },
+        {
+          "index": 1366,
+          "date": "2026-06-22",
+          "type": "top",
+          "price": 4163.1,
+          "confirm_index": 1381,
+          "confirm_date": "2026-07-13"
+        },
+        {
+          "index": 1385,
+          "date": "2026-07-17",
+          "type": "bottom",
+          "price": 3764.15,
+          "confirm_index": 1401,
+          "confirm_date": "2026-08-10"
+        },
+        {
+          "index": 1407,
+          "date": "2026-08-18",
+          "type": "top",
+          "price": 3990.3,
+          "confirm_index": 1442,
+          "confirm_date": "2026-10-14"
+        }
+      ]
+    },
+    "sz399001": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 23,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 13236.6,
+          "confirm_index": 6,
+          "confirm_date": "2020-11-09"
+        },
+        {
+          "index": 60,
+          "date": "2021-01-25",
+          "type": "top",
+          "price": 15710.19,
+          "confirm_index": 63,
+          "confirm_date": "2021-01-28"
+        },
+        {
+          "index": 97,
+          "date": "2021-03-24",
+          "type": "bottom",
+          "price": 13407.35,
+          "confirm_index": 104,
+          "confirm_date": "2021-04-02"
+        },
+        {
+          "index": 178,
+          "date": "2021-07-22",
+          "type": "top",
+          "price": 15262.19,
+          "confirm_index": 181,
+          "confirm_date": "2021-07-27"
+        },
+        {
+          "index": 225,
+          "date": "2021-09-29",
+          "type": "bottom",
+          "price": 14079.02,
+          "confirm_index": 258,
+          "confirm_date": "2021-11-22"
+        },
+        {
+          "index": 273,
+          "date": "2021-12-13",
+          "type": "top",
+          "price": 15212.49,
+          "confirm_index": 290,
+          "confirm_date": "2022-01-06"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 11537.24,
+          "confirm_index": 335,
+          "confirm_date": "2022-03-17"
+        },
+        {
+          "index": 406,
+          "date": "2022-07-04",
+          "type": "top",
+          "price": 13026.25,
+          "confirm_index": 421,
+          "confirm_date": "2022-07-25"
+        },
+        {
+          "index": 428,
+          "date": "2022-08-03",
+          "type": "bottom",
+          "price": 11982.26,
+          "confirm_index": 438,
+          "confirm_date": "2022-08-17"
+        },
+        {
+          "index": 438,
+          "date": "2022-08-17",
+          "type": "top",
+          "price": 12595.46,
+          "confirm_index": 448,
+          "confirm_date": "2022-08-31"
+        },
+        {
+          "index": 470,
+          "date": "2022-10-10",
+          "type": "bottom",
+          "price": 10522.12,
+          "confirm_index": 474,
+          "confirm_date": "2022-10-14"
+        },
+        {
+          "index": 514,
+          "date": "2022-12-09",
+          "type": "top",
+          "price": 11501.58,
+          "confirm_index": 522,
+          "confirm_date": "2022-12-21"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 10849.64,
+          "confirm_index": 534,
+          "confirm_date": "2023-01-09"
+        },
+        {
+          "index": 546,
+          "date": "2023-02-01",
+          "type": "top",
+          "price": 12158.19,
+          "confirm_index": 573,
+          "confirm_date": "2023-03-10"
+        },
+        {
+          "index": 577,
+          "date": "2023-03-16",
+          "type": "bottom",
+          "price": 11237.7,
+          "confirm_index": 589,
+          "confirm_date": "2023-04-03"
+        },
+        {
+          "index": 592,
+          "date": "2023-04-07",
+          "type": "top",
+          "price": 11967.74,
+          "confirm_index": 603,
+          "confirm_date": "2023-04-24"
+        },
+        {
+          "index": 632,
+          "date": "2023-06-07",
+          "type": "bottom",
+          "price": 10708.82,
+          "confirm_index": 639,
+          "confirm_date": "2023-06-16"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 11495.1,
+          "confirm_index": 954,
+          "confirm_date": "2024-10-09"
+        },
+        {
+          "index": 1020,
+          "date": "2025-01-10",
+          "type": "bottom",
+          "price": 9795.94,
+          "confirm_index": 1027,
+          "confirm_date": "2025-01-21"
+        },
+        {
+          "index": 1061,
+          "date": "2025-03-18",
+          "type": "top",
+          "price": 11014.75,
+          "confirm_index": 1073,
+          "confirm_date": "2025-04-03"
+        },
+        {
+          "index": 1074,
+          "date": "2025-04-07",
+          "type": "bottom",
+          "price": 9364.5,
+          "confirm_index": 1078,
+          "confirm_date": "2025-04-11"
+        },
+        {
+          "index": 1175,
+          "date": "2025-09-01",
+          "type": "top",
+          "price": 12828.95,
+          "confirm_index": 1178,
+          "confirm_date": "2025-09-04"
+        },
+        {
+          "index": 1454,
+          "date": "2026-10-30",
+          "type": "bottom",
+          "price": 10833.78,
+          "confirm_index": 1458,
+          "confirm_date": "2026-11-05"
+        }
+      ]
+    },
+    "sz399006": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 33,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 2655.86,
+          "confirm_index": 6,
+          "confirm_date": "2020-11-09"
+        },
+        {
+          "index": 59,
+          "date": "2021-01-22",
+          "type": "top",
+          "price": 3358.24,
+          "confirm_index": 63,
+          "confirm_date": "2021-01-28"
+        },
+        {
+          "index": 86,
+          "date": "2021-03-09",
+          "type": "bottom",
+          "price": 2633.45,
+          "confirm_index": 101,
+          "confirm_date": "2021-03-30"
+        },
+        {
+          "index": 123,
+          "date": "2021-04-30",
+          "type": "top",
+          "price": 3091.4,
+          "confirm_index": 125,
+          "confirm_date": "2021-05-07"
+        },
+        {
+          "index": 312,
+          "date": "2022-02-14",
+          "type": "bottom",
+          "price": 2732.01,
+          "confirm_index": 322,
+          "confirm_date": "2022-02-28"
+        },
+        {
+          "index": 323,
+          "date": "2022-03-01",
+          "type": "top",
+          "price": 2885.79,
+          "confirm_index": 327,
+          "confirm_date": "2022-03-07"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 2504.78,
+          "confirm_index": 334,
+          "confirm_date": "2022-03-16"
+        },
+        {
+          "index": 409,
+          "date": "2022-07-07",
+          "type": "top",
+          "price": 2849.71,
+          "confirm_index": 412,
+          "confirm_date": "2022-07-12"
+        },
+        {
+          "index": 428,
+          "date": "2022-08-03",
+          "type": "bottom",
+          "price": 2628.82,
+          "confirm_index": 438,
+          "confirm_date": "2022-08-17"
+        },
+        {
+          "index": 442,
+          "date": "2022-08-23",
+          "type": "top",
+          "price": 2780.31,
+          "confirm_index": 445,
+          "confirm_date": "2022-08-26"
+        },
+        {
+          "index": 470,
+          "date": "2022-10-10",
+          "type": "bottom",
+          "price": 2236.24,
+          "confirm_index": 473,
+          "confirm_date": "2022-10-13"
+        },
+        {
+          "index": 490,
+          "date": "2022-11-07",
+          "type": "top",
+          "price": 2454.69,
+          "confirm_index": 504,
+          "confirm_date": "2022-11-25"
+        },
+        {
+          "index": 505,
+          "date": "2022-11-28",
+          "type": "bottom",
+          "price": 2298.8,
+          "confirm_index": 512,
+          "confirm_date": "2022-12-07"
+        },
+        {
+          "index": 514,
+          "date": "2022-12-09",
+          "type": "top",
+          "price": 2420.63,
+          "confirm_index": 523,
+          "confirm_date": "2022-12-22"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 2286.19,
+          "confirm_index": 533,
+          "confirm_date": "2023-01-06"
+        },
+        {
+          "index": 544,
+          "date": "2023-01-30",
+          "type": "top",
+          "price": 2613.89,
+          "confirm_index": 558,
+          "confirm_date": "2023-02-17"
+        },
+        {
+          "index": 579,
+          "date": "2023-03-20",
+          "type": "bottom",
+          "price": 2291.92,
+          "confirm_index": 589,
+          "confirm_date": "2023-04-03"
+        },
+        {
+          "index": 592,
+          "date": "2023-04-07",
+          "type": "top",
+          "price": 2446.95,
+          "confirm_index": 603,
+          "confirm_date": "2023-04-24"
+        },
+        {
+          "index": 633,
+          "date": "2023-06-08",
+          "type": "bottom",
+          "price": 2123.96,
+          "confirm_index": 638,
+          "confirm_date": "2023-06-15"
+        },
+        {
+          "index": 641,
+          "date": "2023-06-20",
+          "type": "top",
+          "price": 2271.42,
+          "confirm_index": 661,
+          "confirm_date": "2023-07-20"
+        },
+        {
+          "index": 663,
+          "date": "2023-07-24",
+          "type": "bottom",
+          "price": 2146.93,
+          "confirm_index": 672,
+          "confirm_date": "2023-08-04"
+        },
+        {
+          "index": 672,
+          "date": "2023-08-04",
+          "type": "top",
+          "price": 2263.37,
+          "confirm_index": 679,
+          "confirm_date": "2023-08-15"
+        },
+        {
+          "index": 724,
+          "date": "2023-10-25",
+          "type": "bottom",
+          "price": 1863.8,
+          "confirm_index": 727,
+          "confirm_date": "2023-10-30"
+        },
+        {
+          "index": 732,
+          "date": "2023-11-06",
+          "type": "top",
+          "price": 2032.34,
+          "confirm_index": 747,
+          "confirm_date": "2023-11-27"
+        },
+        {
+          "index": 795,
+          "date": "2024-02-02",
+          "type": "bottom",
+          "price": 1550.37,
+          "confirm_index": 797,
+          "confirm_date": "2024-02-06"
+        },
+        {
+          "index": 820,
+          "date": "2024-03-18",
+          "type": "top",
+          "price": 1926.4,
+          "confirm_index": 827,
+          "confirm_date": "2024-03-27"
+        },
+        {
+          "index": 843,
+          "date": "2024-04-22",
+          "type": "bottom",
+          "price": 1750.46,
+          "confirm_index": 848,
+          "confirm_date": "2024-04-29"
+        },
+        {
+          "index": 853,
+          "date": "2024-05-09",
+          "type": "top",
+          "price": 1900.01,
+          "confirm_index": 874,
+          "confirm_date": "2024-06-07"
+        },
+        {
+          "index": 894,
+          "date": "2024-07-08",
+          "type": "bottom",
+          "price": 1628.76,
+          "confirm_index": 902,
+          "confirm_date": "2024-07-18"
+        },
+        {
+          "index": 903,
+          "date": "2024-07-19",
+          "type": "top",
+          "price": 1725.49,
+          "confirm_index": 909,
+          "confirm_date": "2024-07-29"
+        },
+        {
+          "index": 947,
+          "date": "2024-09-23",
+          "type": "bottom",
+          "price": 1530.51,
+          "confirm_index": 948,
+          "confirm_date": "2024-09-24"
+        },
+        {
+          "index": 1175,
+          "date": "2025-09-01",
+          "type": "top",
+          "price": 2956.37,
+          "confirm_index": 1178,
+          "confirm_date": "2025-09-04"
+        },
+        {
+          "index": 1456,
+          "date": "2026-11-03",
+          "type": "bottom",
+          "price": 2391.65,
+          "confirm_index": 1457,
+          "confirm_date": "2026-11-04"
+        }
+      ]
+    },
+    "sh000688": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 14,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 1393.91,
+          "confirm_index": 4,
+          "confirm_date": "2020-11-05"
+        },
+        {
+          "index": 60,
+          "date": "2021-01-25",
+          "type": "top",
+          "price": 1498.6,
+          "confirm_index": 63,
+          "confirm_date": "2021-01-28"
+        },
+        {
+          "index": 98,
+          "date": "2021-03-25",
+          "type": "bottom",
+          "price": 1219.71,
+          "confirm_index": 104,
+          "confirm_date": "2021-04-02"
+        },
+        {
+          "index": 121,
+          "date": "2021-04-28",
+          "type": "top",
+          "price": 1324.24,
+          "confirm_index": 126,
+          "confirm_date": "2021-05-10"
+        },
+        {
+          "index": 312,
+          "date": "2022-02-14",
+          "type": "bottom",
+          "price": 1169.44,
+          "confirm_index": 319,
+          "confirm_date": "2022-02-23"
+        },
+        {
+          "index": 322,
+          "date": "2022-02-28",
+          "type": "top",
+          "price": 1249.59,
+          "confirm_index": 327,
+          "confirm_date": "2022-03-07"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 1093.43,
+          "confirm_index": 337,
+          "confirm_date": "2022-03-21"
+        },
+        {
+          "index": 434,
+          "date": "2022-08-11",
+          "type": "top",
+          "price": 1173.14,
+          "confirm_index": 440,
+          "confirm_date": "2022-08-19"
+        },
+        {
+          "index": 471,
+          "date": "2022-10-11",
+          "type": "bottom",
+          "price": 892.74,
+          "confirm_index": 474,
+          "confirm_date": "2022-10-14"
+        },
+        {
+          "index": 489,
+          "date": "2022-11-04",
+          "type": "top",
+          "price": 1072.87,
+          "confirm_index": 501,
+          "confirm_date": "2022-11-22"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 920.35,
+          "confirm_index": 530,
+          "confirm_date": "2023-01-03"
+        },
+        {
+          "index": 592,
+          "date": "2023-04-07",
+          "type": "top",
+          "price": 1161.02,
+          "confirm_index": 596,
+          "confirm_date": "2023-04-13"
+        },
+        {
+          "index": 687,
+          "date": "2023-08-25",
+          "type": "bottom",
+          "price": 870.4,
+          "confirm_index": 689,
+          "confirm_date": "2023-08-29"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 1023.97,
+          "confirm_index": 955,
+          "confirm_date": "2024-10-10"
+        }
+      ]
+    },
+    "sh000300": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 30,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 4695.33,
+          "confirm_index": 6,
+          "confirm_date": "2020-11-09"
+        },
+        {
+          "index": 72,
+          "date": "2021-02-10",
+          "type": "top",
+          "price": 5807.72,
+          "confirm_index": 77,
+          "confirm_date": "2021-02-24"
+        },
+        {
+          "index": 98,
+          "date": "2021-03-25",
+          "type": "bottom",
+          "price": 4926.35,
+          "confirm_index": 131,
+          "confirm_date": "2021-05-17"
+        },
+        {
+          "index": 142,
+          "date": "2021-06-01",
+          "type": "top",
+          "price": 5341.68,
+          "confirm_index": 169,
+          "confirm_date": "2021-07-09"
+        },
+        {
+          "index": 181,
+          "date": "2021-07-27",
+          "type": "bottom",
+          "price": 4751.31,
+          "confirm_index": 191,
+          "confirm_date": "2021-08-10"
+        },
+        {
+          "index": 191,
+          "date": "2021-08-10",
+          "type": "top",
+          "price": 5043.15,
+          "confirm_index": 199,
+          "confirm_date": "2021-08-20"
+        },
+        {
+          "index": 199,
+          "date": "2021-08-20",
+          "type": "bottom",
+          "price": 4769.27,
+          "confirm_index": 214,
+          "confirm_date": "2021-09-10"
+        },
+        {
+          "index": 273,
+          "date": "2021-12-13",
+          "type": "top",
+          "price": 5083.8,
+          "confirm_index": 290,
+          "confirm_date": "2022-01-06"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 3983.81,
+          "confirm_index": 335,
+          "confirm_date": "2022-03-17"
+        },
+        {
+          "index": 406,
+          "date": "2022-07-04",
+          "type": "top",
+          "price": 4496.03,
+          "confirm_index": 415,
+          "confirm_date": "2022-07-15"
+        },
+        {
+          "index": 485,
+          "date": "2022-10-31",
+          "type": "bottom",
+          "price": 3508.7,
+          "confirm_index": 489,
+          "confirm_date": "2022-11-04"
+        },
+        {
+          "index": 544,
+          "date": "2023-01-30",
+          "type": "top",
+          "price": 4201.35,
+          "confirm_index": 573,
+          "confirm_date": "2023-03-10"
+        },
+        {
+          "index": 579,
+          "date": "2023-03-20",
+          "type": "bottom",
+          "price": 3939.08,
+          "confirm_index": 598,
+          "confirm_date": "2023-04-17"
+        },
+        {
+          "index": 599,
+          "date": "2023-04-18",
+          "type": "top",
+          "price": 4162.03,
+          "confirm_index": 614,
+          "confirm_date": "2023-05-12"
+        },
+        {
+          "index": 632,
+          "date": "2023-06-07",
+          "type": "bottom",
+          "price": 3789.34,
+          "confirm_index": 667,
+          "confirm_date": "2023-07-28"
+        },
+        {
+          "index": 672,
+          "date": "2023-08-04",
+          "type": "top",
+          "price": 4020.58,
+          "confirm_index": 680,
+          "confirm_date": "2023-08-16"
+        },
+        {
+          "index": 795,
+          "date": "2024-02-02",
+          "type": "bottom",
+          "price": 3179.63,
+          "confirm_index": 798,
+          "confirm_date": "2024-02-07"
+        },
+        {
+          "index": 860,
+          "date": "2024-05-20",
+          "type": "top",
+          "price": 3690.96,
+          "confirm_index": 882,
+          "confirm_date": "2024-06-20"
+        },
+        {
+          "index": 943,
+          "date": "2024-09-13",
+          "type": "bottom",
+          "price": 3159.25,
+          "confirm_index": 948,
+          "confirm_date": "2024-09-24"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 4256.1,
+          "confirm_index": 954,
+          "confirm_date": "2024-10-09"
+        },
+        {
+          "index": 1021,
+          "date": "2025-01-13",
+          "type": "bottom",
+          "price": 3722.51,
+          "confirm_index": 1037,
+          "confirm_date": "2025-02-12"
+        },
+        {
+          "index": 1062,
+          "date": "2025-03-19",
+          "type": "top",
+          "price": 4010.17,
+          "confirm_index": 1074,
+          "confirm_date": "2025-04-07"
+        },
+        {
+          "index": 1074,
+          "date": "2025-04-07",
+          "type": "bottom",
+          "price": 3589.44,
+          "confirm_index": 1081,
+          "confirm_date": "2025-04-16"
+        },
+        {
+          "index": 1211,
+          "date": "2025-10-29",
+          "type": "top",
+          "price": 4747.84,
+          "confirm_index": 1228,
+          "confirm_date": "2025-11-21"
+        },
+        {
+          "index": 1229,
+          "date": "2025-11-24",
+          "type": "bottom",
+          "price": 4448.05,
+          "confirm_index": 1257,
+          "confirm_date": "2026-01-05"
+        },
+        {
+          "index": 1258,
+          "date": "2026-01-06",
+          "type": "top",
+          "price": 4790.69,
+          "confirm_index": 1306,
+          "confirm_date": "2026-03-23"
+        },
+        {
+          "index": 1306,
+          "date": "2026-03-23",
+          "type": "bottom",
+          "price": 4418.0,
+          "confirm_index": 1320,
+          "confirm_date": "2026-04-13"
+        },
+        {
+          "index": 1339,
+          "date": "2026-05-13",
+          "type": "top",
+          "price": 4998.34,
+          "confirm_index": 1357,
+          "confirm_date": "2026-06-08"
+        },
+        {
+          "index": 1357,
+          "date": "2026-06-08",
+          "type": "bottom",
+          "price": 4713.64,
+          "confirm_index": 1366,
+          "confirm_date": "2026-06-22"
+        },
+        {
+          "index": 1366,
+          "date": "2026-06-22",
+          "type": "top",
+          "price": 5059.66,
+          "confirm_index": 1377,
+          "confirm_date": "2026-07-07"
+        }
+      ]
+    },
+    "sh000905": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 23,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 6111.48,
+          "confirm_index": 6,
+          "confirm_date": "2020-11-09"
+        },
+        {
+          "index": 60,
+          "date": "2021-01-25",
+          "type": "top",
+          "price": 6645.31,
+          "confirm_index": 69,
+          "confirm_date": "2021-02-05"
+        },
+        {
+          "index": 69,
+          "date": "2021-02-05",
+          "type": "bottom",
+          "price": 6239.87,
+          "confirm_index": 73,
+          "confirm_date": "2021-02-18"
+        },
+        {
+          "index": 178,
+          "date": "2021-07-22",
+          "type": "top",
+          "price": 7026.55,
+          "confirm_index": 182,
+          "confirm_date": "2021-07-28"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 5964.98,
+          "confirm_index": 335,
+          "confirm_date": "2022-03-17"
+        },
+        {
+          "index": 406,
+          "date": "2022-07-04",
+          "type": "top",
+          "price": 6523.13,
+          "confirm_index": 415,
+          "confirm_date": "2022-07-15"
+        },
+        {
+          "index": 428,
+          "date": "2022-08-03",
+          "type": "bottom",
+          "price": 6124.31,
+          "confirm_index": 434,
+          "confirm_date": "2022-08-11"
+        },
+        {
+          "index": 438,
+          "date": "2022-08-17",
+          "type": "top",
+          "price": 6493.5,
+          "confirm_index": 448,
+          "confirm_date": "2022-08-31"
+        },
+        {
+          "index": 470,
+          "date": "2022-10-10",
+          "type": "bottom",
+          "price": 5635.71,
+          "confirm_index": 474,
+          "confirm_date": "2022-10-14"
+        },
+        {
+          "index": 496,
+          "date": "2022-11-15",
+          "type": "top",
+          "price": 6236.38,
+          "confirm_index": 521,
+          "confirm_date": "2022-12-20"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 5763.35,
+          "confirm_index": 538,
+          "confirm_date": "2023-01-13"
+        },
+        {
+          "index": 592,
+          "date": "2023-04-07",
+          "type": "top",
+          "price": 6464.47,
+          "confirm_index": 604,
+          "confirm_date": "2023-04-25"
+        },
+        {
+          "index": 722,
+          "date": "2023-10-23",
+          "type": "bottom",
+          "price": 5290.33,
+          "confirm_index": 732,
+          "confirm_date": "2023-11-06"
+        },
+        {
+          "index": 739,
+          "date": "2023-11-15",
+          "type": "top",
+          "price": 5664.62,
+          "confirm_index": 763,
+          "confirm_date": "2023-12-19"
+        },
+        {
+          "index": 786,
+          "date": "2024-01-22",
+          "type": "bottom",
+          "price": 4780.97,
+          "confirm_index": 789,
+          "confirm_date": "2024-01-25"
+        },
+        {
+          "index": 820,
+          "date": "2024-03-18",
+          "type": "top",
+          "price": 5528.45,
+          "confirm_index": 827,
+          "confirm_date": "2024-03-27"
+        },
+        {
+          "index": 943,
+          "date": "2024-09-13",
+          "type": "bottom",
+          "price": 4450.96,
+          "confirm_index": 948,
+          "confirm_date": "2024-09-24"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 6155.58,
+          "confirm_index": 954,
+          "confirm_date": "2024-10-09"
+        },
+        {
+          "index": 1020,
+          "date": "2025-01-10",
+          "type": "bottom",
+          "price": 5369.28,
+          "confirm_index": 1030,
+          "confirm_date": "2025-01-24"
+        },
+        {
+          "index": 1061,
+          "date": "2025-03-18",
+          "type": "top",
+          "price": 6133.3,
+          "confirm_index": 1074,
+          "confirm_date": "2025-04-07"
+        },
+        {
+          "index": 1074,
+          "date": "2025-04-07",
+          "type": "bottom",
+          "price": 5287.03,
+          "confirm_index": 1078,
+          "confirm_date": "2025-04-11"
+        },
+        {
+          "index": 1175,
+          "date": "2025-09-01",
+          "type": "top",
+          "price": 7110.29,
+          "confirm_index": 1178,
+          "confirm_date": "2025-09-04"
+        },
+        {
+          "index": 1454,
+          "date": "2026-10-30",
+          "type": "bottom",
+          "price": 6266.19,
+          "confirm_index": 1457,
+          "confirm_date": "2026-11-04"
+        }
+      ]
+    },
+    "sh000852": {
+      "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "rule": "某日仅在其后价格反向运动达阈值且满足最小间隔时被事后标注为拐点",
+      "used_for": "评价标尺，不参与信号产生时点的判定",
+      "pivot_count": 18,
+      "pivots": [
+        {
+          "index": 0,
+          "date": "2020-10-30",
+          "type": "bottom",
+          "price": 6511.16,
+          "confirm_index": 6,
+          "confirm_date": "2020-11-09"
+        },
+        {
+          "index": 178,
+          "date": "2021-07-22",
+          "type": "top",
+          "price": 7446.48,
+          "confirm_index": 182,
+          "confirm_date": "2021-07-28"
+        },
+        {
+          "index": 333,
+          "date": "2022-03-15",
+          "type": "bottom",
+          "price": 6473.48,
+          "confirm_index": 335,
+          "confirm_date": "2022-03-17"
+        },
+        {
+          "index": 439,
+          "date": "2022-08-18",
+          "type": "top",
+          "price": 7351.44,
+          "confirm_index": 445,
+          "confirm_date": "2022-08-26"
+        },
+        {
+          "index": 470,
+          "date": "2022-10-10",
+          "type": "bottom",
+          "price": 5984.5,
+          "confirm_index": 474,
+          "confirm_date": "2022-10-14"
+        },
+        {
+          "index": 496,
+          "date": "2022-11-15",
+          "type": "top",
+          "price": 6752.51,
+          "confirm_index": 520,
+          "confirm_date": "2022-12-19"
+        },
+        {
+          "index": 524,
+          "date": "2022-12-23",
+          "type": "bottom",
+          "price": 6160.75,
+          "confirm_index": 532,
+          "confirm_date": "2023-01-05"
+        },
+        {
+          "index": 556,
+          "date": "2023-02-15",
+          "type": "top",
+          "price": 7063.6,
+          "confirm_index": 577,
+          "confirm_date": "2023-03-16"
+        },
+        {
+          "index": 577,
+          "date": "2023-03-16",
+          "type": "bottom",
+          "price": 6689.78,
+          "confirm_index": 592,
+          "confirm_date": "2023-04-07"
+        },
+        {
+          "index": 592,
+          "date": "2023-04-07",
+          "type": "top",
+          "price": 7042.89,
+          "confirm_index": 604,
+          "confirm_date": "2023-04-25"
+        },
+        {
+          "index": 687,
+          "date": "2023-08-25",
+          "type": "bottom",
+          "price": 5879.03,
+          "confirm_index": 693,
+          "confirm_date": "2023-09-04"
+        },
+        {
+          "index": 742,
+          "date": "2023-11-20",
+          "type": "top",
+          "price": 6253.28,
+          "confirm_index": 762,
+          "confirm_date": "2023-12-18"
+        },
+        {
+          "index": 786,
+          "date": "2024-01-22",
+          "type": "bottom",
+          "price": 5000.83,
+          "confirm_index": 789,
+          "confirm_date": "2024-01-25"
+        },
+        {
+          "index": 822,
+          "date": "2024-03-20",
+          "type": "top",
+          "price": 5659.15,
+          "confirm_index": 827,
+          "confirm_date": "2024-03-27"
+        },
+        {
+          "index": 839,
+          "date": "2024-04-16",
+          "type": "bottom",
+          "price": 5066.66,
+          "confirm_index": 847,
+          "confirm_date": "2024-04-26"
+        },
+        {
+          "index": 853,
+          "date": "2024-05-09",
+          "type": "top",
+          "price": 5626.83,
+          "confirm_index": 868,
+          "confirm_date": "2024-05-30"
+        },
+        {
+          "index": 906,
+          "date": "2024-07-24",
+          "type": "bottom",
+          "price": 4631.01,
+          "confirm_index": 911,
+          "confirm_date": "2024-07-31"
+        },
+        {
+          "index": 953,
+          "date": "2024-10-08",
+          "type": "top",
+          "price": 6201.99,
+          "confirm_index": 954,
+          "confirm_date": "2024-10-09"
+        }
+      ]
+    }
+  }
+}

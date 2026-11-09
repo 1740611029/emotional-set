@@ -1,0 +1,22 @@
+# 跨平台换行符归一化（参考 D:\情绪指标4 portable-deployment 方案）
+# 保证在 Windows / macOS / Linux 上 clone 后代码可直接运行
+* text=auto
+*.bat text eol=crlf
+*.py text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+
+# 二进制资源：禁止文本化处理（避免损坏 / 无意义 diff）
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.exe binary
+*.parquet binary

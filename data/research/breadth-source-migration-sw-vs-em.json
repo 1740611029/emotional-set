@@ -1,0 +1,564 @@
+{
+  "generated_at": "2026-11-04 09:13:27",
+  "change_reason": "板块日线数据源由申万行业指数切换为东方财富行业板块，横截面宽度输入随之切换",
+  "impact_scope": "宽度是指数六维评分之一并参与三层确认的量能层，指数顶底信号历史整套重算",
+  "breadth_input": {
+    "old": {
+      "label": "申万一级行业",
+      "sectors": 31,
+      "days": 6492
+    },
+    "new": {
+      "label": "东财行业板块",
+      "sectors": 31,
+      "days": 6500
+    }
+  },
+  "breadth_gap": {
+    "breadth20": [
+      {
+        "column": "breadth20",
+        "window": "全部共有交易日",
+        "common_days": 6490,
+        "samples": 2928,
+        "start": "2014-03-20",
+        "end": "2026-11-03",
+        "old_missing_days": 1109,
+        "new_missing_days": 0,
+        "signed_mean": 0.027,
+        "abs_mean": 0.0907,
+        "abs_median": 0.0645,
+        "abs_p90": 0.2258,
+        "abs_max": 0.65,
+        "new_gt_old_days": 1495
+      },
+      {
+        "column": "breadth20",
+        "window": "最近展示窗口",
+        "common_days": 250,
+        "samples": 250,
+        "start": "2025-10-22",
+        "end": "2026-11-03",
+        "old_missing_days": 0,
+        "new_missing_days": 0,
+        "signed_mean": 0.0319,
+        "abs_mean": 0.0961,
+        "abs_median": 0.0645,
+        "abs_p90": 0.1935,
+        "abs_max": 0.4194,
+        "new_gt_old_days": 126
+      }
+    ],
+    "breadth60": [
+      {
+        "column": "breadth60",
+        "window": "全部共有交易日",
+        "common_days": 6490,
+        "samples": 2679,
+        "start": "2014-05-20",
+        "end": "2026-11-03",
+        "old_missing_days": 1278,
+        "new_missing_days": 0,
+        "signed_mean": 0.0333,
+        "abs_mean": 0.1021,
+        "abs_median": 0.0645,
+        "abs_p90": 0.2581,
+        "abs_max": 0.5806,
+        "new_gt_old_days": 1320
+      },
+      {
+        "column": "breadth60",
+        "window": "最近展示窗口",
+        "common_days": 250,
+        "samples": 250,
+        "start": "2025-10-22",
+        "end": "2026-11-03",
+        "old_missing_days": 0,
+        "new_missing_days": 0,
+        "signed_mean": 0.0657,
+        "abs_mean": 0.1124,
+        "abs_median": 0.0968,
+        "abs_p90": 0.2581,
+        "abs_max": 0.5806,
+        "new_gt_old_days": 137
+      }
+    ],
+    "breadth_delta5": [
+      {
+        "column": "breadth_delta5",
+        "window": "全部共有交易日",
+        "common_days": 6490,
+        "samples": 2893,
+        "start": "2014-03-27",
+        "end": "2026-11-03",
+        "old_missing_days": 1134,
+        "new_missing_days": 0,
+        "signed_mean": -0.0016,
+        "abs_mean": 0.0952,
+        "abs_median": 0.0677,
+        "abs_p90": 0.2258,
+        "abs_max": 0.5952,
+        "new_gt_old_days": 1302
+      },
+      {
+        "column": "breadth_delta5",
+        "window": "最近展示窗口",
+        "common_days": 250,
+        "samples": 250,
+        "start": "2025-10-22",
+        "end": "2026-11-03",
+        "old_missing_days": 0,
+        "new_missing_days": 0,
+        "signed_mean": -0.0019,
+        "abs_mean": 0.0995,
+        "abs_median": 0.0645,
+        "abs_p90": 0.2258,
+        "abs_max": 0.4516,
+        "new_gt_old_days": 118
+      }
+    ]
+  },
+  "signal_comparison": {
+    "per_index": [
+      {
+        "code": "sh000001",
+        "name": "上证指数",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 13,
+        "new_count": 14,
+        "same_date_count": 10,
+        "same_date_same_type": 10,
+        "added": [
+          "2021-11-04",
+          "2021-12-17",
+          "2024-05-15",
+          "2024-09-23"
+        ],
+        "removed": [
+          "2021-03-18",
+          "2024-05-23",
+          "2024-08-30"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sz399001",
+        "name": "深证成指",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 8,
+        "new_count": 9,
+        "same_date_count": 5,
+        "same_date_same_type": 5,
+        "added": [
+          "2021-10-13",
+          "2021-12-06",
+          "2022-05-11",
+          "2023-02-16"
+        ],
+        "removed": [
+          "2022-03-30",
+          "2022-12-19",
+          "2026-07-21"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sz399006",
+        "name": "创业板指",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 10,
+        "new_count": 15,
+        "same_date_count": 6,
+        "same_date_same_type": 6,
+        "added": [
+          "2021-10-13",
+          "2021-12-06",
+          "2022-05-10",
+          "2022-07-11",
+          "2022-12-27",
+          "2023-02-16",
+          "2023-03-24",
+          "2024-05-14",
+          "2024-07-16"
+        ],
+        "removed": [
+          "2021-06-16",
+          "2022-02-23",
+          "2023-02-06",
+          "2023-07-25"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sh000688",
+        "name": "科创50",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 8,
+        "new_count": 11,
+        "same_date_count": 6,
+        "same_date_same_type": 6,
+        "added": [
+          "2021-03-15",
+          "2023-02-16",
+          "2024-05-14",
+          "2026-06-17",
+          "2026-08-19"
+        ],
+        "removed": [
+          "2023-02-06",
+          "2024-03-22"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sh000300",
+        "name": "沪深300",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 7,
+        "new_count": 9,
+        "same_date_count": 3,
+        "same_date_same_type": 3,
+        "added": [
+          "2021-08-09",
+          "2022-12-27",
+          "2023-02-16",
+          "2023-03-21",
+          "2024-05-15",
+          "2024-07-16"
+        ],
+        "removed": [
+          "2021-03-17",
+          "2022-07-26",
+          "2022-12-19",
+          "2023-09-22"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sh000905",
+        "name": "中证500",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 13,
+        "new_count": 9,
+        "same_date_count": 5,
+        "same_date_same_type": 5,
+        "added": [
+          "2021-11-04",
+          "2021-12-07",
+          "2023-06-15",
+          "2025-04-21"
+        ],
+        "removed": [
+          "2021-03-18",
+          "2021-12-20",
+          "2023-06-12",
+          "2024-09-19",
+          "2024-11-22",
+          "2025-04-09",
+          "2025-05-22",
+          "2026-04-08"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      },
+      {
+        "code": "sh000852",
+        "name": "中证1000",
+        "data_start": "2020-10-30",
+        "data_end": "2026-11-03",
+        "old_count": 14,
+        "new_count": 14,
+        "same_date_count": 10,
+        "same_date_same_type": 10,
+        "added": [
+          "2021-10-14",
+          "2021-12-06",
+          "2022-05-10",
+          "2024-04-25"
+        ],
+        "removed": [
+          "2022-03-30",
+          "2022-12-16",
+          "2023-01-03",
+          "2024-09-19"
+        ],
+        "old_current": {
+          "type": "none",
+          "date": null
+        },
+        "new_current": {
+          "type": "none",
+          "date": null
+        }
+      }
+    ],
+    "totals": {
+      "old": 73,
+      "new": 81,
+      "same_date": 45,
+      "same_type": 45,
+      "added": 36,
+      "removed": 28
+    },
+    "as_of": {
+      "old": "2026-11-03",
+      "new": "2026-11-03"
+    }
+  },
+  "accuracy_comparison": [
+    {
+      "segment": "research",
+      "segment_label": "研究段",
+      "type": "bottom",
+      "old": {
+        "segment": "research",
+        "type": "bottom",
+        "entries": 24,
+        "resolved": 24,
+        "successes": 24,
+        "failures": 0,
+        "pending": 0,
+        "rate": 1.0,
+        "wilson95": [
+          0.862,
+          1.0
+        ],
+        "small_sample": true
+      },
+      "new": {
+        "segment": "research",
+        "type": "bottom",
+        "entries": 28,
+        "resolved": 28,
+        "successes": 28,
+        "failures": 0,
+        "pending": 0,
+        "rate": 1.0,
+        "wilson95": [
+          0.8794,
+          1.0
+        ],
+        "small_sample": true
+      },
+      "rate_delta": 0.0
+    },
+    {
+      "segment": "research",
+      "segment_label": "研究段",
+      "type": "top",
+      "old": {
+        "segment": "research",
+        "type": "top",
+        "entries": 27,
+        "resolved": 22,
+        "successes": 21,
+        "failures": 1,
+        "pending": 5,
+        "rate": 0.9545,
+        "wilson95": [
+          0.782,
+          0.9919
+        ],
+        "small_sample": true
+      },
+      "new": {
+        "segment": "research",
+        "type": "top",
+        "entries": 32,
+        "resolved": 28,
+        "successes": 28,
+        "failures": 0,
+        "pending": 4,
+        "rate": 1.0,
+        "wilson95": [
+          0.8794,
+          1.0
+        ],
+        "small_sample": true
+      },
+      "rate_delta": 0.0455
+    },
+    {
+      "segment": "exploratory_validation",
+      "segment_label": "验证段",
+      "type": "bottom",
+      "old": {
+        "segment": "exploratory_validation",
+        "type": "bottom",
+        "entries": 14,
+        "resolved": 13,
+        "successes": 10,
+        "failures": 3,
+        "pending": 1,
+        "rate": 0.7692,
+        "wilson95": [
+          0.4974,
+          0.9182
+        ],
+        "small_sample": true
+      },
+      "new": {
+        "segment": "exploratory_validation",
+        "type": "bottom",
+        "entries": 13,
+        "resolved": 13,
+        "successes": 11,
+        "failures": 2,
+        "pending": 0,
+        "rate": 0.8462,
+        "wilson95": [
+          0.5777,
+          0.9567
+        ],
+        "small_sample": true
+      },
+      "rate_delta": 0.077
+    },
+    {
+      "segment": "exploratory_validation",
+      "segment_label": "验证段",
+      "type": "top",
+      "old": {
+        "segment": "exploratory_validation",
+        "type": "top",
+        "entries": 8,
+        "resolved": 8,
+        "successes": 8,
+        "failures": 0,
+        "pending": 0,
+        "rate": 1.0,
+        "wilson95": [
+          0.6756,
+          1.0
+        ],
+        "small_sample": true
+      },
+      "new": {
+        "segment": "exploratory_validation",
+        "type": "top",
+        "entries": 8,
+        "resolved": 8,
+        "successes": 8,
+        "failures": 0,
+        "pending": 0,
+        "rate": 1.0,
+        "wilson95": [
+          0.6756,
+          1.0
+        ],
+        "small_sample": true
+      },
+      "rate_delta": 0.0
+    }
+  ],
+  "rules_unchanged": {
+    "old_build": {
+      "algorithm_version": "index-swing6-v2.0",
+      "rate_unit": "fraction",
+      "boundary_policy": "strict_segment_end_inclusive",
+      "research_status": "post_hoc_exploratory_not_independent",
+      "segments": [
+        [
+          "research",
+          "2020-10-30",
+          "2024-12-31"
+        ],
+        [
+          "exploratory_validation",
+          "2025-01-02",
+          "2026-11-03"
+        ]
+      ]
+    },
+    "new_build": {
+      "algorithm_version": "index-swing6-v2.0",
+      "rate_unit": "fraction",
+      "boundary_policy": "strict_segment_end_inclusive",
+      "research_status": "post_hoc_exploratory_not_independent",
+      "segments": [
+        [
+          "research",
+          "2020-10-30",
+          "2024-12-31"
+        ],
+        [
+          "exploratory_validation",
+          "2025-01-02",
+          "2026-11-03"
+        ]
+      ]
+    },
+    "production_baseline": {
+      "algorithm_version": "index-swing6-v2.0",
+      "rate_unit": "fraction",
+      "boundary_policy": "strict_segment_end_inclusive",
+      "research_status": "post_hoc_exploratory_not_independent",
+      "segments": [
+        [
+          "research",
+          "2020-10-30",
+          "2024-12-31"
+        ],
+        [
+          "exploratory_validation",
+          "2025-01-02",
+          "2026-11-03"
+        ]
+      ]
+    },
+    "identical_between_builds": true,
+    "matches_production_baseline": true
+  },
+  "sector_product_consistency": {
+    "sector_trends_as_of": "2026-11-03",
+    "index_signals_new_as_of": "2026-11-03"
+  },
+  "note": "两遍构建使用同一份指数日线与同一套指数算法，唯一差别是宽度输入；未调任何阈值或权重。对照产物不进生产链路，删除后重建结果逐条一致。"
+}

@@ -1,0 +1,1677 @@
+{
+  "algorithm_version": "index-swing6-v2.0",
+  "legacy_version": "index-mf4-participation-v1.1-confirmed",
+  "note": "同区间、同口径对照；旧算法不输出回撤字段，故仅并列胜率与样本量。",
+  "indices": [
+    {
+      "code": "sh000001",
+      "name": "上证指数",
+      "legacy": {
+        "signals": 7,
+        "summary": {
+          "bottom": {
+            "triggers": 5,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 2,
+            "resolved": 2,
+            "successes": 2,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 5,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.024140540013260048,
+            "worst_max_adverse_excursion": -0.06534321916139729,
+            "avg_forward_return_20": 0.02013502363480657,
+            "return_drawdown_ratio": 0.8340751128080273
+          },
+          "top": {
+            "triggers": 2,
+            "successes": 2,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.012938917529221494,
+            "worst_max_adverse_excursion": -0.016650779758697887,
+            "avg_forward_return_20": -0.030981724726298676,
+            "return_drawdown_ratio": -2.394460329183563
+          }
+        }
+      },
+      "swing": {
+        "signals": 13,
+        "summary": {
+          "bottom": {
+            "triggers": 7,
+            "resolved": 7,
+            "successes": 7,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 6,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 7,
+            "successes": 7,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.057238601663231234,
+            "worst_max_adverse_excursion": -0.12768370058542966,
+            "avg_forward_return_20": 0.030457779079235255,
+            "return_drawdown_ratio": 0.5321195520889295
+          },
+          "top": {
+            "triggers": 6,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.022028480100006843,
+            "worst_max_adverse_excursion": -0.04642562887818946,
+            "avg_forward_return_20": 6.160798966097225e-05,
+            "return_drawdown_ratio": 0.002796742643218182
+          }
+        }
+      }
+    },
+    {
+      "code": "sz399001",
+      "name": "深证成指",
+      "legacy": {
+        "signals": 12,
+        "summary": {
+          "bottom": {
+            "triggers": 6,
+            "resolved": 6,
+            "successes": 6,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 6,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 6,
+            "successes": 6,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.049413220751746256,
+            "worst_max_adverse_excursion": -0.09228545376760433,
+            "avg_forward_return_20": -0.007760139262321608,
+            "return_drawdown_ratio": -0.1570458096894517
+          },
+          "top": {
+            "triggers": 6,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.0480225459138159,
+            "worst_max_adverse_excursion": -0.13928804244679704,
+            "avg_forward_return_20": -0.000902394893635683,
+            "return_drawdown_ratio": -0.018791067330232225
+          }
+        }
+      },
+      "swing": {
+        "signals": 8,
+        "summary": {
+          "bottom": {
+            "triggers": 4,
+            "resolved": 3,
+            "successes": 3,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 4,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 4,
+            "successes": 3,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.0845814629266235,
+            "worst_max_adverse_excursion": -0.1774547856292502,
+            "avg_forward_return_20": -0.031491344859228,
+            "return_drawdown_ratio": -0.3723196994895621
+          },
+          "top": {
+            "triggers": 4,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.041654307117203804,
+            "worst_max_adverse_excursion": -0.06851870162790896,
+            "avg_forward_return_20": 0.015778409073925775,
+            "return_drawdown_ratio": 0.37879417918367136
+          }
+        }
+      }
+    },
+    {
+      "code": "sz399006",
+      "name": "创业板指",
+      "legacy": {
+        "signals": 11,
+        "summary": {
+          "bottom": {
+            "triggers": 7,
+            "resolved": 7,
+            "successes": 7,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 4,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 7,
+            "successes": 7,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.043546044956559955,
+            "worst_max_adverse_excursion": -0.07315679896515426,
+            "avg_forward_return_20": 0.09575231065599103,
+            "return_drawdown_ratio": 2.1988750241614423
+          },
+          "top": {
+            "triggers": 4,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.0910376412110458,
+            "worst_max_adverse_excursion": -0.1584640006694631,
+            "avg_forward_return_20": 0.029425002455120863,
+            "return_drawdown_ratio": 0.32321797954877884
+          }
+        }
+      },
+      "swing": {
+        "signals": 10,
+        "summary": {
+          "bottom": {
+            "triggers": 5,
+            "resolved": 5,
+            "successes": 4,
+            "rate": 0.8
+          },
+          "top": {
+            "triggers": 5,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 5,
+            "successes": 4,
+            "rate": 80.0,
+            "avg_max_adverse_excursion": -0.049286832808532986,
+            "worst_max_adverse_excursion": -0.134218512097951,
+            "avg_forward_return_20": 0.041057769522082,
+            "return_drawdown_ratio": 0.8330372876987482
+          },
+          "top": {
+            "triggers": 5,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.06336517023727888,
+            "worst_max_adverse_excursion": -0.13922641328342467,
+            "avg_forward_return_20": 0.011917602644988468,
+            "return_drawdown_ratio": 0.18807812873162813
+          }
+        }
+      }
+    },
+    {
+      "code": "sh000688",
+      "name": "科创50",
+      "legacy": {
+        "signals": 10,
+        "summary": {
+          "bottom": {
+            "triggers": 4,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 6,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 4,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.055247269031111684,
+            "worst_max_adverse_excursion": -0.10753238773106666,
+            "avg_forward_return_20": 0.05434074102633135,
+            "return_drawdown_ratio": 0.9835914422436006
+          },
+          "top": {
+            "triggers": 6,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.08695382072461261,
+            "worst_max_adverse_excursion": -0.216115057253077,
+            "avg_forward_return_20": 0.010312878292138117,
+            "return_drawdown_ratio": 0.11860178432871343
+          }
+        }
+      },
+      "swing": {
+        "signals": 8,
+        "summary": {
+          "bottom": {
+            "triggers": 4,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 4,
+            "resolved": 3,
+            "successes": 3,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 4,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.04900430566044017,
+            "worst_max_adverse_excursion": -0.12084909776210673,
+            "avg_forward_return_20": -0.01295221856314141,
+            "return_drawdown_ratio": -0.26430776619690743
+          },
+          "top": {
+            "triggers": 4,
+            "successes": 3,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.011261798835824196,
+            "worst_max_adverse_excursion": -0.01559672903336673,
+            "avg_forward_return_20": -0.03848613875160963,
+            "return_drawdown_ratio": -3.417405985727947
+          }
+        }
+      }
+    },
+    {
+      "code": "sh000300",
+      "name": "沪深300",
+      "legacy": {
+        "signals": 9,
+        "summary": {
+          "bottom": {
+            "triggers": 7,
+            "resolved": 7,
+            "successes": 7,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 2,
+            "resolved": 2,
+            "successes": 2,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 7,
+            "successes": 7,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.027939234939532827,
+            "worst_max_adverse_excursion": -0.05170756727685588,
+            "avg_forward_return_20": 0.003165683535790006,
+            "return_drawdown_ratio": 0.11330602082130384
+          },
+          "top": {
+            "triggers": 2,
+            "successes": 2,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.009154508997046062,
+            "worst_max_adverse_excursion": -0.012549813854976222,
+            "avg_forward_return_20": -0.06431696040481283,
+            "return_drawdown_ratio": -7.025713823162591
+          }
+        }
+      },
+      "swing": {
+        "signals": 7,
+        "summary": {
+          "bottom": {
+            "triggers": 4,
+            "resolved": 4,
+            "successes": 4,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 3,
+            "resolved": 2,
+            "successes": 1,
+            "rate": 0.5
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 4,
+            "successes": 4,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.059010863242365375,
+            "worst_max_adverse_excursion": -0.07710227257530888,
+            "avg_forward_return_20": -0.03329207677463608,
+            "return_drawdown_ratio": -0.5641686114283931
+          },
+          "top": {
+            "triggers": 3,
+            "successes": 1,
+            "rate": 50.0,
+            "avg_max_adverse_excursion": -0.03826323260455833,
+            "worst_max_adverse_excursion": -0.07291650613117184,
+            "avg_forward_return_20": 0.007622906119928552,
+            "return_drawdown_ratio": 0.1992227420696397
+          }
+        }
+      }
+    },
+    {
+      "code": "sh000905",
+      "name": "中证500",
+      "legacy": {
+        "signals": 15,
+        "summary": {
+          "bottom": {
+            "triggers": 9,
+            "resolved": 9,
+            "successes": 9,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 6,
+            "resolved": 4,
+            "successes": 3,
+            "rate": 0.75
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 9,
+            "successes": 9,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.0646094748599007,
+            "worst_max_adverse_excursion": -0.15610327250363687,
+            "avg_forward_return_20": 0.020867110933815596,
+            "return_drawdown_ratio": 0.3229729227650259
+          },
+          "top": {
+            "triggers": 6,
+            "successes": 3,
+            "rate": 75.0,
+            "avg_max_adverse_excursion": -0.011134758080858231,
+            "worst_max_adverse_excursion": -0.013865949417311674,
+            "avg_forward_return_20": -0.0534363357003555,
+            "return_drawdown_ratio": -4.799056729595044
+          }
+        }
+      },
+      "swing": {
+        "signals": 13,
+        "summary": {
+          "bottom": {
+            "triggers": 7,
+            "resolved": 7,
+            "successes": 6,
+            "rate": 0.8571428571428571
+          },
+          "top": {
+            "triggers": 6,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 7,
+            "successes": 6,
+            "rate": 85.71428571428571,
+            "avg_max_adverse_excursion": -0.03208523341313856,
+            "worst_max_adverse_excursion": -0.14786935517379618,
+            "avg_forward_return_20": 0.06460774147701545,
+            "return_drawdown_ratio": 2.0136285326370498
+          },
+          "top": {
+            "triggers": 6,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.014925052817791107,
+            "worst_max_adverse_excursion": -0.027255533305447388,
+            "avg_forward_return_20": -0.02103269744351215,
+            "return_drawdown_ratio": -1.4092209722997127
+          }
+        }
+      }
+    },
+    {
+      "code": "sh000852",
+      "name": "中证1000",
+      "legacy": {
+        "signals": 16,
+        "summary": {
+          "bottom": {
+            "triggers": 9,
+            "resolved": 7,
+            "successes": 7,
+            "rate": 1.0
+          },
+          "top": {
+            "triggers": 7,
+            "resolved": 5,
+            "successes": 5,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 9,
+            "successes": 7,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.09890827237414938,
+            "worst_max_adverse_excursion": -0.2141115834618713,
+            "avg_forward_return_20": 0.0355902938798796,
+            "return_drawdown_ratio": 0.3598313166895579
+          },
+          "top": {
+            "triggers": 7,
+            "successes": 5,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.045172857727300286,
+            "worst_max_adverse_excursion": -0.08281531862420444,
+            "avg_forward_return_20": -0.006563784274717377,
+            "return_drawdown_ratio": -0.14530372008655418
+          }
+        }
+      },
+      "swing": {
+        "signals": 14,
+        "summary": {
+          "bottom": {
+            "triggers": 7,
+            "resolved": 7,
+            "successes": 6,
+            "rate": 0.8571428571428571
+          },
+          "top": {
+            "triggers": 7,
+            "resolved": 6,
+            "successes": 6,
+            "rate": 1.0
+          }
+        },
+        "accuracy": {
+          "start": "2020-10-30",
+          "end": "2026-10-30",
+          "bottom": {
+            "triggers": 7,
+            "successes": 6,
+            "rate": 85.71428571428571,
+            "avg_max_adverse_excursion": -0.044922535186007466,
+            "worst_max_adverse_excursion": -0.24764193889070973,
+            "avg_forward_return_20": 0.06911227324147184,
+            "return_drawdown_ratio": 1.5384766900466256
+          },
+          "top": {
+            "triggers": 7,
+            "successes": 6,
+            "rate": 100.0,
+            "avg_max_adverse_excursion": -0.030183846940320835,
+            "worst_max_adverse_excursion": -0.08152207536786849,
+            "avg_forward_return_20": 0.0017198147308694252,
+            "return_drawdown_ratio": 0.05697798343166209
+          }
+        }
+      }
+    }
+  ],
+  "review": [
+    {
+      "code": "sh000001",
+      "name": "上证指数",
+      "signal_date": "2025-04-09",
+      "candidate_date": "2025-04-08",
+      "type": "bottom",
+      "grade": "A",
+      "score": 0.6228,
+      "factors": {
+        "position": 0.912,
+        "divergence": 0.0,
+        "volume": 0.9216,
+        "volatility": 0.6912,
+        "trend": 0.5484,
+        "breadth": 0.6636
+      },
+      "breadth": {
+        "breadth20": 0.0323,
+        "delta5": -0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-04-09",
+          "offset": 1,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 3186.81,
+          "candidate_reference": 3145.55,
+          "rsi14": 34.60029382556443,
+          "volume_ratio": 1.240626577273983,
+          "breadth_delta5": -0.16129032258064516
+        }
+      ]
+    },
+    {
+      "code": "sh000001",
+      "name": "上证指数",
+      "signal_date": "2025-05-23",
+      "candidate_date": "2025-05-20",
+      "type": "top",
+      "grade": "B",
+      "score": 0.5303,
+      "factors": {
+        "position": 0.816,
+        "divergence": 0.0,
+        "volume": 0.0896,
+        "volatility": 0.7008,
+        "trend": 0.9368,
+        "breadth": 0.6384
+      },
+      "breadth": {
+        "breadth20": 0.9677,
+        "delta5": 0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-05-21",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 3387.57,
+          "candidate_reference": 3369.96,
+          "rsi14": 62.16080904879311,
+          "volume_ratio": 1.010714105131689,
+          "breadth_delta5": -0.032258064516129004
+        },
+        {
+          "date": "2025-05-22",
+          "offset": 2,
+          "price": false,
+          "momentum": true,
+          "volume": true,
+          "passed": 2,
+          "close": 3380.19,
+          "candidate_reference": 3369.96,
+          "rsi14": 59.97648357688755,
+          "volume_ratio": 0.9802819741798237,
+          "breadth_delta5": -0.09677419354838712
+        },
+        {
+          "date": "2025-05-23",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 3348.37,
+          "candidate_reference": 3369.96,
+          "rsi14": 51.56314132464263,
+          "volume_ratio": 0.9928433179841478,
+          "breadth_delta5": -0.3870967741935484
+        }
+      ]
+    },
+    {
+      "code": "sh000001",
+      "name": "上证指数",
+      "signal_date": "2026-02-25",
+      "candidate_date": "2026-02-13",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.527,
+      "factors": {
+        "position": 0.784,
+        "divergence": 0.0,
+        "volume": 0.9832,
+        "volatility": 0.3776,
+        "trend": 0.4404,
+        "breadth": 0.5768
+      },
+      "breadth": {
+        "breadth20": 0.3548,
+        "delta5": -0.0645
+      },
+      "confirmation": [
+        {
+          "date": "2026-02-24",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 4117.41,
+          "candidate_reference": 4123.84,
+          "rsi14": 54.18134584103454,
+          "volume_ratio": 1.080026437123539,
+          "breadth_delta5": -0.12903225806451613
+        },
+        {
+          "date": "2026-02-25",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 4147.23,
+          "candidate_reference": 4123.84,
+          "rsi14": 58.064561424440996,
+          "volume_ratio": 1.2841891768348468,
+          "breadth_delta5": 0.06451612903225812
+        }
+      ]
+    },
+    {
+      "code": "sz399001",
+      "name": "深证成指",
+      "signal_date": "2025-01-14",
+      "candidate_date": "2025-01-10",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.5845,
+      "factors": {
+        "position": 0.746,
+        "divergence": 0.6667,
+        "volume": 0.4816,
+        "volatility": 0.4496,
+        "trend": 0.4716,
+        "breadth": 0.6916
+      },
+      "breadth": {
+        "breadth20": 0.0,
+        "delta5": 0.0
+      },
+      "confirmation": [
+        {
+          "date": "2025-01-13",
+          "offset": 1,
+          "price": false,
+          "momentum": true,
+          "volume": false,
+          "passed": 1,
+          "close": 9796.18,
+          "candidate_reference": 10004.06,
+          "rsi14": 31.098721450309192,
+          "volume_ratio": 0.841658161169261,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2025-01-14",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 10165.17,
+          "candidate_reference": 10004.06,
+          "rsi14": 45.840107404353596,
+          "volume_ratio": 1.1138280554514033,
+          "breadth_delta5": 0.12903225806451613
+        }
+      ]
+    },
+    {
+      "code": "sz399001",
+      "name": "深证成指",
+      "signal_date": "2025-03-21",
+      "candidate_date": "2025-03-18",
+      "type": "top",
+      "grade": "A",
+      "score": 0.834,
+      "factors": {
+        "position": 0.871,
+        "divergence": 1.0,
+        "volume": 0.72,
+        "volatility": 0.7504,
+        "trend": 0.9624,
+        "breadth": 0.7
+      },
+      "breadth": {
+        "breadth20": 1.0,
+        "delta5": 0.2581
+      },
+      "confirmation": [
+        {
+          "date": "2025-03-19",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 10979.05,
+          "candidate_reference": 10958.87,
+          "rsi14": 58.958010280749285,
+          "volume_ratio": 0.9354469336375375,
+          "breadth_delta5": 0.12903225806451613
+        },
+        {
+          "date": "2025-03-20",
+          "offset": 2,
+          "price": true,
+          "momentum": false,
+          "volume": false,
+          "passed": 1,
+          "close": 10879.49,
+          "candidate_reference": 10958.87,
+          "rsi14": 54.17593638012243,
+          "volume_ratio": 0.9573682479417699,
+          "breadth_delta5": 0.25806451612903225
+        },
+        {
+          "date": "2025-03-21",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 10687.55,
+          "candidate_reference": 10958.87,
+          "rsi14": 46.367679191627175,
+          "volume_ratio": 1.0762548543385821,
+          "breadth_delta5": -0.29032258064516125
+        }
+      ]
+    },
+    {
+      "code": "sz399001",
+      "name": "深证成指",
+      "signal_date": "2026-07-21",
+      "candidate_date": "2026-07-20",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.5563,
+      "factors": {
+        "position": 0.982,
+        "divergence": 0.0,
+        "volume": 0.1008,
+        "volatility": 1.0,
+        "trend": 0.566,
+        "breadth": 0.6891
+      },
+      "breadth": {
+        "breadth20": 0.3226,
+        "delta5": 0.1935
+      },
+      "confirmation": [
+        {
+          "date": "2026-07-21",
+          "offset": 1,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 14264.29,
+          "candidate_reference": 13972.99,
+          "rsi14": 41.24174269995497,
+          "volume_ratio": 1.1212723047365112,
+          "breadth_delta5": 0.09677419354838712
+        }
+      ]
+    },
+    {
+      "code": "sz399006",
+      "name": "创业板指",
+      "signal_date": "2025-04-21",
+      "candidate_date": "2025-04-16",
+      "type": "bottom",
+      "grade": "A",
+      "score": 0.6083,
+      "factors": {
+        "position": 0.718,
+        "divergence": 0.0,
+        "volume": 0.8152,
+        "volatility": 0.6832,
+        "trend": 0.8168,
+        "breadth": 0.6163
+      },
+      "breadth": {
+        "breadth20": 0.2258,
+        "delta5": 0.1935
+      },
+      "confirmation": [
+        {
+          "date": "2025-04-17",
+          "offset": 1,
+          "price": false,
+          "momentum": true,
+          "volume": true,
+          "passed": 2,
+          "close": 1908.78,
+          "candidate_reference": 1919.09,
+          "rsi14": 33.314283631333744,
+          "volume_ratio": 0.849210841462285,
+          "breadth_delta5": 0.16129032258064518
+        },
+        {
+          "date": "2025-04-18",
+          "offset": 2,
+          "price": false,
+          "momentum": true,
+          "volume": true,
+          "passed": 2,
+          "close": 1913.97,
+          "candidate_reference": 1919.09,
+          "rsi14": 34.25366960286102,
+          "volume_ratio": 0.8871295990585542,
+          "breadth_delta5": 0.12903225806451613
+        },
+        {
+          "date": "2025-04-21",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 1944.32,
+          "candidate_reference": 1919.09,
+          "rsi14": 39.61096235276049,
+          "volume_ratio": 1.0422471650877658,
+          "breadth_delta5": 0.19354838709677422
+        }
+      ]
+    },
+    {
+      "code": "sz399006",
+      "name": "创业板指",
+      "signal_date": "2025-05-27",
+      "candidate_date": "2025-05-26",
+      "type": "top",
+      "grade": "B",
+      "score": 0.5501,
+      "factors": {
+        "position": 0.525,
+        "divergence": 0.0,
+        "volume": 0.804,
+        "volatility": 0.3536,
+        "trend": 0.9248,
+        "breadth": 0.6934
+      },
+      "breadth": {
+        "breadth20": 0.6774,
+        "delta5": -0.2258
+      },
+      "confirmation": [
+        {
+          "date": "2025-05-27",
+          "offset": 1,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 1991.64,
+          "candidate_reference": 1991.78,
+          "rsi14": 44.936424798192185,
+          "volume_ratio": 0.917332080412375,
+          "breadth_delta5": -0.4516129032258065
+        }
+      ]
+    },
+    {
+      "code": "sz399006",
+      "name": "创业板指",
+      "signal_date": "2026-04-08",
+      "candidate_date": "2026-04-02",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.6062,
+      "factors": {
+        "position": 0.826,
+        "divergence": 1.0,
+        "volume": 0.4536,
+        "volatility": 0.5008,
+        "trend": 0.1752,
+        "breadth": 0.6819
+      },
+      "breadth": {
+        "breadth20": 0.129,
+        "delta5": 0.0323
+      },
+      "confirmation": [
+        {
+          "date": "2026-04-03",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 3149.6,
+          "candidate_reference": 3229.68,
+          "rsi14": 40.870384444683175,
+          "volume_ratio": 0.9359041393443052,
+          "breadth_delta5": -0.06451612903225806
+        },
+        {
+          "date": "2026-04-07",
+          "offset": 2,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 3160.82,
+          "candidate_reference": 3229.68,
+          "rsi14": 41.91161768046575,
+          "volume_ratio": 0.8724860755798127,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2026-04-08",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 3347.61,
+          "candidate_reference": 3229.68,
+          "rsi14": 55.85016466914235,
+          "volume_ratio": 1.266584021677017,
+          "breadth_delta5": 0.4516129032258064
+        }
+      ]
+    },
+    {
+      "code": "sh000688",
+      "name": "科创50",
+      "signal_date": "2024-03-22",
+      "candidate_date": "2024-03-19",
+      "type": "top",
+      "grade": "B",
+      "score": 0.522,
+      "factors": {
+        "position": 0.792,
+        "divergence": 0.0,
+        "volume": 0.6752,
+        "volatility": 0.4896,
+        "trend": 0.4636,
+        "breadth": 0.7113
+      },
+      "breadth": {
+        "breadth20": 0.871,
+        "delta5": -0.0645
+      },
+      "confirmation": [
+        {
+          "date": "2024-03-20",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 814.03,
+          "candidate_reference": 811.77,
+          "rsi14": 57.01006708451546,
+          "volume_ratio": 0.854491540047506,
+          "breadth_delta5": -0.032258064516129004
+        },
+        {
+          "date": "2024-03-21",
+          "offset": 2,
+          "price": true,
+          "momentum": false,
+          "volume": false,
+          "passed": 1,
+          "close": 806.14,
+          "candidate_reference": 811.77,
+          "rsi14": 53.87714176630444,
+          "volume_ratio": 1.0145779472189291,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2024-03-22",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 794.2,
+          "candidate_reference": 811.77,
+          "rsi14": 49.448564879071455,
+          "volume_ratio": 1.041595022718905,
+          "breadth_delta5": -0.16129032258064513
+        }
+      ]
+    },
+    {
+      "code": "sh000688",
+      "name": "科创50",
+      "signal_date": "2024-07-09",
+      "candidate_date": "2024-07-04",
+      "type": "bottom",
+      "grade": "A",
+      "score": 0.5807,
+      "factors": {
+        "position": 0.853,
+        "divergence": 0.3333,
+        "volume": 0.6608,
+        "volatility": 0.4736,
+        "trend": 0.5332,
+        "breadth": 0.6301
+      },
+      "breadth": {
+        "breadth20": 0.0968,
+        "delta5": 0.0645
+      },
+      "confirmation": [
+        {
+          "date": "2024-07-05",
+          "offset": 1,
+          "price": false,
+          "momentum": true,
+          "volume": false,
+          "passed": 1,
+          "close": 698.85,
+          "candidate_reference": 704.78,
+          "rsi14": 35.002674795544415,
+          "volume_ratio": 0.966044981677385,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2024-07-08",
+          "offset": 2,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 692.49,
+          "candidate_reference": 704.78,
+          "rsi14": 32.94783398711529,
+          "volume_ratio": 1.1572982076858573,
+          "breadth_delta5": -0.03225806451612903
+        },
+        {
+          "date": "2024-07-09",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 709.89,
+          "candidate_reference": 704.78,
+          "rsi14": 42.83523575493782,
+          "volume_ratio": 1.3300079201996067,
+          "breadth_delta5": 0.06451612903225806
+        }
+      ]
+    },
+    {
+      "code": "sh000688",
+      "name": "科创50",
+      "signal_date": "2024-11-22",
+      "candidate_date": "2024-11-20",
+      "type": "top",
+      "grade": "A",
+      "score": 0.6598,
+      "factors": {
+        "position": 0.741,
+        "divergence": 0.0,
+        "volume": 0.9888,
+        "volatility": 0.6448,
+        "trend": 0.8224,
+        "breadth": 0.762
+      },
+      "breadth": {
+        "breadth20": 0.6129,
+        "delta5": -0.3226
+      },
+      "confirmation": [
+        {
+          "date": "2024-11-21",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": true,
+          "passed": 1,
+          "close": 1011.46,
+          "candidate_reference": 988.26,
+          "rsi14": 57.08720631042138,
+          "volume_ratio": 0.9115370977492262,
+          "breadth_delta5": -0.29032258064516137
+        },
+        {
+          "date": "2024-11-22",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 969.35,
+          "candidate_reference": 988.26,
+          "rsi14": 49.770255918939455,
+          "volume_ratio": 1.0395436055132836,
+          "breadth_delta5": -0.3548387096774194
+        }
+      ]
+    },
+    {
+      "code": "sh000300",
+      "name": "沪深300",
+      "signal_date": "2023-09-22",
+      "candidate_date": "2023-09-20",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.646,
+      "factors": {
+        "position": 0.68,
+        "divergence": 0.6667,
+        "volume": 0.6216,
+        "volatility": 0.4688,
+        "trend": 0.988,
+        "breadth": 0.4508
+      },
+      "breadth": {
+        "breadth20": 0.2903,
+        "delta5": -0.129
+      },
+      "confirmation": [
+        {
+          "date": "2023-09-21",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 3672.44,
+          "candidate_reference": 3718.52,
+          "rsi14": 34.83038204661762,
+          "volume_ratio": 0.9482718821532531,
+          "breadth_delta5": -0.22580645161290322
+        },
+        {
+          "date": "2023-09-22",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 3738.93,
+          "candidate_reference": 3718.52,
+          "rsi14": 46.15619907266887,
+          "volume_ratio": 1.2565187848118449,
+          "breadth_delta5": 0.0
+        }
+      ]
+    },
+    {
+      "code": "sh000300",
+      "name": "沪深300",
+      "signal_date": "2024-11-22",
+      "candidate_date": "2024-11-19",
+      "type": "top",
+      "grade": "B",
+      "score": 0.5729,
+      "factors": {
+        "position": 0.673,
+        "divergence": 0.0,
+        "volume": 0.496,
+        "volatility": 0.72,
+        "trend": 0.8536,
+        "breadth": 0.6948
+      },
+      "breadth": {
+        "breadth20": 0.3871,
+        "delta5": -0.5484
+      },
+      "confirmation": [
+        {
+          "date": "2024-11-20",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": true,
+          "passed": 1,
+          "close": 3985.77,
+          "candidate_reference": 3896.75,
+          "rsi14": 53.78270666130671,
+          "volume_ratio": 0.7616264594324883,
+          "breadth_delta5": -0.32258064516129026
+        },
+        {
+          "date": "2024-11-21",
+          "offset": 2,
+          "price": false,
+          "momentum": false,
+          "volume": true,
+          "passed": 1,
+          "close": 3989.3,
+          "candidate_reference": 3896.75,
+          "rsi14": 54.04807056976453,
+          "volume_ratio": 0.7236400604476626,
+          "breadth_delta5": -0.29032258064516137
+        },
+        {
+          "date": "2024-11-22",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 3865.7,
+          "candidate_reference": 3896.75,
+          "rsi14": 44.42901414058427,
+          "volume_ratio": 0.968384206419939,
+          "breadth_delta5": -0.3548387096774194
+        }
+      ]
+    },
+    {
+      "code": "sh000300",
+      "name": "沪深300",
+      "signal_date": "2026-02-25",
+      "candidate_date": "2026-02-13",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.5397,
+      "factors": {
+        "position": 0.762,
+        "divergence": 0.0,
+        "volume": 0.972,
+        "volatility": 0.4256,
+        "trend": 0.502,
+        "breadth": 0.5768
+      },
+      "breadth": {
+        "breadth20": 0.3548,
+        "delta5": -0.0645
+      },
+      "confirmation": [
+        {
+          "date": "2026-02-24",
+          "offset": 1,
+          "price": true,
+          "momentum": false,
+          "volume": false,
+          "passed": 1,
+          "close": 4707.54,
+          "candidate_reference": 4703.63,
+          "rsi14": 51.6674240597357,
+          "volume_ratio": 1.1310228124872883,
+          "breadth_delta5": -0.12903225806451613
+        },
+        {
+          "date": "2026-02-25",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 4735.89,
+          "candidate_reference": 4703.63,
+          "rsi14": 54.79420694131588,
+          "volume_ratio": 1.3369053231705552,
+          "breadth_delta5": 0.06451612903225812
+        }
+      ]
+    },
+    {
+      "code": "sh000905",
+      "name": "中证500",
+      "signal_date": "2025-04-09",
+      "candidate_date": "2025-04-08",
+      "type": "bottom",
+      "grade": "A",
+      "score": 0.6145,
+      "factors": {
+        "position": 0.895,
+        "divergence": 0.0,
+        "volume": 0.888,
+        "volatility": 0.7088,
+        "trend": 0.5316,
+        "breadth": 0.6636
+      },
+      "breadth": {
+        "breadth20": 0.0323,
+        "delta5": -0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-04-09",
+          "offset": 1,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 5439.77,
+          "candidate_reference": 5371.18,
+          "rsi14": 30.439748147487574,
+          "volume_ratio": 1.2866008254740193,
+          "breadth_delta5": -0.16129032258064516
+        }
+      ]
+    },
+    {
+      "code": "sh000905",
+      "name": "中证500",
+      "signal_date": "2025-05-22",
+      "candidate_date": "2025-05-20",
+      "type": "top",
+      "grade": "B",
+      "score": 0.5556,
+      "factors": {
+        "position": 0.685,
+        "divergence": 0.0,
+        "volume": 0.1848,
+        "volatility": 0.8672,
+        "trend": 0.9584,
+        "breadth": 0.6384
+      },
+      "breadth": {
+        "breadth20": 0.9677,
+        "delta5": 0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-05-21",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 5757.92,
+          "candidate_reference": 5707.81,
+          "rsi14": 53.928671479010276,
+          "volume_ratio": 0.9651086214152084,
+          "breadth_delta5": -0.032258064516129004
+        },
+        {
+          "date": "2025-05-22",
+          "offset": 2,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 5703.28,
+          "candidate_reference": 5707.81,
+          "rsi14": 48.38234667856063,
+          "volume_ratio": 0.9502235687723708,
+          "breadth_delta5": -0.09677419354838712
+        }
+      ]
+    },
+    {
+      "code": "sh000905",
+      "name": "中证500",
+      "signal_date": "2026-04-08",
+      "candidate_date": "2026-04-02",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.5734,
+      "factors": {
+        "position": 0.909,
+        "divergence": 0.0,
+        "volume": 0.916,
+        "volatility": 0.8784,
+        "trend": 0.0552,
+        "breadth": 0.6819
+      },
+      "breadth": {
+        "breadth20": 0.129,
+        "delta5": 0.0323
+      },
+      "confirmation": [
+        {
+          "date": "2026-04-03",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 7534.94,
+          "candidate_reference": 7740.1,
+          "rsi14": 37.4184647963812,
+          "volume_ratio": 0.8456172757241348,
+          "breadth_delta5": -0.06451612903225806
+        },
+        {
+          "date": "2026-04-07",
+          "offset": 2,
+          "price": false,
+          "momentum": true,
+          "volume": false,
+          "passed": 1,
+          "close": 7571.11,
+          "candidate_reference": 7740.1,
+          "rsi14": 38.88773751108262,
+          "volume_ratio": 0.8688429396463624,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2026-04-08",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 7945.15,
+          "candidate_reference": 7740.1,
+          "rsi14": 51.55445928490309,
+          "volume_ratio": 1.3199502625182358,
+          "breadth_delta5": 0.4516129032258064
+        }
+      ]
+    },
+    {
+      "code": "sh000852",
+      "name": "中证1000",
+      "signal_date": "2025-04-09",
+      "candidate_date": "2025-04-08",
+      "type": "bottom",
+      "grade": "A",
+      "score": 0.6259,
+      "factors": {
+        "position": 0.86,
+        "divergence": 0.0,
+        "volume": 0.9104,
+        "volatility": 0.7968,
+        "trend": 0.5244,
+        "breadth": 0.6636
+      },
+      "breadth": {
+        "breadth20": 0.0323,
+        "delta5": -0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-04-09",
+          "offset": 1,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 5652.33,
+          "candidate_reference": 5632.64,
+          "rsi14": 28.52208007360441,
+          "volume_ratio": 1.2371416481356179,
+          "breadth_delta5": -0.16129032258064516
+        }
+      ]
+    },
+    {
+      "code": "sh000852",
+      "name": "中证1000",
+      "signal_date": "2025-05-23",
+      "candidate_date": "2025-05-20",
+      "type": "top",
+      "grade": "B",
+      "score": 0.5276,
+      "factors": {
+        "position": 0.719,
+        "divergence": 0.0,
+        "volume": 0.112,
+        "volatility": 0.7344,
+        "trend": 0.9616,
+        "breadth": 0.6384
+      },
+      "breadth": {
+        "breadth20": 0.9677,
+        "delta5": 0.0968
+      },
+      "confirmation": [
+        {
+          "date": "2025-05-21",
+          "offset": 1,
+          "price": false,
+          "momentum": true,
+          "volume": false,
+          "passed": 1,
+          "close": 6132.18,
+          "candidate_reference": 6078.22,
+          "rsi14": 54.504867740123345,
+          "volume_ratio": 1.0442171448533852,
+          "breadth_delta5": -0.032258064516129004
+        },
+        {
+          "date": "2025-05-22",
+          "offset": 2,
+          "price": true,
+          "momentum": false,
+          "volume": true,
+          "passed": 2,
+          "close": 6066.1,
+          "candidate_reference": 6078.22,
+          "rsi14": 49.736731568842195,
+          "volume_ratio": 0.9946287539102237,
+          "breadth_delta5": -0.09677419354838712
+        },
+        {
+          "date": "2025-05-23",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 5989.68,
+          "candidate_reference": 6078.22,
+          "rsi14": 44.8502130151868,
+          "volume_ratio": 0.977873208896375,
+          "breadth_delta5": -0.3870967741935484
+        }
+      ]
+    },
+    {
+      "code": "sh000852",
+      "name": "中证1000",
+      "signal_date": "2026-04-08",
+      "candidate_date": "2026-04-02",
+      "type": "bottom",
+      "grade": "B",
+      "score": 0.5489,
+      "factors": {
+        "position": 0.886,
+        "divergence": 0.0,
+        "volume": 0.8432,
+        "volatility": 0.832,
+        "trend": 0.0504,
+        "breadth": 0.6819
+      },
+      "breadth": {
+        "breadth20": 0.129,
+        "delta5": 0.0323
+      },
+      "confirmation": [
+        {
+          "date": "2026-04-03",
+          "offset": 1,
+          "price": false,
+          "momentum": false,
+          "volume": false,
+          "passed": 0,
+          "close": 7536.6,
+          "candidate_reference": 7764.03,
+          "rsi14": 38.44748177757536,
+          "volume_ratio": 0.8998128506445676,
+          "breadth_delta5": -0.06451612903225806
+        },
+        {
+          "date": "2026-04-07",
+          "offset": 2,
+          "price": false,
+          "momentum": true,
+          "volume": false,
+          "passed": 1,
+          "close": 7606.02,
+          "candidate_reference": 7764.03,
+          "rsi14": 41.091387269863326,
+          "volume_ratio": 0.8844199340452759,
+          "breadth_delta5": 0.0
+        },
+        {
+          "date": "2026-04-08",
+          "offset": 3,
+          "price": true,
+          "momentum": true,
+          "volume": true,
+          "passed": 3,
+          "close": 7955.77,
+          "candidate_reference": 7764.03,
+          "rsi14": 52.2254674655427,
+          "volume_ratio": 1.2056646263490476,
+          "breadth_delta5": 0.4516129032258064
+        }
+      ]
+    }
+  ]
+}

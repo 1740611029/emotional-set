@@ -1,0 +1,104 @@
+{
+  "lastUpdated": "2026-11-02",
+  "data": [
+    {
+      "date": "2026-11-02",
+      "citicLong": 5620,
+      "citicShort": 12850,
+      "guotaiLong": 4020,
+      "guotaiShort": 8130,
+      "otherLong": 15200,
+      "otherShort": 28450,
+      "marketIndex": 3452.18,
+      "marketChange": 0.92
+    },
+    {
+      "date": "2026-11-01",
+      "citicLong": 5580,
+      "citicShort": 12680,
+      "guotaiLong": 3990,
+      "guotaiShort": 8250,
+      "otherLong": 15100,
+      "otherShort": 28100,
+      "marketIndex": 3420.55,
+      "marketChange": -0.45
+    },
+    {
+      "date": "2026-10-31",
+      "citicLong": 5420,
+      "citicShort": 12450,
+      "guotaiLong": 3890,
+      "guotaiShort": 8230,
+      "otherLong": 14850,
+      "otherShort": 27800,
+      "marketIndex": 3435.20,
+      "marketChange": 0.82
+    },
+    {
+      "date": "2026-10-30",
+      "citicLong": 5380,
+      "citicShort": 12130,
+      "guotaiLong": 3920,
+      "guotaiShort": 8380,
+      "otherLong": 14700,
+      "otherShort": 27550,
+      "marketIndex": 3407.12,
+      "marketChange": -0.35
+    },
+    {
+      "date": "2026-10-29",
+      "citicLong": 5350,
+      "citicShort": 11980,
+      "guotaiLong": 3950,
+      "guotaiShort": 8450,
+      "otherLong": 14620,
+      "otherShort": 27300,
+      "marketIndex": 3419.05,
+      "marketChange": 0.56
+    },
+    {
+      "date": "2026-10-28",
+      "citicLong": 5400,
+      "citicShort": 11850,
+      "guotaiLong": 3910,
+      "guotaiShort": 8520,
+      "otherLong": 14580,
+      "otherShort": 27100,
+      "marketIndex": 3400.12,
+      "marketChange": -0.12
+    },
+    {
+      "date": "2026-10-27",
+      "citicLong": 5370,
+      "citicShort": 11620,
+      "guotaiLong": 3880,
+      "guotaiShort": 8490,
+      "otherLong": 14450,
+      "otherShort": 26900,
+      "marketIndex": 3395.80,
+      "marketChange": 0.45
+    },
+    {
+      "date": "2026-10-24",
+      "citicLong": 5320,
+      "citicShort": 11480,
+      "guotaiLong": 3850,
+      "guotaiShort": 8550,
+      "otherLong": 14300,
+      "otherShort": 26750,
+      "marketIndex": 3380.50,
+      "marketChange": -0.78
+    },
+    {
+      "date": "2026-10-23",
+      "citicLong": 5290,
+      "citicShort": 11250,
+      "guotaiLong": 3820,
+      "guotaiShort": 8610,
+      "otherLong": 14150,
+      "otherShort": 26500,
+      "marketIndex": 3406.80,
+      "marketChange": 0.23
+    }
+  ]
+}

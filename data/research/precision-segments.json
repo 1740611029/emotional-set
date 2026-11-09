@@ -1,0 +1,23 @@
+{
+  "train": {
+    "start": "2020-10-30",
+    "end": "2024-12-31",
+    "effective_start": "2020-10-30",
+    "effective_end": "2024-11-19"
+  },
+  "embargo": {
+    "start": "2024-11-20",
+    "end": "2024-12-31",
+    "trading_days": 30,
+    "excluded_from_tuning": true,
+    "excluded_from_train_accuracy": true
+  },
+  "validation": {
+    "start": "2025-01-02",
+    "end": "2026-11-06"
+  },
+  "train_nominal_end": "2024-12-31",
+  "embargo_trading_days": 30,
+  "embargo_min_required": 30,
+  "train_validation_no_overlap": true
+}

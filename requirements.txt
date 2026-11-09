@@ -1,0 +1,9 @@
+# 运行依赖（Python 3.10+）
+pandas>=2.0,<4.0
+numpy>=1.26
+requests>=2.31
+jsonschema>=4.20
+akshare>=1.17
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pytest>=8.0

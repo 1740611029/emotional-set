@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+
+/* ===== SignalHub 设计系统（对应 openspec/changes/signal-dashboard-ui-spec.md §3/§4） ===== */
+@theme {
+  --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
+
+  /* Brand 主色调 */
+  --color-brand-50: #f0f9f4;
+  --color-brand-100: #dcf0e6;
+  --color-brand-200: #bbe0cd;
+  --color-brand-300: #8cc9aa;
+  --color-brand-400: #5aaf83;
+  --color-brand-500: #3a9a6a;
+  --color-brand-600: #2d7d56;
+  --color-brand-700: #266346;
+  --color-brand-800: #224f39;
+  --color-brand-900: #1d4130;
+
+  /* Ocean 信息蓝 */
+  --color-ocean-50: #f0f7ff;
+  --color-ocean-100: #e0efff;
+  --color-ocean-200: #b8dbff;
+  --color-ocean-300: #7ab8ff;
+  --color-ocean-400: #3a90f5;
+  --color-ocean-500: #1a73e8;
+  --color-ocean-600: #0d5cc0;
+  --color-ocean-700: #0a4899;
+
+  /* Coral 下跌/卖出 */
+  --color-coral-50: #fff5f0;
+  --color-coral-100: #ffe8db;
+  --color-coral-200: #ffcdb3;
+  --color-coral-300: #ffaa80;
+  --color-coral-400: #ff8552;
+  --color-coral-500: #f26522;
+  --color-coral-600: #d94e1a;
+  --color-coral-700: #b33d17;
+
+  /* Mint 上涨/买入 */
+  --color-mint-50: #f0fdf9;
+  --color-mint-100: #ccfbf1;
+  --color-mint-200: #99f6e4;
+  --color-mint-300: #5eead4;
+  --color-mint-400: #2dd4bf;
+  --color-mint-500: #14b8a6;
+  --color-mint-600: #0d9488;
+  --color-mint-700: #0f766e;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, #f8fafc 0%, #f0f9f4 50%, #f0f7ff 100%);
+  min-height: 100vh;
+}
+
+/* ===== 组件规范（§6） ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+.glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.03);
+  transform: translateY(-2px);
+}
+
+.nav-item {
+  transition: all 0.2s ease;
+}
+.nav-item:hover {
+  background: rgba(58, 154, 106, 0.08);
+  color: #2d7d56;
+}
+.nav-item.active {
+  background: rgba(58, 154, 106, 0.1);
+  color: #2d7d56;
+  border-right: 3px solid #3a9a6a;
+}
+
+/* 信号状态圆点（§6.3） */
+.signal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+.signal-dot.confirm {
+  background: #14b8a6;
+  box-shadow: 0 0 6px rgba(20, 184, 166, 0.4);
+}
+.signal-dot.pending {
+  background: #f26522;
+  box-shadow: 0 0 6px rgba(242, 101, 34, 0.4);
+}
+.signal-dot.neutral {
+  background: #94a3b8;
+}
+
+.badge-confirm {
+  background: linear-gradient(135deg, #3a9a6a, #2dd4bf);
+  color: white;
+}
+.badge-pending {
+  background: linear-gradient(135deg, #f26522, #ffaa80);
+  color: white;
+}
+
+.chart-placeholder {
+  background: linear-gradient(
+    180deg,
+    rgba(58, 154, 106, 0.05) 0%,
+    rgba(26, 115, 232, 0.03) 100%
+  );
+}
+
+.sidebar {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+}
+
+.metric-value {
+  background: linear-gradient(135deg, #2d7d56, #3a9a6a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== 交互规范（§8） ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}

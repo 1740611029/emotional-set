@@ -1,0 +1,2241 @@
+{
+  "generated_at": "2026-11-09T13:43:40+08:00",
+  "preregistered": {
+    "correlation_threshold": 0.6,
+    "correlation_min_samples": 30,
+    "overlay_weights": [
+      0.1,
+      0.15,
+      0.2
+    ],
+    "min_validation_samples": 20,
+    "min_p0_years": 5.0,
+    "max_missing_rate": 0.2,
+    "train": [
+      "2020-11-01",
+      "2023-12-31"
+    ],
+    "validation": [
+      "2024-01-01",
+      "2026-10-29"
+    ],
+    "wilson_z": 1.959964
+  },
+  "evidence": [
+    {
+      "category": "经典书籍与交易体系",
+      "system": "Howard Marks《周期》(Mastering the Market Cycle, 2018)",
+      "proxy": "市场温度 / 情绪钟摆位置（定性）",
+      "meaning": "情绪在贪婪与恐惧两端摆动，极少停在理性中点；偏离越极端，回归力量越强",
+      "source": "Howard Marks, Mastering the Market Cycle, 2018, 第 4-5 章",
+      "availability": "定性框架，无原始量化序列",
+      "evidence": "作者自述为判断框架，未给出可回测的参数化规则",
+      "hypothesis": "与现有 volatility/position 维部分重叠，独立信息有限",
+      "conclusion": "放弃",
+      "reason": "无可复现的量化定义，无法在无未来信息前提下构造日频序列"
+    },
+    {
+      "category": "经典书籍与交易体系",
+      "system": "Stan Weinstein《Secrets for Profiting in Bull and Bear Markets》(1988)",
+      "proxy": "30 周均线 + 相对强度划分四阶段",
+      "meaning": "阶段 1 筑底、阶段 2 上升、阶段 3 见顶、阶段 4 下跌；阶段 2 突破为买点",
+      "source": "Stan Weinstein, Secrets for Profiting in Bull and Bear Markets, 1988",
+      "availability": "指数日线可算（30 周均线）",
+      "evidence": "原书为形态归纳，未提供统计显著性检验",
+      "hypothesis": "与现有 trend 维（MA60/MA250 位置）高度相关",
+      "conclusion": "观察",
+      "reason": "核心信息已被 trend 维覆盖；若要验证需先证明其相对 trend 维的增量，成本高于收益"
+    },
+    {
+      "category": "经典书籍与交易体系",
+      "system": "Edwards & Magee《Technical Analysis of Stock Trends》(1948)",
+      "proxy": "趋势线/形态突破、支撑阻力反转",
+      "meaning": "价格结构破坏是趋势反转的必要条件",
+      "source": "Robert D. Edwards & John Magee, Technical Analysis of Stock Trends, 1948",
+      "availability": "需人工标注形态，无法自动复现",
+      "evidence": "形态识别主观性强，量化复现版本结论不一致",
+      "hypothesis": "与现有 position/divergence 维重叠",
+      "conclusion": "放弃",
+      "reason": "形态标注不可自动化且主观，无法满足可复现与 point-in-time 要求"
+    },
+    {
+      "category": "经典书籍与交易体系",
+      "system": "Alexander Elder《Trading for a Living》(1993) 三重滤网",
+      "proxy": "周线趋势 + 日线摆动 + 盘中触发",
+      "meaning": "多时间尺度同向时才入场，用大周期过滤小周期噪声",
+      "source": "Alexander Elder, Trading for a Living, 1993, 第 8 章",
+      "availability": "指数日线可算（周线重采样）",
+      "evidence": "原书为交易方法论述，未提供统计检验",
+      "hypothesis": "与现有 trend + momentum 确认层重叠",
+      "conclusion": "观察",
+      "reason": "本项目三层确认已实现类似的多尺度过滤；新增独立维度收益有限"
+    },
+    {
+      "category": "经典书籍与交易体系",
+      "system": "William O'Neil / IBD 追随日（follow-through day）",
+      "proxy": "反弹尝试第 4 日及以后出现放量上涨（常见阈值 +1.7%）",
+      "meaning": "底部不由跌幅决定，而由放量承接确认",
+      "source": "William J. O'Neil, How to Make Money in Stocks, 1988（follow-through day 规则）",
+      "availability": "指数日线可算",
+      "evidence": "规则在美股被广泛使用，但公开的严格统计检验稀少",
+      "hypothesis": "与本项目现有三层确认中的「量能确认」高度同构",
+      "conclusion": "观察",
+      "reason": "现有确认机制已包含放量条件；差异仅在阈值，属于参数层面而非新维度"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "Baker & Wurgler 投资者情绪指数 (2006)",
+      "proxy": "封闭式基金折价、换手率、IPO 数量与首日收益、股权融资占比、股息溢价 6 变量主成分",
+      "meaning": "情绪高涨期后接低收益，情绪低迷期后接高收益；情绪对难套利股票影响更大",
+      "source": "Baker, M. & Wurgler, J., Investor Sentiment and the Cross-Section of Stock Returns, Journal of Finance, 2006",
+      "availability": "A 股需自建，6 个代理变量中 IPO/股权融资为月频",
+      "evidence": "原文样本为 1963-2001 美股；A 股复现研究结论方向一致但强度较弱",
+      "hypothesis": "与现有 position/volume 维中度相关；换手率部分与 volume 维重叠",
+      "conclusion": "观察",
+      "reason": "构成变量多为月频，无法构造日频因子；且需自建口径，先观察"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "De Bondt & Thaler 过度反应 (1985)",
+      "proxy": "3-5 年输家组合 vs 赢家组合的后续收益差",
+      "meaning": "长期极端输家后续跑赢，支持均值回归",
+      "source": "De Bondt, W. & Thaler, R., Does the Stock Market Overreact?, Journal of Finance, 1985",
+      "availability": "指数层面可算长周期收益分位",
+      "evidence": "原文为 3-5 年尺度；A 股指数样本仅约 6 年，无法覆盖多个独立周期",
+      "hypothesis": "与现有 position 维（250 日回撤/涨幅分位）重叠",
+      "conclusion": "放弃",
+      "reason": "时间尺度为 3-5 年，本项目样本长度不足以检验；且信息已被 position 维覆盖"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "Zweig 宽度推力（breadth thrust）",
+      "proxy": "上涨家数占比的 10 日移动均值由低位快速升破阈值",
+      "meaning": "宽度急速扩张标志底部资金承接，而非价格反弹",
+      "source": "Martin Zweig, Winning on Wall Street, 1986（breadth thrust 规则）",
+      "availability": "个股层宽度接口仅约 2 年历史（P1）；行业板块宽度（东财行业板块）已有",
+      "evidence": "原书为经验规则，未给严格统计检验",
+      "hypothesis": "与现有 breadth 维同源，但粒度不同（个股 vs 行业）",
+      "conclusion": "观察",
+      "reason": "个股层新高新低接口仅约 2 年历史，样本不足以支撑结论；行业层信息已被 breadth 维覆盖"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "华泰证券《再论A股择时：多维度融合》(2025)",
+      "proxy": "情绪/资金/技术/期权期货四类指标组合",
+      "meaning": "融资买入额、期权隐含波动率等资金与波动率指标具择时信息",
+      "source": "华泰证券金工研究, 再论A股择时：多维度融合, 2025",
+      "availability": "融资买入额与 QVIX 均可获取",
+      "evidence": "卖方自述样本内显著、样本外仍有表现；未提供独立第三方复核",
+      "hypothesis": "直接支持本次验证 qvix 与两融类因子",
+      "conclusion": "采纳",
+      "reason": "其结论与本次可获取数据一致，转化为可检验假设：QVIX 极端与两融活跃度提供价量之外的增量信息"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "中信建投《A股和港股投资者情绪的量化与择时应用》(2025)",
+      "proxy": "多代理变量合成情绪指数 + 多层次阈值择时",
+      "meaning": "情绪指数极值区间用于反向择时",
+      "source": "中信建投证券研究发展部, A股和港股投资者情绪的量化与择时应用, 2025",
+      "availability": "合成口径未完全公开，无法逐项复现",
+      "evidence": "卖方自述 A 股策略年化 28.15%、最大回撤 -11.17%；属自报回测，未经独立复核",
+      "hypothesis": "与本次 P0 因子的相关性需实测",
+      "conclusion": "观察",
+      "reason": "合成口径不可完全复现，只能作为方向性参考，不能作为采纳依据"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "CNN Fear & Greed Index (2012)",
+      "proxy": "7 分量等权：价格动量、价格强度、价格宽度、看跌看涨比、市场波动率、避险需求、垃圾债利差",
+      "meaning": "把情绪压缩为 0-100 的温度计，两端为极度恐慌/极度贪婪",
+      "source": "CNN Business, Fear & Greed Index, 2012 起发布",
+      "availability": "7 分量中看跌看涨比、避险需求、垃圾债利差 A 股无对应日频数据",
+      "evidence": "官方定位为描述性指标，未公开样本外择时检验",
+      "hypothesis": "其「波动率」分量与 QVIX 同构；「价格宽度」分量与现有 breadth 维同构",
+      "conclusion": "观察",
+      "reason": "结构可借鉴（等权、分位标准化），但 3/7 分量在 A 股不可得，无法整体复刻"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "QVIX 中国波指（上交所，2015 起）",
+      "proxy": "50ETF 期权隐含波动率指数日收盘",
+      "meaning": "期权市场对未来波动的定价，高位对应恐慌、低位对应松懈",
+      "source": "akshare index_option_50etf_qvix（上证 50ETF 期权波动率指数）",
+      "availability": "日频，2015-02-09 起，缺失率 0%",
+      "evidence": "华泰 2025 报告称期权隐含波动率样本外仍有择时表现",
+      "hypothesis": "与现有 volatility 维（ATR/带宽分位）中度相关，但含前瞻定价信息，可能提供增量",
+      "conclusion": "采纳",
+      "reason": "数据满足 P0 条件，进入增量检验"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "全A破净率（乐咕乐股，2005 起）",
+      "proxy": "破净家数 / 上市公司总数",
+      "meaning": "估值极端便宜的程度，历史上与市场底部区域重合",
+      "source": "akshare stock_a_below_net_asset_statistics(symbol='全部A股')",
+      "availability": "日频，2005-01-05 起，缺失率 0%",
+      "evidence": "无公开的严格样本外择时检验；多作为估值温度参考",
+      "hypothesis": "与现有 position 维（回撤分位）相关，但基于净资产而非价格，可能独立",
+      "conclusion": "采纳",
+      "reason": "数据满足 P0 条件，进入增量检验"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "创新高/新低家数（乐咕乐股）",
+      "proxy": "20 日创新高家数占比",
+      "meaning": "个股层宽度，衡量上涨的普遍性",
+      "source": "akshare stock_a_high_low_statistics(symbol='all')",
+      "availability": "接口仅返回约 2 年（2024-10 起），不足 5 年",
+      "evidence": "无足够本地样本可检验",
+      "hypothesis": "与现有 breadth 维（东财行业板块站上 MA20 占比）高度相关",
+      "conclusion": "观察",
+      "reason": "历史仅约 2 年，样本不足以支撑统计结论；且与 breadth 维同源"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "两融余额与融资买入额（交易所，2010 起）",
+      "proxy": "融资余额分位、融资买入额/融资余额",
+      "meaning": "杠杆资金的存量水平与活跃度，高位对应风险偏好过热",
+      "source": "akshare macro_china_market_margin_sh / macro_china_market_margin_sz",
+      "availability": "日频，2010-03-31 起，缺失率 0%",
+      "evidence": "华泰 2025 报告将融资买入额列为资金面有效指标（自述样本外有效）",
+      "hypothesis": "与现有 volume 维（量比分位）中度相关，但杠杆资金属独立主体",
+      "conclusion": "采纳",
+      "reason": "数据满足 P0 条件，进入增量检验"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "股债利差 ERP（FED 模型，Yardeni 1997）",
+      "proxy": "100 / 指数滚动市盈率 - 10 年期国债收益率",
+      "meaning": "股票相对债券的性价比，高位对应底部区域",
+      "source": "Ed Yardeni, FED Model, 1997；akshare stock_index_pe_lg + bond_zh_us_rate",
+      "availability": "指数市盈率仅月频可得，无法构造日频序列",
+      "evidence": "东财公开回测称沪深300 ERP 分位 >90% 后 250 日正收益占比 88%、60 日仅 62%（自报）",
+      "hypothesis": "与现有 position 维相关，但含跨资产信息",
+      "conclusion": "观察",
+      "reason": "仅月频可得；不跨月填充就无法并入日频因子层，而跨月填充会制造隐性未来信息"
+    },
+    {
+      "category": "市场数据型指标",
+      "system": "涨停/跌停家数（东财股池）",
+      "proxy": "涨停家数占比、连板高度、炸板率",
+      "meaning": "短线资金的赚钱效应与情绪温度",
+      "source": "akshare stock_zt_pool_em / stock_zt_pool_dtgc_em",
+      "availability": "接口仅覆盖近期（本次取近 60 个交易日），历史不可回溯",
+      "evidence": "无长样本可检验",
+      "hypothesis": "与现有 volume 维在短周期上相关，但与波段顶底时间尺度不匹配",
+      "conclusion": "观察",
+      "reason": "时间尺度为 1-5 日短线情绪，与波段顶底不同层级；且历史不可回溯"
+    },
+    {
+      "category": "民间情绪周期",
+      "system": "A股「情绪周期」六阶段（冰点-启动-发酵-加速-分歧-退潮）",
+      "proxy": "连板股数量、最高板高度、涨停家数、炸板率",
+      "meaning": "短线资金接力意愿的周期性变化",
+      "source": "东方财富财富号《看懂情绪周期，才算真正入门打板》2026-10；同类微博/百家号文章",
+      "availability": "依赖东财股池接口，仅近期",
+      "evidence": "民间经验总结，无统计检验",
+      "hypothesis": "与波段顶底不同尺度，可能只在极端冰点时有交集",
+      "conclusion": "放弃",
+      "reason": "时间尺度（1-5 日）与波段顶底（数周至数月）不匹配，且数据不可回溯，纳入会破坏评价口径一致性"
+    },
+    {
+      "category": "学术与卖方研究",
+      "system": "新闻/文本情绪（Tetlock 2007；Da-Engelberg-Gao 2015 FEARS）",
+      "proxy": "媒体悲观词频、散户搜索行为强度",
+      "meaning": "文本情绪对短期收益有预测力，随后反转",
+      "source": "Tetlock, P., Giving Content to Investor Sentiment, Journal of Finance, 2007；Da, Engelberg & Gao, The Sum of All FEARS, Journal of Finance, 2015",
+      "availability": "需历史新闻全文与搜索指数，本项目无 point-in-time 语料",
+      "evidence": "原文基于美股语料；A 股复现需自建词库，存在词库漂移",
+      "hypothesis": "可能提供价量之外的独立信息，但不可复现",
+      "conclusion": "放弃",
+      "reason": "无法获取 point-in-time 历史文本，任何回溯构建都会引入未来信息（用当期词库解释历史文本）"
+    }
+  ],
+  "candidates": [
+    {
+      "indicator": "qvix_50",
+      "label": "50ETF期权隐含波动率 QVIX",
+      "mapping": "extreme",
+      "frequency": "daily",
+      "start": "2015-02-09",
+      "end": "2026-10-30",
+      "missing_rate": 0.0,
+      "grade": "P0",
+      "grade_reason": "日频、覆盖 11.7 年、缺失率 0.0%",
+      "verdict": "放弃",
+      "verdict_reason": "验证段胜率中位变化 -0.9%（路径 overlay），未提供增量信息"
+    },
+    {
+      "indicator": "below_net_asset_ratio",
+      "label": "全A破净率",
+      "mapping": "monotonic",
+      "frequency": "daily",
+      "start": "2005-01-05",
+      "end": "2026-10-30",
+      "missing_rate": 0.0,
+      "grade": "P0",
+      "grade_reason": "日频、覆盖 21.8 年、缺失率 0.0%",
+      "verdict": "放弃",
+      "verdict_reason": "验证段胜率中位变化 -2.8%（路径 overlay），未提供增量信息"
+    },
+    {
+      "indicator": "margin_balance",
+      "label": "融资余额分位",
+      "mapping": "monotonic",
+      "frequency": "daily",
+      "start": "2010-03-31",
+      "end": "2026-10-29",
+      "missing_rate": 0.0,
+      "grade": "P0",
+      "grade_reason": "日频、覆盖 16.6 年、缺失率 0.0%",
+      "verdict": "采纳",
+      "verdict_reason": "验证段胜率中位提升 +0.3%（路径 overlay），相关性 |ρ|=0.48；提升幅度与基线 Wilson 区间重叠，仅表示值得进入下一轮独立验证"
+    },
+    {
+      "indicator": "margin_turnover",
+      "label": "融资买入额/融资余额",
+      "mapping": "monotonic",
+      "frequency": "daily",
+      "start": "2010-03-31",
+      "end": "2026-10-29",
+      "missing_rate": 0.0,
+      "grade": "P0",
+      "grade_reason": "日频、覆盖 16.6 年、缺失率 0.0%",
+      "verdict": "放弃",
+      "verdict_reason": "验证段胜率中位变化 -7.6%（路径 overlay），未提供增量信息"
+    },
+    {
+      "indicator": "qvix_300",
+      "label": "沪深300ETF期权波动率指数（QVIX）日收盘",
+      "mapping": null,
+      "frequency": "daily",
+      "start": "2015-02-09",
+      "end": "2026-10-30",
+      "missing_rate": 0.41831,
+      "grade": "P1",
+      "grade_reason": "缺失率 41.8% 超过 20%",
+      "verdict": "观察",
+      "verdict_reason": "未进入本次增量检验（缺失率 41.8% 超过 20%）"
+    },
+    {
+      "indicator": "qvix_500",
+      "label": "中证500ETF期权波动率指数（QVIX）日收盘",
+      "mapping": null,
+      "frequency": "daily",
+      "start": "2015-02-09",
+      "end": "2026-10-30",
+      "missing_rate": 0.652113,
+      "grade": "P1",
+      "grade_reason": "缺失率 65.2% 超过 20%",
+      "verdict": "观察",
+      "verdict_reason": "未进入本次增量检验（缺失率 65.2% 超过 20%）"
+    },
+    {
+      "indicator": "high_low_ratio_20",
+      "label": "20 日创新高家数 / (创新高 + 创新低家数)，个股层宽度",
+      "mapping": null,
+      "frequency": "daily",
+      "start": "2024-10-10",
+      "end": "2026-10-30",
+      "missing_rate": 0.0,
+      "grade": "P1",
+      "grade_reason": "历史仅 2.1 年，不足 5 年",
+      "verdict": "观察",
+      "verdict_reason": "未进入本次增量检验（历史仅 2.1 年，不足 5 年）"
+    },
+    {
+      "indicator": "erp_csi300",
+      "label": "股债利差 = 100 / 滚动市盈率 - 10 年期国债收益率（百分点）",
+      "mapping": null,
+      "frequency": "monthly",
+      "start": "2005-04-29",
+      "end": "2026-10-30",
+      "missing_rate": 0.0,
+      "grade": "P1",
+      "grade_reason": "频率为 monthly，不跨期填充则无法并入日频因子层",
+      "verdict": "观察",
+      "verdict_reason": "未进入本次增量检验（频率为 monthly，不跨期填充则无法并入日频因子层）"
+    },
+    {
+      "indicator": "limit_up_ratio",
+      "label": "涨停家数 / (涨停 + 跌停家数)，近 60 个交易日",
+      "mapping": null,
+      "frequency": "daily",
+      "start": "2026-07-31",
+      "end": "2026-10-30",
+      "missing_rate": 0.75,
+      "grade": "P1",
+      "grade_reason": "历史仅 0.2 年，不足 5 年",
+      "verdict": "观察",
+      "verdict_reason": "未进入本次增量检验（历史仅 0.2 年，不足 5 年）"
+    }
+  ],
+  "decisions": {
+    "qvix_50": {
+      "indicator": "qvix_50",
+      "path": "overlay",
+      "verdict": "放弃",
+      "reason": "验证段胜率中位变化 -0.9%（路径 overlay），未提供增量信息",
+      "max_abs_correlation": 0.2923,
+      "correlation_dim": "volatility_bottom_bottom",
+      "baseline_validation": {
+        "total": 39,
+        "resolved": 39,
+        "successes": 37,
+        "rate": 0.948718,
+        "wilson95": [
+          0.831144,
+          0.985822
+        ],
+        "small_sample": false
+      },
+      "trials": [
+        {
+          "resolved": 34,
+          "rate": 0.941176,
+          "delta": -0.007541,
+          "wilson95": [
+            0.809064,
+            0.983717
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 33,
+          "rate": 0.939394,
+          "delta": -0.009324,
+          "wilson95": [
+            0.803938,
+            0.983219
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 32,
+          "rate": 0.90625,
+          "delta": -0.042468,
+          "wilson95": [
+            0.757818,
+            0.967598
+          ],
+          "interval_overlap": true
+        }
+      ],
+      "median_delta": -0.009324,
+      "resolved_total": 34,
+      "within_noise": true
+    },
+    "below_net_asset_ratio": {
+      "indicator": "below_net_asset_ratio",
+      "path": "overlay",
+      "verdict": "放弃",
+      "reason": "验证段胜率中位变化 -2.8%（路径 overlay），未提供增量信息",
+      "max_abs_correlation": 0.3656,
+      "correlation_dim": "trend_top_top",
+      "baseline_validation": {
+        "total": 39,
+        "resolved": 39,
+        "successes": 37,
+        "rate": 0.948718,
+        "wilson95": [
+          0.831144,
+          0.985822
+        ],
+        "small_sample": false
+      },
+      "trials": [
+        {
+          "resolved": 39,
+          "rate": 0.923077,
+          "delta": -0.025641,
+          "wilson95": [
+            0.796789,
+            0.973493
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 38,
+          "rate": 0.921053,
+          "delta": -0.027665,
+          "wilson95": [
+            0.792006,
+            0.972785
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 36,
+          "rate": 0.916667,
+          "delta": -0.032051,
+          "wilson95": [
+            0.781733,
+            0.971251
+          ],
+          "interval_overlap": true
+        }
+      ],
+      "median_delta": -0.027665,
+      "resolved_total": 39,
+      "within_noise": true
+    },
+    "margin_balance": {
+      "indicator": "margin_balance",
+      "path": "overlay",
+      "verdict": "采纳",
+      "reason": "验证段胜率中位提升 +0.3%（路径 overlay），相关性 |ρ|=0.48；提升幅度与基线 Wilson 区间重叠，仅表示值得进入下一轮独立验证",
+      "max_abs_correlation": 0.4807,
+      "correlation_dim": "trend_top_top",
+      "baseline_validation": {
+        "total": 39,
+        "resolved": 39,
+        "successes": 37,
+        "rate": 0.948718,
+        "wilson95": [
+          0.831144,
+          0.985822
+        ],
+        "small_sample": false
+      },
+      "trials": [
+        {
+          "resolved": 45,
+          "rate": 0.933333,
+          "delta": -0.015385,
+          "wilson95": [
+            0.821434,
+            0.977068
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 42,
+          "rate": 0.952381,
+          "delta": 0.003663,
+          "wilson95": [
+            0.842101,
+            0.986842
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 41,
+          "rate": 0.95122,
+          "delta": 0.002502,
+          "wilson95": [
+            0.83861,
+            0.986519
+          ],
+          "interval_overlap": true
+        }
+      ],
+      "median_delta": 0.002502,
+      "resolved_total": 45,
+      "within_noise": true
+    },
+    "margin_turnover": {
+      "indicator": "margin_turnover",
+      "path": "overlay",
+      "verdict": "放弃",
+      "reason": "验证段胜率中位变化 -7.6%（路径 overlay），未提供增量信息",
+      "max_abs_correlation": 0.5007,
+      "correlation_dim": "position_bottom_bottom",
+      "baseline_validation": {
+        "total": 39,
+        "resolved": 39,
+        "successes": 37,
+        "rate": 0.948718,
+        "wilson95": [
+          0.831144,
+          0.985822
+        ],
+        "small_sample": false
+      },
+      "trials": [
+        {
+          "resolved": 47,
+          "rate": 0.87234,
+          "delta": -0.076378,
+          "wilson95": [
+            0.748261,
+            0.940154
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 46,
+          "rate": 0.869565,
+          "delta": -0.079153,
+          "wilson95": [
+            0.743341,
+            0.938822
+          ],
+          "interval_overlap": true
+        },
+        {
+          "resolved": 40,
+          "rate": 0.9,
+          "delta": -0.048718,
+          "wilson95": [
+            0.769482,
+            0.96042
+          ],
+          "interval_overlap": true
+        }
+      ],
+      "median_delta": -0.076378,
+      "resolved_total": 47,
+      "within_noise": true
+    }
+  },
+  "per_index": {
+    "sh000001": {
+      "name": "上证指数",
+      "baseline": {
+        "count": 14,
+        "train": {
+          "total": 5,
+          "resolved": 5,
+          "successes": 5,
+          "rate": 1.0,
+          "wilson95": [
+            0.565518,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 9,
+          "resolved": 9,
+          "successes": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.700855,
+            1.0
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.417895,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 3,
+              "rate": 0.75,
+              "wilson95": [
+                0.300642,
+                0.954413
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.557219,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.539233,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 7,
+              "resolved": 7,
+              "successes": 7,
+              "rate": 1.0,
+              "wilson95": [
+                0.64567,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 7,
+              "resolved": 7,
+              "successes": 7,
+              "rate": 1.0,
+              "wilson95": [
+                0.64567,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.543309,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 4,
+          "resolved": 4,
+          "successes": 4,
+          "rate": 1.0
+        },
+        {
+          "year": 2025,
+          "segment": "validation",
+          "total": 4,
+          "resolved": 4,
+          "successes": 4,
+          "rate": 1.0
+        },
+        {
+          "year": 2026,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "baseline": {
+        "count": 9,
+        "train": {
+          "total": 6,
+          "resolved": 6,
+          "successes": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.609666,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.438503,
+            1.0
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.346785,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 3,
+              "resolved": 3,
+              "successes": 3,
+              "rate": 1.0,
+              "wilson95": [
+                0.438503,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 3,
+              "resolved": 3,
+              "successes": 3,
+              "rate": 1.0,
+              "wilson95": [
+                0.438503,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 1,
+              "resolved": 1,
+              "successes": 1,
+              "rate": 1.0,
+              "wilson95": [
+                0.206549,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.337846,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.480731,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.500672,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        },
+        {
+          "year": 2025,
+          "segment": "validation",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "baseline": {
+        "count": 15,
+        "train": {
+          "total": 7,
+          "resolved": 7,
+          "successes": 7,
+          "rate": 1.0,
+          "wilson95": [
+            0.64567,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 8,
+          "resolved": 8,
+          "successes": 7,
+          "rate": 0.875,
+          "wilson95": [
+            0.529112,
+            0.977583
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.267725,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 7,
+              "successes": 7,
+              "rate": 1.0,
+              "wilson95": [
+                0.64567,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 7,
+              "successes": 7,
+              "rate": 1.0,
+              "wilson95": [
+                0.64567,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 5,
+              "successes": 5,
+              "rate": 1.0,
+              "wilson95": [
+                0.565518,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.365603,
+          "correlation_dim": "trend_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.483056,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 10,
+              "resolved": 9,
+              "successes": 9,
+              "rate": 1.0,
+              "wilson95": [
+                0.700855,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 7,
+              "successes": 7,
+              "rate": 1.0,
+              "wilson95": [
+                0.64567,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 7,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.422465,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 10,
+              "resolved": 10,
+              "successes": 8,
+              "rate": 0.8,
+              "wilson95": [
+                0.490162,
+                0.943318
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 6,
+              "rate": 0.75,
+              "wilson95": [
+                0.409275,
+                0.928521
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2025,
+          "segment": "validation",
+          "total": 4,
+          "resolved": 4,
+          "successes": 3,
+          "rate": 0.75
+        },
+        {
+          "year": 2026,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sh000688": {
+      "name": "科创50",
+      "baseline": {
+        "count": 12,
+        "train": {
+          "total": 6,
+          "resolved": 6,
+          "successes": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.609666,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 5,
+          "resolved": 5,
+          "successes": 5,
+          "rate": 1.0,
+          "wilson95": [
+            0.565518,
+            1.0
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": -0.136681,
+          "correlation_dim": "trend_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 5,
+              "rate": 1.0,
+              "wilson95": [
+                0.565518,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 3,
+              "resolved": 3,
+              "successes": 3,
+              "rate": 1.0,
+              "wilson95": [
+                0.438503,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 3,
+              "resolved": 3,
+              "successes": 3,
+              "rate": 1.0,
+              "wilson95": [
+                0.438503,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.319381,
+          "correlation_dim": "trend_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.440477,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.494691,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 4,
+              "rate": 0.8,
+              "wilson95": [
+                0.375535,
+                0.963776
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2026,
+          "segment": "outside",
+          "total": 1,
+          "resolved": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "year": 2026,
+          "segment": "validation",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sh000300": {
+      "name": "沪深300",
+      "baseline": {
+        "count": 9,
+        "train": {
+          "total": 5,
+          "resolved": 5,
+          "successes": 5,
+          "rate": 1.0,
+          "wilson95": [
+            0.565518,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 4,
+          "resolved": 4,
+          "successes": 4,
+          "rate": 1.0,
+          "wilson95": [
+            0.510109,
+            1.0
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.507843,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 5,
+              "rate": 1.0,
+              "wilson95": [
+                0.565518,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 5,
+              "resolved": 5,
+              "successes": 5,
+              "rate": 1.0,
+              "wilson95": [
+                0.565518,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.318044,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 4,
+              "resolved": 3,
+              "successes": 3,
+              "rate": 1.0,
+              "wilson95": [
+                0.438503,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 4,
+              "rate": 1.0,
+              "wilson95": [
+                0.510109,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.299093,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 9,
+              "resolved": 9,
+              "successes": 9,
+              "rate": 1.0,
+              "wilson95": [
+                0.700855,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.426814,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 10,
+              "resolved": 10,
+              "successes": 10,
+              "rate": 1.0,
+              "wilson95": [
+                0.722467,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2026,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sh000905": {
+      "name": "中证500",
+      "baseline": {
+        "count": 9,
+        "train": {
+          "total": 7,
+          "resolved": 7,
+          "successes": 7,
+          "rate": 1.0,
+          "wilson95": [
+            0.64567,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.34238,
+            1.0
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.292348,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.419866,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 3,
+              "rate": 0.75,
+              "wilson95": [
+                0.300642,
+                0.954413
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 3,
+              "rate": 0.75,
+              "wilson95": [
+                0.300642,
+                0.954413
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 4,
+              "resolved": 4,
+              "successes": 3,
+              "rate": 0.75,
+              "wilson95": [
+                0.300642,
+                0.954413
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.554021,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.632318,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1401,
+          "validation": {
+            "0.1": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 2,
+              "resolved": 2,
+              "successes": 2,
+              "rate": 1.0,
+              "wilson95": [
+                0.34238,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        },
+        {
+          "year": 2025,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        }
+      ]
+    },
+    "sh000852": {
+      "name": "中证1000",
+      "baseline": {
+        "count": 14,
+        "train": {
+          "total": 6,
+          "resolved": 6,
+          "successes": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.609666,
+            1.0
+          ],
+          "small_sample": true
+        },
+        "validation": {
+          "total": 8,
+          "resolved": 8,
+          "successes": 7,
+          "rate": 0.875,
+          "wilson95": [
+            0.529112,
+            0.977583
+          ],
+          "small_sample": true
+        }
+      },
+      "factors": {
+        "qvix_50": {
+          "correlation": 0.185055,
+          "correlation_dim": "volatility_bottom_bottom",
+          "coverage": 1400,
+          "validation": {
+            "0.1": {
+              "total": 7,
+              "resolved": 7,
+              "successes": 6,
+              "rate": 0.857143,
+              "wilson95": [
+                0.486872,
+                0.97432
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 9,
+              "resolved": 9,
+              "successes": 8,
+              "rate": 0.888889,
+              "wilson95": [
+                0.565,
+                0.980109
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 10,
+              "resolved": 10,
+              "successes": 8,
+              "rate": 0.8,
+              "wilson95": [
+                0.490162,
+                0.943318
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "below_net_asset_ratio": {
+          "correlation": 0.457467,
+          "correlation_dim": "trend_bottom_bottom",
+          "coverage": 1400,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_balance": {
+          "correlation": 0.455741,
+          "correlation_dim": "trend_top_top",
+          "coverage": 1400,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 8,
+              "rate": 1.0,
+              "wilson95": [
+                0.675592,
+                1.0
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 6,
+              "rate": 1.0,
+              "wilson95": [
+                0.609666,
+                1.0
+              ],
+              "small_sample": true
+            }
+          }
+        },
+        "margin_turnover": {
+          "correlation": 0.646175,
+          "correlation_dim": "position_bottom_bottom",
+          "coverage": 1400,
+          "validation": {
+            "0.1": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.15": {
+              "total": 8,
+              "resolved": 8,
+              "successes": 7,
+              "rate": 0.875,
+              "wilson95": [
+                0.529112,
+                0.977583
+              ],
+              "small_sample": true
+            },
+            "0.2": {
+              "total": 6,
+              "resolved": 6,
+              "successes": 5,
+              "rate": 0.833333,
+              "wilson95": [
+                0.436497,
+                0.969947
+              ],
+              "small_sample": true
+            }
+          }
+        }
+      },
+      "yearly": [
+        {
+          "year": 2021,
+          "segment": "train",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2022,
+          "segment": "train",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        },
+        {
+          "year": 2023,
+          "segment": "train",
+          "total": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0
+        },
+        {
+          "year": 2024,
+          "segment": "validation",
+          "total": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0
+        },
+        {
+          "year": 2025,
+          "segment": "validation",
+          "total": 4,
+          "resolved": 4,
+          "successes": 3,
+          "rate": 0.75
+        },
+        {
+          "year": 2026,
+          "segment": "validation",
+          "total": 1,
+          "resolved": 1,
+          "successes": 1,
+          "rate": 1.0
+        }
+      ]
+    }
+  }
+}

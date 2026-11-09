@@ -1,0 +1,974 @@
+{
+  "algorithm_version": "index-swing6-v2.0",
+  "input_sha256": "b2a71db924b914dcdfcd396560962bb4bfedabdf5cb26ce98da172d401f16432",
+  "train_range": [
+    "2020-10-30",
+    "2024-12-31"
+  ],
+  "validation_range": [
+    "2025-01-01",
+    "最新交易日"
+  ],
+  "embargo_days": 20,
+  "selection_rule": "min(底部/顶部 Wilson 下界)，已判定样本 <20 淘汰；训练段至少 4/7 个指数的 20 日前瞻收益高于同期全样本均值",
+  "edge_metric": "20 日前瞻收益相对同期全样本均值的超额，不是胜率差",
+  "frozen_params": {
+    "score_threshold": 0.52,
+    "core_extreme": 0.6,
+    "confirm_window": 3,
+    "min_swing_days": 8,
+    "min_swing_amplitude": 0.03,
+    "grade_quantile": 0.5,
+    "volume_ratio": 1.2,
+    "breadth_improve": 0.05
+  },
+  "candidates": [
+    {
+      "params": {
+        "score_threshold": 0.5,
+        "core_extreme": 0.55,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 32,
+          "resolved": 32,
+          "successes": 31,
+          "rate": 0.96875,
+          "wilson95": [
+            0.8425573617998744,
+            0.9944621398359969
+          ],
+          "avg_max_adverse_excursion": -0.05736071974036607,
+          "avg_forward_return_20": 0.02871707831016811
+        },
+        "top": {
+          "triggers": 34,
+          "resolved": 28,
+          "successes": 25,
+          "rate": 0.8928571428571429,
+          "wilson95": [
+            0.7280414845132785,
+            0.9628816331707
+          ],
+          "avg_max_adverse_excursion": -0.028452793660247683,
+          "avg_forward_return_20": -0.008353993398145807
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 20,
+          "resolved": 20,
+          "successes": 14,
+          "rate": 0.7,
+          "wilson95": [
+            0.4810271816464765,
+            0.8545227551323956
+          ],
+          "avg_max_adverse_excursion": -0.031446324599146654,
+          "avg_forward_return_20": 0.02394902449921389
+        },
+        "top": {
+          "triggers": 17,
+          "resolved": 17,
+          "successes": 16,
+          "rate": 0.9411764705882353,
+          "wilson95": [
+            0.7301796936242461,
+            0.9895395990150025
+          ],
+          "avg_max_adverse_excursion": -0.03798825069381239,
+          "avg_forward_return_20": -0.00024116147677254255
+        }
+      },
+      "selection_score": 0.728041,
+      "edge_indices": 7,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 14
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 17
+        },
+        {
+          "code": "sh000688",
+          "edge": true,
+          "signals": 16
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sh000905",
+          "edge": true,
+          "signals": 14
+        },
+        {
+          "code": "sh000852",
+          "edge": true,
+          "signals": 16
+        }
+      ],
+      "selected": false,
+      "eliminated": null
+    },
+    {
+      "params": {
+        "score_threshold": 0.52,
+        "core_extreme": 0.55,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 29,
+          "resolved": 29,
+          "successes": 29,
+          "rate": 1.0,
+          "wilson95": [
+            0.8830302015002593,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.05407933652039622,
+          "avg_forward_return_20": 0.0356237030757055
+        },
+        "top": {
+          "triggers": 31,
+          "resolved": 25,
+          "successes": 23,
+          "rate": 0.92,
+          "wilson95": [
+            0.7503389104960468,
+            0.9777795987151524
+          ],
+          "avg_max_adverse_excursion": -0.030950626834132456,
+          "avg_forward_return_20": -0.005373197959817744
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 14,
+          "resolved": 14,
+          "successes": 10,
+          "rate": 0.7142857142857143,
+          "wilson95": [
+            0.4535091567010681,
+            0.8827862135542308
+          ],
+          "avg_max_adverse_excursion": -0.02262470470100964,
+          "avg_forward_return_20": 0.06046195626485309
+        },
+        "top": {
+          "triggers": 11,
+          "resolved": 11,
+          "successes": 11,
+          "rate": 1.0,
+          "wilson95": [
+            0.7411670330319684,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.03182340584562599,
+          "avg_forward_return_20": -0.008437046388022208
+        }
+      },
+      "selection_score": 0.750339,
+      "edge_indices": 7,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 11
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sh000688",
+          "edge": true,
+          "signals": 10
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 9
+        },
+        {
+          "code": "sh000905",
+          "edge": true,
+          "signals": 14
+        },
+        {
+          "code": "sh000852",
+          "edge": true,
+          "signals": 15
+        }
+      ],
+      "selected": false,
+      "eliminated": null
+    },
+    {
+      "params": {
+        "score_threshold": 0.55,
+        "core_extreme": 0.55,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 18,
+          "resolved": 18,
+          "successes": 18,
+          "rate": 1.0,
+          "wilson95": [
+            0.8241207763533425,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.06475451886296331,
+          "avg_forward_return_20": -0.006309197607631841
+        },
+        "top": {
+          "triggers": 19,
+          "resolved": 15,
+          "successes": 14,
+          "rate": 0.9333333333333333,
+          "wilson95": [
+            0.7018347012621998,
+            0.9881331045067315
+          ],
+          "avg_max_adverse_excursion": -0.024421787155270665,
+          "avg_forward_return_20": -0.013963170303580052
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 10,
+          "resolved": 8,
+          "successes": 6,
+          "rate": 0.75,
+          "wilson95": [
+            0.40927543031016883,
+            0.9285207872478909
+          ],
+          "avg_max_adverse_excursion": -0.014306295198581231,
+          "avg_forward_return_20": 0.06775130400773494
+        },
+        "top": {
+          "triggers": 6,
+          "resolved": 6,
+          "successes": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.6096657120978346,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.03834293904274703,
+          "avg_forward_return_20": 0.009044595135290193
+        }
+      },
+      "selection_score": -1.0,
+      "edge_indices": 3,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 9
+        },
+        {
+          "code": "sz399001",
+          "edge": false,
+          "signals": 6
+        },
+        {
+          "code": "sz399006",
+          "edge": false,
+          "signals": 9
+        },
+        {
+          "code": "sh000688",
+          "edge": true,
+          "signals": 6
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 5
+        },
+        {
+          "code": "sh000905",
+          "edge": false,
+          "signals": 8
+        },
+        {
+          "code": "sh000852",
+          "edge": false,
+          "signals": 10
+        }
+      ],
+      "selected": false,
+      "eliminated": "训练段样本不足"
+    },
+    {
+      "params": {
+        "score_threshold": 0.5,
+        "core_extreme": 0.6,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 27,
+          "resolved": 27,
+          "successes": 27,
+          "rate": 1.0,
+          "wilson95": [
+            0.8754449702581328,
+            0.9999999999999998
+          ],
+          "avg_max_adverse_excursion": -0.06933428660100759,
+          "avg_forward_return_20": 0.0034031563929082325
+        },
+        "top": {
+          "triggers": 30,
+          "resolved": 25,
+          "successes": 23,
+          "rate": 0.92,
+          "wilson95": [
+            0.7503389104960468,
+            0.9777795987151524
+          ],
+          "avg_max_adverse_excursion": -0.028242124296689975,
+          "avg_forward_return_20": -0.007461352848168983
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 20,
+          "resolved": 19,
+          "successes": 14,
+          "rate": 0.7368421052631579,
+          "wilson95": [
+            0.5120844910218489,
+            0.8819358765321748
+          ],
+          "avg_max_adverse_excursion": -0.031142891405798605,
+          "avg_forward_return_20": 0.026650733147159336
+        },
+        "top": {
+          "triggers": 15,
+          "resolved": 15,
+          "successes": 14,
+          "rate": 0.9333333333333333,
+          "wilson95": [
+            0.7018347012621998,
+            0.9881331045067315
+          ],
+          "avg_max_adverse_excursion": -0.03764876585589718,
+          "avg_forward_return_20": 0.004626722813725211
+        }
+      },
+      "selection_score": 0.750339,
+      "edge_indices": 6,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 10
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 16
+        },
+        {
+          "code": "sh000688",
+          "edge": false,
+          "signals": 14
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 11
+        },
+        {
+          "code": "sh000905",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sh000852",
+          "edge": true,
+          "signals": 15
+        }
+      ],
+      "selected": false,
+      "eliminated": null
+    },
+    {
+      "params": {
+        "score_threshold": 0.52,
+        "core_extreme": 0.6,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 24,
+          "resolved": 24,
+          "successes": 24,
+          "rate": 1.0,
+          "wilson95": [
+            0.8620237953250198,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.06829353206378462,
+          "avg_forward_return_20": 0.010571965065230579
+        },
+        "top": {
+          "triggers": 27,
+          "resolved": 22,
+          "successes": 21,
+          "rate": 0.9545454545454546,
+          "wilson95": [
+            0.7820195416134267,
+            0.991930572378736
+          ],
+          "avg_max_adverse_excursion": -0.03091111498687883,
+          "avg_forward_return_20": -0.0031853580811914747
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 14,
+          "resolved": 13,
+          "successes": 10,
+          "rate": 0.7692307692307693,
+          "wilson95": [
+            0.49743624053272495,
+            0.9182047128150143
+          ],
+          "avg_max_adverse_excursion": -0.01791685005688981,
+          "avg_forward_return_20": 0.06318115590001078
+        },
+        "top": {
+          "triggers": 8,
+          "resolved": 8,
+          "successes": 8,
+          "rate": 1.0,
+          "wilson95": [
+            0.6755924351161198,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.03494764473642242,
+          "avg_forward_return_20": -0.00024620444901915506
+        }
+      },
+      "selection_score": 0.78202,
+      "edge_indices": 6,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 8
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 10
+        },
+        {
+          "code": "sh000688",
+          "edge": false,
+          "signals": 8
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 7
+        },
+        {
+          "code": "sh000905",
+          "edge": true,
+          "signals": 13
+        },
+        {
+          "code": "sh000852",
+          "edge": true,
+          "signals": 14
+        }
+      ],
+      "selected": true,
+      "eliminated": null
+    },
+    {
+      "params": {
+        "score_threshold": 0.55,
+        "core_extreme": 0.6,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 16,
+          "resolved": 16,
+          "successes": 16,
+          "rate": 1.0,
+          "wilson95": [
+            0.8063923194655637,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.09285280127167704,
+          "avg_forward_return_20": -0.04050922957810965
+        },
+        "top": {
+          "triggers": 18,
+          "resolved": 14,
+          "successes": 14,
+          "rate": 1.0,
+          "wilson95": [
+            0.7846891972623643,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.026955744274589005,
+          "avg_forward_return_20": -0.008883174106840062
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 10,
+          "resolved": 8,
+          "successes": 6,
+          "rate": 0.75,
+          "wilson95": [
+            0.40927543031016883,
+            0.9285207872478909
+          ],
+          "avg_max_adverse_excursion": -0.014306295198581231,
+          "avg_forward_return_20": 0.06775130400773494
+        },
+        "top": {
+          "triggers": 6,
+          "resolved": 6,
+          "successes": 6,
+          "rate": 1.0,
+          "wilson95": [
+            0.6096657120978346,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.03834293904274703,
+          "avg_forward_return_20": 0.009044595135290193
+        }
+      },
+      "selection_score": -1.0,
+      "edge_indices": 4,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 9
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 6
+        },
+        {
+          "code": "sz399006",
+          "edge": false,
+          "signals": 9
+        },
+        {
+          "code": "sh000688",
+          "edge": true,
+          "signals": 4
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 5
+        },
+        {
+          "code": "sh000905",
+          "edge": false,
+          "signals": 8
+        },
+        {
+          "code": "sh000852",
+          "edge": false,
+          "signals": 9
+        }
+      ],
+      "selected": false,
+      "eliminated": "训练段样本不足"
+    },
+    {
+      "params": {
+        "score_threshold": 0.5,
+        "core_extreme": 0.65,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 15,
+          "resolved": 15,
+          "successes": 15,
+          "rate": 1.0,
+          "wilson95": [
+            0.7961166989641515,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.08093507678162458,
+          "avg_forward_return_20": -0.033692747014503324
+        },
+        "top": {
+          "triggers": 17,
+          "resolved": 15,
+          "successes": 14,
+          "rate": 0.9333333333333333,
+          "wilson95": [
+            0.7018347012621998,
+            0.9881331045067315
+          ],
+          "avg_max_adverse_excursion": -0.033124300863528404,
+          "avg_forward_return_20": -0.003930089387325997
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 15,
+          "resolved": 14,
+          "successes": 13,
+          "rate": 0.9285714285714286,
+          "wilson95": [
+            0.6853129557584889,
+            0.9872777847521093
+          ],
+          "avg_max_adverse_excursion": -0.031456416466123606,
+          "avg_forward_return_20": 0.022760750130177802
+        },
+        "top": {
+          "triggers": 9,
+          "resolved": 9,
+          "successes": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.7008549515804559,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.052407989523507864,
+          "avg_forward_return_20": 0.006820976066117905
+        }
+      },
+      "selection_score": -1.0,
+      "edge_indices": 3,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": true,
+          "signals": 9
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 10
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 14
+        },
+        {
+          "code": "sh000688",
+          "edge": false,
+          "signals": 8
+        },
+        {
+          "code": "sh000300",
+          "edge": false,
+          "signals": 9
+        },
+        {
+          "code": "sh000905",
+          "edge": false,
+          "signals": 3
+        },
+        {
+          "code": "sh000852",
+          "edge": false,
+          "signals": 3
+        }
+      ],
+      "selected": false,
+      "eliminated": "训练段样本不足"
+    },
+    {
+      "params": {
+        "score_threshold": 0.52,
+        "core_extreme": 0.65,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 14,
+          "resolved": 14,
+          "successes": 14,
+          "rate": 1.0,
+          "wilson95": [
+            0.7846891972623643,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.09069452919195752,
+          "avg_forward_return_20": -0.054434775318026526
+        },
+        "top": {
+          "triggers": 16,
+          "resolved": 15,
+          "successes": 14,
+          "rate": 0.9333333333333333,
+          "wilson95": [
+            0.7018347012621998,
+            0.9881331045067315
+          ],
+          "avg_max_adverse_excursion": -0.040237889422745914,
+          "avg_forward_return_20": 0.002081187308739548
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 9,
+          "resolved": 8,
+          "successes": 7,
+          "rate": 0.875,
+          "wilson95": [
+            0.5291118177871464,
+            0.9775825085499433
+          ],
+          "avg_max_adverse_excursion": -0.03271193765932466,
+          "avg_forward_return_20": 0.049633650671604815
+        },
+        "top": {
+          "triggers": 3,
+          "resolved": 3,
+          "successes": 3,
+          "rate": 1.0,
+          "wilson95": [
+            0.4385029682449546,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.027453310478733117,
+          "avg_forward_return_20": -0.0337107428095594
+        }
+      },
+      "selection_score": -1.0,
+      "edge_indices": 2,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": false,
+          "signals": 3
+        },
+        {
+          "code": "sz399001",
+          "edge": true,
+          "signals": 8
+        },
+        {
+          "code": "sz399006",
+          "edge": true,
+          "signals": 12
+        },
+        {
+          "code": "sh000688",
+          "edge": false,
+          "signals": 6
+        },
+        {
+          "code": "sh000300",
+          "edge": false,
+          "signals": 7
+        },
+        {
+          "code": "sh000905",
+          "edge": false,
+          "signals": 3
+        },
+        {
+          "code": "sh000852",
+          "edge": false,
+          "signals": 3
+        }
+      ],
+      "selected": false,
+      "eliminated": "训练段样本不足"
+    },
+    {
+      "params": {
+        "score_threshold": 0.55,
+        "core_extreme": 0.65,
+        "confirm_window": 3,
+        "min_swing_days": 8,
+        "min_swing_amplitude": 0.03,
+        "grade_quantile": 0.5,
+        "volume_ratio": 1.2,
+        "breadth_improve": 0.05
+      },
+      "train": {
+        "bottom": {
+          "triggers": 12,
+          "resolved": 12,
+          "successes": 12,
+          "rate": 1.0,
+          "wilson95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.11843139919138261,
+          "avg_forward_return_20": -0.06648395393359442
+        },
+        "top": {
+          "triggers": 11,
+          "resolved": 9,
+          "successes": 9,
+          "rate": 1.0,
+          "wilson95": [
+            0.7008549515804559,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.03156268212397409,
+          "avg_forward_return_20": -0.003494453798239267
+        }
+      },
+      "validation": {
+        "bottom": {
+          "triggers": 7,
+          "resolved": 5,
+          "successes": 4,
+          "rate": 0.8,
+          "wilson95": [
+            0.37553462976252533,
+            0.9637758913675698
+          ],
+          "avg_max_adverse_excursion": -0.019001675269246742,
+          "avg_forward_return_20": 0.06760869254104476
+        },
+        "top": {
+          "triggers": 2,
+          "resolved": 2,
+          "successes": 2,
+          "rate": 1.0,
+          "wilson95": [
+            0.34238022750665303,
+            1.0
+          ],
+          "avg_max_adverse_excursion": -0.038187789978883724,
+          "avg_forward_return_20": -0.002254556238610983
+        }
+      },
+      "selection_score": -1.0,
+      "edge_indices": 2,
+      "per_index": [
+        {
+          "code": "sh000001",
+          "edge": false,
+          "signals": 3
+        },
+        {
+          "code": "sz399001",
+          "edge": false,
+          "signals": 5
+        },
+        {
+          "code": "sz399006",
+          "edge": false,
+          "signals": 7
+        },
+        {
+          "code": "sh000688",
+          "edge": true,
+          "signals": 4
+        },
+        {
+          "code": "sh000300",
+          "edge": true,
+          "signals": 5
+        },
+        {
+          "code": "sh000905",
+          "edge": false,
+          "signals": 5
+        },
+        {
+          "code": "sh000852",
+          "edge": false,
+          "signals": 3
+        }
+      ],
+      "selected": false,
+      "eliminated": "训练段样本不足"
+    }
+  ],
+  "research_status": "post_hoc_exploratory_not_independent",
+  "note": "参数只在训练段确定；验证段结果仅作报告，未回炉调参。"
+}

@@ -1,0 +1,292 @@
+{
+  "algorithm_version": "index-precision-pivot-v1.0",
+  "legacy_algorithm_version": "index-swing6-v2.0",
+  "determined_on": "train 2020-10-30~2024-12-31 (7 indices)",
+  "pivot_amplitude": 0.05,
+  "pivot_min_gap": 8,
+  "six_factor_gate": {
+    "score_threshold": 0.52,
+    "core_hits_min": 3,
+    "core_extreme": 0.6,
+    "direction_min": 0.05,
+    "min_available_directions": 6,
+    "confirm_window": 3
+  },
+  "parameter_grid_evidence": {
+    "objective": "训练段(有效区间) 20 日方向正确率 Top-1；并列取已判定样本数多者",
+    "determined_on": "train 2020-10-30~2024-11-19，7 指数",
+    "validation_not_used": true,
+    "legacy_train_signal_count": 60,
+    "selected": {
+      "gate": {
+        "score_threshold": 0.52,
+        "core_hits_min": 3,
+        "core_extreme": 0.6,
+        "direction_min": 0.05,
+        "min_available_directions": 6,
+        "confirm_window": 3
+      },
+      "train_signal_count": 7,
+      "train_resolved_20d": 7,
+      "train_successes_20d": 1,
+      "train_direction_rate_20d": 0.14285714285714285,
+      "eligible": true,
+      "elimination_reason": null
+    },
+    "all_combinations": [
+      {
+        "gate": {
+          "score_threshold": 0.52,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.05,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 7,
+        "train_resolved_20d": 7,
+        "train_successes_20d": 1,
+        "train_direction_rate_20d": 0.14285714285714285,
+        "eligible": true,
+        "elimination_reason": null
+      },
+      {
+        "gate": {
+          "score_threshold": 0.52,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.1,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 5,
+        "train_resolved_20d": 5,
+        "train_successes_20d": 0,
+        "train_direction_rate_20d": 0.0,
+        "eligible": true,
+        "elimination_reason": "训练段 20 日方向正确率低于中选组合"
+      },
+      {
+        "gate": {
+          "score_threshold": 0.55,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.05,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 7,
+        "train_resolved_20d": 7,
+        "train_successes_20d": 1,
+        "train_direction_rate_20d": 0.14285714285714285,
+        "eligible": true,
+        "elimination_reason": "训练段 20 日方向正确率低于中选组合"
+      },
+      {
+        "gate": {
+          "score_threshold": 0.55,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.1,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 5,
+        "train_resolved_20d": 5,
+        "train_successes_20d": 0,
+        "train_direction_rate_20d": 0.0,
+        "eligible": true,
+        "elimination_reason": "训练段 20 日方向正确率低于中选组合"
+      },
+      {
+        "gate": {
+          "score_threshold": 0.58,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.05,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 7,
+        "train_resolved_20d": 7,
+        "train_successes_20d": 1,
+        "train_direction_rate_20d": 0.14285714285714285,
+        "eligible": true,
+        "elimination_reason": "训练段 20 日方向正确率低于中选组合"
+      },
+      {
+        "gate": {
+          "score_threshold": 0.58,
+          "core_hits_min": 3,
+          "core_extreme": 0.6,
+          "direction_min": 0.1,
+          "min_available_directions": 6,
+          "confirm_window": 3
+        },
+        "train_signal_count": 5,
+        "train_resolved_20d": 5,
+        "train_successes_20d": 0,
+        "train_direction_rate_20d": 0.0,
+        "eligible": true,
+        "elimination_reason": "训练段 20 日方向正确率低于中选组合"
+      }
+    ]
+  },
+  "mae_window": 20,
+  "mae_limit": 0.05,
+  "mae_rule": "20 日盘中极值；|MAE| > 5% 判失败，恰好 5% 不判失败",
+  "effective_amplitude": {
+    "definition": "训练段全部交易日 H 日绝对收益的 75 分位",
+    "quantile": 0.75,
+    "horizons": [
+      5,
+      10,
+      20,
+      30
+    ],
+    "line_count": 28,
+    "determined_on": "train 2020-10-30~2024-12-31",
+    "validation_must_not_adjust": true,
+    "lines": {
+      "sh000001": {
+        "5": 0.022397733375307916,
+        "10": 0.029775871800769897,
+        "20": 0.04249246454416862,
+        "30": 0.049262458336696846
+      },
+      "sz399001": {
+        "5": 0.03042906661016344,
+        "10": 0.04223705470507079,
+        "20": 0.060064293084762306,
+        "30": 0.08276110733259542
+      },
+      "sz399006": {
+        "5": 0.03841997894795664,
+        "10": 0.05382158449339717,
+        "20": 0.07976963240015807,
+        "30": 0.10673085899678544
+      },
+      "sh000688": {
+        "5": 0.0393256115374329,
+        "10": 0.056331007270316244,
+        "20": 0.08276035713147499,
+        "30": 0.10060531057066856
+      },
+      "sh000300": {
+        "5": 0.02598498801913917,
+        "10": 0.03507213655928209,
+        "20": 0.050803784930672995,
+        "30": 0.06664987342657823
+      },
+      "sh000905": {
+        "5": 0.02724480155071282,
+        "10": 0.0386727394882676,
+        "20": 0.05275434408741629,
+        "30": 0.06582410006374853
+      },
+      "sh000852": {
+        "5": 0.033521728127494085,
+        "10": 0.047169605194816305,
+        "20": 0.06515408193117572,
+        "30": 0.0821966271619042
+      }
+    },
+    "evidence": {
+      "sh000001": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sz399001": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sz399006": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sh000688": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sh000300": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sh000905": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      },
+      "sh000852": {
+        "train_rows": 1014,
+        "train_start": "2020-10-30",
+        "train_end": "2024-12-31",
+        "quantile": 0.75,
+        "basis": "全部交易日 H 日绝对收益分布，不使用任何信号结果",
+        "per_holding_samples": {
+          "5": 1009,
+          "10": 1004,
+          "20": 994,
+          "30": 984
+        }
+      }
+    }
+  },
+  "input_hash": "df453b2fc13660a767d4aaed4741927314f5251af2c4e62ba4b57777851cd338",
+  "random_seed": 20261109,
+  "baseline_seed": 20261109,
+  "validation_must_not_adjust": true
+}

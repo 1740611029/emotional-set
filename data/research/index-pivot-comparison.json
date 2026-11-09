@@ -1,0 +1,1516 @@
+{
+  "generated_at": "2026-11-06T22:33:06+08:00",
+  "purpose": "指数点位拐点算法对照决策报告（离线调研，不改动生产信号）",
+  "incumbent_version": "index-swing6-v2.0",
+  "frozen": {
+    "benchmark_params": {
+      "amplitude": 0.05,
+      "min_gap": 8,
+      "determined_on": "train 2020-10-30~2024-12-31, 7 indices, grid 3%/5%/7% x {8,13,21}d",
+      "target_pivots_per_year": [
+        4,
+        8
+      ],
+      "train_mean_pivots_per_year": 4.76
+    },
+    "eval_windows": {
+      "M": 5,
+      "N": 8,
+      "confirmation_cap": 5,
+      "determined_on": "train 2020-10-30~2024-12-31; basis=benchmark structure (min_gap=8d, same-type pivot spacing>=16d) + near-turn semantics; M=5 (2M<16 no overlap), N=8 (=1 min swing); NOT tuned on incumbent (incumbent train capture@M5=7.9%, median|offset|~83d)"
+    },
+    "algorithm_params": {
+      "pivot-zigzag": {
+        "amplitude": 0.05,
+        "min_gap": 8,
+        "train_main_hit": 0.388,
+        "train_capture": 0.381
+      },
+      "pivot-donchian": {
+        "window": 20,
+        "confirm_days": 3,
+        "train_main_hit": 0.36,
+        "train_capture": 0.324
+      },
+      "pivot-fractal": {
+        "k": 2,
+        "train_main_hit": 0.942,
+        "train_capture": 0.921
+      },
+      "pivot-zigzag+confirm3": {
+        "amplitude": 0.05,
+        "min_gap": 8
+      }
+    },
+    "aux_weights": {
+      "margin_flow": 0.15,
+      "breadth": 0.15,
+      "etf_share": 0.1,
+      "qvix": 0.1,
+      "divergence": 0.1,
+      "external_spx": 0.05
+    },
+    "aux_discrimination": {
+      "margin_flow": 0.202,
+      "breadth": 0.173,
+      "etf_share": 0.09,
+      "qvix": 0.052,
+      "divergence": 0.035,
+      "external_spx": 0.0
+    }
+  },
+  "train_segment": [
+    "2020-10-30",
+    "2024-12-31"
+  ],
+  "validation_segment_start": "2025-01-01",
+  "validation_pivot_samples": 34,
+  "small_sample_guard": false,
+  "input_hash": "acb812e09d5d669e0963675f30560f71c864e8f1095bc32596cb0a527b58b3e5",
+  "metrics_note": "capture/main_hit 以基准拐点为分母（召回型），不惩罚过量触发；precision 以信号为分母（精确型），并列展示防误导",
+  "candidates": {
+    "pivot-zigzag": {
+      "definition": "滚动 ZigZag 极值破位确认：反向运动达 amplitude 且与上一拐点间隔≥min_gap 时确认",
+      "params": {
+        "amplitude": 0.05,
+        "min_gap": 8
+      },
+      "data_deps": [
+        "指数日线 OHLCV"
+      ],
+      "aggregate": {
+        "train": {
+          "pivot_samples": 139,
+          "signal_count": 139,
+          "capture": {
+            "hits": 53,
+            "total": 139,
+            "rate": 0.381295,
+            "wilson95": [
+              0.304772,
+              0.464203
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 54,
+            "total": 139,
+            "rate": 0.388489,
+            "wilson95": [
+              0.311501,
+              0.471475
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 53,
+            "total": 139,
+            "rate": 0.381295,
+            "wilson95": [
+              0.304772,
+              0.464203
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 3.0,
+            "p90": 5.0,
+            "counted": 53
+          },
+          "price_deviation": {
+            "median": 0.059927,
+            "p90": 0.075147,
+            "counted": 53
+          },
+          "interval": {
+            "start": "2020-10-30",
+            "end": "2024-10-08"
+          }
+        },
+        "validation": {
+          "pivot_samples": 34,
+          "signal_count": 34,
+          "capture": {
+            "hits": 9,
+            "total": 34,
+            "rate": 0.264706,
+            "wilson95": [
+              0.146012,
+              0.431171
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 9,
+            "total": 34,
+            "rate": 0.264706,
+            "wilson95": [
+              0.146012,
+              0.431171
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 9,
+            "total": 34,
+            "rate": 0.264706,
+            "wilson95": [
+              0.146012,
+              0.431171
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 3.0,
+            "p90": 4.2,
+            "counted": 9
+          },
+          "price_deviation": {
+            "median": 0.055663,
+            "p90": 0.061542,
+            "counted": 9
+          },
+          "interval": {
+            "start": "2025-01-10",
+            "end": "2026-11-03"
+          }
+        }
+      },
+      "sensitivity": {
+        "3%": {
+          "train": {
+            "capture": {
+              "hits": 17,
+              "total": 128,
+              "rate": 0.132812,
+              "wilson95": [
+                0.084602,
+                0.20242
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 18,
+              "total": 128,
+              "rate": 0.140625,
+              "wilson95": [
+                0.09084,
+                0.211352
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 5,
+              "total": 40,
+              "rate": 0.125,
+              "wilson95": [
+                0.054595,
+                0.261121
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 5,
+              "total": 40,
+              "rate": 0.125,
+              "wilson95": [
+                0.054595,
+                0.261121
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "5%": {
+          "train": {
+            "capture": {
+              "hits": 53,
+              "total": 139,
+              "rate": 0.381295,
+              "wilson95": [
+                0.304772,
+                0.464203
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 54,
+              "total": 139,
+              "rate": 0.388489,
+              "wilson95": [
+                0.311501,
+                0.471475
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 9,
+              "total": 34,
+              "rate": 0.264706,
+              "wilson95": [
+                0.146012,
+                0.431171
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 9,
+              "total": 34,
+              "rate": 0.264706,
+              "wilson95": [
+                0.146012,
+                0.431171
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "7%": {
+          "train": {
+            "capture": {
+              "hits": 35,
+              "total": 108,
+              "rate": 0.324074,
+              "wilson95": [
+                0.243167,
+                0.417067
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 38,
+              "total": 108,
+              "rate": 0.351852,
+              "wilson95": [
+                0.26829,
+                0.445591
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 4,
+              "total": 46,
+              "rate": 0.086957,
+              "wilson95": [
+                0.034336,
+                0.203247
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 4,
+              "total": 46,
+              "rate": 0.086957,
+              "wilson95": [
+                0.034336,
+                0.203247
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "aux_grading": {
+        "grade_counts": {
+          "A": 140,
+          "B": 20,
+          "C": 13
+        },
+        "mean_aux_gain": 0.2,
+        "mean_aux_gain_hit": 0.2438,
+        "mean_aux_gain_miss": 0.1756,
+        "discrimination": 0.0682,
+        "note": "辅助只加分不否决；分级与增益为对照列，不影响捕捉/主达标/精确度等信号集指标"
+      },
+      "verdict_detail": {
+        "validation_pivot_samples": 34,
+        "candidate_main_hit": 0.264706,
+        "incumbent_main_hit": 0.117647,
+        "candidate_capture": 0.264706,
+        "incumbent_capture": 0.117647,
+        "candidate_precision": 0.264706,
+        "incumbent_precision": 0.181818,
+        "recall_inflation_flag": false,
+        "verdict": "观察",
+        "reason": "指标表现 mixed（主达标不劣于现行但其余指标存在劣项），证据不足以建议更换（n=34）"
+      },
+      "verdict": "观察"
+    },
+    "pivot-donchian": {
+      "definition": "N 日新高/新低后连续 M 日不创新极值，确认该极值为顶/底拐点",
+      "params": {
+        "window": 20,
+        "confirm_days": 3
+      },
+      "data_deps": [
+        "指数日线 OHLCV"
+      ],
+      "aggregate": {
+        "train": {
+          "pivot_samples": 139,
+          "signal_count": 211,
+          "capture": {
+            "hits": 45,
+            "total": 139,
+            "rate": 0.323741,
+            "wilson95": [
+              0.251603,
+              0.405359
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 50,
+            "total": 139,
+            "rate": 0.359712,
+            "wilson95": [
+              0.284693,
+              0.442277
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 45,
+            "total": 211,
+            "rate": 0.21327,
+            "wilson95": [
+              0.163385,
+              0.273409
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 3.0,
+            "p90": 4.0,
+            "counted": 45
+          },
+          "price_deviation": {
+            "median": 0.023033,
+            "p90": 0.092102,
+            "counted": 45
+          },
+          "interval": {
+            "start": "2020-10-30",
+            "end": "2024-10-08"
+          }
+        },
+        "validation": {
+          "pivot_samples": 34,
+          "signal_count": 106,
+          "capture": {
+            "hits": 15,
+            "total": 34,
+            "rate": 0.441176,
+            "wilson95": [
+              0.288835,
+              0.605461
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 17,
+            "total": 34,
+            "rate": 0.5,
+            "wilson95": [
+              0.340693,
+              0.659307
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 15,
+            "total": 106,
+            "rate": 0.141509,
+            "wilson95": [
+              0.08767,
+              0.220423
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 3.0,
+            "p90": 4.0,
+            "counted": 15
+          },
+          "price_deviation": {
+            "median": 0.029922,
+            "p90": 0.049717,
+            "counted": 15
+          },
+          "interval": {
+            "start": "2025-01-10",
+            "end": "2026-11-03"
+          }
+        }
+      },
+      "sensitivity": {
+        "3%": {
+          "train": {
+            "capture": {
+              "hits": 44,
+              "total": 128,
+              "rate": 0.34375,
+              "wilson95": [
+                0.267102,
+                0.429504
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 50,
+              "total": 128,
+              "rate": 0.390625,
+              "wilson95": [
+                0.31047,
+                0.477154
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 17,
+              "total": 40,
+              "rate": 0.425,
+              "wilson95": [
+                0.285094,
+                0.578049
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 19,
+              "total": 40,
+              "rate": 0.475,
+              "wilson95": [
+                0.329355,
+                0.625026
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "5%": {
+          "train": {
+            "capture": {
+              "hits": 45,
+              "total": 139,
+              "rate": 0.323741,
+              "wilson95": [
+                0.251603,
+                0.405359
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 50,
+              "total": 139,
+              "rate": 0.359712,
+              "wilson95": [
+                0.284693,
+                0.442277
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 15,
+              "total": 34,
+              "rate": 0.441176,
+              "wilson95": [
+                0.288835,
+                0.605461
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 17,
+              "total": 34,
+              "rate": 0.5,
+              "wilson95": [
+                0.340693,
+                0.659307
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "7%": {
+          "train": {
+            "capture": {
+              "hits": 32,
+              "total": 108,
+              "rate": 0.296296,
+              "wilson95": [
+                0.218378,
+                0.388208
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 36,
+              "total": 108,
+              "rate": 0.333333,
+              "wilson95": [
+                0.251505,
+                0.426611
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 26,
+              "total": 46,
+              "rate": 0.565217,
+              "wilson95": [
+                0.422474,
+                0.697907
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 30,
+              "total": 46,
+              "rate": 0.652174,
+              "wilson95": [
+                0.507701,
+                0.77319
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "aux_grading": {
+        "grade_counts": {
+          "A": 285,
+          "B": 9,
+          "C": 23
+        },
+        "mean_aux_gain": 0.2437,
+        "mean_aux_gain_hit": 0.2863,
+        "mean_aux_gain_miss": 0.2338,
+        "discrimination": 0.0525,
+        "note": "辅助只加分不否决；分级与增益为对照列，不影响捕捉/主达标/精确度等信号集指标"
+      },
+      "verdict_detail": {
+        "validation_pivot_samples": 34,
+        "candidate_main_hit": 0.5,
+        "incumbent_main_hit": 0.117647,
+        "candidate_capture": 0.441176,
+        "incumbent_capture": 0.117647,
+        "candidate_precision": 0.141509,
+        "incumbent_precision": 0.181818,
+        "recall_inflation_flag": true,
+        "verdict": "观察",
+        "reason": "指标表现 mixed（主达标不劣于现行但其余指标存在劣项），证据不足以建议更换（n=34）；注意：信号量 106 远超拐点数 34，捕捉/主达标为召回型指标不因过量触发降分，精确度 14.2%（现行 18.2%）须一并判读"
+      },
+      "verdict": "观察"
+    },
+    "pivot-fractal": {
+      "definition": "分形：左右各 K 根 K 线高低点均不被超越，右侧走完即在确认日发出",
+      "params": {
+        "k": 2
+      },
+      "data_deps": [
+        "指数日线 OHLCV"
+      ],
+      "aggregate": {
+        "train": {
+          "pivot_samples": 139,
+          "signal_count": 1496,
+          "capture": {
+            "hits": 128,
+            "total": 139,
+            "rate": 0.920863,
+            "wilson95": [
+              0.863851,
+              0.955239
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 131,
+            "total": 139,
+            "rate": 0.942446,
+            "wilson95": [
+              0.890543,
+              0.970551
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 177,
+            "total": 1496,
+            "rate": 0.118316,
+            "wilson95": [
+              0.102918,
+              0.135668
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 2.0,
+            "p90": 3.0,
+            "counted": 128
+          },
+          "price_deviation": {
+            "median": 0.021519,
+            "p90": 0.06138,
+            "counted": 128
+          },
+          "interval": {
+            "start": "2020-10-30",
+            "end": "2024-10-08"
+          }
+        },
+        "validation": {
+          "pivot_samples": 34,
+          "signal_count": 647,
+          "capture": {
+            "hits": 33,
+            "total": 34,
+            "rate": 0.970588,
+            "wilson95": [
+              0.850844,
+              0.994789
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 33,
+            "total": 34,
+            "rate": 0.970588,
+            "wilson95": [
+              0.850844,
+              0.994789
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 43,
+            "total": 647,
+            "rate": 0.066461,
+            "wilson95": [
+              0.049713,
+              0.088326
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 2.0,
+            "p90": 3.0,
+            "counted": 33
+          },
+          "price_deviation": {
+            "median": 0.022258,
+            "p90": 0.07769,
+            "counted": 33
+          },
+          "interval": {
+            "start": "2025-01-10",
+            "end": "2026-11-03"
+          }
+        }
+      },
+      "sensitivity": {
+        "3%": {
+          "train": {
+            "capture": {
+              "hits": 118,
+              "total": 128,
+              "rate": 0.921875,
+              "wilson95": [
+                0.862153,
+                0.957013
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 121,
+              "total": 128,
+              "rate": 0.945312,
+              "wilson95": [
+                0.891415,
+                0.97326
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 39,
+              "total": 40,
+              "rate": 0.975,
+              "wilson95": [
+                0.871186,
+                0.995573
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 40,
+              "total": 40,
+              "rate": 1.0,
+              "wilson95": [
+                0.912378,
+                1.0
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "5%": {
+          "train": {
+            "capture": {
+              "hits": 128,
+              "total": 139,
+              "rate": 0.920863,
+              "wilson95": [
+                0.863851,
+                0.955239
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 131,
+              "total": 139,
+              "rate": 0.942446,
+              "wilson95": [
+                0.890543,
+                0.970551
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 33,
+              "total": 34,
+              "rate": 0.970588,
+              "wilson95": [
+                0.850844,
+                0.994789
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 33,
+              "total": 34,
+              "rate": 0.970588,
+              "wilson95": [
+                0.850844,
+                0.994789
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "7%": {
+          "train": {
+            "capture": {
+              "hits": 101,
+              "total": 108,
+              "rate": 0.935185,
+              "wilson95": [
+                0.872224,
+                0.968252
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 103,
+              "total": 108,
+              "rate": 0.953704,
+              "wilson95": [
+                0.896175,
+                0.980065
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 46,
+              "total": 46,
+              "rate": 1.0,
+              "wilson95": [
+                0.922926,
+                1.0
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 46,
+              "total": 46,
+              "rate": 1.0,
+              "wilson95": [
+                0.922926,
+                1.0
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "aux_grading": {
+        "grade_counts": {
+          "A": 1790,
+          "B": 202,
+          "C": 158
+        },
+        "mean_aux_gain": 0.2147,
+        "mean_aux_gain_hit": 0.2727,
+        "mean_aux_gain_miss": 0.2081,
+        "discrimination": 0.0646,
+        "note": "辅助只加分不否决；分级与增益为对照列，不影响捕捉/主达标/精确度等信号集指标"
+      },
+      "verdict_detail": {
+        "validation_pivot_samples": 34,
+        "candidate_main_hit": 0.970588,
+        "incumbent_main_hit": 0.117647,
+        "candidate_capture": 0.970588,
+        "incumbent_capture": 0.117647,
+        "candidate_precision": 0.066461,
+        "incumbent_precision": 0.181818,
+        "recall_inflation_flag": true,
+        "verdict": "观察",
+        "reason": "四项主指标不劣于现行，但精确度 6.6% 低于现行 18.2%（信号量 647 vs 拐点数 34），疑似靠过量触发刷高召回，精确度硬门槛下降级为观察（n=34）；注意：信号量 647 远超拐点数 34，捕捉/主达标为召回型指标不因过量触发降分，精确度 6.6%（现行 18.2%）须一并判读"
+      },
+      "verdict": "观察"
+    },
+    "pivot-zigzag+confirm3": {
+      "definition": "pivot-zigzag 候选叠加现行三层确认（价格→动量→量能），确认失败候选作废",
+      "params": {
+        "amplitude": 0.05,
+        "min_gap": 8
+      },
+      "data_deps": [
+        "指数日线 OHLCV",
+        "行业板块宽度 breadth"
+      ],
+      "aggregate": {
+        "train": {
+          "pivot_samples": 139,
+          "signal_count": 115,
+          "capture": {
+            "hits": 38,
+            "total": 139,
+            "rate": 0.273381,
+            "wilson95": [
+              0.206132,
+              0.35282
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 39,
+            "total": 139,
+            "rate": 0.280576,
+            "wilson95": [
+              0.212563,
+              0.360391
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 38,
+            "total": 115,
+            "rate": 0.330435,
+            "wilson95": [
+              0.251171,
+              0.420661
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 4.0,
+            "p90": 5.0,
+            "counted": 38
+          },
+          "price_deviation": {
+            "median": 0.061045,
+            "p90": 0.074664,
+            "counted": 38
+          },
+          "interval": {
+            "start": "2020-10-30",
+            "end": "2024-10-08"
+          }
+        },
+        "validation": {
+          "pivot_samples": 34,
+          "signal_count": 31,
+          "capture": {
+            "hits": 7,
+            "total": 34,
+            "rate": 0.205882,
+            "wilson95": [
+              0.103495,
+              0.367984
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 8,
+            "total": 34,
+            "rate": 0.235294,
+            "wilson95": [
+              0.12437,
+              0.399961
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 7,
+            "total": 31,
+            "rate": 0.225806,
+            "wilson95": [
+              0.113951,
+              0.398124
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 3.0,
+            "p90": 4.4,
+            "counted": 7
+          },
+          "price_deviation": {
+            "median": 0.057922,
+            "p90": 0.071895,
+            "counted": 7
+          },
+          "interval": {
+            "start": "2025-01-10",
+            "end": "2026-11-03"
+          }
+        }
+      },
+      "sensitivity": {
+        "3%": {
+          "train": {
+            "capture": {
+              "hits": 9,
+              "total": 128,
+              "rate": 0.070312,
+              "wilson95": [
+                0.03743,
+                0.128235
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 10,
+              "total": 128,
+              "rate": 0.078125,
+              "wilson95": [
+                0.042987,
+                0.137847
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 4,
+              "total": 40,
+              "rate": 0.1,
+              "wilson95": [
+                0.03958,
+                0.230518
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 4,
+              "total": 40,
+              "rate": 0.1,
+              "wilson95": [
+                0.03958,
+                0.230518
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "5%": {
+          "train": {
+            "capture": {
+              "hits": 38,
+              "total": 139,
+              "rate": 0.273381,
+              "wilson95": [
+                0.206132,
+                0.35282
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 39,
+              "total": 139,
+              "rate": 0.280576,
+              "wilson95": [
+                0.212563,
+                0.360391
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 7,
+              "total": 34,
+              "rate": 0.205882,
+              "wilson95": [
+                0.103495,
+                0.367984
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 8,
+              "total": 34,
+              "rate": 0.235294,
+              "wilson95": [
+                0.12437,
+                0.399961
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "7%": {
+          "train": {
+            "capture": {
+              "hits": 22,
+              "total": 108,
+              "rate": 0.203704,
+              "wilson95": [
+                0.138548,
+                0.289213
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 25,
+              "total": 108,
+              "rate": 0.231481,
+              "wilson95": [
+                0.161994,
+                0.319415
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 2,
+              "total": 46,
+              "rate": 0.043478,
+              "wilson95": [
+                0.012005,
+                0.145323
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 3,
+              "total": 46,
+              "rate": 0.065217,
+              "wilson95": [
+                0.022428,
+                0.175027
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "dropped_candidates": {
+        "sh000001": 6,
+        "sz399001": 4,
+        "sz399006": 6,
+        "sh000688": 3,
+        "sh000300": 4,
+        "sh000905": 3,
+        "sh000852": 1
+      },
+      "aux_grading": {
+        "grade_counts": {
+          "A": 113,
+          "B": 20,
+          "C": 13
+        },
+        "mean_aux_gain": 0.1843,
+        "mean_aux_gain_hit": 0.2167,
+        "mean_aux_gain_miss": 0.1698,
+        "discrimination": 0.0469,
+        "note": "辅助只加分不否决；分级与增益为对照列，不影响捕捉/主达标/精确度等信号集指标"
+      },
+      "verdict_detail": {
+        "validation_pivot_samples": 34,
+        "candidate_main_hit": 0.235294,
+        "incumbent_main_hit": 0.117647,
+        "candidate_capture": 0.205882,
+        "incumbent_capture": 0.117647,
+        "candidate_precision": 0.225806,
+        "incumbent_precision": 0.181818,
+        "recall_inflation_flag": false,
+        "verdict": "观察",
+        "reason": "指标表现 mixed（主达标不劣于现行但其余指标存在劣项），证据不足以建议更换（n=34）"
+      },
+      "verdict": "观察"
+    },
+    "index-swing6-v2.0(current)": {
+      "definition": "现行生产算法（六因子三层确认）",
+      "params": {
+        "version": "index-swing6-v2.0"
+      },
+      "data_deps": [
+        "指数日线 OHLCV",
+        "行业板块宽度 breadth"
+      ],
+      "aggregate": {
+        "train": {
+          "pivot_samples": 139,
+          "signal_count": 60,
+          "capture": {
+            "hits": 19,
+            "total": 139,
+            "rate": 0.136691,
+            "wilson95": [
+              0.089286,
+              0.203637
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 19,
+            "total": 139,
+            "rate": 0.136691,
+            "wilson95": [
+              0.089286,
+              0.203637
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 19,
+            "total": 60,
+            "rate": 0.316667,
+            "wilson95": [
+              0.213059,
+              0.442338
+            ],
+            "small_sample": false
+          },
+          "lag": {
+            "median": 2.0,
+            "p90": 4.2,
+            "counted": 19
+          },
+          "price_deviation": {
+            "median": 0.021222,
+            "p90": 0.036685,
+            "counted": 19
+          },
+          "interval": {
+            "start": "2020-10-30",
+            "end": "2024-10-08"
+          }
+        },
+        "validation": {
+          "pivot_samples": 34,
+          "signal_count": 22,
+          "capture": {
+            "hits": 4,
+            "total": 34,
+            "rate": 0.117647,
+            "wilson95": [
+              0.046714,
+              0.266208
+            ],
+            "small_sample": false
+          },
+          "main_hit": {
+            "hits": 4,
+            "total": 34,
+            "rate": 0.117647,
+            "wilson95": [
+              0.046714,
+              0.266208
+            ],
+            "small_sample": false
+          },
+          "precision": {
+            "hits": 4,
+            "total": 22,
+            "rate": 0.181818,
+            "wilson95": [
+              0.073069,
+              0.385166
+            ],
+            "small_sample": true
+          },
+          "lag": {
+            "median": 2.0,
+            "p90": 2.7,
+            "counted": 4
+          },
+          "price_deviation": {
+            "median": 0.029422,
+            "p90": 0.035296,
+            "counted": 4
+          },
+          "interval": {
+            "start": "2025-01-10",
+            "end": "2026-11-03"
+          }
+        }
+      },
+      "sensitivity": {
+        "3%": {
+          "train": {
+            "capture": {
+              "hits": 10,
+              "total": 128,
+              "rate": 0.078125,
+              "wilson95": [
+                0.042987,
+                0.137847
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 10,
+              "total": 128,
+              "rate": 0.078125,
+              "wilson95": [
+                0.042987,
+                0.137847
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 3,
+              "total": 40,
+              "rate": 0.075,
+              "wilson95": [
+                0.025836,
+                0.198642
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 3,
+              "total": 40,
+              "rate": 0.075,
+              "wilson95": [
+                0.025836,
+                0.198642
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "5%": {
+          "train": {
+            "capture": {
+              "hits": 19,
+              "total": 139,
+              "rate": 0.136691,
+              "wilson95": [
+                0.089286,
+                0.203637
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 19,
+              "total": 139,
+              "rate": 0.136691,
+              "wilson95": [
+                0.089286,
+                0.203637
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 4,
+              "total": 34,
+              "rate": 0.117647,
+              "wilson95": [
+                0.046714,
+                0.266208
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 4,
+              "total": 34,
+              "rate": 0.117647,
+              "wilson95": [
+                0.046714,
+                0.266208
+              ],
+              "small_sample": false
+            }
+          }
+        },
+        "7%": {
+          "train": {
+            "capture": {
+              "hits": 13,
+              "total": 108,
+              "rate": 0.12037,
+              "wilson95": [
+                0.071711,
+                0.195109
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 14,
+              "total": 108,
+              "rate": 0.12963,
+              "wilson95": [
+                0.078813,
+                0.205889
+              ],
+              "small_sample": false
+            }
+          },
+          "validation": {
+            "capture": {
+              "hits": 5,
+              "total": 46,
+              "rate": 0.108696,
+              "wilson95": [
+                0.047331,
+                0.230378
+              ],
+              "small_sample": false
+            },
+            "main_hit": {
+              "hits": 5,
+              "total": 46,
+              "rate": 0.108696,
+              "wilson95": [
+                0.047331,
+                0.230378
+              ],
+              "small_sample": false
+            }
+          }
+        }
+      },
+      "verdict": "现行基线",
+      "verdict_detail": {
+        "reason": "现行生产算法，作为对照基准不参与三态判定"
+      }
+    }
+  },
+  "fingerprint_guard": {
+    "guarded_files": [
+      "data/index-signals.json",
+      "data/raw/indices-ths/sh000001.csv",
+      "data/raw/indices-ths/sh000300.csv",
+      "data/raw/indices-ths/sh000688.csv",
+      "data/raw/indices-ths/sh000852.csv",
+      "data/raw/indices-ths/sh000905.csv",
+      "data/raw/indices-ths/sz399001.csv",
+      "data/raw/indices-ths/sz399006.csv",
+      "data/sector-trends.json"
+    ],
+    "unchanged": true,
+    "before": {
+      "data/index-signals.json": {
+        "sha256": "9fc17481d727a10c0ed31ee7d96f5df01ac8530cdbfcd759bd109f0ca62da067",
+        "mtime_ns": 1793957454541106000
+      },
+      "data/sector-trends.json": {
+        "sha256": "54baf872fa43fed7efcde66f8514a265833cdc21e3410ff5b9d3488ef349864e",
+        "mtime_ns": 1793957458851067200
+      },
+      "data/raw/indices-ths/sh000001.csv": {
+        "sha256": "03a61ae3304080025a4d06df0b3de23658d645b109a5c8b1bfbf2ae2702397a2",
+        "mtime_ns": 1793957418438951100
+      },
+      "data/raw/indices-ths/sh000300.csv": {
+        "sha256": "ced39105cbf81041ea39b7fd208d113c32fc135f0e81605b69bf86ac5f62442d",
+        "mtime_ns": 1793956826270126100
+      },
+      "data/raw/indices-ths/sh000688.csv": {
+        "sha256": "6c76b5292f85beba170009978594ea1784c4b51a2f174b24cf5d974c496a8f32",
+        "mtime_ns": 1793948487798945300
+      },
+      "data/raw/indices-ths/sh000852.csv": {
+        "sha256": "450f5ee447341188abf49bd5bdeb114e7d674b080d7025138b6080621bd69451",
+        "mtime_ns": 1793934887456789600
+      },
+      "data/raw/indices-ths/sh000905.csv": {
+        "sha256": "690815921ad0a3b526db778a67c2b960d0e0bce1d69c4ead674543b2daab3273",
+        "mtime_ns": 1793948489035111500
+      },
+      "data/raw/indices-ths/sz399001.csv": {
+        "sha256": "40525bbc1989c79c6f81ac457fe3e15d6bc5764625dafcdcccc61944ee917325",
+        "mtime_ns": 1793934884191079700
+      },
+      "data/raw/indices-ths/sz399006.csv": {
+        "sha256": "40718faa02b2e7a94cf14843ba3bbe55dbae6deb34e3aa3776d0c87a530aaa70",
+        "mtime_ns": 1793948484713293100
+      }
+    },
+    "after": {
+      "data/index-signals.json": {
+        "sha256": "9fc17481d727a10c0ed31ee7d96f5df01ac8530cdbfcd759bd109f0ca62da067",
+        "mtime_ns": 1793957454541106000
+      },
+      "data/sector-trends.json": {
+        "sha256": "54baf872fa43fed7efcde66f8514a265833cdc21e3410ff5b9d3488ef349864e",
+        "mtime_ns": 1793957458851067200
+      },
+      "data/raw/indices-ths/sh000001.csv": {
+        "sha256": "03a61ae3304080025a4d06df0b3de23658d645b109a5c8b1bfbf2ae2702397a2",
+        "mtime_ns": 1793957418438951100
+      },
+      "data/raw/indices-ths/sh000300.csv": {
+        "sha256": "ced39105cbf81041ea39b7fd208d113c32fc135f0e81605b69bf86ac5f62442d",
+        "mtime_ns": 1793956826270126100
+      },
+      "data/raw/indices-ths/sh000688.csv": {
+        "sha256": "6c76b5292f85beba170009978594ea1784c4b51a2f174b24cf5d974c496a8f32",
+        "mtime_ns": 1793948487798945300
+      },
+      "data/raw/indices-ths/sh000852.csv": {
+        "sha256": "450f5ee447341188abf49bd5bdeb114e7d674b080d7025138b6080621bd69451",
+        "mtime_ns": 1793934887456789600
+      },
+      "data/raw/indices-ths/sh000905.csv": {
+        "sha256": "690815921ad0a3b526db778a67c2b960d0e0bce1d69c4ead674543b2daab3273",
+        "mtime_ns": 1793948489035111500
+      },
+      "data/raw/indices-ths/sz399001.csv": {
+        "sha256": "40525bbc1989c79c6f81ac457fe3e15d6bc5764625dafcdcccc61944ee917325",
+        "mtime_ns": 1793934884191079700
+      },
+      "data/raw/indices-ths/sz399006.csv": {
+        "sha256": "40718faa02b2e7a94cf14843ba3bbe55dbae6deb34e3aa3776d0c87a530aaa70",
+        "mtime_ns": 1793948484713293100
+      }
+    }
+  }
+}
