@@ -1,24 +1,9 @@
-# Python
-.venv/
-__pycache__/
-*.pyc
-.pytest_cache/
-
-# 原始行情数据体积约 45MB，不入库；首次启动自动拉取
-data/raw/
-
-# 临时文件
-*.tmp
-
-# 前端
+# ===== 依赖（可重装，按用户要求不入库）=====
+node_modules/
 signal-hub-web/node_modules/
-signal-hub-web/dist/
+.venv/
 
-# 系统
-.DS_Store
-Thumbs.db
-
-# ===== 本地 AI / Agent 工具目录（含本机路径与状态，不入库，避免泄漏本机地址）=====
+# ===== 本地 AI / Agent / IDE 工具目录（含本机路径与状态，按用户要求不入库）=====
 .workbuddy-ai/
 .codebuddy/
 .qoder/
@@ -30,18 +15,4 @@ Thumbs.db
 .playwright-cli/
 .idea/
 
-# ===== 备份 / 临时 / 截图（非代码，不入库）=====
-.backup/
-.tmp-drill*/
-.tmp-drill2/
-.tmp-drill-etf/
-.screenshots/
-野人素材/
-
-# ===== 安装包（29MB 自包含 Python 安装器，非项目代码）=====
-初始化-1-安装Python.exe
-
-# ===== 杂项 =====
-*.bak
-*.log
-(3
+# 其余所有项目文件（含 data/raw、安装包、备份、临时、截图、dist 等）按用户要求全部入库

@@ -1,0 +1,447 @@
+{
+  "source": "东财行业板块",
+  "universe": [
+    {
+      "code": "BK0433",
+      "name": "农林牧渔"
+    },
+    {
+      "code": "BK1206",
+      "name": "基础化工"
+    },
+    {
+      "code": "BK0479",
+      "name": "钢铁"
+    },
+    {
+      "code": "BK0478",
+      "name": "有色金属"
+    },
+    {
+      "code": "BK1201",
+      "name": "电子"
+    },
+    {
+      "code": "BK1211",
+      "name": "汽车"
+    },
+    {
+      "code": "BK0456",
+      "name": "家用电器"
+    },
+    {
+      "code": "BK0438",
+      "name": "食品饮料"
+    },
+    {
+      "code": "BK0436",
+      "name": "纺织服饰"
+    },
+    {
+      "code": "BK1212",
+      "name": "轻工制造"
+    },
+    {
+      "code": "BK1216",
+      "name": "医药生物"
+    },
+    {
+      "code": "BK0427",
+      "name": "公用事业"
+    },
+    {
+      "code": "BK1210",
+      "name": "交通运输"
+    },
+    {
+      "code": "BK1202",
+      "name": "房地产"
+    },
+    {
+      "code": "BK1213",
+      "name": "商贸零售"
+    },
+    {
+      "code": "BK1214",
+      "name": "社会服务"
+    },
+    {
+      "code": "BK1283",
+      "name": "银行"
+    },
+    {
+      "code": "BK1203",
+      "name": "非银金融"
+    },
+    {
+      "code": "BK1217",
+      "name": "综合"
+    },
+    {
+      "code": "BK1208",
+      "name": "建筑材料"
+    },
+    {
+      "code": "BK1209",
+      "name": "建筑装饰"
+    },
+    {
+      "code": "BK1200",
+      "name": "电力设备"
+    },
+    {
+      "code": "BK1205",
+      "name": "机械设备"
+    },
+    {
+      "code": "BK1204",
+      "name": "国防军工"
+    },
+    {
+      "code": "BK1207",
+      "name": "计算机"
+    },
+    {
+      "code": "BK0486",
+      "name": "传媒"
+    },
+    {
+      "code": "BK1215",
+      "name": "通信"
+    },
+    {
+      "code": "BK0437",
+      "name": "煤炭"
+    },
+    {
+      "code": "BK0464",
+      "name": "石油石化"
+    },
+    {
+      "code": "BK0728",
+      "name": "环保"
+    },
+    {
+      "code": "BK1035",
+      "name": "美容护理"
+    }
+  ],
+  "universe_snapshot": {
+    "接口板块总数": 496,
+    "生产清单板块数": 31,
+    "未入列板块数": 465
+  },
+  "universe_changes": [],
+  "boards": [
+    {
+      "code": "BK0433",
+      "name": "农林牧渔",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0433.csv"
+    },
+    {
+      "code": "BK1206",
+      "name": "基础化工",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1206.csv"
+    },
+    {
+      "code": "BK0479",
+      "name": "钢铁",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0479.csv"
+    },
+    {
+      "code": "BK0478",
+      "name": "有色金属",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0478.csv"
+    },
+    {
+      "code": "BK1201",
+      "name": "电子",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1201.csv"
+    },
+    {
+      "code": "BK1211",
+      "name": "汽车",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1211.csv"
+    },
+    {
+      "code": "BK0456",
+      "name": "家用电器",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0456.csv"
+    },
+    {
+      "code": "BK0438",
+      "name": "食品饮料",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0438.csv"
+    },
+    {
+      "code": "BK0436",
+      "name": "纺织服饰",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0436.csv"
+    },
+    {
+      "code": "BK1212",
+      "name": "轻工制造",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1212.csv"
+    },
+    {
+      "code": "BK1216",
+      "name": "医药生物",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1216.csv"
+    },
+    {
+      "code": "BK0427",
+      "name": "公用事业",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0427.csv"
+    },
+    {
+      "code": "BK1210",
+      "name": "交通运输",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1210.csv"
+    },
+    {
+      "code": "BK1202",
+      "name": "房地产",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1202.csv"
+    },
+    {
+      "code": "BK1213",
+      "name": "商贸零售",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1213.csv"
+    },
+    {
+      "code": "BK1214",
+      "name": "社会服务",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1214.csv"
+    },
+    {
+      "code": "BK1283",
+      "name": "银行",
+      "source": "东财行业板块",
+      "rows": 4088,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1283.csv"
+    },
+    {
+      "code": "BK1203",
+      "name": "非银金融",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1203.csv"
+    },
+    {
+      "code": "BK1217",
+      "name": "综合",
+      "source": "东财行业板块",
+      "rows": 4088,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1217.csv"
+    },
+    {
+      "code": "BK1208",
+      "name": "建筑材料",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1208.csv"
+    },
+    {
+      "code": "BK1209",
+      "name": "建筑装饰",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1209.csv"
+    },
+    {
+      "code": "BK1200",
+      "name": "电力设备",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1200.csv"
+    },
+    {
+      "code": "BK1205",
+      "name": "机械设备",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1205.csv"
+    },
+    {
+      "code": "BK1204",
+      "name": "国防军工",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1204.csv"
+    },
+    {
+      "code": "BK1207",
+      "name": "计算机",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1207.csv"
+    },
+    {
+      "code": "BK0486",
+      "name": "传媒",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0486.csv"
+    },
+    {
+      "code": "BK1215",
+      "name": "通信",
+      "source": "东财行业板块",
+      "rows": 4089,
+      "start": "2010-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1215.csv"
+    },
+    {
+      "code": "BK0437",
+      "name": "煤炭",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0437.csv"
+    },
+    {
+      "code": "BK0464",
+      "name": "石油石化",
+      "source": "东财行业板块",
+      "rows": 6502,
+      "start": "2000-01-04",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0464.csv"
+    },
+    {
+      "code": "BK0728",
+      "name": "环保",
+      "source": "东财行业板块",
+      "rows": 2650,
+      "start": "2015-12-09",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK0728.csv"
+    },
+    {
+      "code": "BK1035",
+      "name": "美容护理",
+      "source": "东财行业板块",
+      "rows": 1381,
+      "start": "2021-02-26",
+      "end": "2026-11-06",
+      "insufficient_history": false,
+      "path": "data\\raw\\sectors-em-industry\\BK1035.csv"
+    }
+  ]
+}

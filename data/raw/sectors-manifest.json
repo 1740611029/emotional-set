@@ -1,0 +1,1460 @@
+[
+  {
+    "level": "first",
+    "code": "801010",
+    "name": "农林牧渔",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801010.csv"
+  },
+  {
+    "level": "first",
+    "code": "801030",
+    "name": "基础化工",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801030.csv"
+  },
+  {
+    "level": "first",
+    "code": "801040",
+    "name": "钢铁",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801040.csv"
+  },
+  {
+    "level": "first",
+    "code": "801050",
+    "name": "有色金属",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801050.csv"
+  },
+  {
+    "level": "first",
+    "code": "801080",
+    "name": "电子",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801080.csv"
+  },
+  {
+    "level": "first",
+    "code": "801880",
+    "name": "汽车",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801880.csv"
+  },
+  {
+    "level": "first",
+    "code": "801110",
+    "name": "家用电器",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801110.csv"
+  },
+  {
+    "level": "first",
+    "code": "801120",
+    "name": "食品饮料",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801120.csv"
+  },
+  {
+    "level": "first",
+    "code": "801130",
+    "name": "纺织服饰",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801130.csv"
+  },
+  {
+    "level": "first",
+    "code": "801140",
+    "name": "轻工制造",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801140.csv"
+  },
+  {
+    "level": "first",
+    "code": "801150",
+    "name": "医药生物",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801150.csv"
+  },
+  {
+    "level": "first",
+    "code": "801160",
+    "name": "公用事业",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801160.csv"
+  },
+  {
+    "level": "first",
+    "code": "801170",
+    "name": "交通运输",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801170.csv"
+  },
+  {
+    "level": "first",
+    "code": "801180",
+    "name": "房地产",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801180.csv"
+  },
+  {
+    "level": "first",
+    "code": "801200",
+    "name": "商贸零售",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801200.csv"
+  },
+  {
+    "level": "first",
+    "code": "801210",
+    "name": "社会服务",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801210.csv"
+  },
+  {
+    "level": "first",
+    "code": "801780",
+    "name": "银行",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801780.csv"
+  },
+  {
+    "level": "first",
+    "code": "801790",
+    "name": "非银金融",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801790.csv"
+  },
+  {
+    "level": "first",
+    "code": "801230",
+    "name": "综合",
+    "parent": null,
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801230.csv"
+  },
+  {
+    "level": "first",
+    "code": "801710",
+    "name": "建筑材料",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801710.csv"
+  },
+  {
+    "level": "first",
+    "code": "801720",
+    "name": "建筑装饰",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801720.csv"
+  },
+  {
+    "level": "first",
+    "code": "801730",
+    "name": "电力设备",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801730.csv"
+  },
+  {
+    "level": "first",
+    "code": "801890",
+    "name": "机械设备",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801890.csv"
+  },
+  {
+    "level": "first",
+    "code": "801740",
+    "name": "国防军工",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801740.csv"
+  },
+  {
+    "level": "first",
+    "code": "801750",
+    "name": "计算机",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801750.csv"
+  },
+  {
+    "level": "first",
+    "code": "801760",
+    "name": "传媒",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801760.csv"
+  },
+  {
+    "level": "first",
+    "code": "801770",
+    "name": "通信",
+    "parent": null,
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801770.csv"
+  },
+  {
+    "level": "first",
+    "code": "801950",
+    "name": "煤炭",
+    "parent": null,
+    "rows": 3077,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801950.csv"
+  },
+  {
+    "level": "first",
+    "code": "801960",
+    "name": "石油石化",
+    "parent": null,
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801960.csv"
+  },
+  {
+    "level": "first",
+    "code": "801970",
+    "name": "环保",
+    "parent": null,
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801970.csv"
+  },
+  {
+    "level": "first",
+    "code": "801980",
+    "name": "美容护理",
+    "parent": null,
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\first\\801980.csv"
+  },
+  {
+    "level": "second",
+    "code": "801016",
+    "name": "种植业",
+    "parent": "农林牧渔",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801016.csv"
+  },
+  {
+    "level": "second",
+    "code": "801015",
+    "name": "渔业",
+    "parent": "农林牧渔",
+    "rows": 6483,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801015.csv"
+  },
+  {
+    "level": "second",
+    "code": "801011",
+    "name": "林业Ⅱ",
+    "parent": "农林牧渔",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801011.csv"
+  },
+  {
+    "level": "second",
+    "code": "801014",
+    "name": "饲料",
+    "parent": "农林牧渔",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801014.csv"
+  },
+  {
+    "level": "second",
+    "code": "801012",
+    "name": "农产品加工",
+    "parent": "农林牧渔",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801012.csv"
+  },
+  {
+    "level": "second",
+    "code": "801017",
+    "name": "养殖业",
+    "parent": "农林牧渔",
+    "rows": 3642,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801017.csv"
+  },
+  {
+    "level": "second",
+    "code": "801018",
+    "name": "动物保健Ⅱ",
+    "parent": "农林牧渔",
+    "rows": 3642,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801018.csv"
+  },
+  {
+    "level": "second",
+    "code": "801019",
+    "name": "农业综合Ⅱ",
+    "parent": "农林牧渔",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801019.csv"
+  },
+  {
+    "level": "second",
+    "code": "801033",
+    "name": "化学原料",
+    "parent": "基础化工",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801033.csv"
+  },
+  {
+    "level": "second",
+    "code": "801034",
+    "name": "化学制品",
+    "parent": "基础化工",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801034.csv"
+  },
+  {
+    "level": "second",
+    "code": "801032",
+    "name": "化学纤维",
+    "parent": "基础化工",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801032.csv"
+  },
+  {
+    "level": "second",
+    "code": "801036",
+    "name": "塑料",
+    "parent": "基础化工",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801036.csv"
+  },
+  {
+    "level": "second",
+    "code": "801037",
+    "name": "橡胶",
+    "parent": "基础化工",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801037.csv"
+  },
+  {
+    "level": "second",
+    "code": "801038",
+    "name": "农化制品",
+    "parent": "基础化工",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801038.csv"
+  },
+  {
+    "level": "second",
+    "code": "801039",
+    "name": "非金属材料Ⅱ",
+    "parent": "基础化工",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801039.csv"
+  },
+  {
+    "level": "second",
+    "code": "801043",
+    "name": "冶钢原料",
+    "parent": "钢铁",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801043.csv"
+  },
+  {
+    "level": "second",
+    "code": "801044",
+    "name": "普钢",
+    "parent": "钢铁",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801044.csv"
+  },
+  {
+    "level": "second",
+    "code": "801045",
+    "name": "特钢Ⅱ",
+    "parent": "钢铁",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801045.csv"
+  },
+  {
+    "level": "second",
+    "code": "801051",
+    "name": "金属新材料",
+    "parent": "有色金属",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801051.csv"
+  },
+  {
+    "level": "second",
+    "code": "801055",
+    "name": "工业金属",
+    "parent": "有色金属",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801055.csv"
+  },
+  {
+    "level": "second",
+    "code": "801053",
+    "name": "贵金属",
+    "parent": "有色金属",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801053.csv"
+  },
+  {
+    "level": "second",
+    "code": "801054",
+    "name": "小金属",
+    "parent": "有色金属",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801054.csv"
+  },
+  {
+    "level": "second",
+    "code": "801056",
+    "name": "能源金属",
+    "parent": "有色金属",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801056.csv"
+  },
+  {
+    "level": "second",
+    "code": "801081",
+    "name": "半导体",
+    "parent": "电子",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801081.csv"
+  },
+  {
+    "level": "second",
+    "code": "801083",
+    "name": "元件",
+    "parent": "电子",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801083.csv"
+  },
+  {
+    "level": "second",
+    "code": "801084",
+    "name": "光学光电子",
+    "parent": "电子",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801084.csv"
+  },
+  {
+    "level": "second",
+    "code": "801082",
+    "name": "其他电子Ⅱ",
+    "parent": "电子",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801082.csv"
+  },
+  {
+    "level": "second",
+    "code": "801085",
+    "name": "消费电子",
+    "parent": "电子",
+    "rows": 3642,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801085.csv"
+  },
+  {
+    "level": "second",
+    "code": "801086",
+    "name": "电子化学品Ⅱ",
+    "parent": "电子",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801086.csv"
+  },
+  {
+    "level": "second",
+    "code": "801093",
+    "name": "汽车零部件",
+    "parent": "汽车",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801093.csv"
+  },
+  {
+    "level": "second",
+    "code": "801092",
+    "name": "汽车服务",
+    "parent": "汽车",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801092.csv"
+  },
+  {
+    "level": "second",
+    "code": "801881",
+    "name": "摩托车及其他",
+    "parent": "汽车",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801881.csv"
+  },
+  {
+    "level": "second",
+    "code": "801095",
+    "name": "乘用车",
+    "parent": "汽车",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801095.csv"
+  },
+  {
+    "level": "second",
+    "code": "801096",
+    "name": "商用车",
+    "parent": "汽车",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801096.csv"
+  },
+  {
+    "level": "second",
+    "code": "801111",
+    "name": "白色家电",
+    "parent": "家用电器",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801111.csv"
+  },
+  {
+    "level": "second",
+    "code": "801112",
+    "name": "黑色家电",
+    "parent": "家用电器",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801112.csv"
+  },
+  {
+    "level": "second",
+    "code": "801113",
+    "name": "小家电",
+    "parent": "家用电器",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801113.csv"
+  },
+  {
+    "level": "second",
+    "code": "801114",
+    "name": "厨卫电器",
+    "parent": "家用电器",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801114.csv"
+  },
+  {
+    "level": "second",
+    "code": "801115",
+    "name": "照明设备Ⅱ",
+    "parent": "家用电器",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801115.csv"
+  },
+  {
+    "level": "second",
+    "code": "801116",
+    "name": "家电零部件Ⅱ",
+    "parent": "家用电器",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801116.csv"
+  },
+  {
+    "level": "second",
+    "code": "801117",
+    "name": "其他家电Ⅱ",
+    "parent": "家用电器",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801117.csv"
+  },
+  {
+    "level": "second",
+    "code": "801124",
+    "name": "食品加工",
+    "parent": "食品饮料",
+    "rows": 3642,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801124.csv"
+  },
+  {
+    "level": "second",
+    "code": "801125",
+    "name": "白酒Ⅱ",
+    "parent": "食品饮料",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801125.csv"
+  },
+  {
+    "level": "second",
+    "code": "801126",
+    "name": "非白酒",
+    "parent": "食品饮料",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801126.csv"
+  },
+  {
+    "level": "second",
+    "code": "801127",
+    "name": "饮料乳品",
+    "parent": "食品饮料",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801127.csv"
+  },
+  {
+    "level": "second",
+    "code": "801128",
+    "name": "休闲食品",
+    "parent": "食品饮料",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801128.csv"
+  },
+  {
+    "level": "second",
+    "code": "801129",
+    "name": "调味发酵品Ⅱ",
+    "parent": "食品饮料",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801129.csv"
+  },
+  {
+    "level": "second",
+    "code": "801131",
+    "name": "纺织制造",
+    "parent": "纺织服饰",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801131.csv"
+  },
+  {
+    "level": "second",
+    "code": "801132",
+    "name": "服装家纺",
+    "parent": "纺织服饰",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801132.csv"
+  },
+  {
+    "level": "second",
+    "code": "801133",
+    "name": "饰品",
+    "parent": "纺织服饰",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801133.csv"
+  },
+  {
+    "level": "second",
+    "code": "801143",
+    "name": "造纸",
+    "parent": "轻工制造",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801143.csv"
+  },
+  {
+    "level": "second",
+    "code": "801141",
+    "name": "包装印刷",
+    "parent": "轻工制造",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801141.csv"
+  },
+  {
+    "level": "second",
+    "code": "801142",
+    "name": "家居用品",
+    "parent": "轻工制造",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801142.csv"
+  },
+  {
+    "level": "second",
+    "code": "801145",
+    "name": "文娱用品",
+    "parent": "轻工制造",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801145.csv"
+  },
+  {
+    "level": "second",
+    "code": "801151",
+    "name": "化学制药",
+    "parent": "医药生物",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801151.csv"
+  },
+  {
+    "level": "second",
+    "code": "801155",
+    "name": "中药Ⅱ",
+    "parent": "医药生物",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801155.csv"
+  },
+  {
+    "level": "second",
+    "code": "801152",
+    "name": "生物制品",
+    "parent": "医药生物",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801152.csv"
+  },
+  {
+    "level": "second",
+    "code": "801154",
+    "name": "医药商业",
+    "parent": "医药生物",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801154.csv"
+  },
+  {
+    "level": "second",
+    "code": "801153",
+    "name": "医疗器械",
+    "parent": "医药生物",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801153.csv"
+  },
+  {
+    "level": "second",
+    "code": "801156",
+    "name": "医疗服务",
+    "parent": "医药生物",
+    "rows": 4684,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801156.csv"
+  },
+  {
+    "level": "second",
+    "code": "801161",
+    "name": "电力",
+    "parent": "公用事业",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801161.csv"
+  },
+  {
+    "level": "second",
+    "code": "801163",
+    "name": "燃气Ⅱ",
+    "parent": "公用事业",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801163.csv"
+  },
+  {
+    "level": "second",
+    "code": "801178",
+    "name": "物流",
+    "parent": "交通运输",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801178.csv"
+  },
+  {
+    "level": "second",
+    "code": "801179",
+    "name": "铁路公路",
+    "parent": "交通运输",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801179.csv"
+  },
+  {
+    "level": "second",
+    "code": "801991",
+    "name": "航空机场",
+    "parent": "交通运输",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801991.csv"
+  },
+  {
+    "level": "second",
+    "code": "801992",
+    "name": "航运港口",
+    "parent": "交通运输",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801992.csv"
+  },
+  {
+    "level": "second",
+    "code": "801181",
+    "name": "房地产开发",
+    "parent": "房地产",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801181.csv"
+  },
+  {
+    "level": "second",
+    "code": "801183",
+    "name": "房地产服务",
+    "parent": "房地产",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801183.csv"
+  },
+  {
+    "level": "second",
+    "code": "801202",
+    "name": "贸易Ⅱ",
+    "parent": "商贸零售",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801202.csv"
+  },
+  {
+    "level": "second",
+    "code": "801203",
+    "name": "一般零售",
+    "parent": "商贸零售",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801203.csv"
+  },
+  {
+    "level": "second",
+    "code": "801204",
+    "name": "专业连锁Ⅱ",
+    "parent": "商贸零售",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801204.csv"
+  },
+  {
+    "level": "second",
+    "code": "801206",
+    "name": "互联网电商",
+    "parent": "商贸零售",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801206.csv"
+  },
+  {
+    "level": "second",
+    "code": "801207",
+    "name": "旅游零售Ⅱ",
+    "parent": "商贸零售",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801207.csv"
+  },
+  {
+    "level": "second",
+    "code": "801216",
+    "name": "体育Ⅱ",
+    "parent": "社会服务",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801216.csv"
+  },
+  {
+    "level": "second",
+    "code": "801218",
+    "name": "专业服务",
+    "parent": "社会服务",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801218.csv"
+  },
+  {
+    "level": "second",
+    "code": "801219",
+    "name": "酒店餐饮",
+    "parent": "社会服务",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801219.csv"
+  },
+  {
+    "level": "second",
+    "code": "801993",
+    "name": "旅游及景区",
+    "parent": "社会服务",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801993.csv"
+  },
+  {
+    "level": "second",
+    "code": "801994",
+    "name": "教育",
+    "parent": "社会服务",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801994.csv"
+  },
+  {
+    "level": "second",
+    "code": "801782",
+    "name": "国有大型银行Ⅱ",
+    "parent": "银行",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801782.csv"
+  },
+  {
+    "level": "second",
+    "code": "801783",
+    "name": "股份制银行Ⅱ",
+    "parent": "银行",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801783.csv"
+  },
+  {
+    "level": "second",
+    "code": "801784",
+    "name": "城商行Ⅱ",
+    "parent": "银行",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801784.csv"
+  },
+  {
+    "level": "second",
+    "code": "801785",
+    "name": "农商行Ⅱ",
+    "parent": "银行",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801785.csv"
+  },
+  {
+    "level": "second",
+    "code": "801193",
+    "name": "证券Ⅱ",
+    "parent": "非银金融",
+    "rows": 4578,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801193.csv"
+  },
+  {
+    "level": "second",
+    "code": "801194",
+    "name": "保险Ⅱ",
+    "parent": "非银金融",
+    "rows": 4791,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801194.csv"
+  },
+  {
+    "level": "second",
+    "code": "801191",
+    "name": "多元金融",
+    "parent": "非银金融",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801191.csv"
+  },
+  {
+    "level": "second",
+    "code": "801231",
+    "name": "综合Ⅱ",
+    "parent": "综合",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801231.csv"
+  },
+  {
+    "level": "second",
+    "code": "801711",
+    "name": "水泥",
+    "parent": "建筑材料",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801711.csv"
+  },
+  {
+    "level": "second",
+    "code": "801712",
+    "name": "玻璃玻纤",
+    "parent": "建筑材料",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801712.csv"
+  },
+  {
+    "level": "second",
+    "code": "801713",
+    "name": "装修建材",
+    "parent": "建筑材料",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801713.csv"
+  },
+  {
+    "level": "second",
+    "code": "801721",
+    "name": "房屋建设Ⅱ",
+    "parent": "建筑装饰",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801721.csv"
+  },
+  {
+    "level": "second",
+    "code": "801722",
+    "name": "装修装饰Ⅱ",
+    "parent": "建筑装饰",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801722.csv"
+  },
+  {
+    "level": "second",
+    "code": "801723",
+    "name": "基础建设",
+    "parent": "建筑装饰",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801723.csv"
+  },
+  {
+    "level": "second",
+    "code": "801724",
+    "name": "专业工程",
+    "parent": "建筑装饰",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801724.csv"
+  },
+  {
+    "level": "second",
+    "code": "801726",
+    "name": "工程咨询服务Ⅱ",
+    "parent": "建筑装饰",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801726.csv"
+  },
+  {
+    "level": "second",
+    "code": "801731",
+    "name": "电机Ⅱ",
+    "parent": "电力设备",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801731.csv"
+  },
+  {
+    "level": "second",
+    "code": "801733",
+    "name": "其他电源设备Ⅱ",
+    "parent": "电力设备",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801733.csv"
+  },
+  {
+    "level": "second",
+    "code": "801735",
+    "name": "光伏设备",
+    "parent": "电力设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801735.csv"
+  },
+  {
+    "level": "second",
+    "code": "801736",
+    "name": "风电设备",
+    "parent": "电力设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801736.csv"
+  },
+  {
+    "level": "second",
+    "code": "801737",
+    "name": "电池",
+    "parent": "电力设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801737.csv"
+  },
+  {
+    "level": "second",
+    "code": "801738",
+    "name": "电网设备",
+    "parent": "电力设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801738.csv"
+  },
+  {
+    "level": "second",
+    "code": "801072",
+    "name": "通用设备",
+    "parent": "机械设备",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801072.csv"
+  },
+  {
+    "level": "second",
+    "code": "801074",
+    "name": "专用设备",
+    "parent": "机械设备",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801074.csv"
+  },
+  {
+    "level": "second",
+    "code": "801076",
+    "name": "轨交设备Ⅱ",
+    "parent": "机械设备",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801076.csv"
+  },
+  {
+    "level": "second",
+    "code": "801077",
+    "name": "工程机械",
+    "parent": "机械设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801077.csv"
+  },
+  {
+    "level": "second",
+    "code": "801078",
+    "name": "自动化设备",
+    "parent": "机械设备",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801078.csv"
+  },
+  {
+    "level": "second",
+    "code": "801741",
+    "name": "航天装备Ⅱ",
+    "parent": "国防军工",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801741.csv"
+  },
+  {
+    "level": "second",
+    "code": "801742",
+    "name": "航空装备Ⅱ",
+    "parent": "国防军工",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801742.csv"
+  },
+  {
+    "level": "second",
+    "code": "801743",
+    "name": "地面兵装Ⅱ",
+    "parent": "国防军工",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801743.csv"
+  },
+  {
+    "level": "second",
+    "code": "801744",
+    "name": "航海装备Ⅱ",
+    "parent": "国防军工",
+    "rows": 3070,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801744.csv"
+  },
+  {
+    "level": "second",
+    "code": "801745",
+    "name": "军工电子Ⅱ",
+    "parent": "国防军工",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801745.csv"
+  },
+  {
+    "level": "second",
+    "code": "801101",
+    "name": "计算机设备",
+    "parent": "计算机",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801101.csv"
+  },
+  {
+    "level": "second",
+    "code": "801103",
+    "name": "IT服务Ⅱ",
+    "parent": "计算机",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801103.csv"
+  },
+  {
+    "level": "second",
+    "code": "801104",
+    "name": "软件开发",
+    "parent": "计算机",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801104.csv"
+  },
+  {
+    "level": "second",
+    "code": "801764",
+    "name": "游戏Ⅱ",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801764.csv"
+  },
+  {
+    "level": "second",
+    "code": "801765",
+    "name": "广告营销",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801765.csv"
+  },
+  {
+    "level": "second",
+    "code": "801766",
+    "name": "影视院线",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801766.csv"
+  },
+  {
+    "level": "second",
+    "code": "801767",
+    "name": "数字媒体",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801767.csv"
+  },
+  {
+    "level": "second",
+    "code": "801769",
+    "name": "出版",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801769.csv"
+  },
+  {
+    "level": "second",
+    "code": "801995",
+    "name": "电视广播Ⅱ",
+    "parent": "传媒",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801995.csv"
+  },
+  {
+    "level": "second",
+    "code": "801223",
+    "name": "通信服务",
+    "parent": "通信",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801223.csv"
+  },
+  {
+    "level": "second",
+    "code": "801102",
+    "name": "通信设备",
+    "parent": "通信",
+    "rows": 6484,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801102.csv"
+  },
+  {
+    "level": "second",
+    "code": "801951",
+    "name": "煤炭开采",
+    "parent": "煤炭",
+    "rows": 1886,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801951.csv"
+  },
+  {
+    "level": "second",
+    "code": "801952",
+    "name": "焦炭Ⅱ",
+    "parent": "煤炭",
+    "rows": 6500,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801952.csv"
+  },
+  {
+    "level": "second",
+    "code": "801961",
+    "name": "油气开采Ⅱ",
+    "parent": "石油石化",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801961.csv"
+  },
+  {
+    "level": "second",
+    "code": "801962",
+    "name": "油服工程",
+    "parent": "石油石化",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801962.csv"
+  },
+  {
+    "level": "second",
+    "code": "801963",
+    "name": "炼化及贸易",
+    "parent": "石油石化",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801963.csv"
+  },
+  {
+    "level": "second",
+    "code": "801971",
+    "name": "环境治理",
+    "parent": "环保",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801971.csv"
+  },
+  {
+    "level": "second",
+    "code": "801972",
+    "name": "环保设备Ⅱ",
+    "parent": "环保",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801972.csv"
+  },
+  {
+    "level": "second",
+    "code": "801981",
+    "name": "个护用品",
+    "parent": "美容护理",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801981.csv"
+  },
+  {
+    "level": "second",
+    "code": "801982",
+    "name": "化妆品",
+    "parent": "美容护理",
+    "rows": 1176,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801982.csv"
+  },
+  {
+    "level": "second",
+    "code": "801983",
+    "name": "医疗美容",
+    "parent": "美容护理",
+    "rows": 171,
+    "insufficient_history": false,
+    "path": "data\\raw\\sectors\\second\\801983.csv"
+  }
+]

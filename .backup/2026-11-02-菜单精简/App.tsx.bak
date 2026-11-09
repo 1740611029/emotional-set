@@ -1,0 +1,40 @@
+import { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Sidebar } from './components/Sidebar';
+import { TopBar } from './components/TopBar';
+import { MarketDataProvider } from './data/MarketDataProvider';
+import { Dashboard } from './pages/Dashboard';
+import { MaCross } from './pages/MaCross';
+import { Indices } from './pages/Indices';
+import { IndicatorPlaceholder } from './pages/IndicatorPlaceholder';
+
+/** 板块页含图表库，按路由懒加载以控制首屏体积 */
+const Sectors = lazy(() => import('./pages/Sectors').then((module) => ({ default: module.Sectors })));
+
+export default function App() {
+  return (
+    <MarketDataProvider>
+      <BrowserRouter>
+        <div className="flex h-screen overflow-hidden">
+          <Sidebar />
+          <main className="flex-1 overflow-y-auto">
+            <TopBar />
+            <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/indicators/ma-cross" element={<MaCross />} />
+                <Route path="/indicators/momentum" element={<IndicatorPlaceholder indicatorKey="momentum" />} />
+                <Route path="/indicators/bollinger" element={<IndicatorPlaceholder indicatorKey="bollinger" />} />
+                <Route path="/indicators/volume" element={<IndicatorPlaceholder indicatorKey="volume" />} />
+                <Route path="/indicators/drawdown" element={<IndicatorPlaceholder indicatorKey="drawdown" />} />
+                <Route path="/indicators/composite" element={<IndicatorPlaceholder indicatorKey="composite" />} />
+                <Route path="/indices" element={<Indices />} />
+                <Route path="/sectors" element={<Sectors />} />
+              </Routes>
+            </Suspense>
+          </main>
+        </div>
+      </BrowserRouter>
+    </MarketDataProvider>
+  );
+}
