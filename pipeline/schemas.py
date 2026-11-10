@@ -47,7 +47,7 @@ SIGNAL = {
             "type": "object",
             "required": ["date", "offset", "price", "momentum", "volume", "passed", "close"],
             "properties": {
-                "date": DATE, "offset": {"type": "integer", "minimum": 1, "maximum": 3},
+                "date": DATE, "offset": {"type": "integer", "minimum": 0, "maximum": 3},
                 "price": {"type": "boolean"}, "momentum": {"type": "boolean"},
                 "volume": {"type": "boolean"}, "passed": {"type": "integer", "minimum": 0, "maximum": 3},
                 "close": NUMBER, "candidate_reference": NUMBER,
@@ -105,9 +105,10 @@ INDEX_EVALUATION = {
     "required": ["algorithm_version", "research_status", "rate_unit", "boundary_policy", "note",
                  "confirmation_date_note", "drawdown_note", "segments"],
     "properties": {
-        # 必须与 confirmed_index_signals.ALGORITHM_VERSION 的两种取值之一保持一致
+        # 必须与 confirmed_index_signals.ALGORITHM_VERSION 的取值之一保持一致
         "algorithm_version": {"enum": ["index-swing6-v2.0",
-                                       "index-mf4-participation-v1.1-confirmed"]},
+                                       "index-mf4-participation-v1.1-confirmed",
+                                       "index-bigwave-bottom-v1.0"]},
         "research_status": {"const": "post_hoc_exploratory_not_independent"},
         "rate_unit": {"const": "fraction"},
         "boundary_policy": {"const": "strict_segment_end_inclusive"},
@@ -204,6 +205,18 @@ PRECISION_BLOCK = {
     },
 }
 
+# 情绪底背景带：超卖 + 宽度冰点的连续区间（前端浅色底纹用）
+BOTTOM_ZONE = {
+    "type": "object",
+    "required": ["start_date", "end_date", "days", "has_divergence"],
+    "properties": {
+        "start_date": DATE, "end_date": DATE,
+        "days": {"type": "integer", "minimum": 1},
+        "has_divergence": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
+
 INDEX_SCHEMA = {
     # precision 为可选顶层块：旧版产物（回滚目标）不带该字段时仍须通过校验；
     # 一旦存在，7 个指数的矩阵与全部矩阵格字段 MUST 完整（见 validate_precision）。
@@ -215,6 +228,7 @@ INDEX_SCHEMA = {
             "type": "object", "required": ["code", "name", "latest", "change_pct", "current_signal", "history", "signals", "accuracy"],
             "properties": {
                 "precision_matrix": PRECISION_MATRIX,
+                "bottom_zones": {"type": "array", "items": BOTTOM_ZONE},
                 "code": {"type": "string"}, "name": {"type": "string"}, "latest": NUMBER, "change_pct": NUMBER,
                 "current_signal": {"type": "object", "required": ["type", "date"],
                                    "properties": {"type": {"enum": ["bottom", "top", "none"]}, "date": {**DATE, "type": ["string", "null"]}}},

@@ -136,6 +136,14 @@ export interface EtfVolumeSeries {
   l3_dates: string[];
 }
 
+/** 情绪底背景带：超卖 + 宽度冰点的连续区间（浅色底纹，非信号点） */
+export interface BottomZone {
+  start_date: string;
+  end_date: string;
+  days: number;
+  has_divergence: boolean;
+}
+
 export interface IndexItem {
   code: string;
   name: string;
@@ -149,6 +157,8 @@ export interface IndexItem {
   candidates: Candidate[];
   provisional: boolean;
   precision_matrix?: PrecisionMatrix;
+  /** 情绪底背景带区间；旧版产物可能缺失 */
+  bottom_zones?: BottomZone[];
   open?: number;
   high?: number;
   low?: number;

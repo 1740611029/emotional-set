@@ -9,6 +9,7 @@ import pandas as pd
 
 from candidate_state import candidate_records
 from confirmed_index_signals import ACTIVE_ALGORITHM, build_index_result
+from bigwave_bottom_engine import bottom_zones
 from confirmed_sector_trends import (
     ALGORITHM_VERSION,
     HISTORY_DAYS,
@@ -89,67 +90,15 @@ def build_indices() -> dict:
     pending = []
     ends = []
     breadth = load_breadth()
-    research, decision, frozen = load_precision_research()
-    # R3 范围界定：生产信号仍为 index-swing6-v2.0，页面矩阵用「现行信号按新口径重评」，
-    # 使图卡上的信号条数与矩阵触发次数一致；新算法矩阵作为研究对照另行保留。
-    legacy_matrices = research["legacy_algorithm_re_evaluated"]
-    if set(legacy_matrices) != set(INDEXES):
-        raise ValueError("研究矩阵的标的清单与固化 7 指数不一致")
-
-    anchor_fields = (
-        "date", "type", "price", "pivot_date", "pivot_price",
-        "natural_confirm_date", "natural_confirm_offset",
-        "signal_confirm_offset_from_pivot", "signal_confirm_offset_from_natural",
-        "confirmation",
-    )
-    pivot_anchors = {
-        code: [{key: signal[key] for key in anchor_fields if key in signal}
-               for signal in research["new_algorithm"]["signals"].get(code, [])]
-        for code in INDEXES
-    }
-    dropped_sample = [
-        record for code in INDEXES
-        for record in research["new_algorithm"]["dropped_candidates"].get(code, [])
-    ][:20]
-    precision = {
-        "algorithm_version": frozen["algorithm_version"],
-        "signal_algorithm_version": frozen["legacy_algorithm_version"],
-        "research_status": "post_hoc_exploratory_not_independent",
-        "covered_universe": list(INDEXES),
-        "universe_size": len(INDEXES),
-        "segments": research["segments"],
-        "horizons": list(research["horizons"]),
-        "criteria_note": (
-            "方向正确率：信号后固定持有期期末方向正确，且 20 个交易日内盘中最大浮亏未超过 5%；"
-            "有效幅度率：在方向正确之外，涨跌幅还须达到该指数该持有期的冻结幅度线。"
-            "持有期未走完的算未决，不计入分母但数量可见。"
-            "方向准确率是统计描述，不代表交易收益率，也不构成任何买卖建议。"
-        ),
-        "legacy_rate_note": (
-            "历史基线：旧聚合 rate 使用「信号后任意时点首次均线反转」口径，无持有期上限、"
-            "无浮亏约束、未决剔除分母，与新的多持有期矩阵口径不可直接比较"
-        ),
-        "effective_amplitude_lines": frozen["effective_amplitude"]["lines"],
-        "decision": decision["decision"],
-        "pivot_anchors": pivot_anchors,
-        "comparison": {
-            "new_algorithm_signal_count": sum(
-                len(items) for items in research["new_algorithm"]["signals"].values()),
-            "legacy_algorithm_signal_count": sum(
-                len(items) for items in research["legacy_signals"].values()),
-            "validation_20d_new_algorithm": decision["support"]["validation_20d_new_algorithm"],
-            "validation_20d_legacy_algorithm": decision["support"]["validation_20d_legacy_algorithm"],
-            "legacy_ma_reversal_baseline": decision["support"]["legacy_ma_reversal_baseline"],
-            "dropped_candidate_sample": dropped_sample,
-            "note": "两种口径不可直接比较；生产信号记录保持 index-swing6-v2.0 不变",
-        },
-    }
+    # 生产信号：bigwave（大波段底部，顶部暂时关闭）。旧 swing/legacy 仍可经 ACTIVE_ALGORITHM 回滚。
+    # 旧的 precision 多持有期矩阵基于原 swing 信号，与新底部信号口径不一致，本次不再输出，
+    # 前端对 precision 缺失已做兼容（不展示矩阵入口）。
     for code, name in INDEXES.items():
         frame = read_index_csv(INDEX_RAW / f"{code}.csv")
         if len(frame) < 1250:
             raise ValueError(f"{code} 历史不足 1250 个交易日")
-        result = build_index_result(frame, breadth)
-        # 只读旁路：候选与三层状态，不参与上面的信号计算；旧算法无三层确认候选
+        result = build_index_result(frame, breadth, code)
+        # 只读旁路：候选与三层状态，不参与上面的信号计算；bigwave 无候选
         candidates = candidate_records(frame, breadth) if ACTIVE_ALGORITHM == "swing" else []
         drawdown_lookup = {
             (event["date"], event["type"]): event.get("max_drawdown_20")
@@ -168,7 +117,8 @@ def build_indices() -> dict:
             "history": history, "signals": result["signals"],
             "evaluation": result["evaluation"], "accuracy": result["accuracy"],
             "candidates": candidates,
-            "precision_matrix": compact_matrix(legacy_matrices[code]),
+            # 情绪底背景带：超卖 + 宽度冰点的连续区间，前端画浅色底纹用
+            "bottom_zones": bottom_zones(frame, breadth),
         })
         recent.extend({
             "date": signal["date"], "code": code, "name": name,
@@ -181,7 +131,7 @@ def build_indices() -> dict:
     recent.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
     pending.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
     return {"as_of": min(ends), "is_mock": False, "indices": indices,
-            "recent_signals": recent, "candidates": pending, "precision": precision}
+            "recent_signals": recent, "candidates": pending}
 
 
 def build_sectors() -> dict:

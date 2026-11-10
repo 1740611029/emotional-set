@@ -138,19 +138,21 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* 多持有期准确率矩阵：默认仅保留入口按钮，完整 8 格矩阵与说明在弹窗中查看 */}
-      <div className="mb-8 flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={() => setShowMatrix(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-500 text-white text-sm font-medium shadow-sm hover:bg-brand-600 transition-colors"
-        >
-          <span aria-hidden>📊</span> 多持有期准确率详情
-        </button>
-        <span className="text-xs text-slate-400">
-          按 5 / 10 / 20 / 30 日分别统计，含方向正确率、有效幅度率、Wilson 区间与浮亏约束；点击展开完整矩阵
-        </span>
-      </div>
+      {/* 多持有期准确率矩阵：旧矩阵基于原 swing 信号，新底部信号不再产出该块，缺失时不显示入口 */}
+      {snapshot.precision && (
+        <div className="mb-8 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setShowMatrix(true)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-500 text-white text-sm font-medium shadow-sm hover:bg-brand-600 transition-colors"
+          >
+            <span aria-hidden>📊</span> 多持有期准确率详情
+          </button>
+          <span className="text-xs text-slate-400">
+            按 5 / 10 / 20 / 30 日分别统计，含方向正确率、有效幅度率、Wilson 区间与浮亏约束；点击展开完整矩阵
+          </span>
+        </div>
+      )}
 
       {/* 指数走势与信号 */}
       <section className="mb-8 fade-in" style={{ animationDelay: '0.2s' }}>
@@ -202,11 +204,9 @@ export function Dashboard() {
           <h3 className="text-lg font-bold text-slate-800">最新信号状态</h3>
           <div className="flex gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1">
-              <span className="signal-dot confirm"></span>底部（买入）
+              <span className="signal-dot confirm"></span>大波段底部信号
             </span>
-            <span className="flex items-center gap-1">
-              <span className="signal-dot pending"></span>顶部（卖出）
-            </span>
+            <span className="text-slate-400">顶部信号与研究阶段，暂未输出</span>
           </div>
         </div>
         <SignalTable

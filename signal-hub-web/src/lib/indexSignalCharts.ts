@@ -1,5 +1,5 @@
 import type {
-  Candidate, CandidateLayers, PrecisionPivotAnchor, Signal, SignalKind,
+  BottomZone, Candidate, CandidateLayers, PrecisionPivotAnchor, Signal, SignalKind,
 } from '../data/types';
 
 export type IndexChartRangeKey = '1m' | '3m' | '6m' | '1y' | '2y' | '3y' | 'all';
@@ -118,6 +118,8 @@ export interface IndexSignalChartPalette {
   pivot: string;
   /** 拐点自然确认日用品牌绿 */
   natural: string;
+  /** 情绪底背景带填充（浅色半透明） */
+  zoneFill: string;
 }
 
 export const DEFAULT_INDEX_SIGNAL_CHART_PALETTE: IndexSignalChartPalette = {
@@ -128,6 +130,7 @@ export const DEFAULT_INDEX_SIGNAL_CHART_PALETTE: IndexSignalChartPalette = {
   grid: '#f1f5f9',
   pivot: '#7dd3fc',
   natural: '#3a9a6a',
+  zoneFill: 'rgba(58,154,106,0.10)',
 };
 
 export interface ChartMarkerDatum {
@@ -192,6 +195,11 @@ export interface BuiltIndexSignalChartOption {
         symbol: 'circle';
         data: ChartMarkerDatum[];
       };
+      markArea: {
+        silent: boolean;
+        itemStyle: { color: string };
+        data: { xAxis: string }[][];
+      };
     },
   ];
 }
@@ -203,6 +211,7 @@ export function buildIndexSignalChartOption(
   provisional = false,
   palette: IndexSignalChartPalette = DEFAULT_INDEX_SIGNAL_CHART_PALETTE,
   pivotAnchors: PrecisionPivotAnchor[] = [],
+  zones: BottomZone[] = [],
 ): BuiltIndexSignalChartOption {
   const markerData: ChartMarkerDatum[] = markers.map((marker) => {
     const color = marker.direction === 'bottom' ? palette.bottom : palette.top;
@@ -275,6 +284,17 @@ export function buildIndexSignalChartOption(
     ...pivotDetails(date),
   ];
 
+  const firstDay = dates[0];
+  const lastDay = dates[dates.length - 1];
+  const zoneAreas = (firstDay && lastDay)
+    ? zones
+        .filter((zone) => zone.end_date >= firstDay && zone.start_date <= lastDay)
+        .map((zone) => ([
+          { xAxis: zone.start_date < firstDay ? firstDay : zone.start_date },
+          { xAxis: zone.end_date > lastDay ? lastDay : zone.end_date },
+        ]))
+    : [];
+
   return {
     animation: false,
     grid: { left: 8, right: 16, top: 18, bottom: 8, containLabel: true },
@@ -336,6 +356,11 @@ export function buildIndexSignalChartOption(
         markPoint: {
           symbol: 'circle',
           data: markerData,
+        },
+        markArea: {
+          silent: true,
+          itemStyle: { color: palette.zoneFill },
+          data: zoneAreas,
         },
       },
     ],

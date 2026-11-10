@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-06",
-  "generated_at": "2026-11-09T13:49:27",
+  "generated_at": "2026-11-10T08:53:39",
   "algorithm_version": "etf-volume-spike-v1.2",
   "threshold_amount": 10000000000.0,
   "cluster_gap_days": 2,

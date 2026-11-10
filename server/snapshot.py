@@ -21,6 +21,7 @@ from confirmed_index_signals import (  # noqa: E402
 )
 from research_algorithms import read_index_csv, read_sector_csv  # noqa: E402
 from swing_indicators import breadth_table  # noqa: E402
+from bigwave_bottom_engine import bottom_zones  # noqa: E402
 from trading_calendar import lag_trading_days, last_completed_trading_day  # noqa: E402
 
 CN = ZoneInfo("Asia/Shanghai")
@@ -232,15 +233,19 @@ def breadth_frame() -> pd.DataFrame | None:
 def build_live_index(frame: pd.DataFrame, quote: dict, name: str,
                      breadth: pd.DataFrame | None = None) -> dict:
     merged = _merged_frame(frame, quote)
-    if ACTIVE_ALGORITHM == "swing":
+    code = quote["code"]
+    if ACTIVE_ALGORITHM == "bigwave":
+        records = detail_records(merged, signal_details(merged, breadth, code))
+        candidates = []
+    elif ACTIVE_ALGORITHM == "swing":
         records = detail_records(merged, signal_details(merged, breadth))
         candidates = candidate_records(merged, breadth)
     else:
-        records = signal_records(merged, confirmed_signals(merged, breadth))
+        records = signal_records(merged, confirmed_signals(merged, breadth, code))
         candidates = []
 
     # 准确率只基于真实日线计算：盘中临时信号不进入统计
-    daily_signals = confirmed_signals(frame, breadth)
+    daily_signals = confirmed_signals(frame, breadth, code)
     evaluation = evaluate_signals(frame, daily_signals)
     accuracy = legacy_accuracy(evaluation)
 
@@ -260,6 +265,7 @@ def build_live_index(frame: pd.DataFrame, quote: dict, name: str,
         "evaluation": evaluation,
         "accuracy": accuracy,
         "candidates": candidates,
+        "bottom_zones": bottom_zones(merged, breadth),
         "provisional": True,
     }
 

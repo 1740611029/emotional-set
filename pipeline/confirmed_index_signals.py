@@ -14,11 +14,18 @@ from multifactor_research import confirmed_multifactor_signals
 from research_algorithms import RESEARCH_END, RESEARCH_START, ma_reversal_masks, wilson_interval
 from swing_signal_engine import ALGORITHM_VERSION as SWING_ALGORITHM_VERSION
 from swing_signal_engine import swing_details, swing_signals
+from bigwave_bottom_engine import ALGORITHM_VERSION as BIGWAVE_ALGORITHM_VERSION
+from bigwave_bottom_engine import bottom_details as bigwave_bottom_details
 
 LEGACY_ALGORITHM_VERSION = "index-mf4-participation-v1.1-confirmed"
-# 生产算法开关：改这一行即可在新旧算法之间切换，两套实现都保留。
-ACTIVE_ALGORITHM = "swing"
-ALGORITHM_VERSION = SWING_ALGORITHM_VERSION if ACTIVE_ALGORITHM == "swing" else LEGACY_ALGORITHM_VERSION
+# 生产算法开关：bigwave=大波段底部（顶部关闭）｜swing=六因子波段（回滚用）｜legacy=四因子。
+ACTIVE_ALGORITHM = "bigwave"
+_ALGORITHM_VERSIONS = {
+    "bigwave": BIGWAVE_ALGORITHM_VERSION,
+    "swing": SWING_ALGORITHM_VERSION,
+    "legacy": LEGACY_ALGORITHM_VERSION,
+}
+ALGORITHM_VERSION = _ALGORITHM_VERSIONS[ACTIVE_ALGORITHM]
 RESEARCH_STATUS = "post_hoc_exploratory_not_independent"
 SMALL_SAMPLE_NOTE = "样本量较小，仅供参考"
 KINDS = ("bottom", "top")
@@ -51,15 +58,29 @@ def validate_history(frame: pd.DataFrame) -> None:
         raise ValueError("OHLC 高低价关系异常")
 
 
-def confirmed_signals(frame: pd.DataFrame, breadth: pd.DataFrame | None = None) -> pd.Series:
-    """按 ACTIVE_ALGORITHM 输出生产信号；默认旧四因子确认算法。"""
+def confirmed_signals(frame: pd.DataFrame, breadth: pd.DataFrame | None = None,
+                      code: str | None = None) -> pd.Series:
+    """按 ACTIVE_ALGORITHM 输出生产信号；当前为 bigwave（大波段底部，顶部关闭）。"""
     validate_history(frame)
+    if ACTIVE_ALGORITHM == "bigwave":
+        return bigwave_signals(frame, breadth, code)
     if ACTIVE_ALGORITHM == "swing":
         return swing_signals(frame, breadth)
     return confirmed_multifactor_signals(
         frame, 4, trigger_mode="original", participation_mode="and",
         confirmation_window=3,
     )
+
+
+def bigwave_signals(frame: pd.DataFrame, breadth: pd.DataFrame | None = None,
+                    code: str | None = None) -> pd.Series:
+    """大波段底部引擎入口（只产出 bottom）；保留给服务端盘中复用。"""
+    validate_history(frame)
+    signals = pd.Series("", index=frame.index, dtype="string")
+    lookup = {day.strftime("%Y-%m-%d"): position for position, day in enumerate(frame["date"])}
+    for record in bigwave_bottom_details(frame, breadth, code):
+        signals.iat[lookup[record["date"]]] = "bottom"
+    return signals
 
 
 def swing_confirmed_signals(frame: pd.DataFrame, breadth: pd.DataFrame | None = None) -> pd.Series:
@@ -77,8 +98,11 @@ def legacy_confirmed_signals(frame: pd.DataFrame) -> pd.Series:
     )
 
 
-def signal_details(frame: pd.DataFrame, breadth: pd.DataFrame | None = None) -> list[dict]:
+def signal_details(frame: pd.DataFrame, breadth: pd.DataFrame | None = None,
+                   code: str | None = None) -> list[dict]:
     validate_history(frame)
+    if ACTIVE_ALGORITHM == "bigwave":
+        return bigwave_bottom_details(frame, breadth, code)
     return swing_details(frame, breadth)
 
 
@@ -311,8 +335,18 @@ def legacy_accuracy(evaluation: dict) -> dict:
     return result
 
 
-def build_index_result(frame: pd.DataFrame, breadth: pd.DataFrame | None = None) -> dict:
-    if ACTIVE_ALGORITHM == "swing":
+def build_index_result(frame: pd.DataFrame, breadth: pd.DataFrame | None = None,
+                       code: str | None = None) -> dict:
+    if ACTIVE_ALGORITHM == "bigwave":
+        details = signal_details(frame, breadth, code)
+        signals = pd.Series("", index=frame.index, dtype="string")
+        lookup = {row["date"]: row["type"] for row in details}
+        for position, day in enumerate(frame["date"]):
+            label = day.strftime("%Y-%m-%d")
+            if label in lookup:
+                signals.iat[position] = lookup[label]
+        records = detail_records(frame, details)
+    elif ACTIVE_ALGORITHM == "swing":
         details = signal_details(frame, breadth)
         signals = pd.Series("", index=frame.index, dtype="string")
         lookup = {row["date"]: row["type"] for row in details}

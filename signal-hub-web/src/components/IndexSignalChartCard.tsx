@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import * as echarts from 'echarts/core';
 import type { EChartsCoreOption, EChartsType } from 'echarts/core';
 import { LineChart } from 'echarts/charts';
-import { GridComponent, MarkPointComponent, TooltipComponent } from 'echarts/components';
+import { GridComponent, MarkAreaComponent, MarkPointComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import type { IndexItem, PrecisionPivotAnchor } from '../data/types';
 import {
@@ -15,7 +15,7 @@ import {
 } from '../lib/indexSignalCharts';
 import { ChangeText } from './ui';
 
-echarts.use([LineChart, GridComponent, TooltipComponent, MarkPointComponent, CanvasRenderer]);
+echarts.use([LineChart, GridComponent, TooltipComponent, MarkPointComponent, MarkAreaComponent, CanvasRenderer]);
 
 function cssVar(name: string, fallback: string): string {
   if (typeof window === 'undefined') return fallback;
@@ -32,6 +32,7 @@ function chartPalette(): IndexSignalChartPalette {
     grid: cssVar('--color-slate-100', '#f1f5f9'),
     pivot: cssVar('--color-ocean-400', '#7dd3fc'),
     natural: cssVar('--color-brand-500', '#3a9a6a'),
+    zoneFill: 'rgba(58,154,106,0.10)',
   };
 }
 
@@ -109,10 +110,10 @@ export function IndexSignalChartCard({
   );
   const option = useMemo(
     () => buildIndexSignalChartOption(
-      dates, closes, markers, item.provisional, chartPalette(), anchors,
+      dates, closes, markers, item.provisional, chartPalette(), anchors, item.bottom_zones ?? [],
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dates, closes, markers, item.provisional, anchors],
+    [dates, closes, markers, item.provisional, anchors, item.bottom_zones],
   );
   const coverage = dates.length > 0
     ? `${dates[0]} ~ ${dates[dates.length - 1]} · ${dates.length} 个交易日`
@@ -144,11 +145,18 @@ export function IndexSignalChartCard({
       </div>
 
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500">
-        <span><span className="text-mint-600">▲</span> 信号确认日（底部）</span>
-        <span><span className="text-coral-500">▼</span> 信号确认日（顶部）</span>
-        <span><span className="text-brand-600">△</span> 候选（未确认）</span>
-        <span><span className="text-ocean-500">◆</span> 拐点基准日（事后标注）</span>
-        <span><span className="text-brand-600">■</span> 拐点自然确认日</span>
+        <span><span className="text-mint-600">▲</span> 大波段底部信号（确认日）</span>
+        <span>
+          <span className="inline-block w-3 h-2 rounded-sm align-middle mr-1"
+                style={{ backgroundColor: 'rgba(58,154,106,0.18)' }} />
+          超卖预警区（背景带，非信号）
+        </span>
+        {anchors.length > 0 && (
+          <>
+            <span><span className="text-ocean-500">◆</span> 拐点基准日（事后标注）</span>
+            <span><span className="text-brand-600">■</span> 拐点自然确认日</span>
+          </>
+        )}
       </div>
       {anchors.length > 0 && (
         <p className="mt-1 text-[11px] text-slate-400">

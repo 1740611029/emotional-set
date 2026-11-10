@@ -217,7 +217,8 @@ def spa(full_path: str):
             return FileResponse(candidate)
     index_file = dist / "index.html"
     if index_file.exists():
-        return FileResponse(index_file)
+        # 入口 HTML 必须每次校验更新，否则浏览器缓存旧页面会继续加载上一版前端包（需手动刷新）
+        return FileResponse(index_file, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
     return JSONResponse(
         status_code=404,
         content={"detail": "前端尚未构建，请先在 signal-hub-web 执行 npm run build"},

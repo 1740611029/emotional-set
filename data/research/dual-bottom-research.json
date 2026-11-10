@@ -1,0 +1,5821 @@
+{
+  "generated_for": "双类底部信号（结构底+情绪底），指数分 3 组",
+  "note": "探索性研究，只读行情、只写研究目录；未触碰生产信号。训练段定参、验证段只报告。",
+  "groups": {
+    "steady": {
+      "codes": [
+        "sh000001",
+        "sh000300"
+      ],
+      "label": "稳健组"
+    },
+    "mid": {
+      "codes": [
+        "sz399001",
+        "sh000905",
+        "sh000852"
+      ],
+      "label": "中波动组"
+    },
+    "active": {
+      "codes": [
+        "sz399006",
+        "sh000688"
+      ],
+      "label": "活跃组"
+    }
+  },
+  "group_params": {
+    "steady": {
+      "chosen": {
+        "k": 0.45,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 5,
+        "per_year": 0.6,
+        "dir_rate": 1.0,
+        "big_rate": 0.8,
+        "score": 0.92,
+        "samples": 5
+      },
+      "vol": {
+        "sh000001": 0.1609,
+        "sh000300": 0.1857
+      },
+      "grid": [
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 11,
+          "per_year": 1.319,
+          "dir_rate": 0.7273,
+          "big_rate": 0.7273,
+          "score": 0.7273,
+          "samples": 11
+        },
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.5,
+          "big_rate": 0.5,
+          "score": 0.5,
+          "samples": 4
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 11,
+          "per_year": 1.319,
+          "dir_rate": 0.7273,
+          "big_rate": 0.7273,
+          "score": 0.7273,
+          "samples": 11
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.5,
+          "big_rate": 0.5,
+          "score": 0.5,
+          "samples": 4
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 1.199,
+          "dir_rate": 0.8,
+          "big_rate": 0.8,
+          "score": 0.8,
+          "samples": 10
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.6667,
+          "big_rate": 0.6667,
+          "score": 0.6667,
+          "samples": 3
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 11,
+          "per_year": 1.319,
+          "dir_rate": 0.8182,
+          "big_rate": 0.8182,
+          "score": 0.8182,
+          "samples": 11
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.8333,
+          "big_rate": 0.6667,
+          "score": 0.7667,
+          "samples": 6
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 11,
+          "per_year": 1.319,
+          "dir_rate": 0.8182,
+          "big_rate": 0.8182,
+          "score": 0.8182,
+          "samples": 11
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.8333,
+          "big_rate": 0.6667,
+          "score": 0.7667,
+          "samples": 6
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 1.199,
+          "dir_rate": 0.9,
+          "big_rate": 0.9,
+          "score": 0.9,
+          "samples": 10
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 1.0,
+          "big_rate": 0.8,
+          "score": 0.92,
+          "samples": 5
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.7778,
+          "big_rate": 0.3333,
+          "score": 0.6,
+          "samples": 9
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.7778,
+          "big_rate": 0.3333,
+          "score": 0.6,
+          "samples": 9
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.7778,
+          "big_rate": 0.3333,
+          "score": 0.6,
+          "samples": 9
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 8,
+          "per_year": 0.959,
+          "dir_rate": 0.625,
+          "big_rate": 0.375,
+          "score": 0.525,
+          "samples": 8
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 8,
+          "per_year": 0.959,
+          "dir_rate": 0.625,
+          "big_rate": 0.375,
+          "score": 0.525,
+          "samples": 8
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 8,
+          "per_year": 0.959,
+          "dir_rate": 0.625,
+          "big_rate": 0.375,
+          "score": 0.525,
+          "samples": 8
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 6
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.5,
+          "score": 0.6,
+          "samples": 6
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.75,
+          "big_rate": 0.75,
+          "score": 0.75,
+          "samples": 4
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.5,
+          "score": 0.6,
+          "samples": 6
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.75,
+          "big_rate": 0.75,
+          "score": 0.75,
+          "samples": 4
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.5,
+          "score": 0.6,
+          "samples": 6
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.75,
+          "big_rate": 0.75,
+          "score": 0.75,
+          "samples": 4
+        }
+      ]
+    },
+    "mid": {
+      "chosen": {
+        "k": 0.55,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 6,
+        "per_year": 0.48,
+        "dir_rate": 1.0,
+        "big_rate": 0.5,
+        "score": 0.8,
+        "samples": 6
+      },
+      "vol": {
+        "sz399001": 0.222,
+        "sh000905": 0.2066,
+        "sh000852": 0.2408
+      },
+      "grid": [
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 14,
+          "per_year": 1.119,
+          "dir_rate": 0.7143,
+          "big_rate": 0.5714,
+          "score": 0.6571,
+          "samples": 14
+        },
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 9,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.4444,
+          "score": 0.5778,
+          "samples": 9
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 14,
+          "per_year": 1.119,
+          "dir_rate": 0.7857,
+          "big_rate": 0.5714,
+          "score": 0.7,
+          "samples": 14
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 9,
+          "per_year": 0.719,
+          "dir_rate": 0.7778,
+          "big_rate": 0.4444,
+          "score": 0.6444,
+          "samples": 9
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 0.799,
+          "dir_rate": 0.8,
+          "big_rate": 0.7,
+          "score": 0.76,
+          "samples": 10
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 5,
+          "per_year": 0.4,
+          "dir_rate": 0.8,
+          "big_rate": 0.6,
+          "score": 0.72,
+          "samples": 5
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 14,
+          "per_year": 1.119,
+          "dir_rate": 0.6429,
+          "big_rate": 0.5714,
+          "score": 0.6143,
+          "samples": 14
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.375,
+          "big_rate": 0.5,
+          "score": 0.425,
+          "samples": 8
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 14,
+          "per_year": 1.119,
+          "dir_rate": 0.7143,
+          "big_rate": 0.5714,
+          "score": 0.6571,
+          "samples": 14
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.5,
+          "big_rate": 0.5,
+          "score": 0.5,
+          "samples": 8
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 12,
+          "per_year": 0.959,
+          "dir_rate": 0.75,
+          "big_rate": 0.5833,
+          "score": 0.6833,
+          "samples": 12
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.48,
+          "dir_rate": 0.5,
+          "big_rate": 0.5,
+          "score": 0.5,
+          "samples": 6
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 15,
+          "per_year": 1.199,
+          "dir_rate": 0.9333,
+          "big_rate": 0.4667,
+          "score": 0.7467,
+          "samples": 15
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.875,
+          "big_rate": 0.5,
+          "score": 0.725,
+          "samples": 8
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 15,
+          "per_year": 1.199,
+          "dir_rate": 0.9333,
+          "big_rate": 0.4667,
+          "score": 0.7467,
+          "samples": 15
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.875,
+          "big_rate": 0.5,
+          "score": 0.725,
+          "samples": 8
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 13,
+          "per_year": 1.039,
+          "dir_rate": 1.0,
+          "big_rate": 0.4615,
+          "score": 0.7846,
+          "samples": 13
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.48,
+          "dir_rate": 1.0,
+          "big_rate": 0.5,
+          "score": 0.8,
+          "samples": 6
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 13,
+          "per_year": 1.039,
+          "dir_rate": 0.8462,
+          "big_rate": 0.3077,
+          "score": 0.6308,
+          "samples": 13
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.75,
+          "big_rate": 0.375,
+          "score": 0.6,
+          "samples": 8
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 13,
+          "per_year": 1.039,
+          "dir_rate": 0.8462,
+          "big_rate": 0.3077,
+          "score": 0.6308,
+          "samples": 13
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 8,
+          "per_year": 0.64,
+          "dir_rate": 0.75,
+          "big_rate": 0.375,
+          "score": 0.6,
+          "samples": 8
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 12,
+          "per_year": 0.959,
+          "dir_rate": 0.8333,
+          "big_rate": 0.25,
+          "score": 0.6,
+          "samples": 12
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 7,
+          "per_year": 0.56,
+          "dir_rate": 0.7143,
+          "big_rate": 0.2857,
+          "score": 0.5429,
+          "samples": 7
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 0.799,
+          "dir_rate": 0.6,
+          "big_rate": 0.2,
+          "score": 0.44,
+          "samples": 10
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 7,
+          "per_year": 0.56,
+          "dir_rate": 0.4286,
+          "big_rate": 0.2857,
+          "score": 0.3714,
+          "samples": 7
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 0.799,
+          "dir_rate": 0.6,
+          "big_rate": 0.2,
+          "score": 0.44,
+          "samples": 10
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 7,
+          "per_year": 0.56,
+          "dir_rate": 0.4286,
+          "big_rate": 0.2857,
+          "score": 0.3714,
+          "samples": 7
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.2222,
+          "score": 0.4889,
+          "samples": 9
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.48,
+          "dir_rate": 0.5,
+          "big_rate": 0.3333,
+          "score": 0.4333,
+          "samples": 6
+        }
+      ]
+    },
+    "active": {
+      "chosen": {
+        "k": 0.45,
+        "min_gap": 20,
+        "use_ma60": true,
+        "signal_count": 4,
+        "per_year": 0.48,
+        "dir_rate": 0.75,
+        "big_rate": 0.75,
+        "score": 0.75,
+        "samples": 4
+      },
+      "vol": {
+        "sz399006": 0.2917,
+        "sh000688": 0.289
+      },
+      "grid": [
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 1.199,
+          "dir_rate": 0.7,
+          "big_rate": 0.7,
+          "score": 0.7,
+          "samples": 10
+        },
+        {
+          "k": 0.35,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.6667,
+          "big_rate": 0.6667,
+          "score": 0.6667,
+          "samples": 6
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 8,
+          "per_year": 0.959,
+          "dir_rate": 0.75,
+          "big_rate": 0.625,
+          "score": 0.7,
+          "samples": 8
+        },
+        {
+          "k": 0.35,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.75,
+          "big_rate": 0.5,
+          "score": 0.65,
+          "samples": 4
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 0.6,
+          "big_rate": 0.4,
+          "score": 0.52,
+          "samples": 5
+        },
+        {
+          "k": 0.35,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 2,
+          "per_year": 0.24,
+          "dir_rate": 0.5,
+          "big_rate": 0.0,
+          "score": 0.3,
+          "samples": 2
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 10,
+          "per_year": 1.199,
+          "dir_rate": 0.8,
+          "big_rate": 0.6,
+          "score": 0.72,
+          "samples": 10
+        },
+        {
+          "k": 0.45,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 0.8,
+          "big_rate": 0.6,
+          "score": 0.72,
+          "samples": 5
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.7778,
+          "big_rate": 0.6667,
+          "score": 0.7333,
+          "samples": 9
+        },
+        {
+          "k": 0.45,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.75,
+          "big_rate": 0.75,
+          "score": 0.75,
+          "samples": 4
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 7,
+          "per_year": 0.839,
+          "dir_rate": 0.7143,
+          "big_rate": 0.5714,
+          "score": 0.6571,
+          "samples": 7
+        },
+        {
+          "k": 0.45,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 2,
+          "per_year": 0.24,
+          "dir_rate": 0.5,
+          "big_rate": 0.5,
+          "score": 0.5,
+          "samples": 2
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.5556,
+          "big_rate": 0.3333,
+          "score": 0.4667,
+          "samples": 9
+        },
+        {
+          "k": 0.55,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.5,
+          "big_rate": 0.3333,
+          "score": 0.4333,
+          "samples": 6
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 9,
+          "per_year": 1.079,
+          "dir_rate": 0.5556,
+          "big_rate": 0.3333,
+          "score": 0.4667,
+          "samples": 9
+        },
+        {
+          "k": 0.55,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 6,
+          "per_year": 0.719,
+          "dir_rate": 0.5,
+          "big_rate": 0.3333,
+          "score": 0.4333,
+          "samples": 6
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 7,
+          "per_year": 0.839,
+          "dir_rate": 0.4286,
+          "big_rate": 0.1429,
+          "score": 0.3143,
+          "samples": 7
+        },
+        {
+          "k": 0.55,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 4,
+          "per_year": 0.48,
+          "dir_rate": 0.25,
+          "big_rate": 0.0,
+          "score": 0.15,
+          "samples": 4
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 7,
+          "per_year": 0.839,
+          "dir_rate": 0.5714,
+          "big_rate": 0.2857,
+          "score": 0.4571,
+          "samples": 7
+        },
+        {
+          "k": 0.65,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 0.6,
+          "big_rate": 0.4,
+          "score": 0.52,
+          "samples": 5
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 7,
+          "per_year": 0.839,
+          "dir_rate": 0.5714,
+          "big_rate": 0.2857,
+          "score": 0.4571,
+          "samples": 7
+        },
+        {
+          "k": 0.65,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 0.6,
+          "big_rate": 0.4,
+          "score": 0.52,
+          "samples": 5
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 5,
+          "per_year": 0.6,
+          "dir_rate": 0.4,
+          "big_rate": 0.0,
+          "score": 0.24,
+          "samples": 5
+        },
+        {
+          "k": 0.65,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.3333,
+          "big_rate": 0.0,
+          "score": 0.2,
+          "samples": 3
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": false,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 3
+        },
+        {
+          "k": 0.75,
+          "min_gap": 15,
+          "use_ma60": true,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 3
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": false,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 3
+        },
+        {
+          "k": 0.75,
+          "min_gap": 20,
+          "use_ma60": true,
+          "signal_count": 3,
+          "per_year": 0.36,
+          "dir_rate": 0.6667,
+          "big_rate": 0.3333,
+          "score": 0.5333,
+          "samples": 3
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": false,
+          "signal_count": 2,
+          "per_year": 0.24,
+          "dir_rate": 0.5,
+          "big_rate": 0.0,
+          "score": 0.3,
+          "samples": 2
+        },
+        {
+          "k": 0.75,
+          "min_gap": 30,
+          "use_ma60": true,
+          "signal_count": 2,
+          "per_year": 0.24,
+          "dir_rate": 0.5,
+          "big_rate": 0.0,
+          "score": 0.3,
+          "samples": 2
+        }
+      ]
+    }
+  },
+  "emotion_thresholds": {
+    "position": 0.9,
+    "divergence": 0.6667,
+    "breadth": 0.65,
+    "local_window": 5,
+    "cooldown": 30
+  },
+  "per_index": {
+    "sh000001": {
+      "name": "上证指数",
+      "group": "steady",
+      "structure_params": {
+        "k": 0.45,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 5,
+        "per_year": 0.6,
+        "dir_rate": 1.0,
+        "big_rate": 0.8,
+        "score": 0.92,
+        "samples": 5
+      },
+      "amplitude": 0.07242,
+      "counts": {
+        "structure": 2,
+        "emotion": 15,
+        "resonance": 0,
+        "total": 17
+      }
+    },
+    "sh000300": {
+      "name": "沪深300",
+      "group": "steady",
+      "structure_params": {
+        "k": 0.45,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 5,
+        "per_year": 0.6,
+        "dir_rate": 1.0,
+        "big_rate": 0.8,
+        "score": 0.92,
+        "samples": 5
+      },
+      "amplitude": 0.08357,
+      "counts": {
+        "structure": 3,
+        "emotion": 12,
+        "resonance": 0,
+        "total": 15
+      }
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "group": "mid",
+      "structure_params": {
+        "k": 0.55,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 6,
+        "per_year": 0.48,
+        "dir_rate": 1.0,
+        "big_rate": 0.5,
+        "score": 0.8,
+        "samples": 6
+      },
+      "amplitude": 0.12208,
+      "counts": {
+        "structure": 2,
+        "emotion": 13,
+        "resonance": 0,
+        "total": 15
+      }
+    },
+    "sh000905": {
+      "name": "中证500",
+      "group": "mid",
+      "structure_params": {
+        "k": 0.55,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 6,
+        "per_year": 0.48,
+        "dir_rate": 1.0,
+        "big_rate": 0.5,
+        "score": 0.8,
+        "samples": 6
+      },
+      "amplitude": 0.11363,
+      "counts": {
+        "structure": 2,
+        "emotion": 11,
+        "resonance": 0,
+        "total": 13
+      }
+    },
+    "sh000852": {
+      "name": "中证1000",
+      "group": "mid",
+      "structure_params": {
+        "k": 0.55,
+        "min_gap": 30,
+        "use_ma60": true,
+        "signal_count": 6,
+        "per_year": 0.48,
+        "dir_rate": 1.0,
+        "big_rate": 0.5,
+        "score": 0.8,
+        "samples": 6
+      },
+      "amplitude": 0.13245,
+      "counts": {
+        "structure": 3,
+        "emotion": 10,
+        "resonance": 0,
+        "total": 13
+      }
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "group": "active",
+      "structure_params": {
+        "k": 0.45,
+        "min_gap": 20,
+        "use_ma60": true,
+        "signal_count": 4,
+        "per_year": 0.48,
+        "dir_rate": 0.75,
+        "big_rate": 0.75,
+        "score": 0.75,
+        "samples": 4
+      },
+      "amplitude": 0.13127,
+      "counts": {
+        "structure": 2,
+        "emotion": 13,
+        "resonance": 0,
+        "total": 15
+      }
+    },
+    "sh000688": {
+      "name": "科创50",
+      "group": "active",
+      "structure_params": {
+        "k": 0.45,
+        "min_gap": 20,
+        "use_ma60": true,
+        "signal_count": 4,
+        "per_year": 0.48,
+        "dir_rate": 0.75,
+        "big_rate": 0.75,
+        "score": 0.75,
+        "samples": 4
+      },
+      "amplitude": 0.13006,
+      "counts": {
+        "structure": 4,
+        "emotion": 14,
+        "resonance": 0,
+        "total": 18
+      }
+    }
+  },
+  "summary": {
+    "structure": {
+      "train": {
+        "triggers": 15,
+        "h20_resolved": 15,
+        "h20_success": 14,
+        "h20_rate": 0.9333,
+        "h20_wilson95": [
+          0.7018,
+          0.9881
+        ],
+        "big_resolved": 15,
+        "big_success": 10,
+        "big_rate": 0.6667,
+        "big_wilson95": [
+          0.4171,
+          0.8482
+        ]
+      },
+      "validation": {
+        "triggers": 3,
+        "h20_resolved": 3,
+        "h20_success": 2,
+        "h20_rate": 0.6667,
+        "h20_wilson95": [
+          0.2077,
+          0.9385
+        ],
+        "big_resolved": 3,
+        "big_success": 2,
+        "big_rate": 0.6667,
+        "big_wilson95": [
+          0.2077,
+          0.9385
+        ]
+      }
+    },
+    "emotion": {
+      "train": {
+        "triggers": 55,
+        "h20_resolved": 55,
+        "h20_success": 11,
+        "h20_rate": 0.2,
+        "h20_wilson95": [
+          0.1155,
+          0.3236
+        ],
+        "big_resolved": 55,
+        "big_success": 16,
+        "big_rate": 0.2909,
+        "big_wilson95": [
+          0.1877,
+          0.4214
+        ]
+      },
+      "validation": {
+        "triggers": 33,
+        "h20_resolved": 28,
+        "h20_success": 20,
+        "h20_rate": 0.7143,
+        "h20_wilson95": [
+          0.5294,
+          0.8475
+        ],
+        "big_resolved": 28,
+        "big_success": 12,
+        "big_rate": 0.4286,
+        "big_wilson95": [
+          0.2651,
+          0.6093
+        ]
+      }
+    },
+    "resonance": {
+      "train": {
+        "triggers": 0,
+        "h20_resolved": 0,
+        "h20_success": 0,
+        "h20_rate": null,
+        "h20_wilson95": [
+          null,
+          null
+        ],
+        "big_resolved": 0,
+        "big_success": 0,
+        "big_rate": null,
+        "big_wilson95": [
+          null,
+          null
+        ]
+      },
+      "validation": {
+        "triggers": 0,
+        "h20_resolved": 0,
+        "h20_success": 0,
+        "h20_rate": null,
+        "h20_wilson95": [
+          null,
+          null
+        ],
+        "big_resolved": 0,
+        "big_success": 0,
+        "big_rate": null,
+        "big_wilson95": [
+          null,
+          null
+        ]
+      }
+    }
+  },
+  "signals": {
+    "sh000001": [
+      {
+        "signal_type": "emotion",
+        "date": "2021-09-29",
+        "segment": "train",
+        "price": 3536.29,
+        "position": 0.9248,
+        "divergence": 1.0,
+        "breadth": 0.6566,
+        "mae20": -0.01658,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.0072,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01434,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01068,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00031,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.04882,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-03-07",
+        "segment": "train",
+        "price": 3372.86,
+        "position": 0.984,
+        "divergence": 1.0,
+        "breadth": 0.5376,
+        "mae20": -0.10364,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04427,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.03533,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.02651,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.06576,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.01541,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-01",
+        "segment": "train",
+        "price": 3184.98,
+        "position": 0.909,
+        "divergence": 0.6667,
+        "breadth": 0.5376,
+        "mae20": -0.05119,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01589,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01839,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.05042,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04586,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.04649,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-10-28",
+        "segment": "train",
+        "price": 2915.93,
+        "position": 0.951,
+        "divergence": 0.6667,
+        "breadth": 0.5152,
+        "mae20": -0.01058,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.05311,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.05877,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.06371,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.0998,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.1647,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "structure",
+        "date": "2022-11-15",
+        "segment": "train",
+        "price": 3134.08,
+        "pivot_date": "2022-10-31",
+        "pivot_price": 2893.48,
+        "lag_from_pivot": 11,
+        "amplitude": 0.07242,
+        "confirmation": [
+          {
+            "date": "2022-11-15",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.03171,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.0144,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.005,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01348,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.01229,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.09089,
+        "big_hit": true,
+        "big_line": 0.07242
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-08-25",
+        "segment": "train",
+        "price": 3064.07,
+        "position": 0.828,
+        "divergence": 0.6667,
+        "breadth": 0.6608,
+        "mae20": 0.00481,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02258,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01718,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02231,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00318,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.05058,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-12-05",
+        "segment": "train",
+        "price": 2972.3,
+        "position": 0.951,
+        "divergence": 1.0,
+        "breadth": 0.434,
+        "mae20": -0.03037,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01048,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01343,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0017,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04666,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.06795,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-19",
+        "segment": "train",
+        "price": 2832.28,
+        "position": 0.942,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.06962,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02752,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.03606,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.0511,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.08339,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.12075,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-05",
+        "segment": "train",
+        "price": 3065.4,
+        "position": 0.703,
+        "divergence": 0.6667,
+        "breadth": 0.6776,
+        "mae20": -0.04308,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.0119,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01956,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.03518,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.0288,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.19867,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-09-11",
+        "segment": "train",
+        "price": 2721.8,
+        "position": 0.919,
+        "divergence": 0.6667,
+        "breadth": 0.476,
+        "mae20": -0.01179,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00551,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.13437,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.19831,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.20215,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.34999,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-26",
+        "segment": "train",
+        "price": 3000.95,
+        "pivot_date": "2024-09-13",
+        "pivot_price": 2704.09,
+        "lag_from_pivot": 7,
+        "amplitude": 0.07242,
+        "confirmation": [
+          {
+            "date": "2024-09-26",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.0055,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.10029,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.05613,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.09293,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.12626,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.22441,
+        "big_hit": true,
+        "big_line": 0.07242
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-01-10",
+        "segment": "validation",
+        "price": 3168.52,
+        "position": 0.791,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.00869,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02313,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02655,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.05912,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.04684,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.12204,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-12-16",
+        "segment": "validation",
+        "price": 3824.81,
+        "position": 0.93,
+        "divergence": 0.6667,
+        "breadth": 0.616,
+        "mae20": -0.00178,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02488,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03668,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.07524,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.08711,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.11348,
+        "big_hit": true,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-02-02",
+        "segment": "validation",
+        "price": 4015.75,
+        "position": 0.914,
+        "divergence": 0.6667,
+        "breadth": 0.6608,
+        "mae20": -0.00323,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02673,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02532,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02674,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03349,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.06054,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-05-21",
+        "segment": "validation",
+        "price": 4077.28,
+        "position": 0.9,
+        "divergence": 1.0,
+        "breadth": 0.6524,
+        "mae20": -0.03665,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00524,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.00478,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00324,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00825,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02405,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-08",
+        "segment": "validation",
+        "price": 3970.88,
+        "position": 0.952,
+        "divergence": 1.0,
+        "breadth": 0.6748,
+        "mae20": -0.05786,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00385,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02615,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.02328,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.01926,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02618,
+        "big_hit": false,
+        "big_line": 0.08851
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-09-15",
+        "segment": "validation",
+        "price": 3864.28,
+        "position": 0.933,
+        "divergence": 1.0,
+        "breadth": 0.63,
+        "mae20": -0.04903,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02273,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.00572,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.03914,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04609,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02676,
+        "big_hit": false,
+        "big_line": 0.08851
+      }
+    ],
+    "sh000300": [
+      {
+        "signal_type": "emotion",
+        "date": "2021-07-26",
+        "segment": "train",
+        "price": 4925.3,
+        "position": 0.9917,
+        "divergence": 0.6667,
+        "breadth": 0.5182,
+        "mae20": -0.05307,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00171,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01223,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01816,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00171,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.04437,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-01-13",
+        "segment": "train",
+        "price": 4765.92,
+        "position": 0.968,
+        "divergence": 0.6667,
+        "breadth": 0.2464,
+        "mae20": -0.05108,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01208,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.03064,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0287,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04496,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.01659,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-03-14",
+        "segment": "train",
+        "price": 4174.76,
+        "position": 0.961,
+        "divergence": 1.0,
+        "breadth": 0.672,
+        "mae20": -0.05555,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02012,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.0063,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.00839,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.06688,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.08517,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "structure",
+        "date": "2022-06-06",
+        "segment": "train",
+        "price": 4166.09,
+        "pivot_date": "2022-04-26",
+        "pivot_price": 3784.12,
+        "lag_from_pivot": 25,
+        "amplitude": 0.08357,
+        "confirmation": [
+          {
+            "date": "2022-06-06",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.01516,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00558,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03945,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.0792,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.03036,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.08743,
+        "big_hit": true,
+        "big_line": 0.08357
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-28",
+        "segment": "train",
+        "price": 3828.71,
+        "position": 0.888,
+        "divergence": 1.0,
+        "breadth": 0.658,
+        "mae20": -0.08691,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.0116,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01363,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.03941,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00148,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.11477,
+        "big_hit": true,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-05-23",
+        "segment": "train",
+        "price": 3913.19,
+        "position": 0.742,
+        "divergence": 0.6667,
+        "breadth": 0.6557,
+        "mae20": -0.0346,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01928,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02684,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00282,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.018,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.03863,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-12-07",
+        "segment": "train",
+        "price": 3391.28,
+        "position": 0.924,
+        "divergence": 0.6667,
+        "breadth": 0.4592,
+        "mae20": -0.03164,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01159,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01781,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01833,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03583,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.09193,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-22",
+        "segment": "train",
+        "price": 3218.9,
+        "position": 0.889,
+        "divergence": 0.6667,
+        "breadth": 0.6804,
+        "mae20": -0.03434,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02643,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.00574,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.08571,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.11761,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.1504,
+        "big_hit": true,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-02-21",
+        "segment": "train",
+        "price": 3456.87,
+        "pivot_date": "2024-02-02",
+        "pivot_price": 3179.63,
+        "lag_from_pivot": 7,
+        "amplitude": 0.08357,
+        "confirmation": [
+          {
+            "date": "2024-02-21",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.00562,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00191,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02724,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.03718,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.03209,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.07121,
+        "big_hit": false,
+        "big_line": 0.08357
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-27",
+        "segment": "train",
+        "price": 3454.12,
+        "position": 0.788,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.02036,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00241,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00407,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01588,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03219,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.28842,
+        "big_hit": true,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-26",
+        "segment": "train",
+        "price": 3545.32,
+        "pivot_date": "2024-09-13",
+        "pivot_price": 3159.25,
+        "lag_from_pivot": 7,
+        "amplitude": 0.08357,
+        "confirmation": [
+          {
+            "date": "2024-09-26",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.01446,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.12762,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.06851,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.09751,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.13942,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.25528,
+        "big_hit": true,
+        "big_line": 0.08357
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-02-02",
+        "segment": "validation",
+        "price": 4605.98,
+        "position": 0.854,
+        "divergence": 1.0,
+        "breadth": 0.6608,
+        "mae20": -0.01238,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02455,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02205,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01493,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.0285,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.0995,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-13",
+        "segment": "validation",
+        "price": 4695.38,
+        "position": 0.964,
+        "divergence": 0.6667,
+        "breadth": 0.6328,
+        "mae20": -0.04625,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.02067,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0015,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00141,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.02817,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.028,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-09-02",
+        "segment": "validation",
+        "price": 4547.96,
+        "position": 0.924,
+        "divergence": 1.0,
+        "breadth": 0.2116,
+        "mae20": -0.05677,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00542,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01488,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.05226,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.1125,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.01193,
+        "big_hit": false,
+        "big_line": 0.10214
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-10-30",
+        "segment": "validation",
+        "price": 3985.5,
+        "position": 0.929,
+        "divergence": 0.6667,
+        "breadth": 0.6608,
+        "mae20": -0.004,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01726,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h20": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": null,
+        "big_hit": null,
+        "big_line": 0.10214
+      }
+    ],
+    "sz399001": [
+      {
+        "signal_type": "emotion",
+        "date": "2021-07-26",
+        "segment": "train",
+        "price": 14630.85,
+        "position": 0.9254,
+        "divergence": 1.0,
+        "breadth": 0.5182,
+        "mae20": -0.06174,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01144,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02123,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.00649,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00576,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.04496,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-01-13",
+        "segment": "train",
+        "price": 14138.34,
+        "position": 0.968,
+        "divergence": 0.6667,
+        "breadth": 0.2464,
+        "mae20": -0.07702,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00424,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.0523,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0506,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.06624,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02166,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-03-04",
+        "segment": "train",
+        "price": 13020.46,
+        "position": 0.959,
+        "divergence": 1.0,
+        "breadth": 0.4508,
+        "mae20": -0.12974,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04401,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.05313,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.06087,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.10654,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.00775,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-28",
+        "segment": "train",
+        "price": 10899.7,
+        "position": 0.892,
+        "divergence": 0.6667,
+        "breadth": 0.658,
+        "mae20": -0.05486,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00562,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0117,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.00204,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.03081,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.12352,
+        "big_hit": true,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "structure",
+        "date": "2023-01-16",
+        "segment": "train",
+        "price": 11785.77,
+        "pivot_date": "2022-10-31",
+        "pivot_price": 10397.04,
+        "lag_from_pivot": 54,
+        "amplitude": 0.12208,
+        "confirmation": [
+          {
+            "date": "2023-01-16",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.00884,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02647,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01076,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01429,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00485,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.03905,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-05-09",
+        "segment": "train",
+        "price": 11125.02,
+        "position": 0.669,
+        "divergence": 1.0,
+        "breadth": 0.7719,
+        "mae20": -0.0384,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00232,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01011,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0316,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.01621,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.01916,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-08-25",
+        "segment": "train",
+        "price": 10130.47,
+        "position": 0.803,
+        "divergence": 0.6667,
+        "breadth": 0.6608,
+        "mae20": -0.01654,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.0329,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01495,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00476,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.02029,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.05767,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-12-26",
+        "segment": "train",
+        "price": 9157.25,
+        "position": 0.84,
+        "divergence": 0.6667,
+        "breadth": 0.686,
+        "mae20": -0.08247,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01896,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.0256,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.05188,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04903,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.07084,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-27",
+        "segment": "train",
+        "price": 8849.7,
+        "position": 0.851,
+        "divergence": 1.0,
+        "breadth": 0.6636,
+        "mae20": -0.04757,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01987,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00233,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.04237,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04559,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.34062,
+        "big_hit": true,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-27",
+        "segment": "train",
+        "price": 9514.86,
+        "pivot_date": "2024-09-13",
+        "pivot_price": 7983.55,
+        "lag_from_pivot": 8,
+        "amplitude": 0.12208,
+        "confirmation": [
+          {
+            "date": "2024-09-27",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.03306,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.05737,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.08858,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.09886,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.1297,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.2469,
+        "big_hit": true,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-01-10",
+        "segment": "validation",
+        "price": 9795.94,
+        "position": 0.746,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.01043,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.0373,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.05071,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.10158,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.08714,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.12761,
+        "big_hit": true,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-02-02",
+        "segment": "validation",
+        "price": 13824.35,
+        "position": 0.82,
+        "divergence": 1.0,
+        "breadth": 0.6608,
+        "mae20": -0.00887,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02778,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0338,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.03832,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.02082,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.18443,
+        "big_hit": true,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-06-08",
+        "segment": "validation",
+        "price": 14821.19,
+        "position": 0.953,
+        "divergence": 0.6667,
+        "breadth": 0.658,
+        "mae20": -0.00777,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.0479,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0697,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02725,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03757,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.10477,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-28",
+        "segment": "validation",
+        "price": 13509.68,
+        "position": 0.953,
+        "divergence": 1.0,
+        "breadth": 0.605,
+        "mae20": -0.03265,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02783,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0555,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01748,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.01433,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.09062,
+        "big_hit": false,
+        "big_line": 0.12208
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-10-20",
+        "segment": "validation",
+        "price": 11801.29,
+        "position": 0.906,
+        "divergence": 1.0,
+        "breadth": 0.6188,
+        "mae20": -0.08396,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04708,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.07832,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": null,
+        "big_hit": null,
+        "big_line": 0.12208
+      }
+    ],
+    "sh000905": [
+      {
+        "signal_type": "emotion",
+        "date": "2021-09-27",
+        "segment": "train",
+        "price": 7170.59,
+        "position": 0.9598,
+        "divergence": 0.6667,
+        "breadth": 0.6187,
+        "mae20": -0.0395,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01117,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01429,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01532,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.01009,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.03089,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-01-20",
+        "segment": "train",
+        "price": 7056.79,
+        "position": 0.947,
+        "divergence": 1.0,
+        "breadth": 0.5572,
+        "mae20": -0.07746,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.06389,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.03065,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.04137,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.09095,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": -0.00232,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-04-20",
+        "segment": "train",
+        "price": 5956.92,
+        "position": 0.948,
+        "divergence": 1.0,
+        "breadth": 0.602,
+        "mae20": -0.13404,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.08727,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.05849,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00148,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.03855,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.09928,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-23",
+        "segment": "train",
+        "price": 5889.6,
+        "position": 0.888,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.05014,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.02981,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01424,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0183,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.04228,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.09159,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-12-19",
+        "segment": "train",
+        "price": 5936.48,
+        "position": 0.907,
+        "divergence": 0.6667,
+        "breadth": 0.5796,
+        "mae20": -0.03437,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.0157,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00327,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.03304,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.06414,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.09092,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "structure",
+        "date": "2023-01-31",
+        "segment": "train",
+        "price": 6289.15,
+        "pivot_date": "2022-10-10",
+        "pivot_price": 5635.71,
+        "lag_from_pivot": 75,
+        "amplitude": 0.11363,
+        "confirmation": [
+          {
+            "date": "2023-01-30",
+            "offset": 0,
+            "price": true,
+            "momentum": false,
+            "volume": true,
+            "passed": 0
+          },
+          {
+            "date": "2023-01-31",
+            "offset": 1,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.00983,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00447,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01718,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01087,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.01586,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02974,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-12-05",
+        "segment": "train",
+        "price": 5460.41,
+        "position": 0.907,
+        "divergence": 1.0,
+        "breadth": 0.434,
+        "mae20": -0.0412,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01937,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01475,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01081,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.07305,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02117,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-31",
+        "segment": "train",
+        "price": 4696.98,
+        "position": 0.944,
+        "divergence": 0.6667,
+        "breadth": 0.6524,
+        "mae20": -0.08851,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.08784,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.10206,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.12355,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.16369,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.18599,
+        "big_hit": true,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-27",
+        "segment": "train",
+        "price": 4928.05,
+        "position": 0.909,
+        "divergence": 1.0,
+        "breadth": 0.6636,
+        "mae20": -0.05942,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01898,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00237,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.05329,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03495,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.3023,
+        "big_hit": true,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-27",
+        "segment": "train",
+        "price": 5201.67,
+        "pivot_date": "2024-09-13",
+        "pivot_price": 4450.96,
+        "lag_from_pivot": 8,
+        "amplitude": 0.11363,
+        "confirmation": [
+          {
+            "date": "2024-09-27",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.03569,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.05174,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.08427,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.12114,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.13896,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.2338,
+        "big_hit": true,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-06-01",
+        "segment": "validation",
+        "price": 8274.21,
+        "position": 0.905,
+        "divergence": 1.0,
+        "breadth": 0.6384,
+        "mae20": -0.04651,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03756,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01602,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.09151,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00021,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.10555,
+        "big_hit": false,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-30",
+        "segment": "validation",
+        "price": 7309.58,
+        "position": 0.933,
+        "divergence": 0.6667,
+        "breadth": 0.587,
+        "mae20": 0.01209,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.07111,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.09013,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.08711,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.05585,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.12336,
+        "big_hit": true,
+        "big_line": 0.11363
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-10-22",
+        "segment": "validation",
+        "price": 6655.25,
+        "position": 0.91,
+        "divergence": 1.0,
+        "breadth": 0.6944,
+        "mae20": -0.06032,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03028,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01287,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": null,
+        "big_hit": null,
+        "big_line": 0.11363
+      }
+    ],
+    "sh000852": [
+      {
+        "signal_type": "structure",
+        "date": "2021-06-01",
+        "segment": "train",
+        "price": 6854.73,
+        "pivot_date": "2021-02-05",
+        "pivot_price": 6045.3,
+        "lag_from_pivot": 73,
+        "amplitude": 0.13245,
+        "confirmation": [
+          {
+            "date": "2021-06-01",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.02724,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00655,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02648,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.0334,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.05676,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.17328,
+        "big_hit": true,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2021-12-20",
+        "segment": "train",
+        "price": 7751.95,
+        "position": 0.905,
+        "divergence": 1.0,
+        "breadth": 0.2968,
+        "mae20": -0.02087,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00316,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02981,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.00086,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.0866,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.03987,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-03-08",
+        "segment": "train",
+        "price": 6871.22,
+        "position": 0.982,
+        "divergence": 1.0,
+        "breadth": 0.6776,
+        "mae20": -0.07871,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.05788,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0076,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.03604,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.1295,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.07255,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-23",
+        "segment": "train",
+        "price": 6363.68,
+        "position": 0.89,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.07003,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03753,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00672,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01945,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.04397,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.11554,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "structure",
+        "date": "2023-01-31",
+        "segment": "train",
+        "price": 6805.28,
+        "pivot_date": "2022-10-10",
+        "pivot_price": 5984.5,
+        "lag_from_pivot": 75,
+        "amplitude": 0.13245,
+        "confirmation": [
+          {
+            "date": "2023-01-30",
+            "offset": 0,
+            "price": true,
+            "momentum": false,
+            "volume": true,
+            "passed": 0
+          },
+          {
+            "date": "2023-01-31",
+            "offset": 1,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.0011,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01749,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03764,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02208,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00521,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.04315,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-08",
+        "segment": "train",
+        "price": 5543.57,
+        "position": 0.931,
+        "divergence": 0.6667,
+        "breadth": 0.5796,
+        "mae20": -0.24634,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00285,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.0979,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.22558,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.02698,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.0265,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-05",
+        "segment": "train",
+        "price": 5244.09,
+        "position": 0.788,
+        "divergence": 0.6667,
+        "breadth": 0.6776,
+        "mae20": -0.095,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01218,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.03584,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.09195,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.08231,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.26164,
+        "big_hit": true,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-07-24",
+        "segment": "train",
+        "price": 4631.01,
+        "position": 0.922,
+        "divergence": 1.0,
+        "breadth": 0.5852,
+        "mae20": -0.01881,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.05573,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.02427,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01787,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.01733,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.42866,
+        "big_hit": true,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-01-10",
+        "segment": "validation",
+        "price": 5544.92,
+        "position": 0.712,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.01576,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.0535,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.07091,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.13285,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.13143,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.19801,
+        "big_hit": true,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "structure",
+        "date": "2025-02-12",
+        "segment": "validation",
+        "price": 6284.61,
+        "pivot_date": "2025-01-10",
+        "pivot_price": 5544.92,
+        "lag_from_pivot": 17,
+        "amplitude": 0.13245,
+        "confirmation": [
+          {
+            "date": "2025-02-12",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.02737,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00062,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03816,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.04493,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.008,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.09235,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-06-01",
+        "segment": "validation",
+        "price": 8345.13,
+        "position": 0.922,
+        "divergence": 1.0,
+        "breadth": 0.6384,
+        "mae20": -0.04287,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03162,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0211,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.05568,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.05033,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.07179,
+        "big_hit": false,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-30",
+        "segment": "validation",
+        "price": 6900.66,
+        "position": 0.908,
+        "divergence": 1.0,
+        "breadth": 0.587,
+        "mae20": 0.02061,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.09126,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.11814,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.12061,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.09957,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.15866,
+        "big_hit": true,
+        "big_line": 0.13245
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-10-22",
+        "segment": "validation",
+        "price": 6578.27,
+        "position": 0.904,
+        "divergence": 1.0,
+        "breadth": 0.6944,
+        "mae20": -0.06715,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03033,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01093,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": null,
+        "big_hit": null,
+        "big_line": 0.13245
+      }
+    ],
+    "sz399006": [
+      {
+        "signal_type": "emotion",
+        "date": "2021-09-01",
+        "segment": "train",
+        "price": 3186.85,
+        "position": 0.9123,
+        "divergence": 1.0,
+        "breadth": 0.2659,
+        "mae20": -0.03191,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01039,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00425,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01768,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.03077,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.10532,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2021-12-20",
+        "segment": "train",
+        "price": 3332.61,
+        "position": 0.907,
+        "divergence": 0.6667,
+        "breadth": 0.2968,
+        "mae20": -0.08462,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01164,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02474,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.0565,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.14587,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.01718,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-02-10",
+        "segment": "train",
+        "price": 2826.52,
+        "position": 0.954,
+        "divergence": 1.0,
+        "breadth": 0.8012,
+        "mae20": -0.1289,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00471,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01508,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.06769,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04256,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.02781,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-04-11",
+        "segment": "train",
+        "price": 2462.04,
+        "position": 0.969,
+        "divergence": 0.6667,
+        "breadth": 0.5348,
+        "mae20": -0.13798,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01045,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.11902,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.04499,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.05723,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.1729,
+        "big_hit": true,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-21",
+        "segment": "train",
+        "price": 2331.52,
+        "position": 0.906,
+        "divergence": 0.6667,
+        "breadth": 0.6132,
+        "mae20": -0.04327,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.00761,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00505,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01774,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.02909,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.14144,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "structure",
+        "date": "2023-01-16",
+        "segment": "train",
+        "price": 2539.52,
+        "pivot_date": "2022-10-10",
+        "pivot_price": 2236.24,
+        "lag_from_pivot": 69,
+        "amplitude": 0.13127,
+        "confirmation": [
+          {
+            "date": "2023-01-16",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.04524,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02929,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0018,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.02313,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.04251,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.04795,
+        "big_hit": false,
+        "big_line": 0.13127
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-05-09",
+        "segment": "train",
+        "price": 2245.82,
+        "position": 0.737,
+        "divergence": 1.0,
+        "breadth": 0.7719,
+        "mae20": -0.037,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02154,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00334,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.03607,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.0114,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.02732,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-29",
+        "segment": "train",
+        "price": 1623.81,
+        "position": 0.934,
+        "divergence": 1.0,
+        "breadth": 0.7297,
+        "mae20": -0.08672,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03769,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.07536,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.12923,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.17436,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.18635,
+        "big_hit": true,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-27",
+        "segment": "train",
+        "price": 1885.49,
+        "pivot_date": "2024-09-23",
+        "pivot_price": 1530.51,
+        "lag_from_pivot": 4,
+        "amplitude": 0.13127,
+        "confirmation": [
+          {
+            "date": "2024-09-27",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.04288,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.11423,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.16421,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.12636,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.18994,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.36634,
+        "big_hit": true,
+        "big_line": 0.13127
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-01-08",
+        "segment": "validation",
+        "price": 2008.44,
+        "position": 0.781,
+        "divergence": 0.6667,
+        "breadth": 0.6664,
+        "mae20": -0.0272,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01468,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0461,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.08351,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.12351,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.13722,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-02-02",
+        "segment": "validation",
+        "price": 3264.11,
+        "position": 0.764,
+        "divergence": 1.0,
+        "breadth": 0.6608,
+        "mae20": -0.04664,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02103,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.01353,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01288,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00385,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.34199,
+        "big_hit": true,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-04-02",
+        "segment": "validation",
+        "price": 3172.65,
+        "position": 0.826,
+        "divergence": 1.0,
+        "breadth": 0.6608,
+        "mae20": -0.01225,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.08704,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.15937,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.19085,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.23612,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.38068,
+        "big_hit": true,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-06-08",
+        "segment": "validation",
+        "price": 3811.79,
+        "position": 0.9,
+        "divergence": 0.6667,
+        "breadth": 0.658,
+        "mae20": -0.01474,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.05817,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.0998,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02627,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.03301,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.14917,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-28",
+        "segment": "validation",
+        "price": 3327.03,
+        "position": 0.964,
+        "divergence": 1.0,
+        "breadth": 0.605,
+        "mae20": -0.05076,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.04867,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.06677,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.02119,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00983,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.12639,
+        "big_hit": false,
+        "big_line": 0.16044
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-09-28",
+        "segment": "validation",
+        "price": 3139.82,
+        "position": 0.995,
+        "divergence": 0.6667,
+        "breadth": 0.56,
+        "mae20": -0.23341,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.05605,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.12534,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.21693,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": 0.01068,
+        "big_hit": false,
+        "big_line": 0.16044
+      }
+    ],
+    "sh000688": [
+      {
+        "signal_type": "structure",
+        "date": "2021-05-27",
+        "segment": "train",
+        "price": 1397.77,
+        "pivot_date": "2021-03-25",
+        "pivot_price": 1219.71,
+        "lag_from_pivot": 41,
+        "amplitude": 0.13006,
+        "confirmation": [
+          {
+            "date": "2021-05-27",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.01168,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.01199,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03765,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.09807,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.13303,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.17272,
+        "big_hit": true,
+        "big_line": 0.13006
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2021-08-26",
+        "segment": "train",
+        "price": 1497.34,
+        "position": 0.9118,
+        "divergence": 0.6667,
+        "breadth": 0.1716,
+        "mae20": -0.11036,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.06536,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.06355,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.08592,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.09668,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.00764,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2021-12-20",
+        "segment": "train",
+        "price": 1363.96,
+        "position": 0.951,
+        "divergence": 0.6667,
+        "breadth": 0.2968,
+        "mae20": -0.05507,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.0061,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00076,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01584,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.11724,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.03046,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-03-08",
+        "segment": "train",
+        "price": 1137.07,
+        "position": 0.979,
+        "divergence": 0.6667,
+        "breadth": 0.6776,
+        "mae20": -0.08882,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03838,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.00242,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.08882,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.15773,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.03429,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2022-09-21",
+        "segment": "train",
+        "price": 970.39,
+        "position": 0.913,
+        "divergence": 0.6667,
+        "breadth": 0.6132,
+        "mae20": -0.10196,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.01463,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.04687,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.03386,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.06919,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.11377,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-05-04",
+        "segment": "train",
+        "price": 1064.2,
+        "position": 0.655,
+        "divergence": 0.6667,
+        "breadth": 0.7551,
+        "mae20": -0.05441,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03592,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02761,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01001,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.02852,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.00385,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2023-08-25",
+        "segment": "train",
+        "price": 870.4,
+        "position": 0.819,
+        "divergence": 1.0,
+        "breadth": 0.6608,
+        "mae20": -0.01299,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.07398,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.03574,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.01434,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.00417,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.09226,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-01-15",
+        "segment": "train",
+        "price": 773.41,
+        "position": 0.917,
+        "divergence": 0.6667,
+        "breadth": 0.6303,
+        "mae20": -0.178,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04031,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.06219,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.02419,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.05736,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.07011,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-03-27",
+        "segment": "train",
+        "price": 752.82,
+        "position": 0.928,
+        "divergence": 0.6667,
+        "breadth": 0.518,
+        "mae20": -0.04477,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00523,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.01911,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.00076,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00445,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.04284,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2024-06-27",
+        "segment": "train",
+        "price": 715.36,
+        "position": 0.872,
+        "divergence": 0.6667,
+        "breadth": 0.6636,
+        "mae20": -0.04468,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.03492,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00375,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.00207,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.009,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.51627,
+        "big_hit": true,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "structure",
+        "date": "2024-09-27",
+        "segment": "train",
+        "price": 740.02,
+        "pivot_date": "2024-09-23",
+        "pivot_price": 643.04,
+        "lag_from_pivot": 4,
+        "amplitude": 0.13006,
+        "confirmation": [
+          {
+            "date": "2024-09-27",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": 0.04923,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.2147,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.32248,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.26991,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.33359,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.541,
+        "big_hit": true,
+        "big_line": 0.13006
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2025-11-19",
+        "segment": "validation",
+        "price": 1344.8,
+        "position": 0.904,
+        "divergence": 0.6667,
+        "breadth": 0.5404,
+        "mae20": -0.05303,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.02213,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.02709,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01448,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.00045,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.40735,
+        "big_hit": true,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "structure",
+        "date": "2026-01-08",
+        "segment": "validation",
+        "price": 1455.17,
+        "pivot_date": "2025-11-21",
+        "pivot_price": 1285.83,
+        "lag_from_pivot": 32,
+        "amplitude": 0.13006,
+        "confirmation": [
+          {
+            "date": "2026-01-08",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.02674,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.02665,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.05942,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.01557,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.02257,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.54982,
+        "big_hit": true,
+        "big_line": 0.13006
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-03-17",
+        "segment": "validation",
+        "price": 1354.15,
+        "position": 0.909,
+        "divergence": 0.6667,
+        "breadth": 0.658,
+        "mae20": -0.07764,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04679,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.07224,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.03853,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.10291,
+            "dir_ok": true,
+            "pass": false
+          }
+        },
+        "big_band": 0.66544,
+        "big_hit": true,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "structure",
+        "date": "2026-04-16",
+        "segment": "validation",
+        "price": 1422.23,
+        "pivot_date": "2026-04-03",
+        "pivot_price": 1256.21,
+        "lag_from_pivot": 8,
+        "amplitude": 0.13006,
+        "confirmation": [
+          {
+            "date": "2026-04-16",
+            "offset": 0,
+            "price": true,
+            "momentum": true,
+            "volume": true,
+            "passed": 1
+          }
+        ],
+        "mae20": -0.00608,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.00728,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.10465,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.24813,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.18867,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.58571,
+        "big_hit": true,
+        "big_line": 0.13006
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-06-08",
+        "segment": "validation",
+        "price": 1596.57,
+        "position": 0.929,
+        "divergence": 0.6667,
+        "breadth": 0.658,
+        "mae20": 0.0069,
+        "mae_ok": true,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": 0.09505,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.2002,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": 0.25368,
+            "dir_ok": true,
+            "pass": true
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": 0.19203,
+            "dir_ok": true,
+            "pass": true
+          }
+        },
+        "big_band": 0.41256,
+        "big_hit": true,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-07-28",
+        "segment": "validation",
+        "price": 1693.48,
+        "position": 0.936,
+        "divergence": 0.6667,
+        "breadth": 0.605,
+        "mae20": -0.08488,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.04554,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": 0.00946,
+            "dir_ok": true,
+            "pass": false
+          },
+          "h20": {
+            "status": "resolved",
+            "ret": -0.05249,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h30": {
+            "status": "resolved",
+            "ret": -0.06051,
+            "dir_ok": false,
+            "pass": false
+          }
+        },
+        "big_band": 0.06218,
+        "big_hit": false,
+        "big_line": 0.15896
+      },
+      {
+        "signal_type": "emotion",
+        "date": "2026-10-22",
+        "segment": "validation",
+        "price": 1305.87,
+        "position": 0.905,
+        "divergence": 1.0,
+        "breadth": 0.6944,
+        "mae20": -0.13289,
+        "mae_ok": false,
+        "horizons": {
+          "h5": {
+            "status": "resolved",
+            "ret": -0.05956,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h10": {
+            "status": "resolved",
+            "ret": -0.0147,
+            "dir_ok": false,
+            "pass": false
+          },
+          "h20": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          },
+          "h30": {
+            "status": "pending",
+            "ret": null,
+            "dir_ok": null,
+            "pass": null
+          }
+        },
+        "big_band": null,
+        "big_hit": null,
+        "big_line": 0.15896
+      }
+    ]
+  }
+}
