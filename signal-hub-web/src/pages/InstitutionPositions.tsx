@@ -6,7 +6,9 @@ import {
   formatNextReturn,
   formatPosition,
   formatSigned,
+  type InstitutionWindowStats,
 } from '../components/InstitutionSummaryTable';
+import { orderInstitutions, windowRelationStats } from '../lib/institutionView';
 import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
 import { InstitutionIcon } from '../components/icons';
 import { useInstitutionPositions } from '../hooks/useInstitutionPositions';
@@ -129,9 +131,15 @@ export function InstitutionPositions() {
   const [to, setTo] = useState('');
   const { data, error, isLoading, refresh } = useInstitutionPositions({ variety, limit: 120 });
 
+  // 固定展示顺序：中信期货 → 国泰君安 → 其他机构（仅重排展示，不改动任何数值）
+  const displayInstitutions = useMemo(
+    () => (data && data.data_state !== 'preparing' ? orderInstitutions(data.institutions) : []),
+    [data],
+  );
+
   const historyGroups = useMemo<InstitutionHistoryGroup[]>(() => {
     if (!data || data.data_state === 'preparing') return [];
-    return data.institutions.map((meta) => {
+    return displayInstitutions.map((meta) => {
       const view = data.series[meta.id]?.[variety];
       const rows: HistoryRow[] = [];
       for (const index of selectHistoryIndexes(data.dates, { from, to }, Boolean(view))) {
@@ -148,7 +156,22 @@ export function InstitutionPositions() {
       }
       return { id: meta.id, name: meta.name, note: meta.note, rows };
     });
-  }, [data, variety, from, to]);
+  }, [displayInstitutions, variety, from, to]);
+
+  // 当日快照的滑动窗口同向率：取当前品种 relation 尾部 10 / 20 个交易日，待判定不计入分母
+  const windowStats = useMemo<InstitutionWindowStats>(() => {
+    if (!data || data.data_state === 'preparing') return {};
+    const result: InstitutionWindowStats = {};
+    for (const meta of data.institutions) {
+      const view = data.series[meta.id]?.[variety];
+      if (!view) continue;
+      result[meta.id] = {
+        d10: windowRelationStats(view.relation, data.dates, 10),
+        d20: windowRelationStats(view.relation, data.dates, 20),
+      };
+    }
+    return result;
+  }, [data, variety]);
 
   const selectedVariety = VARIETY_TABS.find((item) => item.value === variety) ?? VARIETY_TABS[0];
   const hasSeries = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
@@ -238,9 +261,10 @@ export function InstitutionPositions() {
                 : `当前为 ${selectedVariety.label} 分品种视图，持仓为单边手数；次日涨跌统一以沪深300 为事后对照。`}
             </div>
             <InstitutionSummaryTable
-              institutions={data.institutions}
+              institutions={displayInstitutions}
               summary={data.summary}
               stats={data.stats}
+              windowStats={windowStats}
               variety={variety}
             />
           </div>
@@ -259,7 +283,7 @@ export function InstitutionPositions() {
                   className="px-3 py-1.5 text-xs rounded-lg bg-slate-50 text-slate-600 border border-slate-100"
                 >
                   <option value="all">全部机构</option>
-                  {data.institutions.map((meta) => <option key={meta.id} value={meta.id}>{meta.name}</option>)}
+                  {displayInstitutions.map((meta) => <option key={meta.id} value={meta.id}>{meta.name}</option>)}
                 </select>
                 <div className="flex gap-1">
                   {CHART_RANGES.map((days) => (
@@ -279,7 +303,7 @@ export function InstitutionPositions() {
               dates={data.dates}
               closes={data.benchmark.close}
               marketLines={data.market_lines}
-              institutions={data.institutions}
+              institutions={displayInstitutions}
               series={data.series}
               variety={variety}
               institution={chartInstitution}
