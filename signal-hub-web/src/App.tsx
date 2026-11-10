@@ -9,6 +9,7 @@ import { Dashboard } from './pages/Dashboard';
 const Sectors = lazy(() => import('./pages/Sectors').then((module) => ({ default: module.Sectors })));
 const InstitutionPositions = lazy(() => import('./pages/InstitutionPositions').then((module) => ({ default: module.InstitutionPositions })));
 const EtfVolume = lazy(() => import('./pages/EtfVolume').then((module) => ({ default: module.EtfVolume })));
+const BloggerPosts = lazy(() => import('./pages/BloggerPosts').then((module) => ({ default: module.BloggerPosts })));
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
                 <Route path="/sectors" element={<Sectors />} />
                 <Route path="/institutions" element={<InstitutionPositions />} />
                 <Route path="/etf-volume" element={<EtfVolume />} />
+                <Route path="/blogger" element={<BloggerPosts />} />
                 <Route path="/institution" element={<Navigate to="/institutions" replace />} />
                 {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
                 <Route path="*" element={<Navigate to="/" replace />} />

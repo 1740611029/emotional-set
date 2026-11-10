@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 from . import paths
+from .blogger import load_posts as blogger_posts
 from .etf_volume import EtfVolumeStore
 from .institutions import (
     DEFAULT_LIMIT, InstitutionStore, slice_payload,
@@ -109,6 +110,12 @@ def institution_positions(
 def etf_volume_series():
     """ETF 成交额序列（列式）：读盘异常已降级为 preparing，不返回 5xx。"""
     return ETF_VOLUME_STORE.series()
+
+
+@app.get("/api/blogger/posts")
+def blogger_post_list():
+    """同花顺博主【全能的野人】发文列表（只读落盘数据，保留近一个月）。"""
+    return blogger_posts()
 
 
 @app.get("/api/indices/{code}/history")

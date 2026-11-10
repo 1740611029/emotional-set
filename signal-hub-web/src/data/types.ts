@@ -451,3 +451,33 @@ export interface InstitutionPositionsParams {
   to?: string;
   limit?: number;
 }
+
+/** 同花顺博主动态：个股标签 */
+export interface BloggerStockTag {
+  name: string;
+  code: string;
+}
+
+/** 同花顺博主动态：单条发文（时间均为北京时间） */
+export interface BloggerPost {
+  id: string;
+  /** YYYY-MM-DD */
+  date: string;
+  /** HH:mm */
+  time: string;
+  text: string;
+  stocks: BloggerStockTag[];
+  images: number;
+  url: string;
+}
+
+/** 同花顺博主动态：落盘数据只读视图 */
+export interface BloggerPosts {
+  author: string;
+  user_id: number;
+  homepage: string;
+  retention_days: number;
+  updated_at: string | null;
+  total: number;
+  posts: BloggerPost[];
+}

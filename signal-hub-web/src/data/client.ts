@@ -1,6 +1,6 @@
 /** 快照接口客户端：超时、结构校验与错误归一化。 */
 import type {
-  EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams, SectorHistory, Snapshot,
+  BloggerPosts, EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams, SectorHistory, Snapshot,
 } from './types';
 
 const ENDPOINT = '/api/snapshot';
@@ -217,6 +217,46 @@ export async function fetchInstitutionPositions(
     if (error instanceof ApiError) throw error;
     if ((error as Error)?.name === 'AbortError') throw new ApiError('机构持仓请求超时或已取消');
     throw new ApiError((error as Error)?.message || '机构持仓请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+function normalizeBloggerPosts(payload: unknown): BloggerPosts {
+  if (!isRecord(payload) || !Array.isArray(payload.posts)) {
+    throw new ApiError('博主动态响应缺少 posts');
+  }
+  return payload as unknown as BloggerPosts;
+}
+
+/** 同花顺博主动态：只读落盘数据，由采集脚本定时更新。 */
+export async function fetchBloggerPosts(signal?: AbortSignal): Promise<BloggerPosts> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch('/api/blogger/posts', {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      let detail = `博主动态接口返回 ${response.status}`;
+      try {
+        const body = await response.json();
+        if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
+      } catch {
+        /* 响应体非 JSON 时保留状态码文案 */
+      }
+      throw new ApiError(detail, response.status);
+    }
+    return normalizeBloggerPosts(await response.json());
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('博主动态请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '博主动态请求失败');
   } finally {
     window.clearTimeout(timer);
     signal?.removeEventListener('abort', forwardAbort);

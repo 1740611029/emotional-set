@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import type { ComponentType, SVGProps } from 'react';
-import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon } from './icons';
+import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon } from './icons';
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -40,6 +40,10 @@ export const navGroups: NavGroup[] = [
     section: '量能',
     items: [{ key: 'etf-volume', label: 'ETF 放量', to: '/etf-volume', icon: VolumeIcon }],
   },
+  {
+    section: '博主动态',
+    items: [{ key: 'blogger', label: '【全能的野人】发文', to: '/blogger', icon: PostIcon }],
+  },
 ];
 
 /** 路由 -> 标题映射，供 TopBar 使用 */
@@ -49,7 +53,7 @@ export const titleByPath = new Map<string, string>(
 
 export function Sidebar() {
   return (
-    <aside className="sidebar w-64 flex-shrink-0 border-r border-slate-100 flex flex-col">
+    <aside className="sidebar w-52 flex-shrink-0 border-r border-slate-100 flex flex-col">
       <div className="p-6 border-b border-slate-100">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-mint-400 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-brand-200/50">
@@ -76,7 +80,7 @@ export function Sidebar() {
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `nav-item flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg text-sm font-medium ${
+                  `nav-item flex items-center gap-2.5 px-3 py-2.5 mx-1.5 rounded-lg text-sm font-medium ${
                     isActive ? 'active' : 'text-slate-600'
                   }`
                 }

@@ -98,3 +98,11 @@ export const InstitutionIcon = (p: P) => (
     <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
   </Svg>
 );
+
+/** 博主动态：气泡消息图标 */
+export const PostIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" />
+    <path d="M8 8h8M8 12h5" />
+  </Svg>
+);
