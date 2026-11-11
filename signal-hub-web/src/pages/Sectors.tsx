@@ -176,8 +176,8 @@ export function Sectors() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 xl:grid-cols-[320px_1fr] gap-6 items-start">
-        <aside className="glass-card rounded-2xl p-4">
+      <div className="grid grid-cols-1 xl:grid-cols-[320px_1fr] gap-6 xl:relative">
+        <aside className="glass-card rounded-2xl p-4 flex flex-col xl:absolute xl:inset-y-0 xl:left-0 xl:w-[320px]">
           <div className="flex flex-wrap gap-1.5">
             {FILTERS.map((item) => (
               <button
@@ -211,7 +211,7 @@ export function Sectors() {
 
           <p className="mt-2 text-[11px] text-slate-400">命中 {filtered.length} 个板块</p>
 
-          <ul className="mt-3 max-h-[560px] space-y-1 overflow-y-auto pr-1">
+          <ul className="mt-3 max-h-[560px] xl:max-h-none xl:flex-1 xl:min-h-0 space-y-1 overflow-y-auto pr-1">
             {filtered.map((item) => {
               const state = stateOf(item);
               const isActive = active?.code === item.code;
@@ -245,7 +245,7 @@ export function Sectors() {
           </ul>
         </aside>
 
-        <section className="space-y-4">
+        <section className="space-y-4 xl:col-start-2">
           {!active && (
             <div className="glass-card rounded-2xl p-10 text-center text-sm text-slate-500">
               请选择一个板块
