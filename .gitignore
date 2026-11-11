@@ -15,4 +15,11 @@ signal-hub-web/node_modules/
 .playwright-cli/
 .idea/
 
-# 其余所有项目文件（含 data/raw、安装包、备份、临时、截图、dist 等）按用户要求全部入库
+# ===== 大体积 Python 安装包不入库（28MB，改用初始化脚本从 GitHub Release 下载）=====
+初始化-1-安装Python.exe
+python-installer.exe
+
+# ===== git 历史备份文件仅本地留存 =====
+.git-backup-*.bundle
+
+# 其余所有项目文件（含 data/raw、备份、临时、截图、dist 等）按用户要求全部入库

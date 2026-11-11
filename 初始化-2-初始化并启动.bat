@@ -80,11 +80,34 @@ goto :end
 
 :install_python
 echo.
-echo 未检测到 Python 3.10+，准备用根目录自带的安装包安装……
-if not exist "初始化-1-安装Python.exe" goto :no_installer
+echo 未检测到 Python 3.10+，准备安装……
+
+set "INSTALLER=初始化-1-安装Python.exe"
+
+REM ---- 优先使用本地自带的安装包（老电脑或手动放过的）----
+if exist "%INSTALLER%" goto :run_installer
+
+REM ---- 本地没有，从 GitHub Release 下载 ----
+echo 本地未找到安装包，正在从 GitHub 下载（约 28MB，请耐心等待）...
+set "REL_URL=https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe"
+set "REL_URL_PROXY=https://gh-proxy.com/https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe"
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri '%REL_URL%' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+if not errorlevel 1 goto :downloaded
+
+echo 直连失败，改用加速镜像重试...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri '%REL_URL_PROXY%' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+if errorlevel 1 goto :no_installer
+
+:downloaded
+echo 下载完成。
+set "INSTALLER=python-installer.exe"
+
+:run_installer
 echo 安装过程会显示进度条，无需任何操作，请耐心等待。
 echo.
-start "" /wait "初始化-1-安装Python.exe" /passive InstallAllUsers=0 PrependPath=1 Include_test=0 Include_launcher=1
+start "" /wait "%INSTALLER%" /passive InstallAllUsers=0 PrependPath=1 Include_test=0 Include_launcher=1
+if /i "%INSTALLER%"=="python-installer.exe" del "python-installer.exe" >nul 2>&1
 echo.
 echo ============================================================
 echo   Python 安装完成！
@@ -95,9 +118,10 @@ goto :end
 
 :no_installer
 echo.
-echo [错误] 未找到安装包「初始化-1-安装Python.exe」。
-echo 请从 https://www.python.org/downloads/ 下载 Python 3.10+ 安装，
+echo [错误] 自动下载 Python 安装包失败。
+echo 请手动从 https://www.python.org/downloads/ 下载 Python 3.10+ 安装，
 echo 安装时务必勾选 "Add python.exe to PATH"，然后重新运行本脚本。
+echo 或者把安装包命名为「初始化-1-安装Python.exe」放在本目录下。
 echo.
 goto :end
 

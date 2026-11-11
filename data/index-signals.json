@@ -1,12 +1,12 @@
 {
-  "as_of": "2026-11-06",
+  "as_of": "2026-11-09",
   "is_mock": false,
   "indices": [
     {
       "code": "sh000001",
       "name": "上证指数",
-      "latest": 3641.78,
-      "change_pct": -1.3044,
+      "latest": 3660.79,
+      "change_pct": 0.522,
       "current_signal": {
         "type": "none",
         "date": null
@@ -5851,6 +5851,10 @@
         {
           "date": "2026-11-06",
           "close": 3641.78
+        },
+        {
+          "date": "2026-11-09",
+          "close": 3660.79
         }
       ],
       "signals": [
@@ -6036,7 +6040,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-06",
+            "end": "2026-11-09",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -6099,7 +6103,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-06",
+        "end": "2026-11-09",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -6462,8 +6466,8 @@
     {
       "code": "sz399001",
       "name": "深证成指",
-      "latest": 11145.49,
-      "change_pct": -0.3712,
+      "latest": 11284.24,
+      "change_pct": 1.2449,
       "current_signal": {
         "type": "none",
         "date": null
@@ -12307,11 +12311,15 @@
         },
         {
           "date": "2026-11-06",
-          "close": 11187.02
+          "close": 11175.78
         },
         {
           "date": "2026-11-09",
           "close": 11145.49
+        },
+        {
+          "date": "2026-11-10",
+          "close": 11284.24
         }
       ],
       "signals": [
@@ -12497,7 +12505,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-09",
+            "end": "2026-11-10",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -12560,7 +12568,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-09",
+        "end": "2026-11-10",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -12905,8 +12913,8 @@
     {
       "code": "sz399006",
       "name": "创业板指",
-      "latest": 2458.56,
-      "change_pct": -0.7473,
+      "latest": 2490.64,
+      "change_pct": 1.3048,
       "current_signal": {
         "type": "none",
         "date": null
@@ -18750,11 +18758,15 @@
         },
         {
           "date": "2026-11-06",
-          "close": 2477.07
+          "close": 2465.23
         },
         {
           "date": "2026-11-09",
           "close": 2458.56
+        },
+        {
+          "date": "2026-11-10",
+          "close": 2490.64
         }
       ],
       "signals": [
@@ -18940,7 +18952,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-09",
+            "end": "2026-11-10",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -19003,7 +19015,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-09",
+        "end": "2026-11-10",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -19330,8 +19342,8 @@
     {
       "code": "sh000688",
       "name": "科创50",
-      "latest": 1256.96,
-      "change_pct": 0.4748,
+      "latest": 1264.45,
+      "change_pct": 0.5959,
       "current_signal": {
         "type": "none",
         "date": null
@@ -25175,11 +25187,15 @@
         },
         {
           "date": "2026-11-06",
-          "close": 1251.02
+          "close": 1253.2
         },
         {
           "date": "2026-11-09",
           "close": 1256.96
+        },
+        {
+          "date": "2026-11-10",
+          "close": 1264.45
         }
       ],
       "signals": [
@@ -25437,7 +25453,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-09",
+            "end": "2026-11-10",
             "summary": {
               "bottom": {
                 "total": 2,
@@ -25533,7 +25549,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-09",
+        "end": "2026-11-10",
         "bottom": {
           "triggers": 4,
           "successes": 4,
@@ -32343,8 +32359,8 @@
     {
       "code": "sh000905",
       "name": "中证500",
-      "latest": 6614.2,
-      "change_pct": -1.88,
+      "latest": 6586.18,
+      "change_pct": -0.4236,
       "current_signal": {
         "type": "none",
         "date": null
@@ -38189,6 +38205,10 @@
         {
           "date": "2026-11-06",
           "close": 6614.2
+        },
+        {
+          "date": "2026-11-09",
+          "close": 6586.18
         }
       ],
       "signals": [
@@ -38387,7 +38407,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-06",
+            "end": "2026-11-09",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -38450,7 +38470,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-06",
+        "end": "2026-11-09",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -38759,8 +38779,8 @@
     {
       "code": "sh000852",
       "name": "中证1000",
-      "latest": 6505.35,
-      "change_pct": -2.1772,
+      "latest": 6499.74,
+      "change_pct": -0.0862,
       "current_signal": {
         "type": "none",
         "date": null
@@ -44605,6 +44625,10 @@
         {
           "date": "2026-11-06",
           "close": 6505.35
+        },
+        {
+          "date": "2026-11-09",
+          "close": 6499.74
         }
       ],
       "signals": [
@@ -44839,7 +44863,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-06",
+            "end": "2026-11-09",
             "summary": {
               "bottom": {
                 "total": 1,
@@ -44919,7 +44943,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-06",
+        "end": "2026-11-09",
         "bottom": {
           "triggers": 3,
           "successes": 3,
@@ -45229,7 +45253,7 @@
       "price": 1422.23,
       "grade": "A",
       "max_drawdown_20": 0.0007874956933828781,
-      "change_since": -11.6205
+      "change_since": -11.0938
     },
     {
       "date": "2026-01-08",
@@ -45239,7 +45263,7 @@
       "price": 1455.17,
       "grade": "B",
       "max_drawdown_20": -0.015565191695815717,
-      "change_since": -13.6211
+      "change_since": -13.1064
     },
     {
       "date": "2025-02-12",
@@ -45249,7 +45273,7 @@
       "price": 6284.61,
       "grade": "B",
       "max_drawdown_20": -0.022669664466052675,
-      "change_since": 3.5124
+      "change_since": 3.4231
     },
     {
       "date": "2024-09-27",
@@ -45259,7 +45283,7 @@
       "price": 1885.49,
       "grade": "B",
       "max_drawdown_20": 0.0784888808744677,
-      "change_since": 30.3937
+      "change_since": 32.0951
     },
     {
       "date": "2024-09-27",
@@ -45269,7 +45293,7 @@
       "price": 9514.86,
       "grade": "B",
       "max_drawdown_20": 0.03961172313623118,
-      "change_since": 17.1377
+      "change_since": 18.596
     },
     {
       "date": "2024-09-27",
@@ -45279,7 +45303,7 @@
       "price": 5201.67,
       "grade": "B",
       "max_drawdown_20": 0.04177889024101877,
-      "change_since": 27.1553
+      "change_since": 26.6166
     },
     {
       "date": "2024-09-27",
@@ -45289,7 +45313,7 @@
       "price": 740.02,
       "grade": "B",
       "max_drawdown_20": 0.1788465176616849,
-      "change_since": 69.8549
+      "change_since": 70.867
     },
     {
       "date": "2024-09-26",
@@ -45309,7 +45333,7 @@
       "price": 3000.95,
       "grade": "B",
       "max_drawdown_20": 0.028850863893100653,
-      "change_since": 21.3542
+      "change_since": 21.9877
     },
     {
       "date": "2024-02-21",
@@ -45329,7 +45353,7 @@
       "price": 6289.15,
       "grade": "B",
       "max_drawdown_20": -0.008226866905702623,
-      "change_since": 5.1684
+      "change_since": 4.7229
     },
     {
       "date": "2023-01-31",
@@ -45339,7 +45363,7 @@
       "price": 6805.28,
       "grade": "B",
       "max_drawdown_20": 0.009297192767968365,
-      "change_since": -4.4073
+      "change_since": -4.4897
     },
     {
       "date": "2023-01-16",
@@ -45349,7 +45373,7 @@
       "price": 2539.52,
       "grade": "B",
       "max_drawdown_20": -0.0355067099294355,
-      "change_since": -3.188
+      "change_since": -1.9248
     },
     {
       "date": "2023-01-16",
@@ -45359,7 +45383,7 @@
       "price": 11785.77,
       "grade": "B",
       "max_drawdown_20": -0.005939365862391632,
-      "change_since": -5.4327
+      "change_since": -4.2554
     },
     {
       "date": "2022-11-15",
@@ -45369,7 +45393,7 @@
       "price": 3134.08,
       "grade": "B",
       "max_drawdown_20": -0.01771811823565439,
-      "change_since": 16.1993
+      "change_since": 16.8059
     },
     {
       "date": "2022-06-06",
@@ -45389,7 +45413,7 @@
       "price": 6854.73,
       "grade": "B",
       "max_drawdown_20": -0.026476608123150003,
-      "change_since": -5.0969
+      "change_since": -5.1788
     },
     {
       "date": "2021-05-27",
@@ -45399,7 +45423,7 @@
       "price": 1397.77,
       "grade": "B",
       "max_drawdown_20": -0.008391938587893555,
-      "change_since": -10.0739
+      "change_since": -9.538
     }
   ],
   "candidates": []
