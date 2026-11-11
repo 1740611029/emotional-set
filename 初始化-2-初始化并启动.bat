@@ -87,16 +87,28 @@ set "INSTALLER=初始化-1-安装Python.exe"
 REM ---- 优先使用本地自带的安装包（老电脑或手动放过的）----
 if exist "%INSTALLER%" goto :run_installer
 
-REM ---- 本地没有，从 GitHub Release 下载 ----
-echo 本地未找到安装包，正在从 GitHub 下载（约 28MB，请耐心等待）...
-set "REL_URL=https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe"
-set "REL_URL_PROXY=https://gh-proxy.com/https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe"
+REM ---- 本地没有，按顺序从多个来源下载（第1、2次为 GitHub Release，失败后切官方兜底）----
+echo 本地未找到安装包，开始下载 Python 安装包（约 28MB，请耐心等待）...
+echo.
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri '%REL_URL%' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+REM ---- 第 1 次：GitHub Release 直连 ----
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri 'https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
 if not errorlevel 1 goto :downloaded
 
+REM ---- 第 2 次：GitHub Release 经代理加速 ----
 echo 直连失败，改用加速镜像重试...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri '%REL_URL_PROXY%' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri 'https://gh-proxy.com/https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+if not errorlevel 1 goto :downloaded
+
+REM ---- 兜底：Release 下载两次都失败，改用 Python 官网官方安装包 ----
+echo.
+echo GitHub 下载失败（重试 2 次），改用 Python 官网安装包...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.13.15/python-3.13.15-amd64.exe' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
+if not errorlevel 1 goto :downloaded
+
+REM ---- 最后兜底：备用镜像站 ----
+echo 官网也失败，改用备用镜像站...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -Uri 'https://ghfast.top/https://github.com/1740611029/emotional-set/releases/latest/download/python-installer.exe' -OutFile 'python-installer.exe' -UseBasicParsing -TimeoutSec 900; exit 0 } catch { exit 1 }" >nul 2>&1
 if errorlevel 1 goto :no_installer
 
 :downloaded
