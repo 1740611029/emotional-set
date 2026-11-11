@@ -200,13 +200,18 @@ export function Dashboard() {
 
       {/* 最新信号 */}
       <div className="glass-card rounded-2xl p-6 mb-8 fade-in" style={{ animationDelay: '0.22s' }}>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-start justify-between gap-4 mb-6">
           <h3 className="text-lg font-bold text-slate-800">最新信号状态</h3>
-          <div className="flex gap-3 text-xs text-slate-500">
-            <span className="flex items-center gap-1">
-              <span className="signal-dot confirm"></span>大波段底部信号
-            </span>
-            <span className="text-slate-400">顶部信号与研究阶段，暂未输出</span>
+          <div className="flex flex-col items-end gap-1.5">
+            <div className="flex gap-3 text-xs text-slate-500">
+              <span className="flex items-center gap-1">
+                <span className="signal-dot confirm"></span>大波段底部信号
+              </span>
+              <span className="text-slate-400">顶部信号与研究阶段，暂未输出</span>
+            </div>
+            <p className="text-xs text-slate-400 text-right leading-relaxed">
+              等级看信号成色：A = 位置 / 市场宽度 / 量能三项核心全到位、综合评分过半，最扎实；B = 同样过了三层确认，核心强度稍弱。
+            </p>
           </div>
         </div>
         <SignalTable
