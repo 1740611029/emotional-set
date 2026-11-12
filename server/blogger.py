@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import json
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -16,6 +17,8 @@ from . import paths
 
 POSTS_FILE = paths.ROOT / "同花顺博主追踪" / "data" / "posts.json"
 MD_FILE = paths.ROOT / "【全能的野人】同花顺发文.md"
+# 网页在线标记：采集脚本据此决定桌面通知由网页侧还是采集侧发出（避免同一条发文弹两次）
+PRESENCE_FILE = paths.ROOT / "同花顺博主追踪" / "data" / "web-presence.json"
 
 AUTHOR = "全能的野人"
 USER_ID = 639669238
@@ -88,3 +91,24 @@ def _updated_at() -> str | None:
         except OSError:
             continue
     return None
+
+
+def mark_presence(online: bool, notify: bool) -> dict:
+    """记录网页在线状态，供采集脚本决定桌面通知由哪一侧发出。
+
+    - online=True：网页心跳，at 为毫秒时间戳，notify 表示浏览器通知是否已授权。
+    - online=False：页面卸载（sendBeacon），at=0 让采集脚本立即接管，不必等心跳过期。
+    写标记失败时返回 at=0，采集脚本按「网页不在线」兜底发通知，不会漏提醒。
+    """
+    payload = {
+        "at": int(time.time() * 1000) if online else 0,
+        "notify": bool(notify) if online else False,
+    }
+    try:
+        PRESENCE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        tmp = PRESENCE_FILE.with_name(PRESENCE_FILE.name + ".tmp")
+        tmp.write_text(json.dumps(payload), encoding="utf-8")
+        tmp.replace(PRESENCE_FILE)
+    except OSError:
+        return {"at": 0, "notify": False, "written": False}
+    return {**payload, "written": True}

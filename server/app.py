@@ -4,12 +4,13 @@ from __future__ import annotations
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 from . import paths
 from .blogger import load_posts as blogger_posts
+from .blogger import mark_presence as blogger_presence
 from .etf_volume import EtfVolumeStore
 from .institutions import (
     DEFAULT_LIMIT, InstitutionStore, slice_payload,
@@ -45,7 +46,7 @@ app = FastAPI(title="SignalHub 数据服务", version="1.0.0", lifespan=lifespan
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -120,6 +121,17 @@ def etf_volume_series():
 def blogger_post_list():
     """同花顺博主【全能的野人】发文列表（只读落盘数据，保留近一个月）。"""
     return blogger_posts()
+
+
+@app.post("/api/blogger/present")
+def blogger_presence_api(payload: dict = Body(default={})):
+    """网页在线心跳：只写在线标记文件，不触发采集、不参与任何信号计算。
+
+    notify 为浏览器通知授权状态；采集脚本仅在「网页在线且已授权」时跳过桌面 Toast。
+    """
+    online = bool(payload.get("online", True))
+    notify = bool(payload.get("notify", False))
+    return blogger_presence(online, notify)
 
 
 @app.get("/api/lhb/overview")

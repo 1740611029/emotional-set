@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { SearchIcon, BellIcon } from './icons';
 import { titleByPath } from './Sidebar';
 import { useMarketData } from '../data/MarketDataProvider';
+import { useBloggerNotifications } from '../data/BloggerNotificationProvider';
 
 function ModeBadge({ mode }: { mode: 'live' | 'close' | null }) {
   if (mode === 'live') {
@@ -25,10 +26,30 @@ function ModeBadge({ mode }: { mode: 'live' | 'close' | null }) {
   );
 }
 
+const BELL_TITLE: Record<string, string> = {
+  granted: '发文桌面提醒已开启，点击发送一条测试通知',
+  default: '点击开启【全能的野人】发文桌面提醒',
+  denied: '浏览器通知权限被拒绝；系统通知仍由采集脚本发出',
+  unsupported: '当前浏览器不支持通知；系统通知仍由采集脚本发出',
+};
+
 export function TopBar() {
   const { pathname } = useLocation();
   const title = titleByPath.get(pathname) ?? '指标总览';
   const { snapshot, error, isLoading, lastSuccessAt, refresh } = useMarketData();
+  const { permission, enabled, enable, test } = useBloggerNotifications();
+
+  const onBellClick = () => {
+    if (permission === 'granted') {
+      test();
+    } else if (permission === 'default') {
+      void enable();
+    }
+  };
+
+  const bellIconClass = enabled
+    ? 'text-brand-600'
+    : permission === 'denied' ? 'text-coral-500' : 'text-slate-500';
 
   return (
     <header className="sticky top-0 z-10 glass-card border-b border-slate-100 px-8 py-4 flex items-center justify-between">
@@ -66,8 +87,14 @@ export function TopBar() {
         >
           {isLoading ? '刷新中' : '立即刷新'}
         </button>
-        <button className="p-2 rounded-lg hover:bg-slate-100 transition-colors">
-          <BellIcon className="w-5 h-5 text-slate-500" />
+        <button
+          type="button"
+          onClick={onBellClick}
+          title={BELL_TITLE[permission]}
+          aria-label={BELL_TITLE[permission]}
+          className={`p-2 rounded-lg transition-colors ${enabled ? 'bg-brand-50 hover:bg-brand-100' : 'hover:bg-slate-100'}`}
+        >
+          <BellIcon className={`w-5 h-5 ${bellIconClass}`} />
         </button>
       </div>
     </header>

@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 
 // ---------- 路径与常量 ----------
 const SCRIPT_DIR = __dirname;
@@ -25,6 +25,12 @@ const STATE_FILE = path.join(DATA_DIR, 'state.json');
 const LOG_DIR = path.join(SCRIPT_DIR, 'logs');
 const LOG_FILE = path.join(LOG_DIR, 'run.log');
 const LOCK_FILE = path.join(DATA_DIR, 'run.lock');
+// 网页在线标记：由服务端心跳写入、页面卸载时置 0；采集脚本据此避免与网页侧重复弹通知
+const PRESENCE_FILE = path.join(DATA_DIR, 'web-presence.json');
+/** 心跳有效期：网页每 30 秒上报一次，留足浏览器后台节流的余量 */
+const PRESENCE_TTL_MS = 90_000;
+/** Windows PowerShell 的 AppUserModelId，用于显示系统 Toast（无需安装第三方模块） */
+const TOAST_APP_ID = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\WindowsPowerShell\\v1.0\\powershell.exe';
 
 const AUTHOR = '全能的野人';
 const USER_ID = 639669238;
@@ -81,6 +87,93 @@ function writeJSON(file, data) {
   const tmp = file + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(data, null, 2), 'utf8');
   fs.renameSync(tmp, file);
+}
+
+// ---------- 桌面通知（Windows 系统 Toast） ----------
+/** 网页是否在线且已获浏览器通知授权：是则桌面通知交给网页侧，本脚本不重复弹 */
+function webCanNotify() {
+  try {
+    if (!fs.existsSync(PRESENCE_FILE)) return false;
+    const p = readJSON(PRESENCE_FILE, {});
+    const at = Number(p.at) || 0;
+    return p.notify === true && at > 0 && Date.now() - at <= PRESENCE_TTL_MS;
+  } catch (e) {
+    return false;
+  }
+}
+
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/** 多条新发文合并成一条通知，标题带条数，正文展示最新一条 */
+function toastContent(fresh) {
+  const sorted = [...fresh].sort((a, b) => a.ctime - b.ctime);
+  const latest = sorted[sorted.length - 1];
+  const title = fresh.length === 1
+    ? '【全能的野人】新发文'
+    : `【全能的野人】新增 ${fresh.length} 条发文`;
+  const labels = latest.stocks && latest.stocks.length
+    ? latest.stocks.map((s) => s.name).join('、')
+    : '无个股标签';
+  const plain = (latest.text || (latest.images > 0 ? '（纯图片帖）' : '（正文为空）'))
+    .replace(/\s+/g, ' ')
+    .trim();
+  const snippet = plain.length > 70 ? `${plain.slice(0, 70)}…` : plain;
+  return { title, line1: `${latest.date} ${latest.time} ｜ ${labels}`, line2: snippet };
+}
+
+/**
+ * 用 PowerShell 发 Windows Toast。命令经 -EncodedCommand（UTF-16LE + Base64）传入，
+ * 避免中文正文在 Windows PowerShell 5.1 下因脚本编码产生乱码。
+ * 通知失败只记日志，不影响数据落盘。
+ */
+function sendDesktopToast(fresh) {
+  try {
+    const { title, line1, line2 } = toastContent(fresh);
+    const xml = [
+      '<toast duration="short">',
+      '<visual><binding template="ToastGeneric">',
+      `<text>${escapeXml(title)}</text>`,
+      `<text>${escapeXml(line1)}</text>`,
+      `<text>${escapeXml(line2)}</text>`,
+      '</binding></visual>',
+      '</toast>',
+    ].join('');
+    const ps = [
+      "$ErrorActionPreference='Stop'",
+      '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null',
+      '[Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null',
+      `$appId = '${TOAST_APP_ID}'`,
+      "$xml = @'",
+      xml,
+      "'@",
+      '$doc = New-Object Windows.Data.Xml.Dom.XmlDocument',
+      '$doc.LoadXml($xml)',
+      '$toast = New-Object Windows.UI.Notifications.ToastNotification($doc)',
+      '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId).Show($toast)',
+      "'TOAST_OK'",
+    ].join('\n');
+    const encoded = Buffer.from(ps, 'utf16le').toString('base64');
+    const r = spawnSync('powershell.exe', [
+      '-NoProfile', '-NonInteractive', '-WindowStyle', 'Hidden', '-EncodedCommand', encoded,
+    ], { encoding: 'utf8', timeout: 20_000, windowsHide: true });
+    const out = String(r.stdout || '').trim();
+    const err = String(r.stderr || '').trim();
+    if (r.status !== 0 || !out.includes('TOAST_OK')) {
+      log(`桌面通知 PowerShell 返回异常：status=${r.status} stdout=${out.slice(0, 200)} stderr=${err.slice(0, 200)}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    log(`桌面通知发送异常：${e.message}`);
+    return false;
+  }
 }
 
 /** 毫秒时间戳 → 北京时间 {date:'2026-11-10', time:'14:35', full:'2026-11-10 14:35:56'} */
@@ -438,6 +531,18 @@ async function main() {
     });
     state.seen_ids = Array.from(known);
     writeJSON(STATE_FILE, state);
+
+    // 桌面通知：网页在线且已授权时交给网页侧，否则由本脚本发 Windows Toast 兜底
+    if (freshKept.length) {
+      if (webCanNotify()) {
+        log(`新增 ${freshKept.length} 条：网页在线且已授权通知，桌面通知交由网页侧发出`);
+      } else {
+        const sent = sendDesktopToast(freshKept);
+        log(sent
+          ? `已发送桌面通知（${freshKept.length} 条）`
+          : '桌面通知发送失败（不影响数据落盘）');
+      }
+    }
 
     if (fresh.length) {
       log(`新增 ${fresh.length} 条：${fresh.map((p) => `${p.date} ${p.time}[${p.id}]`).join(' , ')}`);

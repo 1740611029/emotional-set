@@ -1,4 +1,5 @@
-# 运行时状态：含同花顺访问令牌（hexin-v）与运行日志，不入库
+# 运行时状态：含同花顺访问令牌（hexin-v）、网页在线标记与运行日志，不入库
 data/state.json
 data/run.lock
+data/web-presence.json
 logs/
