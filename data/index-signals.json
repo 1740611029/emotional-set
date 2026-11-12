@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-10",
+  "as_of": "2026-11-11",
   "is_mock": false,
   "indices": [
     {
@@ -32387,8 +32387,8 @@
     {
       "code": "sh000905",
       "name": "中证500",
-      "latest": 6645.89,
-      "change_pct": 0.9066,
+      "latest": 6713.18,
+      "change_pct": 1.0125,
       "current_signal": {
         "type": "none",
         "date": null
@@ -38241,6 +38241,10 @@
         {
           "date": "2026-11-10",
           "close": 6645.89
+        },
+        {
+          "date": "2026-11-11",
+          "close": 6713.18
         }
       ],
       "signals": [
@@ -38439,7 +38443,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-10",
+            "end": "2026-11-11",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -38502,7 +38506,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-10",
+        "end": "2026-11-11",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -45343,7 +45347,7 @@
       "price": 5201.67,
       "grade": "B",
       "max_drawdown_20": 0.04177889024101877,
-      "change_since": 27.7645
+      "change_since": 29.0582
     },
     {
       "date": "2024-09-27",
@@ -45393,7 +45397,7 @@
       "price": 6289.15,
       "grade": "B",
       "max_drawdown_20": -0.008226866905702623,
-      "change_since": 5.6723
+      "change_since": 6.7422
     },
     {
       "date": "2023-01-31",

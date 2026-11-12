@@ -12,18 +12,18 @@
     "code": "sz399001",
     "name": "深证成指",
     "source": "同花顺公开日线（按年份）",
-    "rows": 1463,
+    "rows": 1464,
     "start": "2020-10-30",
-    "end": "2026-11-11",
+    "end": "2026-11-12",
     "path": "data\\raw\\indices-ths\\sz399001.csv"
   },
   {
     "code": "sz399006",
     "name": "创业板指",
     "source": "同花顺公开日线（按年份）",
-    "rows": 1463,
+    "rows": 1464,
     "start": "2020-10-30",
-    "end": "2026-11-11",
+    "end": "2026-11-12",
     "path": "data\\raw\\indices-ths\\sz399006.csv"
   },
   {
@@ -39,18 +39,18 @@
     "code": "sh000300",
     "name": "沪深300",
     "source": "同花顺公开日线（按年份）",
-    "rows": 1463,
+    "rows": 1464,
     "start": "2020-10-30",
-    "end": "2026-11-11",
+    "end": "2026-11-12",
     "path": "data\\raw\\indices-ths\\sh000300.csv"
   },
   {
     "code": "sh000905",
     "name": "中证500",
     "source": "同花顺公开日线（按年份）",
-    "rows": 1462,
+    "rows": 1463,
     "start": "2020-10-30",
-    "end": "2026-11-10",
+    "end": "2026-11-11",
     "path": "data\\raw\\indices-ths\\sh000905.csv"
   },
   {

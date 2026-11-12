@@ -22,6 +22,8 @@ MAX_CLOSE_ATTEMPTS = 3
 CLOSE_RETRY_MINUTES = 10
 # 收盘后补齐时刻：东财行业板块日线常在 T 日晚间甚至 T+1 上午才发布，15:00 那一次常常拿不到
 EVENING_SLOTS = (("17:30", 17 * 60 + 30), ("20:00", 20 * 60), ("22:00", 22 * 60))
+# 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
+LHB_SLOTS = (("20:00", 20 * 60), ("22:00", 22 * 60))
 
 
 def _stale_detail(gap: dict) -> str:
@@ -51,6 +53,9 @@ class MarketScheduler:
         self._close_retry_at: datetime | None = None
         self._evening_day: str | None = None
         self._evening_done: set[str] = set()
+        # 龙虎榜知名游资日更状态（展示层数据，失败不影响信号链路）
+        self._lhb_day: str | None = None
+        self._lhb_done_slots: set[str] = set()
         self._task: asyncio.Task | None = None
         self.last_error: str | None = None
 
@@ -178,6 +183,7 @@ class MarketScheduler:
             # 收盘分支内部自己取锁：原始日线刷新可能长达十余分钟，不得长期占住盘中刷新的单飞锁
             await self._tick_close(now)
             await self._tick_evening(now)
+            await self._tick_lhb(now)
 
     async def _tick_live(self, now: datetime) -> None:
         from fetch_market import INDEXES  # noqa: PLC0415
@@ -298,6 +304,35 @@ class MarketScheduler:
         self._close_date = today
         self._evening_done.update(item for item, _ in EVENING_SLOTS)
         print(f"[scheduler] 晚间补齐 {slot} 成功：已覆盖最近交易日", flush=True)
+
+    async def _tick_lhb(self, now: datetime) -> None:
+        """龙虎榜知名游资日更：只影响 lhb-traders.json 展示产物，失败不影响信号链路。
+
+        每个时刻每日只试一次；20:00 首试，当日数据未发布则 22:00 兜底再试。
+        """
+        today = now.strftime("%Y-%m-%d")
+        if self._lhb_day != today:
+            self._lhb_day = today
+            self._lhb_done_slots = set()
+        minutes = now.hour * 60 + now.minute
+        due = [slot for slot, at in LHB_SLOTS if minutes >= at]
+        if not due:
+            return
+        slot = due[-1]
+        if slot in self._lhb_done_slots:
+            return
+        self._lhb_done_slots.add(slot)
+        if now.weekday() >= 5:
+            return
+        from lhb_traders import run_daily_update  # noqa: PLC0415  # pipeline 平级导入
+
+        print(f"[scheduler] 龙虎榜游资日更 {slot} 开始", flush=True)
+        try:
+            result = await asyncio.to_thread(run_daily_update)
+            print(f"[scheduler] 龙虎榜游资日更 {slot} 完成：{result}", flush=True)
+        except Exception as exc:  # noqa: BLE001  # 展示层数据，失败留到下一时刻或下次启动
+            self.last_error = f"龙虎榜游资日更失败：{type(exc).__name__}: {exc}"
+            print(f"[scheduler] {self.last_error}", flush=True)
 
     # ---------- 观测 ----------
 

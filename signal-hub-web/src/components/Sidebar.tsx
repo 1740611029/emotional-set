@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import type { ComponentType, SVGProps } from 'react';
-import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon } from './icons';
+import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon, LhbIcon } from './icons';
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -43,6 +43,10 @@ export const navGroups: NavGroup[] = [
   {
     section: '博主动态',
     items: [{ key: 'blogger', label: '【全能的野人】发文', to: '/blogger', icon: PostIcon }],
+  },
+  {
+    section: '龙虎榜',
+    items: [{ key: 'lhb', label: '龙虎榜知名游资', to: '/lhb', icon: LhbIcon }],
   },
 ];
 

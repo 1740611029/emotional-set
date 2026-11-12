@@ -481,3 +481,103 @@ export interface BloggerPosts {
   total: number;
   posts: BloggerPost[];
 }
+
+/** 龙虎榜知名游资：席位（公开资料整理，非官方认证） */
+export interface LhbSeat {
+  full: string;
+  broker?: string;
+  addr?: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+/** 龙虎榜知名游资：单条操作记录（按 日期+代码+单日/多日 粒度去重） */
+export interface LhbRecord {
+  date: string;
+  code: string;
+  name: string;
+  reasons: string[];
+  is_multi_day: boolean;
+  buy: number;
+  sell: number;
+  net: number;
+  close: number | null;
+  pct_chg: number | null;
+  board: string | null;
+  seat_hits: string[];
+  confidence: 'high' | 'medium' | 'low';
+}
+
+/** 龙虎榜知名游资：区间统计（仅单日榜口径） */
+export interface LhbStats {
+  active_days: number;
+  records: number;
+  stocks: number;
+  buy_total: number;
+  sell_total: number;
+  net_total: number;
+}
+
+/** 龙虎榜知名游资：游资条目 */
+export interface LhbTrader {
+  id: string;
+  name: string;
+  full_name: string;
+  tier: string;
+  style: string;
+  confidence: 'high' | 'medium' | 'low';
+  note: string;
+  seats: LhbSeat[];
+  stats: LhbStats;
+  records: LhbRecord[];
+}
+
+/** 龙虎榜知名游资：总览视图中的游资（含最近 10 条记录） */
+export interface LhbOverviewTrader extends LhbTrader {
+  recent: LhbRecord[];
+}
+
+/** 龙虎榜知名游资：单日动向行 */
+export interface LhbDailyRow {
+  trader: string;
+  trader_id: string;
+  tier: string;
+  code: string;
+  name: string;
+  buy: number;
+  sell: number;
+  net: number;
+  pct_chg: number | null;
+  board: string | null;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+/** 龙虎榜知名游资：总览响应 */
+export interface LhbOverview {
+  data_state: string;
+  stale: boolean;
+  as_of: string | null;
+  generated_at: string | null;
+  algorithm_version: string | null;
+  seat_map_version: string | null;
+  scope_note: string | null;
+  trading_dates: string[];
+  traders: LhbOverviewTrader[];
+}
+
+/** 龙虎榜知名游资：单游资详情响应 */
+export interface LhbTraderDetail {
+  data_state: string;
+  as_of: string | null;
+  trader: LhbTrader | null;
+  records: LhbRecord[];
+  total_records: number;
+}
+
+/** 龙虎榜知名游资：按日动向响应 */
+export interface LhbDaily {
+  data_state: string;
+  as_of: string | null;
+  date: string;
+  rows: LhbDailyRow[];
+  trading_dates: string[];
+}

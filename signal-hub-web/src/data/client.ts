@@ -1,6 +1,7 @@
 /** 快照接口客户端：超时、结构校验与错误归一化。 */
 import type {
-  BloggerPosts, EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams, SectorHistory, Snapshot,
+  BloggerPosts, EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams,
+  LhbDaily, LhbOverview, LhbTraderDetail, SectorHistory, Snapshot,
 } from './types';
 
 const ENDPOINT = '/api/snapshot';
@@ -257,6 +258,83 @@ export async function fetchBloggerPosts(signal?: AbortSignal): Promise<BloggerPo
     if (error instanceof ApiError) throw error;
     if ((error as Error)?.name === 'AbortError') throw new ApiError('博主动态请求超时或已取消');
     throw new ApiError((error as Error)?.message || '博主动态请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+function normalizeLhb(payload: unknown, label: string): Record<string, unknown> {
+  if (!isRecord(payload)) throw new ApiError(`${label}响应格式错误`);
+  return payload;
+}
+
+/** 龙虎榜知名游资总览：只读落盘数据，由日更管道更新。 */
+export async function fetchLhbOverview(signal?: AbortSignal): Promise<LhbOverview> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch('/api/lhb/overview', {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new ApiError(`龙虎榜游资接口返回 ${response.status}`, response.status);
+    return normalizeLhb(await response.json(), '龙虎榜游资总览') as unknown as LhbOverview;
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('龙虎榜游资请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '龙虎榜游资请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+/** 龙虎榜知名游资：单个游资完整记录。 */
+export async function fetchLhbTrader(traderId: string, signal?: AbortSignal): Promise<LhbTraderDetail> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch(`/api/lhb/traders/${encodeURIComponent(traderId)}`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new ApiError(`龙虎榜游资接口返回 ${response.status}`, response.status);
+    return normalizeLhb(await response.json(), '龙虎榜游资详情') as unknown as LhbTraderDetail;
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('龙虎榜游资请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '龙虎榜游资请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+/** 龙虎榜知名游资：某交易日全部动向。 */
+export async function fetchLhbDaily(date: string, signal?: AbortSignal): Promise<LhbDaily> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch(`/api/lhb/daily/${encodeURIComponent(date)}`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new ApiError(`龙虎榜游资接口返回 ${response.status}`, response.status);
+    return normalizeLhb(await response.json(), '龙虎榜按日动向') as unknown as LhbDaily;
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('龙虎榜游资请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '龙虎榜游资请求失败');
   } finally {
     window.clearTimeout(timer);
     signal?.removeEventListener('abort', forwardAbort);

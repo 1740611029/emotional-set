@@ -484,9 +484,112 @@ ETF_VOLUME_EVENTS_SCHEMA = {
     },
     "additionalProperties": False,
 }
+LHB_SEAT = {
+    "type": "object",
+    "required": ["full", "confidence"],
+    "properties": {
+        "full": {"type": "string", "minLength": 1},
+        "broker": {"type": "string", "minLength": 1},
+        "addr": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]},
+    },
+    "additionalProperties": False,
+}
+LHB_RECORD = {
+    "type": "object",
+    "required": ["date", "code", "name", "reasons", "is_multi_day",
+                 "buy", "sell", "net", "seat_hits", "confidence"],
+    "properties": {
+        "date": DATE,
+        "code": {"type": "string", "minLength": 1},
+        "name": {"type": "string"},
+        "reasons": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "is_multi_day": {"type": "boolean"},
+        "buy": {"type": "number"},
+        "sell": {"type": "number"},
+        "net": {"type": "number"},
+        "close": {"type": ["number", "null"]},
+        "pct_chg": {"type": ["number", "null"]},
+        "board": {"type": ["string", "null"]},
+        "seat_hits": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["high", "medium", "low"]},
+    },
+    "additionalProperties": False,
+}
+LHB_STATS = {
+    "type": "object",
+    "required": ["active_days", "records", "stocks", "buy_total", "sell_total", "net_total"],
+    "properties": {
+        "active_days": COUNT, "records": COUNT, "stocks": COUNT,
+        "buy_total": {"type": "number"}, "sell_total": {"type": "number"},
+        "net_total": {"type": "number"},
+    },
+    "additionalProperties": False,
+}
+LHB_TRADER = {
+    "type": "object",
+    "required": ["id", "name", "full_name", "tier", "style", "confidence",
+                 "note", "seats", "stats", "records"],
+    "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "full_name": {"type": "string"},
+        "tier": {"type": "string"},
+        "style": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "note": {"type": "string"},
+        "seats": {"type": "array", "items": LHB_SEAT},
+        "stats": LHB_STATS,
+        "records": {"type": "array", "items": LHB_RECORD},
+    },
+    "additionalProperties": False,
+}
+LHB_DAILY_ROW = {
+    "type": "object",
+    "required": ["trader", "trader_id", "tier", "code", "name",
+                 "buy", "sell", "net", "confidence"],
+    "properties": {
+        "trader": {"type": "string", "minLength": 1},
+        "trader_id": {"type": "string", "minLength": 1},
+        "tier": {"type": "string"},
+        "code": {"type": "string", "minLength": 1},
+        "name": {"type": "string"},
+        "buy": {"type": "number"}, "sell": {"type": "number"}, "net": {"type": "number"},
+        "pct_chg": {"type": ["number", "null"]},
+        "board": {"type": ["string", "null"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+    },
+    "additionalProperties": False,
+}
+LHB_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "generated_at", "algorithm_version", "seat_map_version",
+                 "scope_note", "trading_dates", "traders", "daily", "quality"],
+    "properties": {
+        "as_of": {"type": ["string", "null"]},
+        "generated_at": {"type": "string", "minLength": 1},
+        "algorithm_version": {"type": "string", "minLength": 1},
+        "seat_map_version": {"type": "string", "minLength": 1},
+        "scope_note": {"type": "string", "minLength": 1},
+        "trading_dates": {"type": "array", "items": DATE},
+        "traders": {"type": "array", "minItems": 1, "items": LHB_TRADER},
+        "daily": {"type": "object", "additionalProperties": {"type": "array", "items": LHB_DAILY_ROW}},
+        "quality": {
+            "type": "object",
+            "required": ["unmatched_branches", "unmatched_count"],
+            "properties": {
+                "unmatched_branches": {"type": "array", "items": {"type": "string"}},
+                "unmatched_count": COUNT,
+            },
+            "additionalProperties": False,
+        },
+    },
+    "additionalProperties": False,
+}
 SCHEMAS = {"index-signals.json": INDEX_SCHEMA, "sector-trends.json": SECTOR_SCHEMA,
            "institution-positions.json": INSTITUTION_SCHEMA,
-           "etf-volume-events.json": ETF_VOLUME_EVENTS_SCHEMA}
+           "etf-volume-events.json": ETF_VOLUME_EVENTS_SCHEMA,
+           "lhb-traders.json": LHB_SCHEMA}
 
 
 def validate_index_evaluation(item: dict) -> None:

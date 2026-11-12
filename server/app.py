@@ -15,6 +15,8 @@ from .institutions import (
     DEFAULT_LIMIT, InstitutionStore, slice_payload,
     summary as institution_summary, validate_params,
 )
+from .lhb import DEFAULT_LIMIT as LHB_DEFAULT_LIMIT, MAX_LIMIT as LHB_MAX_LIMIT, LhbStore
+from .lhb import daily as lhb_daily, overview as lhb_overview, trader_detail as lhb_trader_detail
 from .scheduler import MarketScheduler
 from .snapshot import PayloadStore, SnapshotStore, now_iso
 from confirmed_sector_trends import STATE_NAMES  # noqa: E402  # paths 已配置 sys.path
@@ -24,6 +26,8 @@ SECTOR_STORE = PayloadStore()
 INSTITUTION_STORE = InstitutionStore()
 # ETF 成交额序列：只读展示层，与快照轮询解耦，不参与任何信号计算
 ETF_VOLUME_STORE = EtfVolumeStore()
+# 龙虎榜知名游资：只读展示层，不参与任何信号计算
+LHB_STORE = LhbStore()
 SCHEDULER = MarketScheduler(STORE, interval=int(os.environ.get("REFRESH_SECONDS", "30")))
 HISTORY_DAYS = (60, 120, 250)
 
@@ -116,6 +120,25 @@ def etf_volume_series():
 def blogger_post_list():
     """同花顺博主【全能的野人】发文列表（只读落盘数据，保留近一个月）。"""
     return blogger_posts()
+
+
+@app.get("/api/lhb/overview")
+def lhb_overview_api():
+    """龙虎榜知名游资总览：26 位游资统计 + 最近操作（只读落盘数据）。"""
+    return lhb_overview(LHB_STORE.load())
+
+
+@app.get("/api/lhb/traders/{trader_id}")
+def lhb_trader_api(trader_id: str, limit: int = LHB_DEFAULT_LIMIT):
+    """单个游资完整操作记录。"""
+    limit = max(1, min(int(limit), LHB_MAX_LIMIT))
+    return lhb_trader_detail(LHB_STORE.load(), trader_id, limit=limit)
+
+
+@app.get("/api/lhb/daily/{date}")
+def lhb_daily_api(date: str):
+    """某交易日全部已收录游资的买卖动向（单日榜口径）。"""
+    return lhb_daily(LHB_STORE.load(), date)
 
 
 @app.get("/api/indices/{code}/history")

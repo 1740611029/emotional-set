@@ -106,3 +106,11 @@ export const PostIcon = (p: P) => (
     <path d="M8 8h8M8 12h5" />
   </Svg>
 );
+
+/** 龙虎榜：领奖台榜单图标 */
+export const LhbIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" />
+    <path d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" />
+  </Svg>
+);
