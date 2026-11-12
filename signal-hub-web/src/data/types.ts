@@ -531,10 +531,8 @@ export interface LhbTrader {
   records: LhbRecord[];
 }
 
-/** 龙虎榜知名游资：总览视图中的游资（含最近 10 条记录） */
-export interface LhbOverviewTrader extends LhbTrader {
-  recent: LhbRecord[];
-}
+/** 龙虎榜知名游资：总览视图中的游资（含完整操作记录） */
+export type LhbOverviewTrader = LhbTrader;
 
 /** 龙虎榜知名游资：单日动向行 */
 export interface LhbDailyRow {

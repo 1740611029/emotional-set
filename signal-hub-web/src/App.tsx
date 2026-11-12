@@ -18,21 +18,23 @@ export default function App() {
       <BrowserRouter>
         <div className="flex h-screen overflow-hidden">
           <Sidebar />
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-hidden flex flex-col">
             <TopBar />
-            <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/sectors" element={<Sectors />} />
-                <Route path="/institutions" element={<InstitutionPositions />} />
-                <Route path="/etf-volume" element={<EtfVolume />} />
-                <Route path="/blogger" element={<BloggerPosts />} />
-                <Route path="/lhb" element={<LhbTraders />} />
-                <Route path="/institution" element={<Navigate to="/institutions" replace />} />
-                {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/sectors" element={<Sectors />} />
+                  <Route path="/institutions" element={<InstitutionPositions />} />
+                  <Route path="/etf-volume" element={<EtfVolume />} />
+                  <Route path="/blogger" element={<BloggerPosts />} />
+                  <Route path="/lhb" element={<LhbTraders />} />
+                  <Route path="/institution" element={<Navigate to="/institutions" replace />} />
+                  {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </div>
           </main>
         </div>
       </BrowserRouter>

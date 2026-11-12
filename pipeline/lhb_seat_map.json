@@ -1,0 +1,389 @@
+{
+  "version": "lhb-seat-map-v1.0",
+  "updated_at": "2026-11-12",
+  "note": "席位为公开资料交叉整理，非官方认证；同一营业部可能被多类资金混用。匹配规则：营业部全名归一化精确匹配，未命中且带 addr/broker 的席位按「券商名前缀+地址核心词」二级匹配。低置信席位命中后页面需标注存疑。",
+  "traders": [
+    {
+      "id": "zhang-mengzhu",
+      "name": "章盟主",
+      "full_name": "章盟主（章建平）",
+      "tier": "殿堂级",
+      "style": "百亿体量，权重主升浪，善庄锁仓",
+      "confidence": "high",
+      "note": "2026 年仍为最活跃顶级游资；市场传闻紫阳东路与其存在分仓关联，未经证实，不作认定",
+      "seats": [
+        {"full": "国泰君安证券上海江苏路证券营业部", "broker": "国泰君安", "addr": "江苏路", "confidence": "high"},
+        {"full": "国泰海通证券上海江苏路证券营业部", "broker": "国泰海通", "addr": "江苏路", "confidence": "high"},
+        {"full": "国泰海通证券上海长宁区江苏路证券营业部", "broker": "国泰海通", "addr": "江苏路", "confidence": "high"},
+        {"full": "国泰君安证券上海海阳西路证券营业部", "broker": "国泰君安", "addr": "海阳西路", "confidence": "high"},
+        {"full": "国泰海通证券上海海阳西路证券营业部", "broker": "国泰海通", "addr": "海阳西路", "confidence": "high"},
+        {"full": "国泰君安证券宁波彩虹北路证券营业部", "broker": "国泰君安", "addr": "彩虹北路", "confidence": "high"},
+        {"full": "国泰海通证券宁波广福街证券营业部", "broker": "国泰海通", "addr": "广福街", "confidence": "medium"},
+        {"full": "海通证券上海建国西路证券营业部", "broker": "海通证券", "addr": "建国西路", "confidence": "low"},
+        {"full": "中信证券杭州延安路证券营业部", "broker": "中信证券", "addr": "延安路", "confidence": "high"},
+        {"full": "中信证券杭州富春路证券营业部", "broker": "中信证券", "addr": "富春路", "confidence": "medium"},
+        {"full": "中信证券杭州四季路证券营业部", "broker": "中信证券", "addr": "四季路", "confidence": "low"},
+        {"full": "浙商证券杭州五星路证券营业部", "broker": "浙商证券", "addr": "五星路", "confidence": "high"}
+      ]
+    },
+    {
+      "id": "zhao-laoge",
+      "name": "赵老哥",
+      "full_name": "赵老哥（赵强）",
+      "tier": "殿堂级",
+      "style": "八年一万倍，二板定龙头",
+      "confidence": "high",
+      "note": "2026 年活跃度较巅峰期下降",
+      "seats": [
+        {"full": "中国银河证券绍兴证券营业部", "broker": "中国银河", "addr": "绍兴", "confidence": "high"},
+        {"full": "中国银河证券绍兴解放北路证券营业部", "broker": "中国银河", "addr": "解放北路", "confidence": "medium"},
+        {"full": "浙商证券绍兴分公司", "confidence": "high"},
+        {"full": "中国银河证券北京阜成路证券营业部", "broker": "中国银河", "addr": "阜成路", "confidence": "medium"},
+        {"full": "华泰证券永嘉阳光大道证券营业部", "broker": "华泰证券", "addr": "阳光大道", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "chaogu-yangjia",
+      "name": "炒股养家",
+      "full_name": "炒股养家",
+      "tier": "殿堂级",
+      "style": "一字板之王，通道排板，情绪周期宗师",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "华鑫证券上海茅台路证券营业部", "broker": "华鑫", "addr": "茅台路", "confidence": "high"},
+        {"full": "华鑫证券上海宛平南路证券营业部", "broker": "华鑫", "addr": "宛平南路", "confidence": "high"},
+        {"full": "华鑫证券上海红宝石路证券营业部", "broker": "华鑫", "addr": "红宝石路", "confidence": "high"},
+        {"full": "华鑫证券上海光复路证券营业部", "broker": "华鑫", "addr": "光复路", "confidence": "medium"},
+        {"full": "华鑫证券宁波沧海路证券营业部", "broker": "华鑫", "addr": "沧海路", "confidence": "medium"},
+        {"full": "华鑫证券南昌红谷中大道证券营业部", "broker": "华鑫", "addr": "红谷中大道", "confidence": "low"},
+        {"full": "华鑫证券杭州飞云江路证券营业部", "broker": "华鑫", "addr": "飞云江路", "confidence": "low"},
+        {"full": "华鑫证券江苏分公司", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "sun-ge",
+      "name": "孙哥",
+      "full_name": "孙哥（孙煜）",
+      "tier": "殿堂级",
+      "style": "板块引导，波段锁仓，妖股打造",
+      "confidence": "high",
+      "note": "中信上海分公司等宽泛席位不收录，避免机构资金误配",
+      "seats": [
+        {"full": "中信证券上海溧阳路证券营业部", "broker": "中信证券", "addr": "溧阳路", "confidence": "high"},
+        {"full": "中信证券上海淮海中路证券营业部", "broker": "中信证券", "addr": "淮海中路", "confidence": "medium"},
+        {"full": "中信证券上海古北路证券营业部", "broker": "中信证券", "addr": "古北路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "fang-xinxia",
+      "name": "方新侠",
+      "full_name": "方新侠",
+      "tier": "殿堂级",
+      "style": "大成交趋势票，大开大合",
+      "confidence": "high",
+      "note": "后两席为单一来源关联席位，低置信",
+      "seats": [
+        {"full": "中信证券西安朱雀大街证券营业部", "broker": "中信证券", "addr": "朱雀大街", "confidence": "high"},
+        {"full": "开源证券西安西大街证券营业部", "broker": "开源证券", "addr": "西大街", "confidence": "high"},
+        {"full": "兴业证券陕西分公司", "confidence": "high"},
+        {"full": "国金证券深圳分公司", "confidence": "medium"},
+        {"full": "国投证券西安曲江池南路证券营业部", "broker": "国投证券", "addr": "曲江池南路", "confidence": "low"},
+        {"full": "广发证券西安南广济街证券营业部", "broker": "广发证券", "addr": "南广济街", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "zuoshou-xinyi",
+      "name": "作手新一",
+      "full_name": "作手新一",
+      "tier": "殿堂级",
+      "style": "极激进重仓，连板接力",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "国泰君安证券南京太平南路证券营业部", "broker": "国泰君安", "addr": "太平南路", "confidence": "high"},
+        {"full": "国泰海通证券南京太平南路证券营业部", "broker": "国泰海通", "addr": "太平南路", "confidence": "high"}
+      ]
+    },
+    {
+      "id": "hu-jialou",
+      "name": "呼家楼",
+      "full_name": "呼家楼",
+      "tier": "极活跃",
+      "style": "政策消息驱动，大开大合，重仓猛攻",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "中信证券上海凯滨路证券营业部", "broker": "中信证券", "addr": "凯滨路", "confidence": "high"},
+        {"full": "中信证券北京总部", "broker": "中信证券", "addr": "总部", "confidence": "medium"},
+        {"full": "中信证券北京呼家楼证券营业部", "broker": "中信证券", "addr": "呼家楼", "confidence": "high"},
+        {"full": "中信建投证券北京中信大厦证券营业部", "broker": "中信建投", "addr": "中信大厦", "confidence": "high"},
+        {"full": "中信建投证券北京东城分公司", "confidence": "medium"},
+        {"full": "中信建投证券北京广渠门内大街证券营业部", "broker": "中信建投", "addr": "广渠门内大街", "confidence": "medium"},
+        {"full": "中信建投证券北京朝外大街证券营业部", "broker": "中信建投", "addr": "朝外大街", "confidence": "low"},
+        {"full": "南京证券绍兴人民东路证券营业部", "broker": "南京证券", "addr": "人民东路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "92-kobi",
+      "name": "92科比",
+      "full_name": "92科比",
+      "tier": "极活跃",
+      "style": "新生代，题材共振",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "国泰君安证券泰州鼓楼南路证券营业部", "broker": "国泰君安", "addr": "鼓楼南路", "confidence": "high"},
+        {"full": "国泰海通证券泰州鼓楼南路证券营业部", "broker": "国泰海通", "addr": "鼓楼南路", "confidence": "high"},
+        {"full": "兴业证券南京天元东路证券营业部", "broker": "兴业证券", "addr": "天元东路", "confidence": "high"},
+        {"full": "兴业证券南京庐山路证券营业部", "broker": "兴业证券", "addr": "庐山路", "confidence": "medium"},
+        {"full": "中信证券宁波天童北路证券营业部", "broker": "中信证券", "addr": "天童北路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "shangtang-lu",
+      "name": "上塘路",
+      "full_name": "上塘路（放量哥）",
+      "tier": "极活跃",
+      "style": "短线高频",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "财通证券杭州上塘路证券营业部", "broker": "财通证券", "addr": "上塘路", "confidence": "high"},
+        {"full": "财通证券杭州体育馆路证券营业部", "broker": "财通证券", "addr": "体育馆路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "chen-xiaoqun",
+      "name": "陈小群",
+      "full_name": "陈小群",
+      "tier": "极活跃",
+      "style": "龙头战法，暴力美学，得散户者得天下",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "中国银河证券大连黄河路证券营业部", "broker": "中国银河", "addr": "黄河路", "confidence": "high"},
+        {"full": "东亚前海证券苏州留园路证券营业部", "broker": "东亚前海", "addr": "留园路", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "liuyi-zhonglu",
+      "name": "六一中路",
+      "full_name": "六一中路",
+      "tier": "极活跃",
+      "style": "高位大手笔",
+      "confidence": "medium",
+      "note": "市场传近年仿冒较多，识别度下降",
+      "seats": [
+        {"full": "招商证券福州六一中路证券营业部", "broker": "招商证券", "addr": "六一中路", "confidence": "medium"},
+        {"full": "华泰证券天津东丽开发区二纬路证券营业部", "broker": "华泰证券", "addr": "二纬路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "ningbo-sangtianlu",
+      "name": "宁波桑田路",
+      "full_name": "宁波桑田路",
+      "tier": "极活跃",
+      "style": "一字板接力",
+      "confidence": "high",
+      "note": "与方新侠的关联存在争议，独立跟踪",
+      "seats": [
+        {"full": "国盛证券宁波桑田路证券营业部", "broker": "国盛证券", "addr": "桑田路", "confidence": "high"}
+      ]
+    },
+    {
+      "id": "foshan-xi",
+      "name": "佛山系",
+      "full_name": "佛山系（佛山无影脚）",
+      "tier": "极活跃",
+      "style": "一日游、翘板，反向指标",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "光大证券佛山绿景路证券营业部", "broker": "光大证券", "addr": "绿景路", "confidence": "high"},
+        {"full": "光大证券佛山季华六路证券营业部", "broker": "光大证券", "addr": "季华", "confidence": "medium"},
+        {"full": "湘财证券佛山祖庙路证券营业部", "broker": "湘财证券", "addr": "祖庙", "confidence": "medium"},
+        {"full": "长江证券佛山普澜二路证券营业部", "broker": "长江证券", "addr": "普澜", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "huanle-haian",
+      "name": "欢乐海岸",
+      "full_name": "欢乐海岸",
+      "tier": "极活跃",
+      "style": "妖股锁仓（巅峰 2017-2018，近年活跃度下降）",
+      "confidence": "medium",
+      "note": "第二席为关联席位，低置信",
+      "seats": [
+        {"full": "中泰证券深圳欢乐海岸证券营业部", "broker": "中泰证券", "addr": "欢乐海岸", "confidence": "high"},
+        {"full": "华鑫证券深圳益田路证券营业部", "broker": "华鑫", "addr": "益田路", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "yu-ge",
+      "name": "余哥",
+      "full_name": "余哥",
+      "tier": "新生代",
+      "style": "95 后，机构游资合力妖股",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "财通证券普陀山证券营业部", "broker": "财通证券", "addr": "普陀山", "confidence": "medium"},
+        {"full": "申港证券湖北分公司", "confidence": "medium"},
+        {"full": "申港证券江苏分公司", "confidence": "medium"},
+        {"full": "甬兴证券四川分公司", "confidence": "medium"},
+        {"full": "甬兴证券慈溪新城大道北路证券营业部", "broker": "甬兴证券", "addr": "新城大道北路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "mao-laoban",
+      "name": "毛老板",
+      "full_name": "毛老板",
+      "tier": "新生代",
+      "style": "基本面强趋势，格局大",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "国泰海通证券北京国贸证券营业部", "broker": "国泰海通", "addr": "国贸", "confidence": "medium"},
+        {"full": "方正证券温州怀江路证券营业部", "broker": "方正证券", "addr": "怀江路", "confidence": "medium"},
+        {"full": "方正证券乐山游龙路证券营业部", "broker": "方正证券", "addr": "游龙路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "xiao-eyu",
+      "name": "小鳄鱼",
+      "full_name": "小鳄鱼",
+      "tier": "新生代",
+      "style": "新生代，手法彪悍",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "中国中投证券南京太平南路证券营业部", "broker": "中国中投", "addr": "太平南路", "confidence": "medium"},
+        {"full": "南京证券南京大钟亭证券营业部", "broker": "南京证券", "addr": "大钟亭", "confidence": "medium"},
+        {"full": "长江证券上海世纪大道证券营业部", "broker": "长江证券", "addr": "世纪大道", "confidence": "medium"},
+        {"full": "中国中投证券靖江人民南路证券营业部", "broker": "中国中投", "addr": "人民南路", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "ge-weidong",
+      "name": "葛卫东",
+      "full_name": "葛卫东（葛老大）",
+      "tier": "牛散/机构化",
+      "style": "期货大佬转型，偏爱科技/医药，中长线",
+      "confidence": "high",
+      "note": "严格意义为超级牛散，非纯游资打法；多源一致确认唯一席位",
+      "seats": [
+        {"full": "国泰君安证券上海分公司", "confidence": "high"},
+        {"full": "国泰海通证券上海分公司", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "ziyang-donglu",
+      "name": "紫阳东路",
+      "full_name": "紫阳东路（武汉帮）",
+      "tier": "新生代",
+      "style": "2025-2026 异军突起，快进快出短线波段，多线分散，半量化辅助",
+      "confidence": "high",
+      "note": "游资团队而非单一自然人；第三席为常协同关联席位，低置信",
+      "seats": [
+        {"full": "国泰君安证券武汉紫阳东路证券营业部", "broker": "国泰君安", "addr": "紫阳东路", "confidence": "high"},
+        {"full": "国泰海通证券武汉紫阳东路证券营业部", "broker": "国泰海通", "addr": "紫阳东路", "confidence": "high"},
+        {"full": "国泰海通证券湛江万豪世家证券营业部", "broker": "国泰海通", "addr": "万豪世家", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "xiaoxian-pai",
+      "name": "消闲派",
+      "full_name": "消闲派",
+      "tier": "新生代",
+      "style": "稳健超短，首板为锚、情绪为核、分仓为盾",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "国泰君安证券宜昌珍珠路证券营业部", "broker": "国泰君安", "addr": "珍珠路", "confidence": "high"},
+        {"full": "国泰海通证券宜昌沿江大道证券营业部", "broker": "国泰海通", "addr": "沿江大道", "confidence": "high"},
+        {"full": "国泰君安证券宜昌沿江大道证券营业部", "broker": "国泰君安", "addr": "沿江大道", "confidence": "medium"},
+        {"full": "东方证券上海浦东新区银城中路证券营业部", "broker": "东方证券", "addr": "银城中路", "confidence": "low"}
+      ]
+    },
+    {
+      "id": "zhichun-lu",
+      "name": "北京知春路",
+      "full_name": "北京知春路（量化打板系）",
+      "tier": "新生代",
+      "style": "量化打板风格，高频活跃",
+      "confidence": "high",
+      "note": "",
+      "seats": [
+        {"full": "国泰海通证券北京知春路证券营业部", "broker": "国泰海通", "addr": "知春路", "confidence": "high"},
+        {"full": "国泰君安证券北京知春路证券营业部", "broker": "国泰君安", "addr": "知春路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "guoxin-xi",
+      "name": "国新系",
+      "full_name": "国新系",
+      "tier": "新生代",
+      "style": "2026 新兴大资金席位",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "国新证券北京分公司", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "kaiyuan-taihualu",
+      "name": "开源西安太华路",
+      "full_name": "开源西安太华路（量化系）",
+      "tier": "新生代",
+      "style": "量化机构入驻，2026 上半年成交全国第 9",
+      "confidence": "medium",
+      "note": "与开源西安西大街（方新侠条目）为不同营业部，分开跟踪",
+      "seats": [
+        {"full": "开源证券西安太华路证券营业部", "broker": "开源证券", "addr": "太华路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "zhongshan-donglu",
+      "name": "中山东路",
+      "full_name": "中山东路",
+      "tier": "极活跃",
+      "style": "老牌席位，2026 周报成功率居首",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "国泰海通证券上海松江区中山东路证券营业部", "broker": "国泰海通", "addr": "中山东路", "confidence": "medium"},
+        {"full": "国泰君安证券上海松江区中山东路证券营业部", "broker": "国泰君安", "addr": "中山东路", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "siming-nanlu",
+      "name": "思明南路",
+      "full_name": "思明南路",
+      "tier": "新生代",
+      "style": "90 后顶流，抱团局常客",
+      "confidence": "medium",
+      "note": "",
+      "seats": [
+        {"full": "东亚前海证券上海分公司", "confidence": "medium"}
+      ]
+    },
+    {
+      "id": "chengdu-xi",
+      "name": "成都系",
+      "full_name": "成都系（成都帮/校长）",
+      "tier": "极活跃",
+      "style": "超短首板点火，直线拉板，隔日出货",
+      "confidence": "medium",
+      "note": "席位集合型游资，归属天然存在模糊性",
+      "seats": [
+        {"full": "国泰君安证券成都北一环路证券营业部", "broker": "国泰君安", "addr": "北一环路", "confidence": "high"},
+        {"full": "国泰海通证券成都北一环路证券营业部", "broker": "国泰海通", "addr": "北一环路", "confidence": "high"},
+        {"full": "华泰证券成都南一环路第二证券营业部", "broker": "华泰证券", "addr": "南一环路第二", "confidence": "medium"},
+        {"full": "华泰证券成都蜀金路证券营业部", "broker": "华泰证券", "addr": "蜀金路", "confidence": "medium"},
+        {"full": "国联证券成都锦城大道证券营业部", "broker": "国联证券", "addr": "锦城大道", "confidence": "low"},
+        {"full": "华泰证券德阳长江西路钻石广场证券营业部", "broker": "华泰证券", "addr": "长江西路", "confidence": "low"}
+      ]
+    }
+  ]
+}
