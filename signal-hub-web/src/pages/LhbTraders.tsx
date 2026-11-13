@@ -63,6 +63,9 @@ function buildViewTraders(
     });
     // 原有记录但全部配对已离场超期 → 整卡隐藏（游资级"不再记录"）
     if (trader.records.length > 0 && records.length === 0) continue;
+    // 操作记录统一按日期倒序（新→旧），同日按净额绝对值倒序。
+    // 显式排序不依赖产物顺序：旧版产物或回滚时，卡片取头部仍为最近操作、详情表格仍为倒序。
+    records.sort((a, b) => b.date.localeCompare(a.date) || Math.abs(b.net) - Math.abs(a.net));
     // 统计口径与管道一致：只累计单日榜；展示什么就统计什么（离场隐藏同步剔除）
     const single = records.filter((record) => !record.is_multi_day);
     const stats = {
