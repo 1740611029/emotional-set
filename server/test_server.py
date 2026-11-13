@@ -459,7 +459,7 @@ class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
         scheduler._close_date = "2026-11-02"
         with mock.patch.object(scheduler, "_rebuild_close"), \
                 mock.patch("bootstrap.refresh_daily", side_effect=RuntimeError("boom")) as refresh:
-            await scheduler._tick_close(datetime(2026, 11, 3, 15, 30, tzinfo=CN))
+            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
         refresh.assert_called_once()
         self.assertEqual(scheduler._close_attempts, 1)
         self.assertIsNotNone(scheduler._close_retry_at)
@@ -489,7 +489,7 @@ class CloseCompletionGateTest(unittest.IsolatedAsyncioTestCase):
                 mock.patch("build_dashboard.build_indices", return_value={}), \
                 mock.patch("build_dashboard.build_sectors", return_value={}), \
                 mock.patch("io_utils.protected_write"):
-            await scheduler._tick_close(datetime(2026, 11, 3, 15, 30, tzinfo=CN))
+            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
         return scheduler
 
     async def test_stale_source_does_not_mark_day_done(self):
@@ -669,7 +669,7 @@ class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
                 mock.patch("build_dashboard.build_indices", return_value={}), \
                 mock.patch("build_dashboard.build_sectors", return_value={}), \
                 mock.patch("io_utils.protected_write") as write:
-            await scheduler._tick_close(datetime(2026, 11, 3, 15, 30, tzinfo=CN))
+            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
         self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
 
 

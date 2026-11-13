@@ -22,9 +22,10 @@ if str(PIPELINE) not in sys.path:
 import pandas as pd  # noqa: E402
 
 from fetch_market import (  # noqa: E402
-    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, INDEX_RAW, INDEXES, MIN_SECTOR_ROWS, RAW, SECTOR_COLUMNS, THS_CODES,
-    call_with_retry, check_sector_universe, fetch_sector_hist_em, fetch_ths_year, save_csv,
-    sector_request_start, sector_spot,
+    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, INDEX_RAW, INDEXES, MIN_SECTOR_ROWS, RAW, SECTOR_BATCH_PAUSE,
+    SECTOR_BATCH_SIZE, SECTOR_COLUMNS, SECTOR_REQUEST_GAP, THS_CODES,
+    EmRateLimitedError, call_with_retry, check_sector_universe, em_cooldown_remaining,
+    fetch_sector_hist_em, fetch_ths_year, save_csv, sector_request_start, sector_spot,
 )
 from research_algorithms import read_index_csv  # noqa: E402
 from trading_calendar import (  # noqa: E402
@@ -39,6 +40,58 @@ STALE_SECTOR_LAG_DAYS = 60  # 板块本地尾部落后超过该交易天数视�
 CN = ZoneInfo("Asia/Shanghai")
 # 补齐完成标记的语义：只有“确实覆盖到当时的最近交易日”才算完成。
 # 失败（源尚未发布或拉取报错）不算完成，下一次启动仍会重新尝试补齐。
+
+_index_attempt_day: str | None = None  # 进程内当日降频标记：已覆盖最近交易日才算尝试完成
+
+
+def update_indices(progress: Progress | None = None, *, force: bool = False) -> list[str]:
+    """增量合并当年日线；返回更新后有变化的指数代码。
+
+    当日降频：同花顺日线约 15:30 定稿，且判重只看行数与尾日、量额修正本来就要等次日
+    重取覆盖，因此"本地已覆盖最近交易日且当日已请求过"时后续轮次直接跳过，避免每次
+    启动/补齐都无条件打 7 个请求。本地未覆盖（源未发布）时不受标记影响，继续请求。
+    force=True（手动 --force）绕过标记强制重拉。
+    """
+    global _index_attempt_day
+    progress = progress or Progress()
+    today = date.today().isoformat()
+    gap = data_gap()
+    if not force and "indices" not in gap["stale"] and _index_attempt_day == today:
+        progress.update("indices", f"指数已覆盖 {gap['expected']}，当日已更新过，跳过")
+        return []
+    year = date.today().year
+    changed: list[str] = []
+    for code, name in INDEXES.items():
+        path = INDEX_RAW / f"{code}.csv"
+        try:
+            fresh = call_with_retry(fetch_ths_year, symbol=THS_CODES[code], year=year)
+        except Exception as exc:  # 单只失败不影响其余指数
+            print(f"[bootstrap] {code} {name} 增量拉取失败：{exc}", flush=True)
+            continue
+        if path.exists():
+            cached = read_index_csv(path)
+            fresh["date"] = pd.to_datetime(fresh["date"])
+            merged = (pd.concat([cached, fresh], ignore_index=True)
+                      .sort_values("date").drop_duplicates("date", keep="last")
+                      .reset_index(drop=True))
+            if len(merged) == len(cached) and merged["date"].iat[-1] == cached["date"].iat[-1]:
+                time.sleep(0.2)
+                continue
+        else:
+            merged = fresh.sort_values("date").reset_index(drop=True)
+        if len(merged) < MIN_INDEX_ROWS:
+            print(f"[bootstrap] {code} 仅 {len(merged)} 行，跳过写入", flush=True)
+            continue
+        save_csv(merged, path)
+        changed.append(code)
+        progress.update("indices", f"{code} 更新至 {merged['date'].iat[-1]:%Y-%m-%d}")
+        time.sleep(0.2)
+    if changed:
+        _write_index_manifest()
+    # 只有真覆盖到最近交易日才标记当日已完成；未覆盖（源未发布）留给下轮再试
+    if "indices" not in data_gap()["stale"]:
+        _index_attempt_day = today
+    return changed
 
 
 class Progress:
@@ -113,41 +166,6 @@ def ensure_raw_data(progress: Progress | None = None) -> bool:
     return True
 
 
-def update_indices(progress: Progress | None = None) -> list[str]:
-    """增量合并当年日线；返回更新后有变化的指数代码。"""
-    progress = progress or Progress()
-    year = date.today().year
-    changed: list[str] = []
-    for code, name in INDEXES.items():
-        path = INDEX_RAW / f"{code}.csv"
-        try:
-            fresh = call_with_retry(fetch_ths_year, symbol=THS_CODES[code], year=year)
-        except Exception as exc:  # 单只失败不影响其余指数
-            print(f"[bootstrap] {code} {name} 增量拉取失败：{exc}", flush=True)
-            continue
-        if path.exists():
-            cached = read_index_csv(path)
-            fresh["date"] = pd.to_datetime(fresh["date"])
-            merged = (pd.concat([cached, fresh], ignore_index=True)
-                      .sort_values("date").drop_duplicates("date", keep="last")
-                      .reset_index(drop=True))
-            if len(merged) == len(cached) and merged["date"].iat[-1] == cached["date"].iat[-1]:
-                time.sleep(0.2)
-                continue
-        else:
-            merged = fresh.sort_values("date").reset_index(drop=True)
-        if len(merged) < MIN_INDEX_ROWS:
-            print(f"[bootstrap] {code} 仅 {len(merged)} 行，跳过写入", flush=True)
-            continue
-        save_csv(merged, path)
-        changed.append(code)
-        progress.update("indices", f"{code} 更新至 {merged['date'].iat[-1]:%Y-%m-%d}")
-        time.sleep(0.2)
-    if changed:
-        _write_index_manifest()
-    return changed
-
-
 def _sector_universe_check(manifest: dict) -> dict:
     """采集前校验固定清单，并把接口侧差异写入留痕；校验失败直接向上抛。
 
@@ -186,8 +204,17 @@ def update_sectors(progress: Progress | None = None) -> int:
     拉取终点由交易日历给出（15:00 分界），因此盘中不会把未完成 bar 当收盘数据。
     起点含尾日（见 `sector_request_start`）且写入前逐值比对，因此尾日那根 bar 会在
     下一轮被重取并在数值确实发生修正时被覆写，不会把收盘瞬间未定稿的量额定格。
+
+    push2 节奏控制：入口先看限流冷却（冷却中整轮跳过，零请求）；请求按
+    SECTOR_BATCH_SIZE 分批、批间 SECTOR_BATCH_PAUSE，单板块间隔 SECTOR_REQUEST_GAP；
+    途中再触发限流则立即中止本轮（已落盘的板块保留，manifest 不写半截状态）。
     """
     progress = progress or Progress()
+    remaining = em_cooldown_remaining()
+    if remaining > 0:
+        progress.update("sectors",
+                        f"东财限流冷却中（剩余 {remaining / 60:.0f} 分钟），本轮跳过板块增量")
+        return 0
     if not EM_SECTOR_MANIFEST.exists():
         return 0
 
@@ -210,38 +237,50 @@ def update_sectors(progress: Progress | None = None) -> int:
 
     try:
         manifest = _sector_universe_check(manifest)
+    except EmRateLimitedError:
+        # 冷却期满后的第一次请求即解封探测：仍限流则重新计时，本轮到此为止
+        raise
     except Exception as exc:  # 口径异常不得继续采集，保留上一版产物
         raise RuntimeError(f"板块清单校验未通过，本轮跳过板块增量：{exc}") from exc
 
     changed = 0
-    for item, path, tail in pending:
-        code = item["code"]
-        try:
-            fresh = fetch_sector_hist_em(code, sector_request_start(tail), expected.replace("-", ""))
-        except Exception as exc:
-            print(f"[bootstrap] 板块 {code} 拉取失败：{exc}", flush=True)
-            continue
-        if path.exists():
-            cached = pd.read_csv(path, dtype={"date": str})
-            merged = (pd.concat([cached, fresh], ignore_index=True)
-                      .sort_values("date").drop_duplicates("date", keep="last")
-                      .reset_index(drop=True))
-            # 起点含尾日意味着每轮都会重取最后一根 bar，因此不能再用「行数与尾日未变」
-            # 判定无变化：那会把未定稿的量额修正直接丢掉
-            if len(merged) == len(cached) and _frame_values_equal(merged, cached):
-                time.sleep(0.15)
+    for batch_start in range(0, len(pending), SECTOR_BATCH_SIZE):
+        if batch_start:
+            progress.update("sectors",
+                            f"已请求 {batch_start}/{len(pending)} 个板块，批间休息 {SECTOR_BATCH_PAUSE:.0f}s")
+            time.sleep(SECTOR_BATCH_PAUSE)
+        for item, path, tail in pending[batch_start:batch_start + SECTOR_BATCH_SIZE]:
+            code = item["code"]
+            try:
+                fresh = fetch_sector_hist_em(code, sector_request_start(tail), expected.replace("-", ""))
+            except EmRateLimitedError as exc:
+                print(f"[bootstrap] 东财限流，本轮在 {changed} 个板块更新后中止（冷却自动计时）：{exc}",
+                      flush=True)
+                raise
+            except Exception as exc:
+                print(f"[bootstrap] 板块 {code} 拉取失败：{exc}", flush=True)
                 continue
-        else:
-            merged = fresh
-        save_csv(merged, path)
-        item["rows"] = len(merged)
-        item["start"] = merged["date"].iat[0]
-        item["end"] = merged["date"].iat[-1]
-        item["insufficient_history"] = len(merged) < MIN_SECTOR_ROWS
-        changed += 1
-        if changed % 10 == 0:
-            progress.update("sectors", f"已更新 {changed} 个板块")
-        time.sleep(0.15)
+            if path.exists():
+                cached = pd.read_csv(path, dtype={"date": str})
+                merged = (pd.concat([cached, fresh], ignore_index=True)
+                          .sort_values("date").drop_duplicates("date", keep="last")
+                          .reset_index(drop=True))
+                # 起点含尾日意味着每轮都会重取最后一根 bar，因此不能再用「行数与尾日未变」
+                # 判定无变化：那会把未定稿的量额修正直接丢掉
+                if len(merged) == len(cached) and _frame_values_equal(merged, cached):
+                    time.sleep(SECTOR_REQUEST_GAP)
+                    continue
+            else:
+                merged = fresh
+            save_csv(merged, path)
+            item["rows"] = len(merged)
+            item["start"] = merged["date"].iat[0]
+            item["end"] = merged["date"].iat[-1]
+            item["insufficient_history"] = len(merged) < MIN_SECTOR_ROWS
+            changed += 1
+            if changed % 10 == 0:
+                progress.update("sectors", f"已更新 {changed} 个板块")
+            time.sleep(SECTOR_REQUEST_GAP)
     if skipped:
         progress.update("sectors", f"跳过已最新 {skipped} 个板块")
     EM_SECTOR_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -270,11 +309,18 @@ def update_institutions(progress: Progress | None = None) -> dict:
 
 
 def refresh_daily(progress: Progress | None = None) -> dict:
-    """收盘后刷新：先补原始日线，再由调用方重建 JSON。"""
+    """收盘后刷新：先补原始日线，再由调用方重建 JSON。
+
+    三条数据线彼此解耦：板块（东财）限流/失败只影响自身，不再中断机构持仓更新。
+    """
     progress = progress or Progress()
     ensure_raw_data(progress)
     indices = update_indices(progress)
-    sectors = update_sectors(progress)
+    sectors = 0
+    try:
+        sectors = update_sectors(progress)
+    except Exception as exc:  # 板块线失败不拖累机构数据线（二者数据源无关）
+        print(f"[bootstrap] 板块增量失败（不影响指数与机构数据线）：{exc}", flush=True)
     institutions = update_institutions(progress)
     progress.update("ready", f"指数 {len(indices)} 个、板块 {sectors} 个有更新")
     return {"indices": indices, "sectors": sectors, "institutions": institutions}
@@ -427,10 +473,14 @@ def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = F
     progress.update("refresh", f"增量补齐：{detail}（{tries}）")
     refreshed: dict[str, object] = {}
     if "indices" in targets:
-        refreshed["indices"] = update_indices(progress)
+        refreshed["indices"] = update_indices(progress, force=force)
         _record_attempt(state, day, "indices")
     if "sectors" in targets:
-        refreshed["sectors"] = update_sectors(progress)
+        try:
+            refreshed["sectors"] = update_sectors(progress)
+        except Exception as exc:  # 板块线失败不拖累机构数据线，失败也计入当日尝试
+            refreshed["sectors"] = 0
+            print(f"[bootstrap] sectors 增量失败（不影响其余数据线）：{exc}", flush=True)
         _record_attempt(state, day, "sectors")
     if "institutions" in targets:
         refreshed["institutions"] = update_institutions(progress)

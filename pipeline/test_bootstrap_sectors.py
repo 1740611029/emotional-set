@@ -46,6 +46,8 @@ class SectorUpdateTestCase(unittest.TestCase):
         self.patches = [
             mock.patch.object(bs, "EM_SECTOR_RAW", self.raw),
             mock.patch.object(bs, "EM_SECTOR_MANIFEST", self.manifest_path),
+            # 分批节奏限流控制由 fetch_market 侧生效，这里打掉 sleep 让回归测试秒级完成
+            mock.patch.object(bs.time, "sleep"),
         ]
         for patch in self.patches:
             patch.start()

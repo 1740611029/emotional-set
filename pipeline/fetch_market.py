@@ -10,6 +10,7 @@ from pathlib import Path
 import akshare as ak
 import pandas as pd
 import requests
+from akshare.exceptions import RateLimitError
 
 from trading_calendar import last_completed_trading_day  # 全量拉取的收盘定稿口径
 
@@ -32,6 +33,12 @@ SECTOR_SOURCE = "东财行业板块"  # 数据源标识（产物与 manifest 共
 FIRST_FETCH_START = "20000101"
 MIN_SECTOR_ROWS = 60
 SECTOR_COLUMNS = ["date", "open", "close", "high", "low", "volume", "amount"]
+# push2 节奏控制：东财 push2 系服务器对连续请求极敏感（akshare 实测 clist 连续约 5 页即封），
+# 全量/增量统一走分批：单请求间隔 1s、每 6 个板块一批、批间休息 20s，避开触发线。
+SECTOR_REQUEST_GAP = 1.0       # 单板块请求间隔（秒）
+SECTOR_BATCH_SIZE = 6          # 每批板块数
+SECTOR_BATCH_PAUSE = 20.0      # 批间休息（秒）
+EM_COOLDOWN_SECONDS = 30 * 60  # 触发限流后的全局冷却时长（沿用"停高频、30 分钟低频重试"口径）
 EM_COLUMN_RENAME = {
     "日期": "date", "开盘": "open", "收盘": "close", "最高": "high",
     "最低": "low", "成交量": "volume", "成交额": "amount",
@@ -61,12 +68,43 @@ def call_with_retry(func, *, attempts: int = 4, **kwargs) -> pd.DataFrame:
             if frame is None or frame.empty:
                 raise ValueError("接口返回空数据")
             return frame
+        except RateLimitError as exc:
+            # akshare 已识别 push2 限流并立即抛出（重试只会延长封禁），这里同步止损：
+            # 不再重试，标记全局冷却，让调度层在冷却期内跳过东财数据线
+            _mark_em_rate_limited()
+            raise EmRateLimitedError(
+                f"东财 push2 限流，已停止重试并进入 {EM_COOLDOWN_SECONDS // 60} 分钟冷却：{exc}"
+            ) from exc
         except Exception as exc:  # 网络接口需保留最后一次错误并退避重试
             last_error = exc
             print(f"  第 {attempt}/{attempts} 次调用失败：{exc}")
             if attempt < attempts:
                 time.sleep(attempt * 2)
     raise RuntimeError(f"数据接口重试后仍失败：{last_error}") from last_error
+
+
+class EmRateLimitedError(RuntimeError):
+    """东财 push2 限流（识别自 akshare RateLimitError）：不重试，触发全局冷却。"""
+
+
+_em_rate_limited_until: float | None = None  # epoch 秒；进程内状态
+
+
+def _mark_em_rate_limited() -> None:
+    global _em_rate_limited_until
+    _em_rate_limited_until = time.time() + EM_COOLDOWN_SECONDS
+    print(f"[fetch] 东财 push2 限流：停止重试，{EM_COOLDOWN_SECONDS // 60} 分钟内跳过东财请求", flush=True)
+
+
+def em_cooldown_remaining() -> float:
+    """东财限流冷却剩余秒数；0 表示不在冷却期，可正常请求。
+
+    冷却期满后的第一次调用（通常是板块清单校验）天然充当解封探测：
+    成功则按分批节奏恢复；再触发限流则重新计时。
+    """
+    if _em_rate_limited_until is None:
+        return 0.0
+    return max(0.0, _em_rate_limited_until - time.time())
 
 
 def save_csv(frame: pd.DataFrame, path: Path) -> None:
@@ -223,26 +261,30 @@ def fetch_sectors(end_date: str | None = None) -> None:
     spot = sector_spot()
     boards, snapshot = check_sector_universe(spot)
     rows = []
-    for board in boards:
-        code, name = board["code"], board["name"]
-        path = EM_SECTOR_RAW / f"{code}.csv"
-        if path.exists():
-            frame = pd.read_csv(path, dtype={"date": str})
-            print(f"使用已拉取 {code} {name}（{len(frame)} 行）")
-        else:
-            print(f"拉取 {code} {name} 全量日线")
-            frame = fetch_sector_hist_em(code, FIRST_FETCH_START, end)
-            save_csv(frame, path)
-        rows.append({
-            "code": code, "name": name, "source": SECTOR_SOURCE,
-            "rows": len(frame), "start": str(frame["date"].iat[0]),
-            "end": str(frame["date"].iat[-1]),
-            "insufficient_history": len(frame) < MIN_SECTOR_ROWS,
-            "path": str(path.relative_to(ROOT)),
-        })
-        if len(frame) < MIN_SECTOR_ROWS:
-            print(f"  警告：{code} {name} 历史不足 {MIN_SECTOR_ROWS} 个交易日，已标记")
-        time.sleep(0.2)
+    for batch_start in range(0, len(boards), SECTOR_BATCH_SIZE):
+        if batch_start:
+            print(f"板块全量进度 {batch_start}/{len(boards)}，批间休息 {SECTOR_BATCH_PAUSE:.0f}s", flush=True)
+            time.sleep(SECTOR_BATCH_PAUSE)
+        for board in boards[batch_start:batch_start + SECTOR_BATCH_SIZE]:
+            code, name = board["code"], board["name"]
+            path = EM_SECTOR_RAW / f"{code}.csv"
+            if path.exists():
+                frame = pd.read_csv(path, dtype={"date": str})
+                print(f"使用已拉取 {code} {name}（{len(frame)} 行）")
+            else:
+                print(f"拉取 {code} {name} 全量日线")
+                frame = fetch_sector_hist_em(code, FIRST_FETCH_START, end)
+                save_csv(frame, path)
+            rows.append({
+                "code": code, "name": name, "source": SECTOR_SOURCE,
+                "rows": len(frame), "start": str(frame["date"].iat[0]),
+                "end": str(frame["date"].iat[-1]),
+                "insufficient_history": len(frame) < MIN_SECTOR_ROWS,
+                "path": str(path.relative_to(ROOT)),
+            })
+            if len(frame) < MIN_SECTOR_ROWS:
+                print(f"  警告：{code} {name} 历史不足 {MIN_SECTOR_ROWS} 个交易日，已标记")
+            time.sleep(SECTOR_REQUEST_GAP)
     EM_SECTOR_RAW.mkdir(parents=True, exist_ok=True)
     EM_SECTOR_MANIFEST.write_text(json.dumps({
         "source": SECTOR_SOURCE,

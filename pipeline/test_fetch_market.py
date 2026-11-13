@@ -108,7 +108,8 @@ class FetchSectorsEndpointTest(unittest.TestCase):
         with mock.patch.object(fm, "sector_spot", return_value=spot), \
                 mock.patch.object(fm, "fetch_sector_hist_em", side_effect=record), \
                 mock.patch.object(fm, "last_completed_trading_day",
-                                  return_value=(calendar_day, "calendar")):
+                                  return_value=(calendar_day, "calendar")), \
+                mock.patch.object(fm.time, "sleep"):  # 分批节奏限流控制，测试不等真实间隔
             with contextlib.redirect_stdout(io.StringIO()):
                 fm.fetch_sectors(end_date)
         return captured
