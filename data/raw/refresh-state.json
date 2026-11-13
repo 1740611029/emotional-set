@@ -1,10 +1,9 @@
 {
-  "2026-11-11": {
+  "2026-11-13": {
     "tries": {
-      "indices": 1
-    },
-    "done": {
-      "indices": "2026-11-11"
+      "indices": 3,
+      "sectors": 3,
+      "institutions": 1
     }
   }
 }
