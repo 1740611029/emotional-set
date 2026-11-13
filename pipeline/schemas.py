@@ -526,6 +526,23 @@ LHB_STATS = {
     },
     "additionalProperties": False,
 }
+LHB_POSITION = {
+    "type": "object",
+    "required": ["code", "name", "status", "exit_type", "last_seen",
+                 "exit_date", "buy_total", "sell_total", "silent_days"],
+    "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "name": {"type": "string"},
+        "status": {"enum": ["active", "exited_confirmed", "exited_probable", "exited_forced"]},
+        "exit_type": {"enum": ["sell_cover", "heavy_sell", "silent", "forced", None]},
+        "last_seen": DATE,
+        "exit_date": {"type": ["string", "null"]},
+        "buy_total": {"type": "number"},
+        "sell_total": {"type": "number"},
+        "silent_days": COUNT,
+    },
+    "additionalProperties": False,
+}
 LHB_TRADER = {
     "type": "object",
     "required": ["id", "name", "full_name", "tier", "style", "confidence",
@@ -541,6 +558,7 @@ LHB_TRADER = {
         "seats": {"type": "array", "items": LHB_SEAT},
         "stats": LHB_STATS,
         "records": {"type": "array", "items": LHB_RECORD},
+        "positions": {"type": "array", "items": LHB_POSITION},
     },
     "additionalProperties": False,
 }

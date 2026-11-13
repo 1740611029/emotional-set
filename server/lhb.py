@@ -57,6 +57,7 @@ def overview(payload: dict | None) -> dict:
             "confidence": trader["confidence"], "note": trader["note"],
             "seats": trader["seats"], "stats": trader["stats"],
             "records": trader["records"],
+            "positions": trader.get("positions", []),
         })
     return {
         "data_state": "ok", "stale": False,
@@ -84,7 +85,7 @@ def trader_detail(payload: dict | None, trader_id: str, *, limit: int = DEFAULT_
                 "scope_note": payload.get("scope_note"),
                 "trader": {key: trader[key] for key in
                            ("id", "name", "full_name", "tier", "style",
-                            "confidence", "note", "seats", "stats")},
+                            "confidence", "note", "seats", "stats", "positions")},
                 "records": records,
                 "total_records": len(trader["records"]),
             }

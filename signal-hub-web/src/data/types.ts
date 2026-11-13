@@ -517,6 +517,24 @@ export interface LhbStats {
   net_total: number;
 }
 
+/** 龙虎榜知名游资：（游资,个股）在场状态（管道判定，2026-11-13 口径） */
+export interface LhbPosition {
+  code: string;
+  name: string;
+  /** active 在场 / 确认清仓 / 疑似离场 / 强制离场兜底 */
+  status: 'active' | 'exited_confirmed' | 'exited_probable' | 'exited_forced';
+  /** 离场证据类型：卖出覆盖买入 / 大幅出货后未现身 / 静默期观察 / 时间兜底 */
+  exit_type: 'sell_cover' | 'heavy_sell' | 'silent' | 'forced' | null;
+  /** 最后一次现身（单日榜记录）日期 */
+  last_seen: string;
+  /** 判定成立日：确认清仓=清仓证据日；疑似/强制=静默达标交易日 */
+  exit_date: string | null;
+  buy_total: number;
+  sell_total: number;
+  /** 最后现身距数据截至日的交易日数 */
+  silent_days: number;
+}
+
 /** 龙虎榜知名游资：游资条目 */
 export interface LhbTrader {
   id: string;
@@ -529,6 +547,8 @@ export interface LhbTrader {
   seats: LhbSeat[];
   stats: LhbStats;
   records: LhbRecord[];
+  /** （游资,个股）在场状态；旧版产物无此字段 */
+  positions?: LhbPosition[];
 }
 
 /** 龙虎榜知名游资：总览视图中的游资（含完整操作记录） */
@@ -547,6 +567,8 @@ export interface LhbDailyRow {
   pct_chg: number | null;
   board: string | null;
   confidence: 'high' | 'medium' | 'low';
+  /** 该行所属（游资,个股）配对处于离场标记期内时的状态 */
+  exit_status?: LhbPosition['status'];
 }
 
 /** 龙虎榜知名游资：总览响应 */

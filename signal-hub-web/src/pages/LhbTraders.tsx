@@ -2,13 +2,81 @@ import { Fragment, useMemo, useState } from 'react';
 import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
 import { LhbIcon } from '../components/icons';
 import { useLhbOverview } from '../hooks/useLhbOverview';
-import type { LhbDailyRow, LhbOverviewTrader, LhbRecord } from '../data/types';
+import type { LhbDailyRow, LhbOverviewTrader, LhbPosition, LhbRecord } from '../data/types';
 
 type ViewKey = 'overview' | 'daily' | 'stocks';
 type SortKey = 'net' | 'active' | 'records';
 
 const yi = (value: number) => (value / 1e8).toFixed(2);
 const signedYi = (value: number) => `${value > 0 ? '+' : ''}${yi(value)}亿`;
+
+/** 离场标记保鲜期（交易日）：与管道 EXIT_MARK_DAYS 一致 */
+const EXIT_MARK_DAYS = 3;
+
+/** 展示层游资视图：在产物游资上附加「离场标记期内配对」索引（key=个股代码） */
+type ViewTrader = LhbOverviewTrader & { exits: Map<string, LhbPosition> };
+
+const EXIT_LABEL: Record<string, string> = {
+  exited_confirmed: '已清仓',
+  exited_probable: '疑似清仓',
+  exited_forced: '已离场',
+};
+
+const EXIT_CLASS: Record<string, string> = {
+  exited_confirmed: 'bg-coral-50 text-coral-600',
+  exited_probable: 'bg-slate-100 text-slate-500',
+  exited_forced: 'bg-slate-100 text-slate-400',
+};
+
+function ExitBadge({ status }: { status: LhbPosition['status'] }) {
+  const label = EXIT_LABEL[status];
+  if (!label) return null;
+  return (
+    <span className={`inline-block rounded px-1.5 py-0.5 text-[10px] font-medium whitespace-nowrap ${EXIT_CLASS[status] ?? 'bg-slate-100 text-slate-500'}`}>
+      {label}
+    </span>
+  );
+}
+
+/**
+ * 在场过滤：离场配对保留 exit_date 起 EXIT_MARK_DAYS 个交易日的标记展示，
+ * 超过保鲜期整段隐藏（数据完整保留于产物，仅页面过滤）。
+ * exit_date 不在交易日序列（异常）时保守显示，避免误隐藏。
+ */
+function buildViewTraders(
+  traders: LhbOverviewTrader[], tradingDates: string[], asOf: string | null,
+): ViewTrader[] {
+  const refDate = asOf ?? tradingDates[tradingDates.length - 1] ?? null;
+  const round2 = (value: number) => Math.round(value * 100) / 100;
+  const result: ViewTrader[] = [];
+  for (const trader of traders) {
+    const exits = new Map<string, LhbPosition>();
+    const records = trader.records.filter((record) => {
+      const position = trader.positions?.find((item) => item.code === record.code);
+      if (!position || position.status === 'active' || !position.exit_date) return true;
+      const i = tradingDates.indexOf(position.exit_date);
+      const j = refDate ? tradingDates.indexOf(refDate) : -1;
+      if (i < 0 || j < 0 || j < i) return true;
+      if (j - i > EXIT_MARK_DAYS) return false;
+      exits.set(record.code, position);
+      return true;
+    });
+    // 原有记录但全部配对已离场超期 → 整卡隐藏（游资级"不再记录"）
+    if (trader.records.length > 0 && records.length === 0) continue;
+    // 统计口径与管道一致：只累计单日榜；展示什么就统计什么（离场隐藏同步剔除）
+    const single = records.filter((record) => !record.is_multi_day);
+    const stats = {
+      active_days: new Set(single.map((record) => record.date)).size,
+      records: single.length,
+      stocks: new Set(single.map((record) => record.code)).size,
+      buy_total: round2(single.reduce((sum, record) => sum + record.buy, 0)),
+      sell_total: round2(single.reduce((sum, record) => sum + record.sell, 0)),
+      net_total: round2(single.reduce((sum, record) => sum + record.net, 0)),
+    };
+    result.push({ ...trader, records, stats, exits });
+  }
+  return result;
+}
 
 const TIER_CLASS: Record<string, string> = {
   殿堂级: 'bg-brand-50 text-brand-700',
@@ -39,11 +107,12 @@ function NetText({ value, className = '' }: { value: number; className?: string 
   return <span className={`${tone} tabular-nums ${className}`}>{signedYi(value)}</span>;
 }
 
-function RecentRecordRow({ record }: { record: LhbRecord }) {
+function RecentRecordRow({ record, exitStatus }: { record: LhbRecord; exitStatus?: LhbPosition['status'] | null }) {
   return (
     <div className="flex items-center gap-2 text-xs">
       <span className="text-slate-400 tabular-nums">{record.date.slice(5)}</span>
       <span className="font-medium text-slate-700">{record.name}</span>
+      {exitStatus && <ExitBadge status={exitStatus} />}
       {record.pct_chg !== null && (
         <span className={record.pct_chg > 0 ? 'text-coral-500' : 'text-mint-600'}>
           {record.pct_chg > 0 ? '+' : ''}{record.pct_chg.toFixed(2)}%
@@ -54,7 +123,7 @@ function RecentRecordRow({ record }: { record: LhbRecord }) {
   );
 }
 
-function TraderCard({ trader, onSelect }: { trader: LhbOverviewTrader; onSelect: () => void }) {
+function TraderCard({ trader, onSelect }: { trader: ViewTrader; onSelect: () => void }) {
   const stats = trader.stats;
   // 卡片最近操作只展示单日榜，与统计口径一致（多日累计榜进详情页开关查看）
   const recentSingle = useMemo(
@@ -82,7 +151,11 @@ function TraderCard({ trader, onSelect }: { trader: LhbOverviewTrader; onSelect:
       </div>
       <div className="space-y-1.5 border-t border-slate-100 pt-3">
         {recentSingle.map((record, index) => (
-          <RecentRecordRow key={`${record.date}-${record.code}-${index}`} record={record} />
+          <RecentRecordRow
+            key={`${record.date}-${record.code}-${index}`}
+            record={record}
+            exitStatus={trader.exits.get(record.code)?.status}
+          />
         ))}
         {recentSingle.length === 0 && <p className="text-xs text-slate-400">近一月无单日榜命中</p>}
       </div>
@@ -90,7 +163,7 @@ function TraderCard({ trader, onSelect }: { trader: LhbOverviewTrader; onSelect:
   );
 }
 
-function TraderDetail({ trader, onBack }: { trader: LhbOverviewTrader; onBack: () => void }) {
+function TraderDetail({ trader, onBack }: { trader: ViewTrader; onBack: () => void }) {
   const [showMultiDay, setShowMultiDay] = useState(false);
   const records = useMemo(
     () => trader.records.filter((record) => showMultiDay || !record.is_multi_day),
@@ -156,6 +229,7 @@ function TraderDetail({ trader, onBack }: { trader: LhbOverviewTrader; onBack: (
                   <span className="font-medium text-slate-700">{record.name}</span>
                   <span className="text-xs text-slate-400 ml-1">{record.code}</span>
                   {record.is_multi_day && <span className="ml-1 rounded bg-slate-100 px-1 text-[10px] text-slate-500">多日</span>}
+                  {trader.exits.get(record.code) && <span className="ml-1.5"><ExitBadge status={trader.exits.get(record.code)!.status} /></span>}
                 </td>
                 <td className={`py-2.5 px-3 tabular-nums whitespace-nowrap ${(record.pct_chg ?? 0) > 0 ? 'text-coral-500' : (record.pct_chg ?? 0) < 0 ? 'text-mint-600' : 'text-slate-400'}`}>
                   {record.pct_chg === null ? '—' : `${record.pct_chg > 0 ? '+' : ''}${record.pct_chg.toFixed(2)}%`}
@@ -192,6 +266,8 @@ interface StockTraderEntry {
   lastDate: string;
   /** 数据截至日（当天）的净额；当天无操作为 null */
   todayNet: number | null;
+  /** （游资,个股）配对处于离场标记期内时的状态；null=在场 */
+  exitStatus: LhbPosition['status'] | null;
 }
 
 /** 个股游资总览：单只个股聚合行 */
@@ -216,7 +292,7 @@ interface StockAgg {
  * 口径与页面统计一致——多日累计榜只存记录不参与任何金额统计；
  * 「当天」指数据截至日（as_of），龙虎榜为 T 日盘后披露。
  */
-function aggregateStocks(traders: LhbOverviewTrader[], asOf: string | null): StockAgg[] {
+function aggregateStocks(traders: ViewTrader[], asOf: string | null): StockAgg[] {
   const byCode = new Map<string, StockAgg>();
   for (const trader of traders) {
     for (const record of trader.records) {
@@ -235,10 +311,12 @@ function aggregateStocks(traders: LhbOverviewTrader[], asOf: string | null): Sto
         entry = {
           traderId: trader.id, trader: trader.name, tier: trader.tier,
           confidence: record.confidence, buy: 0, sell: 0, net: 0,
-          lastDate: '', todayNet: null,
+          lastDate: '', todayNet: null, exitStatus: null,
         };
         stock.traders.push(entry);
       }
+      const exit = trader.exits.get(record.code);
+      if (exit) entry.exitStatus = exit.status;
       entry.buy += record.buy;
       entry.sell += record.sell;
       entry.net += record.net;
@@ -266,7 +344,7 @@ function aggregateStocks(traders: LhbOverviewTrader[], asOf: string | null): Sto
   });
 }
 
-function StockOverviewView({ traders, asOf }: { traders: LhbOverviewTrader[]; asOf: string | null }) {
+function StockOverviewView({ traders, asOf }: { traders: ViewTrader[]; asOf: string | null }) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const stocks = useMemo(() => aggregateStocks(traders, asOf), [traders, asOf]);
   const toggle = (code: string) => {
@@ -314,8 +392,9 @@ function StockOverviewView({ traders, asOf }: { traders: LhbOverviewTrader[]; as
                   <td className="py-2.5 px-3">
                     <div className="flex flex-wrap gap-1 max-w-[300px]">
                       {stock.traders.map((entry) => (
-                        <span key={entry.traderId} className="rounded bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-700 whitespace-nowrap">
+                        <span key={entry.traderId} className="inline-flex items-center gap-1 rounded bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-700 whitespace-nowrap">
                           {entry.trader}
+                          {entry.exitStatus && <ExitBadge status={entry.exitStatus} />}
                         </span>
                       ))}
                     </div>
@@ -349,7 +428,10 @@ function StockOverviewView({ traders, asOf }: { traders: LhbOverviewTrader[]; as
                         <tbody>
                           {stock.traders.map((entry) => (
                             <tr key={entry.traderId} className="border-t border-slate-100">
-                              <td className="py-2 px-3 font-medium text-slate-700 whitespace-nowrap">{entry.trader}</td>
+                              <td className="py-2 px-3 font-medium text-slate-700 whitespace-nowrap">
+                                {entry.trader}
+                                {entry.exitStatus && <span className="ml-1.5"><ExitBadge status={entry.exitStatus} /></span>}
+                              </td>
                               <td className="py-2 px-3">
                                 <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${TIER_CLASS[entry.tier] ?? 'bg-slate-100 text-slate-500'}`}>
                                   {entry.tier}
@@ -417,6 +499,7 @@ function DailyView({ dates, rowsFor }: { dates: string[]; rowsFor: (date: string
                 <td className="py-2.5 px-3 whitespace-nowrap">
                   <span className="font-medium text-slate-700">{row.name}</span>
                   <span className="text-xs text-slate-400 ml-1">{row.code}</span>
+                  {row.exit_status && <span className="ml-1.5"><ExitBadge status={row.exit_status} /></span>}
                 </td>
                 <td className={`py-2.5 px-3 tabular-nums whitespace-nowrap ${(row.pct_chg ?? 0) > 0 ? 'text-coral-500' : (row.pct_chg ?? 0) < 0 ? 'text-mint-600' : 'text-slate-400'}`}>
                   {row.pct_chg === null ? '—' : `${row.pct_chg > 0 ? '+' : ''}${row.pct_chg.toFixed(2)}%`}
@@ -444,7 +527,11 @@ export function LhbTraders() {
   const [sortKey, setSortKey] = useState<SortKey>('net');
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const traders = data?.traders ?? [];
+  // 在场过滤：离场超期配对隐藏、标记期配对保留+标记，stats 同口径重算
+  const traders = useMemo(
+    () => buildViewTraders(data?.traders ?? [], data?.trading_dates ?? [], data?.as_of ?? null),
+    [data],
+  );
   const sorted = useMemo(() => {
     const list = [...traders];
     if (sortKey === 'net') list.sort((a, b) => Math.abs(b.stats.net_total) - Math.abs(a.stats.net_total));
@@ -465,6 +552,7 @@ export function LhbTraders() {
           code: record.code, name: record.name,
           buy: record.buy, sell: record.sell, net: record.net,
           pct_chg: record.pct_chg, board: record.board, confidence: record.confidence,
+          exit_status: trader.exits.get(record.code)?.status,
         };
         if (list) list.push(row);
         else map.set(record.date, [row]);
@@ -495,6 +583,7 @@ export function LhbTraders() {
         <Notice>
           统计口径：仅计入单日榜金额（三日累计榜仅存记录不参与统计）；同股同席位跨上榜原因的重复披露已按当日去重。
           席位映射为公开资料交叉整理，<b>非官方认证</b>，低置信席位操作已标注「存疑」；数据仅供参考，不构成投资建议。
+          在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」；标记保留 3 个交易日，之后该游资在该股的操作不再展示（判定仅基于窗口内数据，非真实持仓）。
         </Notice>
       </div>
 

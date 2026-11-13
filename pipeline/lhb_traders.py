@@ -41,7 +41,7 @@ BOARD_MAP_FILE = RAW / "board-map.json"
 OUTPUT_NAME = "lhb-traders.json"
 
 CN = ZoneInfo("Asia/Shanghai")
-ALGORITHM_VERSION = "lhb-traders-v1.0"
+ALGORITHM_VERSION = "lhb-traders-v1.1"
 
 MAX_WORKERS = 3          # 席位明细并发数：太高会触发东财限流
 DETAIL_SLEEP = 0.15      # 每次明细请求后的间隔（秒）
@@ -53,6 +53,13 @@ DEFAULT_WINDOW_DAYS = 30  # 首次建库默认回看自然日窗口
 
 # 三日榜/多日榜判定：上榜原因含「连续」的一律视为多日累计口径
 MULTI_DAY_MARK = "连续"
+
+# ---------- 在场（离场清仓）判定参数（2026-11-13 与用户确认口径） ----------
+EXIT_MARK_DAYS = 3        # 离场标记保鲜期（交易日）：标记期内页面显示标记，超过隐藏配对
+SILENT_PROBABLE = 4       # 疑似离场静默期（交易日）：最后现身起连续无记录天数
+SILENT_FORCED = 8         # 强制离场兜底（交易日）：无任何卖出证据时的最后防线
+HEAVY_SELL_RATIO = 0.8    # 单日大幅出货判定：卖出占当日买卖合计比 > 80%
+TURNOVER_COVER_X = 5      # 换手覆盖倍数：静默期个股市场总成交额 ≥ 窗口内买入 × 5 视为有机会出完
 
 
 def normalize_branch(name: str) -> str:
@@ -313,6 +320,92 @@ def _read_details() -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
+def _compute_positions(
+    records: dict[str, list[dict]], trading_dates: list[str], detail: pd.DataFrame,
+) -> dict[str, list[dict]]:
+    """按（游资, 个股）计算窗口内在场状态（只用单日榜记录，与统计口径一致）。
+
+    判定规则（2026-11-13 与用户确认）：
+    - exited_confirmed 确认清仓：
+      C1 卖出覆盖：窗口内累计卖出 ≥ 累计买入（证据日=最后一笔卖出日）；
+      C2 大幅出货：最后一条记录卖出占当日买卖合计 > 80%，且该股此后再上榜过
+        （有效观察：游资未现身买方——若现身会产生新记录，last_seen 会后移）。
+    - exited_probable 疑似离场：最后现身 ≥4 个交易日静默，且静默期内该股再上榜过、
+      或静默期个股市场总成交额 ≥ 窗口内买入 ×5（换手覆盖推断，兜底
+      "卖出日未触发上榜/卖出量未进前五"的结构性盲区）。
+    - exited_forced 强制离场：最后现身 ≥8 个交易日无任何记录（时间兜底，
+      保证状态机完备；因标记保鲜仅 3 日，页面可见效果与"超期隐藏"一致）。
+    - active 在场：以上均不满足。
+    exit_date 为判定成立日：确认清仓=清仓证据日；疑似/强制=静默达标交易日。
+    前端在 exit_date 起 EXIT_MARK_DAYS 个交易日内显示标记，超过则隐藏该配对
+    （产物数据完整保留，仅页面过滤）。窗口前买入不可见，判定仅基于窗口内数据。
+    """
+    date_idx = {d: i for i, d in enumerate(trading_dates)}
+    # 个股维度索引：全部上榜日集合（触发式披露的全部观察窗口）+ 每日市场总成交额
+    stock_days: dict[str, set[str]] = {}
+    stock_amt: dict[tuple[str, str], float] = {}
+    for _, row in detail.iterrows():
+        code = str(row["代码"]).zfill(6)
+        day = str(row["上榜日"])
+        stock_days.setdefault(code, set()).add(day)
+        amt = row.get("市场总成交额")
+        if amt is not None and not pd.isna(amt):
+            stock_amt[(code, day)] = float(amt)
+
+    positions: dict[str, list[dict]] = {}
+    for tid, recs in records.items():
+        by_code: dict[str, list[dict]] = {}
+        for rec in recs:
+            if rec["is_multi_day"]:
+                continue
+            by_code.setdefault(rec["code"], []).append(rec)
+        if not by_code:
+            continue
+        rows_out: list[dict] = []
+        for code, rows in by_code.items():
+            rows.sort(key=lambda r: r["date"])
+            last_seen = rows[-1]["date"]
+            buy_total = sum(r["buy"] for r in rows)
+            sell_total = sum(r["sell"] for r in rows)
+            status, exit_date, exit_type = "active", None, None
+
+            # C1 卖出覆盖买入 → 确认清仓
+            if buy_total > 0 and sell_total >= buy_total:
+                sell_dates = [r["date"] for r in rows if r["sell"] > 0]
+                if sell_dates:
+                    status, exit_date, exit_type = "exited_confirmed", sell_dates[-1], "sell_cover"
+            # C2 单日大幅出货 + 此后该股再上榜（游资未现身买方）→ 确认清仓
+            if status != "exited_confirmed":
+                last = rows[-1]
+                denom = last["buy"] + last["sell"]
+                later_days = [d for d in stock_days.get(code, ()) if d > last_seen]
+                if denom > 0 and last["sell"] / denom > HEAVY_SELL_RATIO and later_days:
+                    status, exit_date, exit_type = "exited_confirmed", last_seen, "heavy_sell"
+            # 静默期判定：疑似（4 日 + 有效观察）/ 强制（8 日兜底）
+            silent_days = 0
+            if status == "active" and trading_dates and last_seen in date_idx:
+                silent_days = date_idx[trading_dates[-1]] - date_idx[last_seen]
+                if silent_days >= SILENT_FORCED:
+                    idx = min(date_idx[last_seen] + SILENT_FORCED, len(trading_dates) - 1)
+                    status, exit_date, exit_type = "exited_forced", trading_dates[idx], "forced"
+                elif silent_days >= SILENT_PROBABLE:
+                    after_days = sorted(d for d in stock_days.get(code, ()) if d > last_seen)
+                    covered = sum(stock_amt.get((code, d), 0.0) for d in after_days)
+                    if after_days or (buy_total > 0 and covered >= buy_total * TURNOVER_COVER_X):
+                        idx = min(date_idx[last_seen] + SILENT_PROBABLE, len(trading_dates) - 1)
+                        status, exit_date, exit_type = "exited_probable", trading_dates[idx], "silent"
+            rows_out.append({
+                "code": code, "name": rows[-1]["name"],
+                "status": status, "exit_type": exit_type,
+                "last_seen": last_seen, "exit_date": exit_date,
+                "buy_total": round(buy_total, 2), "sell_total": round(sell_total, 2),
+                "silent_days": silent_days,
+            })
+        rows_out.sort(key=lambda p: p["last_seen"], reverse=True)
+        positions[tid] = rows_out
+    return positions
+
+
 def aggregate(matcher: SeatMatcher | None = None, board_map: dict | None = None) -> dict:
     """扫描全部原始留痕，匹配席位并聚合为游资操作产物。"""
     matcher = matcher or SeatMatcher()
@@ -398,9 +491,14 @@ def aggregate(matcher: SeatMatcher | None = None, board_map: dict | None = None)
         rec["buy"] = round(rec["buy"], 2)
         rec["sell"] = round(rec["sell"], 2)
 
-    # 每游资 records 按日期倒序、净额绝对值倒序
+    # 每游资 records 按日期倒序、同日净额绝对值倒序（最近操作在前，卡片/详情直接取头部）
     for tid in records:
-        records[tid].sort(key=lambda r: (r["date"], -abs(r["net"])))
+        records[tid].sort(key=lambda r: (r["date"], abs(r["net"])), reverse=True)
+
+    trading_dates = sorted({str(d) for d in detail["上榜日"].unique()})
+
+    # 在场状态判定（游资×个股，只用单日榜记录）：确认清仓 / 疑似离场 / 强制离场 / 在场
+    positions = _compute_positions(records, trading_dates, detail)
 
     # 统计口径：只累计单日榜
     traders_payload = []
@@ -420,9 +518,8 @@ def aggregate(matcher: SeatMatcher | None = None, board_map: dict | None = None)
             "confidence": trader.get("confidence", "medium"), "note": trader.get("note", ""),
             "seats": trader.get("seats", []),
             "stats": stats, "records": records[tid],
+            "positions": positions.get(tid, []),
         })
-
-    trading_dates = sorted({str(d) for d in detail["上榜日"].unique()})
     daily: dict[str, list[dict]] = {d: [] for d in trading_dates}
     for tp in traders_payload:
         for rec in tp["records"]:
@@ -446,7 +543,11 @@ def aggregate(matcher: SeatMatcher | None = None, board_map: dict | None = None)
         "scope_note": "金额统计仅基于单日榜（上榜原因含「连续」的多日累计榜只存记录不参与统计）；"
                       "同股同席位跨上榜原因/买卖榜的重复披露已按当日去重；"
                       "板块归属为独立展示口径（新浪行业打底、东财解封后自动补全），与板块趋势页面申万体系不对照；"
-                      "席位为公开资料整理非官方认证，低置信命中已在记录级标注",
+                      "席位为公开资料整理非官方认证，低置信命中已在记录级标注；"
+                      "在场判定（游资×个股，仅单日榜）：窗口内累计卖出≥累计买入、或最后记录卖出占比>80%且该股此后再上榜未现身买方→确认清仓；"
+                      "最后现身≥4个交易日静默且静默期内该股再上榜或换手覆盖（静默期市场总成交额≥窗口内买入×5）→疑似离场；"
+                      "≥8个交易日无记录→强制离场；离场标记保留3个交易日，之后该配对页面隐藏（数据完整保留）；"
+                      "判定仅基于窗口内数据，窗口前买入不可见",
         "trading_dates": trading_dates,
         "traders": traders_payload,
         "daily": daily,
@@ -463,8 +564,12 @@ def rebuild_output() -> dict:
     protected_write(OUTPUT_NAME, payload)
     stats = {t["name"]: t["stats"]["records"] for t in payload["traders"]}
     active = {k: v for k, v in stats.items() if v > 0}
+    exited = sum(
+        1 for t in payload["traders"]
+        for p in t.get("positions", []) if p["status"] != "active")
     print(f"[lhb] 聚合完成：{len(payload['trading_dates'])} 个交易日，"
           f"{len(active)}/{len(stats)} 位游资有命中记录，"
+          f"离场/清仓配对 {exited} 个，"
           f"未匹配营业部 {payload['quality']['unmatched_count']} 个", flush=True)
     return payload
 
