@@ -1,12 +1,17 @@
 """固定口径配置（研究阶段专用）：标的清单、三段划分、28 条有效幅度线、冻结参数集。
 
 设计依据见 openspec/changes/index-precision-pivot-signals/design.md：
-- D6/D8：不扩展标的池，固定 7 大宽基指数；同花顺公开日线 + 前复权口径不变。
+- D6/D8：不扩展标的池，固定 7 大宽基指数。
 - D7：训练段名义结束日固定 2024-12-31，末尾 30 个交易日划为隔离期排除带。
 - D5：有效幅度线 = 训练段全部交易日 H 日绝对收益的 75 分位，按 7 指数 × 4 持有期冻结 28 条。
 
+口径变更记录（stable-market-data-source-migration 换源）：
+- 指数日线由同花顺公开日线换为新浪公开指数日线（不复权），复权口径由「前复权」改为「不复权」；
+- 新浪源无 amount（成交额）列，COLUMN_ORDER 相应移除 amount，本模块计算不依赖成交额。
+
 本模块只做纯计算与只读行情加载，不写任何文件，绝不触碰生产产物。
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -22,27 +27,31 @@ DATA_DIR = ROOT / "data"
 
 # 生产与统计共用同一份固化清单（不扩展，不新增展示卡片）。
 INDEXES: dict[str, str] = {
-    "sh000001": "上证指数", "sz399001": "深证成指", "sz399006": "创业板指",
-    "sh000688": "科创50", "sh000300": "沪深300", "sh000905": "中证500",
+    "sh000001": "上证指数",
+    "sz399001": "深证成指",
+    "sz399006": "创业板指",
+    "sh000688": "科创50",
+    "sh000300": "沪深300",
+    "sh000905": "中证500",
     "sh000852": "中证1000",
 }
 KINDS = ("bottom", "top")
 HOLD_PERIODS = (5, 10, 20, 30)
 SEGMENTS = ("train", "validation")
 
-DATA_SOURCE = "同花顺公开日线"
-ADJUST = "前复权"
+DATA_SOURCE = "新浪公开指数日线"
+ADJUST = "不复权"
 PRICE_UNIT = "点"
-COLUMN_ORDER = ("date", "open", "close", "high", "low", "volume", "amount")
+COLUMN_ORDER = ("date", "open", "close", "high", "low", "volume")
 MIN_HISTORY_ROWS = 1250
 
 TRAIN_START = pd.Timestamp("2020-10-30")
-TRAIN_END = pd.Timestamp("2024-12-31")        # 名义结束日，固定不随数据延长
+TRAIN_END = pd.Timestamp("2024-12-31")  # 名义结束日，固定不随数据延长
 VALID_START = pd.Timestamp("2025-01-01")
-EMBARGO_TRADING_DAYS = 30                     # 覆盖 30 日前瞻 + 20 日浮亏窗口
+EMBARGO_TRADING_DAYS = 30  # 覆盖 30 日前瞻 + 20 日浮亏窗口
 
 MAE_WINDOW = 20
-MAE_LIMIT = 0.05                              # 恰好 5% 不判失败
+MAE_LIMIT = 0.05  # 恰好 5% 不判失败
 AMPLITUDE_QUANTILE = 0.75
 BASELINE_SEED = 20261109
 RANDOM_SEED = 20261109
@@ -55,15 +64,21 @@ FROZEN_PIVOT = {"amplitude": 0.05, "min_gap": 8}
 FROZEN_GATE = {
     "score_threshold": 0.58,
     "core_hits_min": 3,
-    "core_extreme": 0.60,       # 与生产 candidate_masks 一致；非 factor_table 分级的 0.85
+    "core_extreme": 0.60,  # 与生产 candidate_masks 一致；非 factor_table 分级的 0.85
     "direction_min": 0.05,
     "min_available_directions": 6,
     "confirm_window": 3,
 }
 # 训练段候选参数组合（全部为严格化方向，不允许放宽）。
 GATE_GRID: tuple[dict, ...] = tuple(
-    {"score_threshold": score, "core_hits_min": 3, "core_extreme": 0.60,
-     "direction_min": dim, "min_available_directions": 6, "confirm_window": 3}
+    {
+        "score_threshold": score,
+        "core_hits_min": 3,
+        "core_extreme": 0.60,
+        "direction_min": dim,
+        "min_available_directions": 6,
+        "confirm_window": 3,
+    }
     for score in (0.52, 0.55, 0.58)
     for dim in (0.05, 0.10)
 )
@@ -79,8 +94,12 @@ def read_index_csv(code: str) -> pd.DataFrame:
     if missing:
         raise ValueError(f"{code} 日线缺少字段：{missing}")
     frame["date"] = pd.to_datetime(frame["date"])
-    return frame[list(COLUMN_ORDER)].sort_values("date").dropna(
-        subset=["open", "high", "low", "close"]).reset_index(drop=True)
+    return (
+        frame[list(COLUMN_ORDER)]
+        .sort_values("date")
+        .dropna(subset=["open", "high", "low", "close"])
+        .reset_index(drop=True)
+    )
 
 
 def load_frames() -> dict[str, pd.DataFrame]:
@@ -109,31 +128,35 @@ def build_manifest(frames: dict[str, pd.DataFrame]) -> dict:
     for code, name in INDEXES.items():
         frame = frames[code]
         rows = int(len(frame))
-        entries.append({
-            "code": code,
-            "name": name,
-            "source": DATA_SOURCE,
-            "adjust": ADJUST,
-            "price_unit": PRICE_UNIT,
-            "columns": list(COLUMN_ORDER),
-            "rows": rows,
-            "start": frame["date"].min().strftime("%Y-%m-%d"),
-            "end": frame["date"].max().strftime("%Y-%m-%d"),
-            "relative_path": f"data/raw/indices-ths/{code}.csv",
-            "history_sufficient": bool(rows >= MIN_HISTORY_ROWS),
-            "insufficient_history_note": None if rows >= MIN_HISTORY_ROWS else
-                f"历史 {rows} 行，不足 {MIN_HISTORY_ROWS} 个交易日；显式标记，不丢弃",
-        })
+        entries.append(
+            {
+                "code": code,
+                "name": name,
+                "source": DATA_SOURCE,
+                "adjust": ADJUST,
+                "price_unit": PRICE_UNIT,
+                "columns": list(COLUMN_ORDER),
+                "rows": rows,
+                "start": frame["date"].min().strftime("%Y-%m-%d"),
+                "end": frame["date"].max().strftime("%Y-%m-%d"),
+                "relative_path": f"data/raw/indices-ths/{code}.csv",
+                "history_sufficient": bool(rows >= MIN_HISTORY_ROWS),
+                "insufficient_history_note": None
+                if rows >= MIN_HISTORY_ROWS
+                else f"历史 {rows} 行，不足 {MIN_HISTORY_ROWS} 个交易日；显式标记，不丢弃",
+            }
+        )
     caliber_differences = [
         {"code": item["code"], "field": field, "value": item[field]}
         for item in entries
         for field in ("source", "adjust", "price_unit")
-        if item[field] != {"source": DATA_SOURCE, "adjust": ADJUST,
-                           "price_unit": PRICE_UNIT}[field]
+        if item[field]
+        != {"source": DATA_SOURCE, "adjust": ADJUST, "price_unit": PRICE_UNIT}[field]
     ]
     caliber_differences += [
         {"code": item["code"], "field": "columns", "value": item["columns"]}
-        for item in entries if tuple(item["columns"]) != COLUMN_ORDER
+        for item in entries
+        if tuple(item["columns"]) != COLUMN_ORDER
     ]
     return {
         "universe_frozen": True,
@@ -157,8 +180,9 @@ def segment_definition(frame: pd.DataFrame) -> dict:
     也不计入训练段准确率，且不跨入验证段（design D7）。
     """
     dates = pd.to_datetime(frame["date"])
-    train_positions = [i for i, day in enumerate(dates)
-                       if TRAIN_START <= day <= TRAIN_END]
+    train_positions = [
+        i for i, day in enumerate(dates) if TRAIN_START <= day <= TRAIN_END
+    ]
     if len(train_positions) < EMBARGO_TRADING_DAYS + 1:
         raise ValueError("训练段交易日不足，无法切出隔离期")
     embargo_first = train_positions[-EMBARGO_TRADING_DAYS]
@@ -240,8 +264,11 @@ def amplitude_line(frozen: dict, code: str, horizon: int) -> float:
         raise KeyError(f"缺少冻结幅度线：{code} / {horizon} 日") from exc
 
 
-def frozen_params(frames: dict[str, pd.DataFrame], gate: dict | None = None,
-                  grid_evidence: dict | None = None) -> dict:
+def frozen_params(
+    frames: dict[str, pd.DataFrame],
+    gate: dict | None = None,
+    grid_evidence: dict | None = None,
+) -> dict:
     """完整冻结参数集：拐点阈值、六维闸门、MAE、幅度线、输入哈希与随机种子。"""
     lines = freeze_amplitude_lines(frames)
     return {

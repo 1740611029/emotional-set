@@ -13,13 +13,21 @@ import refresh_and_rebuild as module
 
 GAP_FRESH = {
     "expected": "2026-11-02", "basis": "calendar",
-    "local": {"indices": "2026-11-02", "sectors": "2026-11-02", "institutions": "2026-11-02"},
-    "lag": {"indices": 0, "sectors": 0, "institutions": 0}, "stale": [],
+    "local": {"indices": "2026-11-02", "sectors": "2026-11-02", "institutions": "2026-11-02",
+              "etf": "2026-11-02"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 0}, "stale": [],
 }
 GAP_LAGGED = {
     "expected": "2026-11-02", "basis": "calendar",
-    "local": {"indices": "2026-11-02", "sectors": "2026-10-30", "institutions": "2026-11-02"},
-    "lag": {"indices": 0, "sectors": 1, "institutions": 0}, "stale": ["sectors"],
+    "local": {"indices": "2026-11-02", "sectors": "2026-10-30", "institutions": "2026-11-02",
+              "etf": "2026-11-02"},
+    "lag": {"indices": 0, "sectors": 1, "institutions": 0, "etf": 0}, "stale": ["sectors"],
+}
+GAP_ETF_ONLY_LAGGED = {
+    "expected": "2026-11-02", "basis": "calendar",
+    "local": {"indices": "2026-11-02", "sectors": "2026-11-02", "institutions": "2026-11-02",
+              "etf": "2026-10-31"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1}, "stale": ["etf"],
 }
 
 
@@ -125,6 +133,51 @@ class DescribeTest(unittest.TestCase):
         text = module.describe(gap)
         self.assertIn("板块 —", text)
         self.assertIn("口径 calendar", text)
+
+    def test_etf_line_is_listed_in_describe(self):
+        """ETF 数据线接入新鲜度判定后，describe 必须逐线列出 ETF。"""
+        text = module.describe(GAP_ETF_ONLY_LAGGED)
+        self.assertIn("ETF 2026-10-31", text)
+
+
+class EtfFreshnessTest(unittest.TestCase):
+    """ETF 数据线参与新鲜度判定（D4）后的编排行为。"""
+
+    def test_etf_only_lag_warns_and_still_rebuilds(self):
+        """仅 ETF 落后：其余三线不受影响、重建照常完成、逐线警告 ETF。"""
+        result = {"refreshed": {"etf": {"status": "ok", "updated": ["510300"],
+                                          "skipped": 5, "failed": []}},
+                  "gap": GAP_ETF_ONLY_LAGGED, "after": GAP_FRESH}
+        code, output = EtfFreshnessTest.run_main(result, gap=GAP_ETF_ONLY_LAGGED)
+        self.assertEqual(code, 0)
+        self.assertIn("ETF 日线：1 只有更新、跳过 5 只", output)
+        self.assertIn("rebuild_called=True", output)
+        # 三条主线不因 ETF 落后被连带判为落后
+        self.assertNotIn("指数 仍停在", output)
+        self.assertNotIn("板块 仍停在", output)
+
+    def test_etf_still_lagged_after_refresh_warns_only_etf(self):
+        """ETF 补齐失败：只对 ETF 输出仍落后警告，其余线不受牵连、退出码仍为完成。"""
+        result = {"refreshed": {"etf": {"status": "failed", "error": "网络断开"}},
+                  "gap": GAP_ETF_ONLY_LAGGED, "after": GAP_ETF_ONLY_LAGGED}
+        code, output = EtfFreshnessTest.run_main(result, gap=GAP_ETF_ONLY_LAGGED)
+        self.assertEqual(code, 0)
+        self.assertIn("WARNING", output)
+        self.assertIn("ETF 仍停在 2026-10-31", output)
+        self.assertNotIn("指数 仍停在", output)
+
+    @staticmethod
+    def run_main(result: dict, gap: dict) -> tuple[int, str]:
+        buffer = io.StringIO()
+        with mock.patch.object(module, "data_gap", return_value=gap), \
+                mock.patch.object(module, "ensure_fresh_data", return_value=result), \
+                mock.patch.object(module, "update_etf",
+                                  return_value={"status": "skipped", "updated": [],
+                                                "skipped": 6, "failed": []}), \
+                mock.patch.object(module.build_dashboard, "main") as rebuild, \
+                redirect_stdout(buffer):
+            code = module.main()
+        return code, f"{buffer.getvalue()}\nrebuild_called={rebuild.called}"
 
 
 if __name__ == "__main__":

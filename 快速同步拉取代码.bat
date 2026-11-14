@@ -9,12 +9,28 @@ echo   走 gh-proxy.com 镜像通道，国内拉取更快
 echo ============================================
 echo.
 
+REM 前置自检：工作区有未提交改动时 --ff-only 必失败，先中止并给出明确提示
+git status --porcelain > "%TEMP%\emotional-set-status.txt" 2>nul
+for /f %%C in ('type "%TEMP%\emotional-set-status.txt" ^| find /c /v ""') do set "DIRTY=%%C"
+del "%TEMP%\emotional-set-status.txt" >nul 2>&1
+if not "%DIRTY%"=="0" (
+    echo [中止] 工作区存在 %DIRTY% 个未提交改动（例如 data\etf-volume-events.json 被运行时刷新）。
+    echo        先提交或暂存后再同步：
+    echo          git stash          （暂存，稍后 git stash pop 恢复）
+    echo          git add -A ^&^& git commit -m "..."   （提交）
+    echo        否则 git merge --ff-only 会直接失败。
+    pause
+    exit /b 1
+)
+echo [0/3] 前置自检通过：工作区干净。
+
 git remote get-url fast >nul 2>&1
 if errorlevel 1 (
     git remote add fast https://gh-proxy.com/https://github.com/1740611029/emotional-set.git
     echo [init] 已添加加速远端 fast
 )
 
+echo.
 echo [1/3] 从加速通道拉取 main ...
 git fetch fast main --progress
 if errorlevel 1 (

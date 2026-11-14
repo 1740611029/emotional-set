@@ -1,4 +1,5 @@
 """标的清单、三段划分、28 条幅度线与冻结参数集的配置测试（任务 1.1 / 1.3 / 2.4）。"""
+
 from __future__ import annotations
 
 import unittest
@@ -14,14 +15,24 @@ class TestUniverseManifest(unittest.TestCase):
 
     def test_seven_fixed_indices(self):
         self.assertEqual(self.manifest["universe_size"], 7)
-        self.assertEqual([item["code"] for item in self.manifest["entries"]],
-                         list(cfg.INDEXES))
-        self.assertEqual(self.manifest["source"], "同花顺公开日线")
-        self.assertEqual(self.manifest["adjust"], "前复权")
+        self.assertEqual(
+            [item["code"] for item in self.manifest["entries"]], list(cfg.INDEXES)
+        )
+        self.assertEqual(self.manifest["source"], "新浪公开指数日线")
+        self.assertEqual(self.manifest["adjust"], "不复权")
 
     def test_manifest_matches_actual_csv(self):
-        required = ("code", "name", "source", "adjust", "rows", "start", "end",
-                    "relative_path", "history_sufficient")
+        required = (
+            "code",
+            "name",
+            "source",
+            "adjust",
+            "rows",
+            "start",
+            "end",
+            "relative_path",
+            "history_sufficient",
+        )
         for item in self.manifest["entries"]:
             for key in required:
                 self.assertIn(key, item)
@@ -51,18 +62,22 @@ class TestSegments(unittest.TestCase):
 
     def test_embargo_at_least_30_trading_days(self):
         self.assertGreaterEqual(self.segments["embargo"]["trading_days"], 30)
-        self.assertGreaterEqual(self.segments["embargo_trading_days"],
-                                self.segments["embargo_min_required"])
+        self.assertGreaterEqual(
+            self.segments["embargo_trading_days"], self.segments["embargo_min_required"]
+        )
         self.assertTrue(self.segments["embargo"]["excluded_from_tuning"])
         self.assertTrue(self.segments["embargo"]["excluded_from_train_accuracy"])
 
     def test_no_overlap_between_train_and_validation(self):
         self.assertTrue(self.segments["train_validation_no_overlap"])
-        self.assertLess(self.segments["train"]["end"], self.segments["validation"]["start"])
+        self.assertLess(
+            self.segments["train"]["end"], self.segments["validation"]["start"]
+        )
 
     def test_effective_train_end_excludes_embargo(self):
-        self.assertLess(self.segments["train"]["effective_end"],
-                        self.segments["embargo"]["start"])
+        self.assertLess(
+            self.segments["train"]["effective_end"], self.segments["embargo"]["start"]
+        )
 
 
 class TestAmplitudeLines(unittest.TestCase):
@@ -75,15 +90,18 @@ class TestAmplitudeLines(unittest.TestCase):
         self.assertEqual(self.lines["line_count"], 28)
         self.assertEqual(len(self.lines["lines"]), 7)
         for code in cfg.INDEXES:
-            self.assertEqual(set(self.lines["lines"][code]),
-                             {str(h) for h in cfg.HOLD_PERIODS})
+            self.assertEqual(
+                set(self.lines["lines"][code]), {str(h) for h in cfg.HOLD_PERIODS}
+            )
 
     def test_lines_reflect_index_volatility(self):
         # 创业板波动高于上证，各持有期线 MUST 相应更高。
         for horizon in cfg.HOLD_PERIODS:
             key = str(horizon)
-            self.assertGreater(self.lines["lines"]["sz399006"][key],
-                               self.lines["lines"]["sh000001"][key])
+            self.assertGreater(
+                self.lines["lines"]["sz399006"][key],
+                self.lines["lines"]["sh000001"][key],
+            )
 
     def test_lines_increase_with_horizon(self):
         for code in cfg.INDEXES:
@@ -109,10 +127,18 @@ class TestAmplitudeLines(unittest.TestCase):
 class TestFrozenParams(unittest.TestCase):
     def test_frozen_set_has_required_fields(self):
         frozen = cfg.frozen_params(cfg.load_frames())
-        for key in ("pivot_amplitude", "pivot_min_gap", "six_factor_gate",
-                    "mae_limit", "mae_window", "effective_amplitude",
-                    "input_hash", "random_seed", "baseline_seed",
-                    "algorithm_version"):
+        for key in (
+            "pivot_amplitude",
+            "pivot_min_gap",
+            "six_factor_gate",
+            "mae_limit",
+            "mae_window",
+            "effective_amplitude",
+            "input_hash",
+            "random_seed",
+            "baseline_seed",
+            "algorithm_version",
+        ):
             self.assertIn(key, frozen)
         self.assertEqual(frozen["mae_limit"], 0.05)
         self.assertEqual(frozen["pivot_amplitude"], 0.05)
@@ -126,8 +152,10 @@ class TestFrozenParams(unittest.TestCase):
     def test_same_input_reproduces_same_lines(self):
         first = cfg.frozen_params(cfg.load_frames())
         second = cfg.frozen_params(cfg.load_frames())
-        self.assertEqual(first["effective_amplitude"]["lines"],
-                         second["effective_amplitude"]["lines"])
+        self.assertEqual(
+            first["effective_amplitude"]["lines"],
+            second["effective_amplitude"]["lines"],
+        )
         self.assertEqual(first["input_hash"], second["input_hash"])
 
 

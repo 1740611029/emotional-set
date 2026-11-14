@@ -185,5 +185,36 @@ class TailRevisionTest(SectorUpdateTestCase):
         self.assertEqual((self.raw / "BK0433.csv").stat().st_mtime_ns, stamp)
 
 
+class EtfFreshnessGapTest(unittest.TestCase):
+    """ETF 数据线接入 data_gap（D4）：stale 逐线列出，不牵连其余三条线。"""
+
+    def test_etf_only_lag_marks_etf_stale_alone(self):
+        local = {"indices": "2026-11-03", "sectors": "2026-11-03",
+                 "institutions": "2026-11-03", "etf": "2026-10-30"}
+        with mock.patch.object(bs, "latest_local_dates", return_value=local), \
+                mock.patch.object(bs, "last_completed_trading_day",
+                                  return_value=("2026-11-03", "calendar")):
+            gap = bs.data_gap()
+        self.assertEqual(gap["stale"], ["etf"])
+        self.assertEqual(gap["lag"]["etf"], 2)  # 10-30 → 11-03 之间有 11-02、11-03 两个交易日
+        self.assertEqual(gap["lag"]["indices"], 0)
+        self.assertEqual(gap["lag"]["sectors"], 0)
+        self.assertEqual(gap["lag"]["institutions"], 0)
+
+    def test_etf_min_ready_date_is_used(self):
+        """ETF 取 6 只尾日的最小齐备日：一只落后即整体齐备日落后。"""
+        tails = {"510300": "2026-11-03", "510050": "2026-10-30", "588000": "2026-11-03",
+                 "159915": "2026-11-03", "512100": "2026-11-03", "510500": "2026-11-03"}
+        codes = list(tails)
+        with mock.patch.object(bs, "_tail_date", side_effect=lambda path, col: tails[path.stem]), \
+                mock.patch.object(bs, "ETF_UNIVERSE", [{"code": code} for code in codes]):
+            ready = bs._etf_ready_date()
+        self.assertEqual(ready, "2026-10-30")
+
+    def test_missing_etf_file_reports_none(self):
+        with mock.patch.object(bs, "_tail_date", return_value=None):
+            self.assertIsNone(bs._etf_ready_date())
+
+
 if __name__ == "__main__":
     unittest.main()

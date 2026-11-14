@@ -223,7 +223,13 @@ INDEX_SCHEMA = {
     "type": "object", "required": ["as_of", "is_mock", "indices", "recent_signals"],
     "properties": {
         "precision": PRECISION_BLOCK,
-        "as_of": DATE, "is_mock": {"type": "boolean"},
+        "as_of": DATE,
+        # as_of 聚合规则显式标注 + 短板标的可见（D5）：7 个指数各自尾日与落后标的
+        "as_of_rule": {"type": "string", "minLength": 1},
+        "index_tails": {"type": "object",
+                        "additionalProperties": DATE},
+        "lagging_indexes": {"type": "array", "items": {"type": "string"}},
+        "is_mock": {"type": "boolean"},
         "indices": {"type": "array", "minItems": 7, "maxItems": 7, "items": {
             "type": "object", "required": ["code", "name", "latest", "change_pct", "current_signal", "history", "signals", "accuracy"],
             "properties": {
@@ -942,6 +948,19 @@ def validate_payload(name: str, payload: dict) -> None:
         codes = {item["code"] for item in payload["indices"]}
         if len(codes) != 7:
             raise ValueError("7 个指数代码必须唯一")
+        index_tails = payload.get("index_tails")
+        if index_tails is not None:
+            # D5 短板可见：尾日映射必须覆盖全部 7 个指数，且 as_of 与声明规则一致
+            if set(index_tails) != codes:
+                raise ValueError("index_tails 必须覆盖全部 7 个指数")
+            if payload.get("as_of_rule") != "min(index_tails)":
+                raise ValueError("as_of_rule 必须显式声明为 min(index_tails)")
+            if payload["as_of"] != min(index_tails.values()):
+                raise ValueError("as_of 必须等于各指数尾日的最小值")
+            latest_tail = max(index_tails.values())
+            expected_lagging = [code for code, tail in index_tails.items() if tail < latest_tail]
+            if sorted(payload.get("lagging_indexes") or []) != sorted(expected_lagging):
+                raise ValueError("lagging_indexes 必须与尾日短板一致")
         validate_index_display(payload)
         validate_precision(payload)
         for item in payload["indices"]:

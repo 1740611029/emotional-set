@@ -78,6 +78,8 @@ if "%MODE%"=="fetch" goto :fetch_first
 
 echo.
 echo Mode: rebuild only, from the raw CSV files already on disk.
+echo NOTE: this mode does NOT touch the network and does NOT change the data trading day.
+echo       If raw CSVs still lag, rebuilding will NOT advance the data date.
 echo Building... this can take from a few seconds to a minute.
 echo.
 
@@ -85,8 +87,12 @@ echo.
 if errorlevel 1 goto :failed
 
 echo.
-echo [OK] Rebuilt: data\index-signals.json  and  data\sector-trends.json
+echo [OK] Rebuilt: data\index-signals.json + data\sector-trends.json + data\etf-volume-events.json
 echo A running service picks up the new files within 30 seconds; no restart needed.
+echo.
+REM 输出三份产物各自的 as_of 与相对最近已完成交易日的落后交易日数（不联网）。
+REM as_of 只由原始 CSV 尾日决定，不因生成时间更新而显示为最新。
+%PY% pipeline\report_asof.py
 goto :end
 
 :fetch_first
@@ -100,7 +106,7 @@ echo.
 %PY% pipeline\refresh_and_rebuild.py %FORCE%
 if errorlevel 1 goto :failed
 echo.
-echo [OK] Data refreshed and rebuilt: data\index-signals.json  and  data\sector-trends.json
+echo [OK] Data refreshed and rebuilt: data\index-signals.json + data\sector-trends.json + data\etf-volume-events.json
 echo A running service picks up the new files within 30 seconds; no restart needed.
 goto :end
 

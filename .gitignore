@@ -23,3 +23,6 @@ python-installer.exe
 .git-backup-*.bundle
 
 # 其余所有项目文件（含 data/raw、备份、临时、截图、dist 等）按用户要求全部入库
+
+# ===== 本机补齐台账（仅本机状态：记录当日补齐尝试次数与完成标记，多机 pull 会互相覆盖）=====
+data/raw/refresh-state.json

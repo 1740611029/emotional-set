@@ -77,12 +77,13 @@ cd signal-hub-web && npm install && npm run dev   # http://localhost:5173
 
 | 场景 | 数据源 | 发布时点 | 刷新 |
 | --- | --- | --- | --- |
-| 指数日线（历史 + 收盘） | 同花顺公开日线 | 当日 15:00 后陆续到位，部分指数要晚间才聚合完整 | 启动/收盘后补齐 |
+| 指数日线（历史 + 收盘） | 新浪公开指数日线（2026-11-14 起换源，原同花顺） | 收盘后陆续定稿 | 启动/收盘后补齐 |
 | 板块日线（31 个东财行业板块，不复权） | akshare 东财行业板块接口 | 收盘后即发布，15:01 那轮通常已含当日 bar | 启动/收盘后增量（起点含本地尾日） |
+| ETF 日线（6 只核心池，不复权） | 新浪 ETF 日线（清单校验走腾讯实时） | 收盘后定稿 | 启动/收盘后增量 |
 | 盘中指数快照 | akshare 新浪指数快照（备源：东方财富） | 实时 | 交易时段每 30 秒 |
 | 机构多空单（前 20 会员持仓排名） | akshare 中金所持仓排名 | 当日晚间披露 | 启动/收盘后增量更新 |
 
-实测（本地文件时间戳）：东财行业板块收盘后即发布，同花顺指数日线往往晚间才补齐，
+实测（本地文件时间戳）：东财行业板块收盘后即发布，新浪指数日线晚间定稿，
 因此**同一批重建里板块 `as_of` 允许领先指数 `as_of` 至多 1 个交易日**——指数 `as_of` 取七个指数尾日的
 最早值，板块 `as_of` 取 31 个板块尾日的最晚值，属两种数据源发布节奏差异，不是计算缺陷。
 两份产物与界面各自显式标注自身时点（板块页的「数据截至」与滞后提示即为此而设），
@@ -106,7 +107,7 @@ cd signal-hub-web && npm install && npm run dev   # http://localhost:5173
 
 ```
 pipeline/            信号流水线（扁平 import，保持与原研究项目一致）
-  fetch_market.py      日线抓取（同花顺指数 / 东财行业板块）
+  fetch_market.py      日线抓取（新浪指数 / 东财行业板块）
   trading_calendar.py  交易日历与“最近已完成交易日”判定
   research_algorithms.py, multifactor_research.py   指标与因子
   confirmed_index_signals.py, confirmed_sector_trends.py  确认型信号
@@ -120,7 +121,8 @@ pipeline/            信号流水线（扁平 import，保持与原研究项目�
   sector_source_migration.py, breadth_source_migration.py  换源前后四态/宽度/信号对照（只写 data/research/）
   compare_snapshot.py  信号事实回归比对
 server/              数据服务（快照、调度、API）
-data/                落盘数据（raw/ 不入库，首次运行自动拉取）
+data/                落盘数据（raw/ 全量随仓库分发，克隆即有历史；
+                     仅 data/raw/refresh-state.json 本机台账不入库）
 signal-hub-web/      前端（React + Vite + Tailwind）
 ```
 
@@ -144,6 +146,14 @@ python -m pytest pipeline server -q
 
 - `pipeline/`：信号算法、候选状态、校验与原子写入（含从原项目迁移的回归用例）
 - `server/`：快照契约、盘中合成、实时源归一化、接口状态
+
+当前回归（2026-11-14）：`python -m pytest pipeline server -q` → **542 passed / 5 skipped / 0 failed**
+（125 subtests passed）。此前 535 passed / 7 failed 的 7 个失败全部位于 `server/test_precision_api.py`
+（`body["precision"]` 为 None），属既有失败：`build_dashboard.py` 自 commit `27edd53`（底部信号改
+bigwave 算法）起不再输出旧 swing 口径的 precision 矩阵块，服务端/前端/schema 均已按「可选块、
+缺失放行」处理，仅测试契约未同步。本次按修法 B 对齐：只改 `server/test_precision_api.py`，
+生产代码/接口/前端/数据产物零改动；precision 缺失视为合法空态直接通过，若未来恢复输出则
+严格校验矩阵结构/口径。
 
 回归比对（信号事实必须逐条一致）：
 
@@ -243,12 +253,16 @@ python pipeline/compare_snapshot.py
 ## 数据口径与约束
 
 - 复权方式与数据源已固定，变更等于更换一套信号历史，需单独评审（2026-11 那次板块换源即走了单独评审与
-  新旧对照留痕，口径为**东财行业板块日线、不复权**）；
+  新旧对照留痕，口径为**东财行业板块日线、不复权**）；2026-11-14 指数线（同花顺→新浪）与
+  ETF 线（东财→新浪，清单校验→腾讯）经用户授权以可用性优先换源，信号事实对照见
+  `data/research/source-eval/source-migration-20261114.md`（信号日期/类型 100% 一致）；
 - 信号只在三层确认全部通过后产生，未确认候选不计入准确率；
 - 页面展示准确率时必须同时给出已判定样本数与统计区间，并并列展示回撤；
-- 原始日线 `data/raw/` 不入库，首次启动自动拉取：生产实际使用约 23MB
-  （中金所 10.9MB + 东财行业板块 9.1MB + 指数等）；另有约 41MB 的旧申万板块缓存
+- 原始日线 `data/raw/` **全量随仓库分发**（git ls-files 可核）：生产实际使用约 23MB
+  （中金所 10.9MB + 东财行业板块 9.1MB + 指数等），克隆即有历史；另有约 41MB 的旧申万板块缓存
   仅作为换源前留痕保留，已不参与任何计算（删除后重建结果逐字节一致，已验证）；
+  唯一例外是 `data/raw/refresh-state.json`：本机补齐台账（当日尝试次数与完成标记），
+  已加入 `.gitignore`，多机 pull 不会互相覆盖；
 - `data/*.json` 随仓库分发，作为离线首屏兜底。
 
 ### 机构多空单口径
@@ -265,7 +279,30 @@ python pipeline/institution_positions.py --limit 60  # 仅最近 60 个交易日
 python pipeline/institution_positions.py --force     # 忽略缓存重抓
 ```
 
-原始明细缓存于 `data/raw/cffex/{YYYY-MM-DD}.csv`（不入库）。
+原始明细缓存于 `data/raw/cffex/{YYYY-MM-DD}.csv`（全量入库，随仓库分发）。
+
+## 多机更新
+
+定时任务逻辑全部写在源码（`server/scheduler.py` 的时刻常量与调度分支），
+任务开关是进程内状态（重启后恢复全开），**不存在需要迁移的落盘调度配置**。
+其他电脑按以下步骤验收即可：
+
+1. **同步前自检**：确认工作区干净（`git status --porcelain` 应为空）。
+   运行时刷新的 `data/*.json` 属常见未提交改动；`快速同步拉取代码.bat` 已内置该自检，
+   有未提交改动时先 `git stash` 或提交，否则 `--ff-only` 必失败。
+2. **拉取并重启**：`git pull`（或跑 `快速同步拉取代码.bat`），然后重启服务（`启动.bat`）。
+   定时任务开关重启后自动恢复全开，无需手动开启。
+3. **版本比对**：两端分别请求 `GET /api/health`，比对：
+   - `scheduler_version`（调度版本，随调度逻辑变更升版）；
+   - `primary_source`（在用主源标识：指数 / 板块 / ETF 三条线的数据源）；
+   两者一致即完成同步；不一致说明某台机器未 pull 到最新代码。
+4. **数据新鲜度分别核验**：`/api/health` 的 `freshness` 字段逐线给出
+   `as_of`、最近已完成交易日与落后交易日数（indices / sectors / institutions / etf 四条线）；
+   `live_snapshot_available`（实时快照可用）与 `daily_up_to_date`（日线已跟上）是两个独立标记，
+   仅有前者不代表数据新鲜。
+
+`data/raw/refresh-state.json` 是本机补齐台账（当日尝试次数与完成标记），已排除入库；
+另一台机器拉取后用自己的台账继续补齐，互不影响。
 
 ## 常见问题
 

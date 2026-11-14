@@ -21,7 +21,9 @@ from .app import SECTOR_STORE, STORE, health, index_history, sector_history, sna
 from .etf_volume import EtfVolumeStore
 from .institutions import InstitutionStore, slice_payload, summary, validate_params
 from .realtime import CN, _build_quote, _normalize_volume
-from .scheduler import EVENING_SLOTS, MAX_CLOSE_ATTEMPTS, MarketScheduler, _stale_detail
+from .scheduler import (
+    EVENING_SLOTS, MAX_CLOSE_ATTEMPTS, MarketScheduler, SCHEDULER_VERSION, _stale_detail,
+)
 from .snapshot import (
     PayloadStore, SnapshotStore, _sector_block, breadth_frame, build_close_snapshot, build_live_index,
     _merged_frame,
@@ -301,6 +303,53 @@ class EtfVolumeEventsTest(unittest.TestCase):
         self.assertEqual(scheduler.store.get()["etf_volume_events"], self.EVENTS)
 
 
+class AsOfConsistencyTest(unittest.TestCase):
+    """收盘与盘中 as_of 由同一规则导出；短板标的随日期一起返回（D5）。"""
+
+    def _tailed_payload(self) -> dict:
+        payload = _payload()
+        laggard = payload["indices"][0]["code"]
+        tails = {item["code"]: payload["as_of"] for item in payload["indices"]}
+        tails[laggard] = "2020-01-01"  # 尾日落后
+        payload["index_tails"] = tails
+        payload["as_of_rule"] = "min(index_tails)"
+        payload["lagging_indexes"] = [laggard]
+        return payload
+
+    def test_close_snapshot_exposes_tails_and_rule(self):
+        payload = self._tailed_payload()
+        data = build_close_snapshot(payload, _sector_payload())
+        self.assertEqual(data["as_of_rule"], "min(index_tails)")
+        self.assertEqual(len(data["index_tails"]), 7)
+        self.assertIn(payload["lagging_indexes"][0], data["lagging_indexes"])
+
+    def test_live_snapshot_uses_same_rule_as_close(self):
+        from .snapshot import build_live_snapshot  # noqa: PLC0415
+
+        payload = self._tailed_payload()
+        history = mock.Mock()
+        history.get.return_value = _frame()
+        with mock.patch.object(snapshot_module, "breadth_frame", return_value=None):
+            close_data = build_close_snapshot(payload, _sector_payload())
+            live_data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload(),
+                                            indices_payload=payload)
+        # 同一批原始日线：收盘/盘中 as_of 必须一致，不差一个交易日
+        self.assertEqual(live_data["as_of"], close_data["as_of"])
+        self.assertEqual(live_data["as_of_rule"], close_data["as_of_rule"])
+        self.assertEqual(live_data["lagging_indexes"], close_data["lagging_indexes"])
+
+    def test_live_snapshot_fallback_marks_rule(self):
+        """收盘产物缺失时退回盘中兜底口径并显式标注，不冒充 min(index_tails)。"""
+        from .snapshot import build_live_snapshot  # noqa: PLC0415
+
+        history = mock.Mock()
+        history.get.return_value = _frame()
+        with mock.patch.object(snapshot_module, "breadth_frame", return_value=None):
+            data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload())
+        self.assertNotEqual(data["as_of_rule"], "min(index_tails)")
+        self.assertIn("兜底", data["as_of_rule"])
+
+
 class SectorSnapshotTest(unittest.TestCase):
     def test_snapshot_sectors_drop_long_series(self):
         data = build_close_snapshot(_payload(), _sector_payload())
@@ -467,13 +516,21 @@ class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
 
 STALE_GAP = {
     "expected": "2026-11-03", "basis": "calendar",
-    "local": {"indices": "2026-11-03", "sectors": "2026-10-30", "institutions": "2026-11-03"},
-    "lag": {"indices": 0, "sectors": 2, "institutions": 0}, "stale": ["sectors"],
+    "local": {"indices": "2026-11-03", "sectors": "2026-10-30", "institutions": "2026-11-03",
+              "etf": "2026-11-03"},
+    "lag": {"indices": 0, "sectors": 2, "institutions": 0, "etf": 0}, "stale": ["sectors"],
 }
 FRESH_GAP = {
     "expected": "2026-11-03", "basis": "calendar",
-    "local": {"indices": "2026-11-03", "sectors": "2026-11-03", "institutions": "2026-11-03"},
-    "lag": {"indices": 0, "sectors": 0, "institutions": 0}, "stale": [],
+    "local": {"indices": "2026-11-03", "sectors": "2026-11-03", "institutions": "2026-11-03",
+              "etf": "2026-11-03"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 0}, "stale": [],
+}
+ETF_LAGGED_GAP = {
+    "expected": "2026-11-03", "basis": "calendar",
+    "local": {"indices": "2026-11-03", "sectors": "2026-11-03", "institutions": "2026-11-03",
+              "etf": "2026-10-31"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1}, "stale": ["etf"],
 }
 ALL_SLOTS = {slot for slot, _ in EVENING_SLOTS}
 
@@ -553,6 +610,75 @@ class EveningBackfillTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(scheduler._close_date, "2026-11-03")
         self.assertEqual(scheduler._evening_done, ALL_SLOTS)
 
+
+class HealthStatusTest(unittest.TestCase):
+    """健康检查暴露调度版本、在用主源、冷却快照与逐线新鲜度（D6）。"""
+
+    def make_scheduler(self) -> MarketScheduler:
+        scheduler = MarketScheduler(SnapshotStore(), interval=30)
+        return scheduler
+
+    def base_patches(self, scheduler: MarketScheduler, gap: dict):
+        return [
+            mock.patch("bootstrap.data_gap", return_value=gap),
+            mock.patch.object(scheduler.payloads, "indices", return_value=None),
+        ]
+
+    def test_status_exposes_version_and_source(self):
+        scheduler = self.make_scheduler()
+        with mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
+                mock.patch.object(scheduler.payloads, "indices", return_value=None):
+            status = scheduler.status()
+        self.assertIn("scheduler_version", status)
+        self.assertEqual(status["scheduler_version"], SCHEDULER_VERSION)
+        self.assertIn("primary_source", status)
+        self.assertIn("sectors", status["primary_source"])
+        self.assertIn("etf", status["primary_source"])
+        self.assertIn("indices", status["primary_source"])
+
+    def test_status_reports_rate_limiter_cooldown(self):
+        from rate_limiter import LIMITER
+        scheduler = self.make_scheduler()
+        LIMITER.reset()
+        self.addCleanup(LIMITER.reset)
+        with mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
+                mock.patch.object(scheduler.payloads, "indices", return_value=None), \
+                mock.patch.object(LIMITER, "mark_limited", wraps=LIMITER.mark_limited) as limited:
+            limited("eastmoney")
+            status = scheduler.status()
+        self.assertGreater(status["rate_limiter"]["eastmoney"]["cooldown_remaining"], 0)
+        # 冷却跳过不得报成「数据已覆盖」：冷却信息单独可见，不污染 covered 判定
+        self.assertTrue(status["freshness"]["lines"]["indices"]["covered"])
+
+    def test_status_lists_lines_individually(self):
+        scheduler = self.make_scheduler()
+        with mock.patch("bootstrap.data_gap", return_value=ETF_LAGGED_GAP), \
+                mock.patch.object(scheduler.payloads, "indices", return_value=None):
+            status = scheduler.status()
+        lines = status["freshness"]["lines"]
+        self.assertFalse(lines["etf"]["covered"])
+        self.assertTrue(lines["indices"]["covered"])
+        self.assertTrue(lines["sectors"]["covered"])
+        self.assertTrue(lines["institutions"]["covered"])
+        self.assertEqual(status["freshness"]["stale"], ["etf"])
+
+    def test_status_separates_live_snapshot_and_daily_freshness(self):
+        scheduler = self.make_scheduler()
+        with mock.patch("bootstrap.data_gap", return_value=ETF_LAGGED_GAP), \
+                mock.patch.object(scheduler.payloads, "indices", return_value=None):
+            status = scheduler.status()
+        # 无快照且数据落后：两个标记都必须如实为 False，不以单一字段混淆
+        self.assertFalse(status["live_snapshot_available"])
+        self.assertFalse(status["daily_up_to_date"])
+
+    def test_status_declares_schedule_times(self):
+        scheduler = self.make_scheduler()
+        with mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
+                mock.patch.object(scheduler.payloads, "indices", return_value=None):
+            status = scheduler.status()
+        self.assertEqual(status["backfill"]["close_time_declared"], "17:00")
+        self.assertIn("20:00", status["backfill"]["evening_slots_declared"])
+
     async def test_slots_reset_on_new_day(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         scheduler._evening_day = "2026-11-03"
@@ -629,7 +755,8 @@ def _write_kwargs(write: mock.MagicMock) -> dict:
     return {call.args[0]: dict(call.kwargs) for call in write.call_args_list}
 
 
-BUILD_FORMAT = {"index-signals.json": {}, "sector-trends.json": {"compact_arrays": True}}
+BUILD_FORMAT = {"index-signals.json": {}, "sector-trends.json": {"compact_arrays": True},
+                "etf-volume-events.json": {"compact_arrays": True}}
 
 
 class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
@@ -639,22 +766,65 @@ class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
     def test_backfill_blocking_writes_in_build_format(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         with mock.patch("bootstrap.ensure_fresh_data",
-                        return_value={"refreshed": {"sectors": 155}, "after": FRESH_GAP}), \
+                        return_value={"refreshed": {"sectors": 155,
+                                                    "etf": {"status": "ok",
+                                                            "updated": ["510300"],
+                                                            "skipped": 5, "failed": []}},
+                                      "after": FRESH_GAP}), \
                 mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
                 mock.patch("build_dashboard.build_indices", return_value={}), \
                 mock.patch("build_dashboard.build_sectors", return_value={}), \
+                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
                 mock.patch("io_utils.protected_write") as write:
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertTrue(scheduler._backfill_blocking())
         self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
 
+    def test_etf_only_update_rebuilds_events_only(self):
+        """仅 ETF 有更新：不重算指数/板块信号，只重建放量事件产物（D4）。"""
+        scheduler = MarketScheduler(SnapshotStore(), interval=30)
+        with mock.patch("bootstrap.ensure_fresh_data",
+                        return_value={"refreshed": {"indices": [], "sectors": 0,
+                                                    "etf": {"status": "ok",
+                                                            "updated": ["510300"],
+                                                            "skipped": 5, "failed": []}},
+                                      "after": FRESH_GAP}), \
+                mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
+                mock.patch("build_dashboard.build_indices") as build_indices, \
+                mock.patch("build_dashboard.build_sectors") as build_sectors, \
+                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
+                mock.patch("io_utils.protected_write") as write:
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertTrue(scheduler._backfill_blocking())
+        build_indices.assert_not_called()
+        build_sectors.assert_not_called()
+        self.assertEqual(list(_write_kwargs(write)), ["etf-volume-events.json"])
+
+    async def test_etf_only_lag_still_triggers_backfill(self):
+        """仅 ETF 线落后也触发补齐与事件重建，不因「其余已新鲜」而跳过（D4）。"""
+        scheduler = MarketScheduler(SnapshotStore(), interval=30)
+        with mock.patch.object(scheduler, "_rebuild_close"), \
+                mock.patch("bootstrap.refresh_daily",
+                           return_value={"indices": [], "sectors": 0, "institutions": {},
+                                         "etf": {"status": "ok", "updated": ["510300"],
+                                                 "skipped": 5, "failed": []}}), \
+                mock.patch("bootstrap.data_gap", return_value=ETF_LAGGED_GAP), \
+                mock.patch("build_dashboard.build_indices", return_value={}), \
+                mock.patch("build_dashboard.build_sectors", return_value={}), \
+                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
+                mock.patch("io_utils.protected_write") as write:
+            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
+        self.assertIn("etf-volume-events.json", _write_kwargs(write))
+
     def test_ensure_close_data_writes_in_build_format(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         with mock.patch.object(scheduler.payloads, "indices", return_value=None), \
                 mock.patch.object(scheduler.payloads, "sectors", return_value=None), \
+                mock.patch.object(scheduler.payloads, "load", return_value=None), \
                 mock.patch.object(scheduler.payloads, "invalidate"), \
                 mock.patch("build_dashboard.build_indices", return_value={}), \
                 mock.patch("build_dashboard.build_sectors", return_value={}), \
+                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
                 mock.patch("io_utils.protected_write") as write:
             with contextlib.redirect_stdout(io.StringIO()):
                 scheduler._ensure_close_data()
@@ -664,7 +834,9 @@ class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         with mock.patch.object(scheduler, "_rebuild_close"), \
                 mock.patch("bootstrap.refresh_daily",
-                           return_value={"indices": ["sh000001"], "sectors": 3, "institutions": {}}), \
+                           return_value={"indices": ["sh000001"], "sectors": 3, "institutions": {},
+                                         "etf": {"status": "ok", "updated": ["510300"],
+                                                 "skipped": 5, "failed": []}}), \
                 mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
                 mock.patch("build_dashboard.build_indices", return_value={}), \
                 mock.patch("build_dashboard.build_sectors", return_value={}), \

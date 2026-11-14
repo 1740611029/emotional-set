@@ -1,4 +1,8 @@
-"""按固定数据源拉取指数及东财行业板块原始日线，不做信号计算。"""
+"""按固定数据源拉取指数及东财行业板块原始日线，不做信号计算。
+
+指数线 2026-11-14 起换源为新浪公开指数日线（可用性优先，经用户授权；
+同花顺通道频繁 502 且近期数据实测有误）。板块线仍为东财 BK 行业（独家口径）。
+"""
 from __future__ import annotations
 
 import argparse
@@ -12,6 +16,9 @@ import pandas as pd
 import requests
 from akshare.exceptions import RateLimitError
 
+from rate_limiter import (  # 跨数据线统一限速：批次参数与冷却在此声明
+    BATCH_PAUSE, BATCH_SIZE, COOLDOWN_SECONDS, REQUEST_GAP, LIMITER,
+)
 from trading_calendar import last_completed_trading_day  # 全量拉取的收盘定稿口径
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,19 +33,21 @@ THS_CODES = {
     "sh000688": "zs_1B0688", "sh000300": "zs_1B0300", "sh000905": "zs_1B0905",
     "sh000852": "zs_1B0852",
 }
-INDEX_RAW = RAW / "indices-ths"
+INDEX_RAW = RAW / "indices-ths"   # 目录名沿用旧源留痕（引用面大），数据源以 manifest 为准
+INDEX_SOURCE = "新浪公开指数日线（不复权）"  # 2026-11-14 起的指数生产源
 EM_SECTOR_RAW = RAW / "sectors-em-industry"
 EM_SECTOR_MANIFEST = RAW / "sectors-em-industry-manifest.json"
 SECTOR_SOURCE = "东财行业板块"  # 数据源标识（产物与 manifest 共用）；不复权日 K 的口径由 fetch_sector_hist_em 保证
 FIRST_FETCH_START = "20000101"
 MIN_SECTOR_ROWS = 60
 SECTOR_COLUMNS = ["date", "open", "close", "high", "low", "volume", "amount"]
-# push2 节奏控制：东财 push2 系服务器对连续请求极敏感（akshare 实测 clist 连续约 5 页即封），
-# 全量/增量统一走分批：单请求间隔 1s、每 6 个板块一批、批间休息 20s，避开触发线。
-SECTOR_REQUEST_GAP = 1.0       # 单板块请求间隔（秒）
-SECTOR_BATCH_SIZE = 6          # 每批板块数
-SECTOR_BATCH_PAUSE = 20.0      # 批间休息（秒）
-EM_COOLDOWN_SECONDS = 30 * 60  # 触发限流后的全局冷却时长（沿用"停高频、30 分钟低频重试"口径）
+# push2 节奏控制：东财 push2 系服务器对连续请求极敏感（akshare 实测 clist 连续约 5 页即封）。
+# 分批参数已收敛为 rate_limiter 的统一常量（BATCH_SIZE / BATCH_PAUSE / REQUEST_GAP），
+# 这里保留旧名称作为兼容导出，供 bootstrap 等既有引用方继续使用（数值与统一常量一致）。
+SECTOR_REQUEST_GAP = REQUEST_GAP       # 单板块请求间隔（秒）
+SECTOR_BATCH_SIZE = BATCH_SIZE         # 每批板块数
+SECTOR_BATCH_PAUSE = BATCH_PAUSE       # 批间休息（秒）
+EM_COOLDOWN_SECONDS = COOLDOWN_SECONDS  # 触发限流后的全局冷却时长（统一限速器口径）
 EM_COLUMN_RENAME = {
     "日期": "date", "开盘": "open", "收盘": "close", "最高": "high",
     "最低": "low", "成交量": "volume", "成交额": "amount",
@@ -60,7 +69,13 @@ EM_SECTOR_UNIVERSE: tuple[tuple[str, str], ...] = (
 )
 
 
-def call_with_retry(func, *, attempts: int = 4, **kwargs) -> pd.DataFrame:
+def call_with_retry(func, *, attempts: int = 1, **kwargs) -> pd.DataFrame:
+    """对外接口统一入口：限流识别即止损，普通错误退避重试。
+
+    与旧实现的差异：默认 attempts=1，不再叠加 4 次自动重试——限流背景下反复
+    重试只会延长封禁；单只指数的补偿重试改由 bootstrap.update_indices 独立执行
+    （退避 2-3 次、走同一限速队列）。识别到 RateLimitError 立即进入全局冷却并抛出。
+    """
     last_error = None
     for attempt in range(1, attempts + 1):
         try:
@@ -70,14 +85,15 @@ def call_with_retry(func, *, attempts: int = 4, **kwargs) -> pd.DataFrame:
             return frame
         except RateLimitError as exc:
             # akshare 已识别 push2 限流并立即抛出（重试只会延长封禁），这里同步止损：
-            # 不再重试，标记全局冷却，让调度层在冷却期内跳过东财数据线
-            _mark_em_rate_limited()
+            # 不再重试，标记统一限速器冷却，让调度层在冷却期内跳过该发行方全部数据线
+            state = LIMITER.mark_limited("eastmoney")
             raise EmRateLimitedError(
-                f"东财 push2 限流，已停止重试并进入 {EM_COOLDOWN_SECONDS // 60} 分钟冷却：{exc}"
+                f"东财 push2 限流，已停止重试并进入 {int(state['cooldown_seconds']) // 60} 分钟冷却：{exc}"
             ) from exc
-        except Exception as exc:  # 网络接口需保留最后一次错误并退避重试
+        except Exception as exc:  # 普通网络错误保留最后一次错误并退避重试
             last_error = exc
-            print(f"  第 {attempt}/{attempts} 次调用失败：{exc}")
+            if attempts > 1:
+                print(f"  第 {attempt}/{attempts} 次调用失败：{exc}")
             if attempt < attempts:
                 time.sleep(attempt * 2)
     raise RuntimeError(f"数据接口重试后仍失败：{last_error}") from last_error
@@ -87,24 +103,15 @@ class EmRateLimitedError(RuntimeError):
     """东财 push2 限流（识别自 akshare RateLimitError）：不重试，触发全局冷却。"""
 
 
-_em_rate_limited_until: float | None = None  # epoch 秒；进程内状态
-
-
-def _mark_em_rate_limited() -> None:
-    global _em_rate_limited_until
-    _em_rate_limited_until = time.time() + EM_COOLDOWN_SECONDS
-    print(f"[fetch] 东财 push2 限流：停止重试，{EM_COOLDOWN_SECONDS // 60} 分钟内跳过东财请求", flush=True)
-
-
 def em_cooldown_remaining() -> float:
     """东财限流冷却剩余秒数；0 表示不在冷却期，可正常请求。
 
+    状态存于统一限速器（rate_limiter.LIMITER），冷却覆盖东财全部数据线
+    （板块日线、板块清单校验、ETF 清单校验与 ETF 日线）。
     冷却期满后的第一次调用（通常是板块清单校验）天然充当解封探测：
     成功则按分批节奏恢复；再触发限流则重新计时。
     """
-    if _em_rate_limited_until is None:
-        return 0.0
-    return max(0.0, _em_rate_limited_until - time.time())
+    return LIMITER.cooldown_remaining("eastmoney")
 
 
 def save_csv(frame: pd.DataFrame, path: Path) -> None:
@@ -113,6 +120,12 @@ def save_csv(frame: pd.DataFrame, path: Path) -> None:
 
 
 def fetch_ths_year(symbol: str, year: int) -> pd.DataFrame:
+    """同花顺按年日线（弃用，仅留作回滚通道）。
+
+    2026-11-14 起指数线换源为新浪公开指数日线：同花顺通道频繁 502/封禁，
+    且实测近期数据存在错误（2026-11-12/13 收盘价与新浪、腾讯两侧互证值差约 10 点、
+    成交量差约 19%）。本函数保留以备回滚，生产路径不再调用。
+    """
     url = f"https://d.10jqka.com.cn/v6/line/{symbol}/01/{year}.js"
     response = requests.get(url, headers={
         "User-Agent": "Mozilla/5.0", "Referer": "https://q.10jqka.com.cn/",
@@ -135,9 +148,42 @@ def fetch_ths_year(symbol: str, year: int) -> pd.DataFrame:
     return frame[["date", "open", "close", "high", "low", "volume", "amount"]]
 
 
+INDEX_COLUMNS = ["date", "open", "close", "high", "low", "volume"]  # 新浪日线无成交额字段
+
+
+def fetch_index_daily_sina(code: str) -> pd.DataFrame:
+    """单只指数新浪公开日线（akshare stock_zh_index_daily）。
+
+    2026-11-14 起的指数生产源：一次返回全历史，接口温和（实测 0.4s），无已知封禁。
+    返回列对齐 INDEX_COLUMNS（date/open/close/high/low/volume，date 为字符串）；
+    新浪不提供成交额字段，指数信号算法只用 OHLC 与成交量，不受影响。
+    换源经用户 2026-11-14 授权：可用性优先于口径延续（算法后续另行重写）。
+    """
+    if not LIMITER.acquire("sina", line="index-daily"):
+        raise RuntimeError("新浪限流冷却中，跳过指数日线请求（统一限速器）")
+    frame = call_with_retry(ak.stock_zh_index_daily, symbol=code)
+    if frame is None or frame.empty:
+        raise ValueError(f"新浪 {code} 指数日线返回空数据")
+    frame = frame.copy()
+    frame["date"] = frame["date"].astype(str).str.slice(0, 10)
+    missing = [column for column in INDEX_COLUMNS if column not in frame.columns]
+    if missing:
+        raise ValueError(f"新浪 {code} 指数日线缺少字段：{missing}")
+    frame = frame[INDEX_COLUMNS].copy()
+    for column in INDEX_COLUMNS[1:]:
+        frame[column] = pd.to_numeric(frame[column], errors="raise")
+    frame = (frame.dropna(subset=["open", "close", "high", "low"])
+             .sort_values("date").drop_duplicates("date", keep="last").reset_index(drop=True))
+    return frame
+
+
 def fetch_indexes() -> None:
-    start = (date.today() - timedelta(days=365 * 6)).strftime("%Y-%m-%d")
-    end = date.today().strftime("%Y-%m-%d")
+    """全量拉取 7 只指数新浪日线并写 manifest；单只失败告警继续，最后汇总报错。
+
+    起点固定为研究段起点 2020-10-30（不随运行日期滚动——滚动窗口会让研究段
+    头部交易日随时间推移被悄悄砍掉）。
+    """
+    start = "2020-10-30"
     summary = []
     failures = []
     for code, name in INDEXES.items():
@@ -152,18 +198,13 @@ def fetch_indexes() -> None:
                 else:
                     raise ValueError(f"{code} 缓存仅 {len(cached)} 行，不足至少 5 年日线要求")
             else:
-                print(f"拉取同花顺 {code} {name}")
-                years = []
-                for year in range(int(start[:4]), int(end[:4]) + 1):
-                    years.append(call_with_retry(fetch_ths_year, symbol=THS_CODES[code], year=year))
-                    time.sleep(0.2)
-                frame = pd.concat(years, ignore_index=True)
-                frame = frame.sort_values("date").drop_duplicates("date", keep="last")
-                frame = frame[(frame["date"] >= start) & (frame["date"] <= end)].reset_index(drop=True)
+                print(f"拉取新浪 {code} {name} 全量日线")
+                frame = fetch_index_daily_sina(code)
+                frame = frame[frame["date"] >= start].reset_index(drop=True)
                 if len(frame) < 1250:
                     raise ValueError(f"{code} 仅 {len(frame)} 行，不足至少 5 年日线要求")
                 save_csv(frame, path)
-            row = {"code": code, "name": name, "source": "同花顺公开日线（按年份）",
+            row = {"code": code, "name": name, "source": INDEX_SOURCE,
                    "rows": len(frame), "start": str(frame.iloc[0]["date"]),
                    "end": str(frame.iloc[-1]["date"]), "path": str(path.relative_to(ROOT))}
             summary.append(row)
@@ -183,7 +224,12 @@ def sector_spot() -> dict[str, str]:
 
     只用于每日校验固定清单；东财接口把 496 个一/二/三级板块平铺返回且不携带任何层级
     字段，因此生产清单不允许由该接口动态生成。
+    请求前经统一限速器取令牌：东财冷却期内返回 None（调用方据此跳过整轮），
+    绝不在冷却期内另起清单校验请求。
     """
+    if not LIMITER.acquire("eastmoney", line="sector-spot"):
+        print("[fetch] 东财限流冷却中，跳过板块清单校验（统一限速器）", flush=True)
+        return None
     frame = call_with_retry(ak.stock_board_industry_name_em)
     code_col = next((c for c in frame.columns if "代码" in c), None)
     name_col = next((c for c in frame.columns if "名称" in c), None)
@@ -231,6 +277,10 @@ def fetch_sector_hist_em(symbol: str, start_date: str, end_date: str) -> pd.Data
 
     symbol 传 BK 代码：akshare 对 `^BK` 开头的入参直接用代码请求，不再按名称查表。
     """
+    if not LIMITER.acquire("eastmoney", line="sector-daily"):
+        raise EmRateLimitedError(
+            f"东财限流冷却中，跳过板块 {symbol} 日线请求（统一限速器）"
+        )
     frame = call_with_retry(
         ak.stock_board_industry_hist_em, symbol=symbol, start_date=start_date,
         end_date=end_date, period="日k", adjust="",

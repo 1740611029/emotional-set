@@ -17,7 +17,7 @@ if str(PIPELINE) not in sys.path:
 import build_dashboard  # noqa: E402
 from bootstrap import Progress, data_gap, ensure_fresh_data, update_etf  # noqa: E402
 
-LABELS = {"indices": "指数", "sectors": "板块", "institutions": "机构"}
+LABELS = {"indices": "指数", "sectors": "板块", "institutions": "机构", "etf": "ETF"}
 
 
 def describe(gap: dict) -> str:

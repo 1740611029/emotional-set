@@ -89,6 +89,7 @@ def build_indices() -> dict:
     recent = []
     pending = []
     ends = []
+    index_tails: dict[str, str] = {}
     breadth = load_breadth()
     # 生产信号：bigwave（大波段底部，顶部暂时关闭）。旧 swing/legacy 仍可经 ACTIVE_ALGORITHM 回滚。
     # 旧的 precision 多持有期矩阵基于原 swing 信号，与新底部信号口径不一致，本次不再输出，
@@ -110,6 +111,7 @@ def build_indices() -> dict:
         latest = history[-1]["close"]
         previous = history[-2]["close"]
         ends.append(history[-1]["date"])
+        index_tails[code] = history[-1]["date"]
         indices.append({
             "code": code, "name": name, "latest": latest,
             "change_pct": round((latest / previous - 1) * 100, 4),
@@ -130,8 +132,19 @@ def build_indices() -> dict:
         pending.extend({**record, "code": code, "name": name} for record in candidates)
     recent.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
     pending.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
-    return {"as_of": min(ends), "is_mock": False, "indices": indices,
-            "recent_signals": recent, "candidates": pending}
+    as_of = min(ends)
+    # 短板标的：尾日早于最晚尾日的指数（如 6 尾日 T、1 尾日 T-1 → 标出 T-1 那只）
+    latest_tail = max(ends)
+    lagging = [code for code, tail in index_tails.items() if tail < latest_tail]
+    return {
+        "as_of": as_of,
+        # 聚合规则显式标注：as_of = 各指数尾日的最小值（短板标的各自尾日一并提供）
+        "as_of_rule": "min(index_tails)",
+        "index_tails": index_tails,
+        "lagging_indexes": lagging,
+        "is_mock": False, "indices": indices,
+        "recent_signals": recent, "candidates": pending,
+    }
 
 
 def build_sectors() -> dict:

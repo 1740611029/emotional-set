@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-11",
-  "generated_at": "2026-11-14T11:27:17",
+  "as_of": "2026-11-13",
+  "generated_at": "2026-11-14T14:01:53",
   "algorithm_version": "etf-volume-spike-v1.2",
   "threshold_amount": 10000000000.0,
   "cluster_gap_days": 2,
@@ -56,14 +56,14 @@
       "date": "2015-04-16",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 10678394368.0,
+      "total_amount": 10678393856.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-04-22",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 11666600704.0,
+      "total_amount": 11666600960.0,
       "state": "中性过渡区"
     },
     {
@@ -84,84 +84,84 @@
       "date": "2015-06-04",
       "level": "L1",
       "etf_codes": ["510300"],
-      "total_amount": 10946362112.0,
+      "total_amount": 10946362368.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-06-08",
       "level": "L2",
       "etf_codes": ["510300", "510050"],
-      "total_amount": 24096468480.0,
+      "total_amount": 24096468992.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-06-09",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 11222739712.0,
+      "total_amount": 11222739968.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-06-26",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 11540757248.0,
+      "total_amount": 11540757504.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-06-29",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 20741587350.0,
+      "total_amount": 20741586944.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-06-30",
       "level": "L2",
       "etf_codes": ["510300", "510050"],
-      "total_amount": 30303472701.0,
+      "total_amount": 30303472640.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-01",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 12356215669.0,
+      "total_amount": 12356215808.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-02",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 15877853385.0,
+      "total_amount": 15877853184.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-03",
       "level": "L2",
       "etf_codes": ["510300", "510050"],
-      "total_amount": 25936768591.0,
+      "total_amount": 25936769024.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-06",
       "level": "L2",
       "etf_codes": ["510300", "510050"],
-      "total_amount": 44821258380.0,
+      "total_amount": 44821258240.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-07",
       "level": "L2",
       "etf_codes": ["510300", "510050"],
-      "total_amount": 31318659380.0,
+      "total_amount": 31318660096.0,
       "state": "中性过渡区"
     },
     {
       "date": "2015-07-08",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 18480241929.0,
+      "total_amount": 18480242688.0,
       "state": "中性过渡区"
     },
     {
@@ -175,7 +175,7 @@
       "date": "2015-07-10",
       "level": "L1",
       "etf_codes": ["510050"],
-      "total_amount": 12076073472.0,
+      "total_amount": 12076073984.0,
       "state": "中性过渡区"
     },
     {
@@ -252,49 +252,49 @@
       "date": "2024-09-27",
       "level": "L1",
       "etf_codes": ["159915"],
-      "total_amount": 10096030846.854,
+      "total_amount": 10096030847.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-09-30",
       "level": "L3",
       "etf_codes": ["588000", "159915", "510300", "510050", "512100", "510500"],
-      "total_amount": 89517643614.382,
+      "total_amount": 89517643614.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-10-08",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300", "510050", "510500"],
-      "total_amount": 138842785219.325,
+      "total_amount": 138842785219.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-10-09",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 89137376374.502,
+      "total_amount": 89137376375.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-10-10",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 50567851458.289,
+      "total_amount": 50567851458.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-10-11",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 46029084569.586,
+      "total_amount": 46029084570.0,
       "state": "中性过渡区"
     },
     {
       "date": "2024-10-14",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 35847952321.662,
+      "total_amount": 35847952322.0,
       "state": "趋势上行区"
     },
     {
@@ -315,14 +315,14 @@
       "date": "2024-10-18",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 51944941171.793,
+      "total_amount": 51944941172.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-10-21",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 44177161796.903,
+      "total_amount": 44177161797.0,
       "state": "趋势上行区"
     },
     {
@@ -336,14 +336,14 @@
       "date": "2024-11-05",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 33582198422.192,
+      "total_amount": 33582198422.0,
       "state": "趋势上行区"
     },
     {
       "date": "2024-11-06",
       "level": "L1",
       "etf_codes": ["159915"],
-      "total_amount": 10389830349.896,
+      "total_amount": 10389830350.0,
       "state": "趋势上行区"
     },
     {
@@ -385,7 +385,7 @@
       "date": "2025-04-07",
       "level": "L2",
       "etf_codes": ["159915", "510300"],
-      "total_amount": 36974275735.398,
+      "total_amount": 36974275735.0,
       "state": "下跌底部区"
     },
     {
@@ -434,14 +434,14 @@
       "date": "2026-01-15",
       "level": "L2",
       "etf_codes": ["159915", "510300", "510050", "510500"],
-      "total_amount": 76206853487.29001,
+      "total_amount": 76206853487.0,
       "state": "趋势上行区"
     },
     {
       "date": "2026-01-16",
       "level": "L2",
       "etf_codes": ["159915", "510300", "510050", "510500"],
-      "total_amount": 67648326095.367004,
+      "total_amount": 67648326095.0,
       "state": "趋势上行区"
     },
     {
@@ -602,21 +602,21 @@
       "date": "2026-07-17",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 44363236804.936005,
+      "total_amount": 44363236805.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-07-20",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 61471725532.639,
+      "total_amount": 61471725533.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-07-21",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 45482378672.607,
+      "total_amount": 45482378673.0,
       "state": "中性过渡区"
     },
     {
@@ -637,28 +637,28 @@
       "date": "2026-07-28",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 23751776039.433,
+      "total_amount": 23751776039.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-07-29",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 25404920557.896,
+      "total_amount": 25404920558.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-07-30",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 32132771495.513,
+      "total_amount": 32132771496.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-07-31",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 30560794553.162003,
+      "total_amount": 30560794553.0,
       "state": "中性过渡区"
     },
     {
@@ -679,14 +679,14 @@
       "date": "2026-08-05",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 22016472633.33,
+      "total_amount": 22016472633.0,
       "state": "中性过渡区"
     },
     {
       "date": "2026-08-19",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 21499543435.554,
+      "total_amount": 21499543436.0,
       "state": "中性过渡区"
     },
     {
@@ -700,7 +700,7 @@
       "date": "2026-10-15",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 26205493292.591,
+      "total_amount": 26205493293.0,
       "state": "下跌底部区"
     },
     {
@@ -721,91 +721,105 @@
       "date": "2026-10-21",
       "level": "L1",
       "etf_codes": ["159915"],
-      "total_amount": 10410389037.534,
+      "total_amount": 10410389038.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-22",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 42296494040.63,
+      "total_amount": 42296494041.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-23",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 50358621573.122,
+      "total_amount": 50358621573.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-26",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 24437913853.707,
+      "total_amount": 24437913854.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-28",
       "level": "L1",
       "etf_codes": ["159915"],
-      "total_amount": 11607322262.886,
+      "total_amount": 11607322263.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-29",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 24275514879.895,
+      "total_amount": 24275514880.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-10-30",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 24871653458.106003,
+      "total_amount": 24871653458.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-02",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300"],
-      "total_amount": 41879378306.958,
+      "total_amount": 41879378307.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-03",
       "level": "L3",
       "etf_codes": ["588000", "159915", "510300", "510050", "512100", "510500"],
-      "total_amount": 97149727269.537,
+      "total_amount": 97149727270.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-04",
       "level": "L2",
       "etf_codes": ["588000", "159915", "510300", "512100"],
-      "total_amount": 62339896473.707,
+      "total_amount": 62339896474.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-05",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 35305586623.401,
+      "total_amount": 35305586623.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-06",
       "level": "L2",
       "etf_codes": ["588000", "159915"],
-      "total_amount": 26809270258.811,
+      "total_amount": 26809270259.0,
       "state": "下跌底部区"
     },
     {
       "date": "2026-11-11",
       "level": "L1",
       "etf_codes": ["159915"],
-      "total_amount": 11386149158.02,
+      "total_amount": 11386149158.0,
+      "state": "下跌底部区"
+    },
+    {
+      "date": "2026-11-12",
+      "level": "L2",
+      "etf_codes": ["588000", "159915"],
+      "total_amount": 26416465017.0,
+      "state": "下跌底部区"
+    },
+    {
+      "date": "2026-11-13",
+      "level": "L2",
+      "etf_codes": ["588000", "159915"],
+      "total_amount": 23178678617.0,
       "state": "下跌底部区"
     }
   ],
@@ -832,7 +846,7 @@
       "days": 1,
       "level": "L1",
       "state": "中性过渡区",
-      "peak_amount": 10678394368.0
+      "peak_amount": 10678393856.0
     },
     {
       "start_date": "2015-04-22",
@@ -840,7 +854,7 @@
       "days": 1,
       "level": "L1",
       "state": "中性过渡区",
-      "peak_amount": 11666600704.0
+      "peak_amount": 11666600960.0
     },
     {
       "start_date": "2015-05-07",
@@ -856,7 +870,7 @@
       "days": 3,
       "level": "L1",
       "state": "中性过渡区",
-      "peak_amount": 24096468480.0
+      "peak_amount": 24096468992.0
     },
     {
       "start_date": "2015-06-26",
@@ -864,7 +878,7 @@
       "days": 11,
       "level": "L1",
       "state": "中性过渡区",
-      "peak_amount": 44821258380.0
+      "peak_amount": 44821258240.0
     },
     {
       "start_date": "2023-08-28",
@@ -904,7 +918,7 @@
       "days": 15,
       "level": "L1",
       "state": "中性过渡区",
-      "peak_amount": 138842785219.325
+      "peak_amount": 138842785219.0
     },
     {
       "start_date": "2024-11-05",
@@ -912,7 +926,7 @@
       "days": 5,
       "level": "L2",
       "state": "趋势上行区",
-      "peak_amount": 33582198422.192
+      "peak_amount": 33582198422.0
     },
     {
       "start_date": "2024-12-10",
@@ -1000,7 +1014,7 @@
       "days": 5,
       "level": "L2",
       "state": "中性过渡区",
-      "peak_amount": 61471725532.639
+      "peak_amount": 61471725533.0
     },
     {
       "start_date": "2026-07-28",
@@ -1008,7 +1022,7 @@
       "days": 7,
       "level": "L2",
       "state": "中性过渡区",
-      "peak_amount": 32132771495.513
+      "peak_amount": 32132771496.0
     },
     {
       "start_date": "2026-08-19",
@@ -1016,7 +1030,7 @@
       "days": 1,
       "level": "L2",
       "state": "中性过渡区",
-      "peak_amount": 21499543435.554
+      "peak_amount": 21499543436.0
     },
     {
       "start_date": "2026-10-09",
@@ -1032,15 +1046,15 @@
       "days": 15,
       "level": "L2",
       "state": "下跌底部区",
-      "peak_amount": 97149727269.537
+      "peak_amount": 97149727270.0
     },
     {
       "start_date": "2026-11-11",
-      "end_date": "2026-11-11",
-      "days": 1,
+      "end_date": "2026-11-13",
+      "days": 3,
       "level": "L1",
       "state": "下跌底部区",
-      "peak_amount": 11386149158.02
+      "peak_amount": 26416465017.0
     }
   ]
 }

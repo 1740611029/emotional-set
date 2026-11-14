@@ -5,21 +5,32 @@
 数据更新统一交给收盘后重算、晚间固定补齐时刻与手动脚本。
 东财行业板块日线常在收盘数小时后才发布，所以收盘后还有几个固定的补齐时刻。
 """
+
 from __future__ import annotations
 
 import asyncio
+import json
 from datetime import datetime, timedelta
 
 from . import paths  # noqa: F401  # 配置 sys.path
 from .realtime import CN, fetch_spot, trading_session
 from .snapshot import (
-    HistoryStore, PayloadStore, SnapshotStore, build_close_snapshot, build_live_snapshot,
+    HistoryStore,
+    PayloadStore,
+    SnapshotStore,
+    build_close_snapshot,
+    build_live_snapshot,
 )
 
 DEFAULT_INTERVAL = 30
-# 收盘重算时刻：同花顺指数日线约 15:30 才定稿、东财板块日线更晚，15:00 就拉常拿到
-# 未定稿/缺失数据且赶上全市场收盘后拉取高峰；改为收盘 2 小时后（17:00）首试
-CLOSE_HOUR_MINUTE = 17 * 60
+# 调度版本：随调度逻辑/时刻口径变更而升版，供多机经 /api/health 比对是否同步
+SCHEDULER_VERSION = "sched-v2.1-etf-line"
+# 收盘重算与晚间补齐时刻的校准声明：指数/ETF 已换新浪（全量 1 请求，定稿较早），
+# 东财仅剩板块线（BK 日线常在 T 日晚间甚至 T+1 上午才发布），故 17:00 首试并保留
+# 17:30/20:00/22:00 三个补齐时刻。校准口径见 data/research/source-eval/source-migration-20261114.md。
+CLOSE_HOUR_MINUTE = (
+    17 * 60
+)  # 收盘重算首试：17:00（板块/指数 15:30 后陆续定稿，避开收盘高峰）
 MAX_CLOSE_ATTEMPTS = 3
 CLOSE_RETRY_MINUTES = 10
 # 收盘后补齐时刻：东财行业板块日线常在 T 日晚间甚至 T+1 上午才发布，17:00 重算常拿不到
@@ -35,9 +46,21 @@ def _stale_detail(gap: dict) -> str:
     parts = []
     for key in gap["stale"]:
         lag = gap["lag"].get(key)
-        parts.append(f"{key} 停在 {gap['local'].get(key) or '—'}"
-                     f"（应为 {gap['expected']}，差 {lag if lag is not None else '未知'} 个交易日）")
+        parts.append(
+            f"{key} 停在 {gap['local'].get(key) or '—'}"
+            f"（应为 {gap['expected']}，差 {lag if lag is not None else '未知'} 个交易日）"
+        )
     return "、".join(parts)
+
+
+def _limiter_snapshot() -> dict:
+    """统一限速器冷却快照：冷却中的发行方、剩余秒数与被跳过的数据线。"""
+    try:
+        from rate_limiter import LIMITER  # noqa: PLC0415  # pipeline 平级导入
+
+        return LIMITER.snapshot()
+    except Exception:
+        return {}
 
 
 class MarketScheduler:
@@ -104,13 +127,19 @@ class MarketScheduler:
             print(f"[scheduler] {self.last_error}", flush=True)
 
     def _backfill_blocking(self) -> bool:
-        """把落后的日线补上，真补到了才重算并落盘两份产物（同步调用，耗时可达特别久）。
+        """把落后的日线补上，真补到了才重算并落盘三份产物（同步调用，耗时可达特别久）。
 
         调用方负责取锁。失败不抛出：源未发布或拉取报错时先用现有数据启动，
         下一次启动或下一个补齐时刻会再试。
+        指数 / 板块 / ETF 任一条真有更新时，除两份信号产物外还重建
+        etf-volume-events.json（ETF 数据线参与自动重建，D4）。
         """
         from bootstrap import data_gap, ensure_fresh_data  # noqa: PLC0415
-        from build_dashboard import build_indices, build_sectors  # noqa: PLC0415
+        from build_dashboard import (
+            build_etf_volume_events,
+            build_indices,
+            build_sectors,
+        )  # noqa: PLC0415
         from io_utils import protected_write  # noqa: PLC0415
 
         try:
@@ -120,28 +149,45 @@ class MarketScheduler:
             print(f"[scheduler] {self.last_error}（先用现有数据启动）", flush=True)
             return False
         changed = result.get("refreshed") or {}
+        etf_changed = bool((changed.get("etf") or {}).get("updated"))
         if changed.get("indices") or changed.get("sectors"):
-            # 指数宽度依赖东财行业板块日线，任一类原始数据变化都重算两份产物
+            # 指数宽度依赖东财行业板块日线，任一类原始数据变化都重算产物
             self.progress.update("build", "增量补齐后重算")
             protected_write("index-signals.json", build_indices())
             # 板块产物含 31 × 250 的序列，标量数组压成一行以控制体积（与 build_dashboard 的落盘格式一致）
             protected_write("sector-trends.json", build_sectors(), compact_arrays=True)
+        if etf_changed:
+            # 仅 ETF 线有更新时只重建事件产物，不重算指数/板块信号（其输入未变）
+            self.progress.update("build", "增量补齐后重建 ETF 放量事件")
+            protected_write(
+                "etf-volume-events.json", build_etf_volume_events(), compact_arrays=True
+            )
         self.history.invalidate()
         self.payloads.invalidate()
         after = result.get("after") or data_gap()
         if after["stale"]:
-            print(f"[scheduler] 补齐后仍落后：{_stale_detail(after)}"
-                  f"（源尚未发布或拉取失败，下次启动或下一个补齐时刻再试）", flush=True)
+            print(
+                f"[scheduler] 补齐后仍落后：{_stale_detail(after)}"
+                f"（源尚未发布或拉取失败，下次启动或下一个补齐时刻再试）",
+                flush=True,
+            )
             return False
         if changed:
-            print(f"[scheduler] 补齐完成并已重算落盘：指数 {after['local'].get('indices')}、"
-                  f"板块 {after['local'].get('sectors')}（应为 {after['expected']}）", flush=True)
+            print(
+                f"[scheduler] 补齐完成并已重算落盘：指数 {after['local'].get('indices')}、"
+                f"板块 {after['local'].get('sectors')}（应为 {after['expected']}）",
+                flush=True,
+            )
         return True
 
     # ---------- 收盘数据 ----------
 
     def _ensure_close_data(self) -> None:
-        from build_dashboard import build_indices, build_sectors  # noqa: PLC0415
+        from build_dashboard import (
+            build_etf_volume_events,
+            build_indices,
+            build_sectors,
+        )  # noqa: PLC0415
         from io_utils import protected_write  # noqa: PLC0415
 
         if self.payloads.indices() is None:
@@ -153,19 +199,34 @@ class MarketScheduler:
             # 压行格式与 build_dashboard 一致，避免服务自己补建时产物体积胀十几倍
             protected_write("sector-trends.json", build_sectors(), compact_arrays=True)
             self.payloads.invalidate()
+        if (
+            self.payloads.load("etf-volume-events.json", paths.ETF_VOLUME_EVENTS)
+            is None
+        ):
+            # 首屏兜底同样补齐第三份产物，保持三份产物口径一致（D4）
+            self.progress.update("build", "构建 ETF 放量事件数据")
+            protected_write(
+                "etf-volume-events.json", build_etf_volume_events(), compact_arrays=True
+            )
+            self.payloads.invalidate()
 
     def _rebuild_close(self, *, stale: bool = False, reason: str | None = None) -> None:
         indices = self.payloads.indices()
         sectors = self.payloads.sectors()
         if indices is None:
             return
-        self.store.set(build_close_snapshot(
-            indices, sectors,
-            stale=stale,
-            stale_since=None if not stale else datetime.now(CN).isoformat(timespec="seconds"),
-            stale_reason=reason,
-            etf_volume_events=self.payloads.etf_volume_events(),
-        ))
+        self.store.set(
+            build_close_snapshot(
+                indices,
+                sectors,
+                stale=stale,
+                stale_since=None
+                if not stale
+                else datetime.now(CN).isoformat(timespec="seconds"),
+                stale_reason=reason,
+                etf_volume_events=self.payloads.etf_volume_events(),
+            )
+        )
 
     # ---------- 定时任务开关 ----------
 
@@ -223,7 +284,10 @@ class MarketScheduler:
         if quotes:
             events = await asyncio.to_thread(self.payloads.etf_volume_events)
             snapshot = await asyncio.to_thread(
-                build_live_snapshot, quotes, self.history, sectors,
+                build_live_snapshot,
+                quotes,
+                self.history,
+                sectors,
                 etf_volume_events=events,
                 indices_payload=self.payloads.indices(),
             )
@@ -235,13 +299,15 @@ class MarketScheduler:
         previous = self.store.get()
         reason = errors[0] if errors else "实时行情不可用"
         if previous:
-            self.store.set({
-                **previous,
-                "stale": True,
-                "stale_since": previous.get("generated_at"),
-                "stale_reason": reason,
-                "data_state": "degraded",
-            })
+            self.store.set(
+                {
+                    **previous,
+                    "stale": True,
+                    "stale_since": previous.get("generated_at"),
+                    "stale_reason": reason,
+                    "data_state": "degraded",
+                }
+            )
         else:
             self._rebuild_close(stale=True, reason=reason)
         self.last_error = reason
@@ -276,18 +342,36 @@ class MarketScheduler:
             return
 
         from bootstrap import data_gap, refresh_daily  # noqa: PLC0415
-        from build_dashboard import build_indices, build_sectors  # noqa: PLC0415
+        from build_dashboard import (
+            build_etf_volume_events,
+            build_indices,
+            build_sectors,
+        )  # noqa: PLC0415
         from io_utils import protected_write  # noqa: PLC0415
 
         async with self._refresh_lock:
             self._close_attempts += 1
             try:
                 result = await asyncio.to_thread(refresh_daily, self.progress)
-                if result["indices"] or result["sectors"]:
+                etf_changed = bool((result.get("etf") or {}).get("updated"))
+                if result["indices"] or result["sectors"] or etf_changed:
+                    # 三份产物一并落盘：ETF 数据线参与收盘重算的自动重建（D4）
                     self.progress.update("build", "收盘重算")
-                    await asyncio.to_thread(protected_write, "index-signals.json", build_indices())
-                    await asyncio.to_thread(protected_write, "sector-trends.json", build_sectors(),
-                                            compact_arrays=True)
+                    await asyncio.to_thread(
+                        protected_write, "index-signals.json", build_indices()
+                    )
+                    await asyncio.to_thread(
+                        protected_write,
+                        "sector-trends.json",
+                        build_sectors(),
+                        compact_arrays=True,
+                    )
+                    await asyncio.to_thread(
+                        protected_write,
+                        "etf-volume-events.json",
+                        build_etf_volume_events(),
+                        compact_arrays=True,
+                    )
                 self.history.invalidate()
                 self.payloads.invalidate()
                 self._rebuild_close()
@@ -310,8 +394,11 @@ class MarketScheduler:
             self._evening_day = today
             self._evening_done = set()
         minutes = now.hour * 60 + now.minute
-        pending = [slot for slot, at in EVENING_SLOTS
-                   if minutes >= at and slot not in self._evening_done]
+        pending = [
+            slot
+            for slot, at in EVENING_SLOTS
+            if minutes >= at and slot not in self._evening_done
+        ]
         if not pending:
             return
 
@@ -368,21 +455,90 @@ class MarketScheduler:
 
     # ---------- 观测 ----------
 
+    @staticmethod
+    def _primary_source() -> dict:
+        """在用主源标识：读各线 manifest 的 source 字段，缺失时按现值兜底声明。"""
+
+        def manifest_source(name: str, fallback: str) -> str:
+            try:
+                payload = json.loads(
+                    (paths.DATA / "raw" / name).read_text(encoding="utf-8")
+                )
+                return str(payload.get("source") or fallback)
+            except Exception:
+                return fallback
+
+        return {
+            "indices": manifest_source(
+                "indices-ths-manifest.json", "新浪公开指数日线（不复权）"
+            ),
+            "sectors": manifest_source(
+                "sectors-em-industry-manifest.json", "东财行业板块"
+            ),
+            "etf": manifest_source(
+                "etf-daily-manifest.json", "东财 ETF 历史日线（不复权）"
+            ),
+        }
+
+    def _freshness(self) -> dict:
+        """各数据线新鲜度：as_of / 最近已完成交易日 / 落后交易日数，逐线给出。"""
+        from bootstrap import data_gap  # noqa: PLC0415
+
+        gap = data_gap()
+        lines = {}
+        for key in ("indices", "sectors", "institutions", "etf"):
+            lag = gap["lag"].get(key)
+            lines[key] = {
+                "as_of": gap["local"].get(key),
+                "expected": gap["expected"],
+                "lag_days": lag,
+                "covered": key not in gap["stale"],
+            }
+        return {
+            "expected": gap["expected"],
+            "basis": gap["basis"],
+            "stale": list(gap["stale"]),
+            "lines": lines,
+        }
+
     def status(self) -> dict:
         snapshot = self.store.get()
+        indices_payload = self.payloads.indices()
+        tails = (indices_payload or {}).get("index_tails") or {}
+        as_of = (indices_payload or {}).get("as_of")
+        freshness = self._freshness()
         return {
             "alive": True,
             "mode": snapshot.get("mode") if snapshot else None,
             "last_refresh_at": snapshot.get("generated_at") if snapshot else None,
             "data_state": snapshot.get("data_state") if snapshot else "preparing",
             "stale": snapshot.get("stale") if snapshot else True,
-            "algorithm_version": snapshot.get("algorithm_version") if snapshot else None,
+            "algorithm_version": snapshot.get("algorithm_version")
+            if snapshot
+            else None,
             "data_source": "同花顺公开日线（收盘）/ 新浪指数快照（盘中）",
+            # 多机版本比对（D6）：调度版本与在用主源标识随 health 暴露
+            "scheduler_version": SCHEDULER_VERSION,
+            "primary_source": self._primary_source(),
+            # 冷却状态可见：冷却中的发行方、剩余秒数与被跳过的数据线
+            "rate_limiter": _limiter_snapshot(),
+            # 各数据线新鲜度分别可见：不再用单一 stale 掩盖个别线落后
+            "freshness": freshness,
+            # 短板标的随日期一起返回（D5）：各指数尾日与落后标的代码
+            "index_tails": tails,
+            "lagging_indexes": [
+                code for code, tail in tails.items() if as_of and tail > as_of
+            ],
+            # 「实时快照可用」与「日线已跟上」必须区分：仅有前者不代表数据新鲜
+            "live_snapshot_available": snapshot is not None,
+            "daily_up_to_date": not freshness["stale"],
             "progress": self.progress.as_dict(),
             "backfill": {
                 "close_attempts": self._close_attempts,
                 "close_done_on": self._close_date,
                 "evening_slots_done": sorted(self._evening_done),
+                "close_time_declared": "17:00",
+                "evening_slots_declared": [slot for slot, _ in EVENING_SLOTS],
             },
             "last_error": self.last_error,
             "interval_seconds": self.interval,
@@ -404,4 +560,8 @@ class _Progress:
         print(f"[progress] {stage} {detail}", flush=True)
 
     def as_dict(self) -> dict:
-        return {"stage": self.stage, "detail": self.detail, "started_at": self.started_at}
+        return {
+            "stage": self.stage,
+            "detail": self.detail,
+            "started_at": self.started_at,
+        }

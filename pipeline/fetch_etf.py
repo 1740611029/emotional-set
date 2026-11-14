@@ -1,8 +1,11 @@
-"""ETF 日线成交额数据线：固定核心池 + 东财不复权日线 + 增量合并。
+"""ETF 日线成交额数据线：固定核心池 + 新浪不复权日线 + 增量合并。
 
-只落原始日线，不做放量识别与信号计算。数据源与复权口径固定：
-东财 `fund_etf_hist_em`（不复权），`amount` 单位为元。换源等于换一套放量历史，
-必须单独立项并出对照报告。
+只落原始日线，不做放量识别与信号计算。2026-11-14 起换源（经用户授权，可用性优先）：
+- 日线：东财 `fund_etf_hist_em` → 新浪 `fund_etf_hist_sina`（不复权，`amount` 单位元，
+  `volume` 单位股，落盘时 /100 统一为手与既有 CSV 口径一致；换源前同日期逐值核对一致）；
+- 清单校验：东财 `fund_etf_spot_em` → 腾讯 `qt.gtimg.cn` 实时接口（一次请求 6 只，
+  不再与板块线争用东财配额）；
+- 换源等于换一套放量历史：换源前已对同日期 close/amount 逐值核对（比值全 1.0）。
 """
 from __future__ import annotations
 
@@ -14,18 +17,27 @@ from pathlib import Path
 
 import akshare as ak
 import pandas as pd
+import requests
 
-from fetch_market import EM_COLUMN_RENAME, call_with_retry, save_csv
+from fetch_market import EmRateLimitedError, call_with_retry, save_csv
+from rate_limiter import REQUEST_GAP, LIMITER
 from trading_calendar import last_completed_trading_day
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 ETF_DAILY_RAW = RAW / "etf-daily"
 ETF_DAILY_MANIFEST = RAW / "etf-daily-manifest.json"
-ETF_SOURCE = "东财 ETF 历史日线（不复权）"
+ETF_SOURCE = "新浪 ETF 历史日线（不复权）"
+ETF_SPOT_SOURCE = "腾讯实时清单（qt.gtimg.cn）"
 FIRST_FETCH_START = "20000101"
 MIN_ETF_ROWS = 500
 ETF_AMOUNT_COLUMNS = ["date", "open", "close", "high", "low", "volume", "amount"]
+
+# 新浪日线代码前缀：5/6 开头为沪市，其余（159 开头）为深市
+_SINA_PREFIX = {"588000": "sh", "159915": "sz", "510300": "sh", "510050": "sh",
+                "512100": "sh", "510500": "sh"}
+# 腾讯实时清单的证券前缀（同映射）
+_TENCENT_PREFIX = _SINA_PREFIX
 
 # 生产清单：硬编码，代码是唯一主键，名称只用于每日校验（2026-11-06 与东财 ETF 实时清单核对）。
 # 不做动态名单：换标的等于换一套放量历史。
@@ -40,13 +52,29 @@ ETF_UNIVERSE: tuple[dict[str, str], ...] = (
 
 
 def etf_spot() -> dict[str, str]:
-    """东财 ETF 实时清单（代码 → 名称），只用于核对固定清单，不用于生成生产名单。"""
-    frame = call_with_retry(ak.fund_etf_spot_em)
-    code_col = next((column for column in frame.columns if "代码" in column), None)
-    name_col = next((column for column in frame.columns if "名称" in column), None)
-    if not code_col or not name_col:
-        raise ValueError(f"东财 ETF 清单缺少代码/名称字段：{frame.columns.tolist()}")
-    return {str(row[code_col]).strip(): str(row[name_col]).strip() for _, row in frame.iterrows()}
+    """腾讯实时清单（代码 → 名称），只用于核对固定清单，不用于生成生产名单。
+
+    2026-11-14 起替换东财 fund_etf_spot_em：一次请求返回全部 6 只，不再与板块线
+    争用东财 push2 配额（东财 clist 系接口是封 IP 的主要来源）。
+    请求前经统一限速器取令牌；冷却期内返回 None（调用方据此跳过本轮校验）。
+    """
+    if not LIMITER.acquire("tencent", line="etf-spot"):
+        print("[etf] 腾讯限流冷却中，跳过 ETF 清单校验（统一限速器）", flush=True)
+        return None
+    codes = ",".join(f"{_TENCENT_PREFIX[item['code']]}{item['code']}" for item in ETF_UNIVERSE)
+    try:
+        response = requests.get(f"https://qt.gtimg.cn/q={codes}", timeout=10)
+        response.raise_for_status()
+    except Exception as exc:
+        raise RuntimeError(f"腾讯实时清单请求失败：{exc}") from exc
+    spot: dict[str, str] = {}
+    for line_text in response.text.strip().split(";"):
+        fields = line_text.strip().split("~")
+        if len(fields) > 3 and fields[2]:
+            spot[fields[2]] = fields[1]
+    if not spot:
+        raise ValueError("腾讯实时清单返回空数据")
+    return spot
 
 
 def check_etf_universe(spot: dict[str, str]) -> list[dict]:
@@ -57,7 +85,7 @@ def check_etf_universe(spot: dict[str, str]) -> list[dict]:
         code, name = item["code"], item["name"]
         current = spot.get(code)
         if current is None:
-            errors.append(f"{code}「{name}」在东财 ETF 清单中已查不到")
+            errors.append(f"{code}「{name}」在腾讯实时清单中已查不到")
         elif current != name:
             errors.append(f"{code} 固化名称「{name}」与接口名称「{current}」不一致")
         else:
@@ -67,25 +95,33 @@ def check_etf_universe(spot: dict[str, str]) -> list[dict]:
     return entries
 
 
-def fetch_etf_hist_em(symbol: str, start_date: str, end_date: str) -> pd.DataFrame:
-    """单只 ETF 东财不复权日线；列名与板块日线同构，`amount` 单位为元。"""
-    frame = call_with_retry(
-        ak.fund_etf_hist_em, symbol=symbol, period="daily",
-        start_date=start_date, end_date=end_date, adjust="",
-    )
-    frame = frame.rename(columns=EM_COLUMN_RENAME)
+def fetch_etf_hist_sina(symbol: str) -> pd.DataFrame:
+    """单只 ETF 新浪不复权日线（全历史一次返回）。
+
+    新浪 `volume` 单位为股，落盘 /100 统一为手（与东财历史 CSV 口径一致，
+    换源前同日期逐值核对：close/amount 完全一致、volume 转手后一致）。
+    请求前经统一限速器取令牌。
+    """
+    sina_symbol = f"{_SINA_PREFIX.get(symbol, 'sh')}{symbol}"
+    if not LIMITER.acquire("sina", line="etf-daily"):
+        raise EmRateLimitedError(f"新浪限流冷却中，跳过 ETF {symbol} 日线请求（统一限速器）")
+    frame = call_with_retry(ak.fund_etf_hist_sina, symbol=sina_symbol)
+    if frame is None or frame.empty:
+        raise ValueError(f"新浪 {symbol} ETF 日线返回空数据")
+    frame = frame.copy()
+    frame["date"] = frame["date"].astype(str).str.slice(0, 10)
     missing = [column for column in ETF_AMOUNT_COLUMNS if column not in frame.columns]
     if missing:
         raise ValueError(f"{symbol} 日线缺少字段：{missing}")
     frame = frame[ETF_AMOUNT_COLUMNS].copy()
-    frame["date"] = frame["date"].astype(str).str.slice(0, 10)
     for column in ETF_AMOUNT_COLUMNS[1:]:
         frame[column] = pd.to_numeric(frame[column], errors="raise")
+    frame["volume"] = (frame["volume"] / 100).round(0)  # 股 → 手，与既有 CSV 口径一致
     frame = (frame.dropna(subset=ETF_AMOUNT_COLUMNS[1:])
              .sort_values("date").drop_duplicates("date", keep="last")
              .reset_index(drop=True))
     if frame.empty:
-        raise ValueError(f"{symbol} 在 {start_date}~{end_date} 区间无日线")
+        raise ValueError(f"新浪 {symbol} 日线为空")
     return frame
 
 
@@ -108,7 +144,7 @@ def _values_equal(left: pd.DataFrame, right: pd.DataFrame) -> bool:
 
 
 def _request_start(tail: str | None) -> str:
-    """增量起点含本地尾日（含）：每轮重取最后一根 bar，配合逐值比对修正未定稿量额。"""
+    """弃用：新浪日线全量返回、无起止参数，保留函数签名以备回滚东财通道时使用。"""
     if not tail:
         return FIRST_FETCH_START
     return pd.Timestamp(tail).strftime("%Y%m%d")
@@ -175,8 +211,11 @@ def update_etf_daily(end_date: str | None = None) -> dict:
     if not pending:
         return {"status": "skipped", "updated": [], "skipped": skipped, "failed": []}
 
+    spot = etf_spot()
+    if spot is None:  # 腾讯冷却中：本轮零请求跳过
+        return {"status": "cooldown", "updated": [], "skipped": skipped, "failed": []}
     try:
-        entries = check_etf_universe(etf_spot())
+        entries = check_etf_universe(spot)
     except Exception as exc:  # 清单异常不得继续采集，保留上一版 CSV
         print(f"[etf] ETF 清单校验未通过，本轮跳过 ETF 增量：{exc}", flush=True)
         return {"status": "check_failed", "updated": [], "skipped": skipped, "failed": [str(exc)]}
@@ -186,8 +225,14 @@ def update_etf_daily(end_date: str | None = None) -> dict:
     for item, path, tail in pending:
         code = item["code"]
         try:
-            fresh = fetch_etf_hist_em(code, _request_start(tail), expected.replace("-", ""))
+            # 新浪接口无起止参数，全量返回后由 _merge_and_save 合并并裁到最近已完成交易日
+            fresh = fetch_etf_hist_sina(code)
             merged, changed = _merge_and_save(path, fresh, expected)
+        except EmRateLimitedError as exc:
+            # 限流识别即止损：冷却期内中止本轮剩余标的，不再对同一批 ETF 继续请求
+            failed.append(code)
+            print(f"[etf] 限流/冷却，本轮在 {len(updated)} 只更新后中止：{exc}", flush=True)
+            break
         except Exception as exc:
             failed.append(code)
             print(f"[etf] {code} {item['name']} 增量拉取失败：{exc}", flush=True)
@@ -202,7 +247,7 @@ def update_etf_daily(end_date: str | None = None) -> dict:
         rows_by_code[code] = row
         if changed:
             updated.append(code)
-        time.sleep(0.2)
+        time.sleep(REQUEST_GAP)  # 与板块线共用统一单请求间隔（批次串行，不并发）
 
     rows = [rows_by_code.get(item["code"]) or {
         "code": item["code"], "name": item["name"], "index": item["index"],
@@ -217,7 +262,10 @@ def update_etf_daily(end_date: str | None = None) -> dict:
 def fetch_etf_daily(end_date: str | None = None) -> dict:
     """首次全量抓取核心池 ETF 日线并生成 manifest；单只失败只告警继续。"""
     expected = end_date or last_completed_trading_day()[0]
-    entries = check_etf_universe(etf_spot())
+    spot = etf_spot()
+    if spot is None:  # 冷却中：全量首拉也不得在冷却期发请求
+        return {"status": "cooldown", "rows": [], "failed": []}
+    entries = check_etf_universe(spot)
     rows = []
     failed: list[str] = []
     for item in entries:
@@ -228,8 +276,8 @@ def fetch_etf_daily(end_date: str | None = None) -> dict:
                 frame = read_etf_csv(path)
                 print(f"使用已拉取 {code} {name}（{len(frame)} 行）")
             else:
-                print(f"拉取 {code} {name} 全量日线")
-                frame = fetch_etf_hist_em(code, FIRST_FETCH_START, expected.replace("-", ""))
+                print(f"拉取 {code} {name} 全量日线（新浪）")
+                frame = fetch_etf_hist_sina(code)
                 save_csv(frame, path)
         except Exception as exc:
             failed.append(code)

@@ -21,11 +21,12 @@ if str(PIPELINE) not in sys.path:
 
 import pandas as pd  # noqa: E402
 
+from fetch_etf import ETF_DAILY_RAW, ETF_UNIVERSE  # noqa: E402
 from fetch_market import (  # noqa: E402
-    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, INDEX_RAW, INDEXES, MIN_SECTOR_ROWS, RAW, SECTOR_BATCH_PAUSE,
-    SECTOR_BATCH_SIZE, SECTOR_COLUMNS, SECTOR_REQUEST_GAP, THS_CODES,
+    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, INDEX_RAW, INDEX_SOURCE, INDEXES, MIN_SECTOR_ROWS, RAW,
+    SECTOR_BATCH_PAUSE, SECTOR_BATCH_SIZE, SECTOR_COLUMNS, SECTOR_REQUEST_GAP,
     EmRateLimitedError, call_with_retry, check_sector_universe, em_cooldown_remaining,
-    fetch_sector_hist_em, fetch_ths_year, save_csv, sector_request_start, sector_spot,
+    fetch_index_daily_sina, fetch_sector_hist_em, save_csv, sector_request_start, sector_spot,
 )
 from research_algorithms import read_index_csv  # noqa: E402
 from trading_calendar import (  # noqa: E402
@@ -44,13 +45,36 @@ CN = ZoneInfo("Asia/Shanghai")
 _index_attempt_day: str | None = None  # 进程内当日降频标记：已覆盖最近交易日才算尝试完成
 
 
-def update_indices(progress: Progress | None = None, *, force: bool = False) -> list[str]:
-    """增量合并当年日线；返回更新后有变化的指数代码。
+INDEX_COMPENSATION_ATTEMPTS = 3  # 单只指数失败的独立补偿重试次数（含首试，退避 2s/4s）
 
-    当日降频：同花顺日线约 15:30 定稿，且判重只看行数与尾日、量额修正本来就要等次日
-    重取覆盖，因此"本地已覆盖最近交易日且当日已请求过"时后续轮次直接跳过，避免每次
-    启动/补齐都无条件打 7 个请求。本地未覆盖（源未发布）时不受标记影响，继续请求。
+
+def _fetch_index_with_compensation(code: str, name: str) -> object:
+    """单只指数的独立补偿重试：退避 2–3 次后仍失败则放弃该只，不伪造数据。
+
+    2026-11-14 换源后调用新浪全量日线（一次请求返回全历史，比旧同花顺按年
+    7 次请求更快更稳）。重试仍走统一限速队列，不并发、不叠加限流重试。
+    """
+    last_error: Exception | None = None
+    for attempt in range(1, INDEX_COMPENSATION_ATTEMPTS + 1):
+        try:
+            return fetch_index_daily_sina(code)
+        except Exception as exc:  # 单只失败不影响其余指数，先退避再补偿
+            last_error = exc
+            if attempt < INDEX_COMPENSATION_ATTEMPTS:
+                print(f"[bootstrap] {code} {name} 第 {attempt} 次失败，退避后补偿重试：{exc}",
+                      flush=True)
+                time.sleep(attempt * 2)
+    raise RuntimeError(f"补偿重试后仍失败：{last_error}") from last_error
+
+
+def update_indices(progress: Progress | None = None, *, force: bool = False) -> list[str]:
+    """增量合并指数日线（新浪全量返回后本地合并）；返回更新后有变化的指数代码。
+
+    当日降频：新浪日线收盘后陆续定稿，判重只看行数与尾日，因此"本地已覆盖最近
+    交易日且当日已请求过"时后续轮次直接跳过，避免每次启动/补齐都无条件打请求。
+    本地未覆盖（源未发布）时不受标记影响，继续请求。
     force=True（手动 --force）绕过标记强制重拉。
+    单只指数失败走独立补偿重试；仍失败则打印落后标记并 continue，保留旧尾日不插值。
     """
     global _index_attempt_day
     progress = progress or Progress()
@@ -59,14 +83,16 @@ def update_indices(progress: Progress | None = None, *, force: bool = False) -> 
     if not force and "indices" not in gap["stale"] and _index_attempt_day == today:
         progress.update("indices", f"指数已覆盖 {gap['expected']}，当日已更新过，跳过")
         return []
-    year = date.today().year
     changed: list[str] = []
+    lagged: list[str] = []
     for code, name in INDEXES.items():
         path = INDEX_RAW / f"{code}.csv"
         try:
-            fresh = call_with_retry(fetch_ths_year, symbol=THS_CODES[code], year=year)
-        except Exception as exc:  # 单只失败不影响其余指数
-            print(f"[bootstrap] {code} {name} 增量拉取失败：{exc}", flush=True)
+            fresh = _fetch_index_with_compensation(code, name)
+        except Exception as exc:  # 补偿重试仍失败：标记落后，保留旧尾日不插值
+            lagged.append(code)
+            print(f"[bootstrap] {code} {name} 补偿重试后仍失败，保留旧尾日（落后标记）：{exc}",
+                  flush=True)
             continue
         if path.exists():
             cached = read_index_csv(path)
@@ -88,6 +114,9 @@ def update_indices(progress: Progress | None = None, *, force: bool = False) -> 
         time.sleep(0.2)
     if changed:
         _write_index_manifest()
+    if lagged:
+        progress.update("indices",
+                        f"{len(lagged)} 个指数落后（补偿重试失败，保留旧尾日）：{'、'.join(lagged)}")
     # 只有真覆盖到最近交易日才标记当日已完成；未覆盖（源未发布）留给下轮再试
     if "indices" not in data_gap()["stale"]:
         _index_attempt_day = today
@@ -139,7 +168,7 @@ def _write_index_manifest() -> None:
             continue
         frame = read_index_csv(path)
         rows.append({
-            "code": code, "name": name, "source": "同花顺公开日线（按年份）",
+            "code": code, "name": name, "source": INDEX_SOURCE,
             "rows": len(frame), "start": frame["date"].iat[0].strftime("%Y-%m-%d"),
             "end": frame["date"].iat[-1].strftime("%Y-%m-%d"),
             "path": str(path.relative_to(ROOT)),
@@ -311,7 +340,9 @@ def update_institutions(progress: Progress | None = None) -> dict:
 def refresh_daily(progress: Progress | None = None) -> dict:
     """收盘后刷新：先补原始日线，再由调用方重建 JSON。
 
-    三条数据线彼此解耦：板块（东财）限流/失败只影响自身，不再中断机构持仓更新。
+    四条数据线彼此解耦：板块（东财）限流/失败只影响自身，ETF 失败只告警，
+    均不中断其余线。ETF 也在 refreshed 中返回，供调度层判断是否需要
+    重建 etf-volume-events.json（D4：ETF 数据线参与自动重建）。
     """
     progress = progress or Progress()
     ensure_raw_data(progress)
@@ -322,8 +353,10 @@ def refresh_daily(progress: Progress | None = None) -> dict:
     except Exception as exc:  # 板块线失败不拖累机构数据线（二者数据源无关）
         print(f"[bootstrap] 板块增量失败（不影响指数与机构数据线）：{exc}", flush=True)
     institutions = update_institutions(progress)
+    etf = update_etf(progress)
     progress.update("ready", f"指数 {len(indices)} 个、板块 {sectors} 个有更新")
-    return {"indices": indices, "sectors": sectors, "institutions": institutions}
+    return {"indices": indices, "sectors": sectors,
+            "institutions": institutions, "etf": etf}
 
 
 # ---------- 数据新鲜度判定（只影响调度，不参与任何信号计算） ----------
@@ -349,8 +382,23 @@ def _tail_date(path: Path, column: int) -> str | None:
     return None
 
 
+def _etf_ready_date() -> str | None:
+    """6 只 ETF 尾日的最小齐备日：与 build_etf_volume_events 的 as_of 口径一致。
+
+    任一 CSV 缺失时返回 None（该 ETF 线未初始化，由补齐逻辑处理，不阻塞其余线）。
+    """
+    tails = []
+    for item in ETF_UNIVERSE:
+        tail = _tail_date(ETF_DAILY_RAW / f"{item['code']}.csv", 0)
+        if tail is None:
+            return None
+        tails.append(tail)
+    return min(tails) if tails else None
+
+
 def latest_local_dates() -> dict[str, str | None]:
-    """各数据线本地最后日期：指数取最小（与 index-signals 口径一致）、板块取最大。"""
+    """各数据线本地最后日期：指数取最小（与 index-signals 口径一致）、板块取最大、
+    ETF 取 6 只尾日的最小齐备日（与 etf-volume-events 口径一致）。"""
     index_ends = [_tail_date(path, 0) for path in _index_files().values()]
     sector_ends = [_tail_date(path, 0) for path in sorted(EM_SECTOR_RAW.glob("*.csv"))]
     cffex = sorted(CFFEX_RAW.glob("*.csv"))
@@ -358,6 +406,7 @@ def latest_local_dates() -> dict[str, str | None]:
         "indices": min(index_ends) if index_ends and all(index_ends) else None,
         "sectors": max(sector_ends) if sector_ends else None,
         "institutions": cffex[-1].stem if cffex else None,
+        "etf": _etf_ready_date(),
     }
 
 
@@ -485,6 +534,9 @@ def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = F
     if "institutions" in targets:
         refreshed["institutions"] = update_institutions(progress)
         _record_attempt(state, day, "institutions")
+    if "etf" in targets:
+        refreshed["etf"] = update_etf(progress)
+        _record_attempt(state, day, "etf")
 
     after = data_gap()
     if not after["stale"]:

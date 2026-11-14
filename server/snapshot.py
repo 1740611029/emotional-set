@@ -162,6 +162,23 @@ def _sector_block(payload: dict | None) -> dict:
     }
 
 
+def _index_tail_block(indices_payload: dict | None) -> dict:
+    """短板标的可见（D5）：从收盘产物透传 index_tails 并标出落后标的。
+
+    落后标的 = 尾日早于最晚尾日的指数（6 尾日 T、1 尾日 T-1 → 标出 T-1 那只）。
+    """
+    tails = (indices_payload or {}).get("index_tails") or {}
+    as_of = (indices_payload or {}).get("as_of")
+    latest_tail = max(tails.values()) if tails else None
+    lagging = [code for code, tail in tails.items()
+               if latest_tail and tail < latest_tail]
+    return {
+        "index_tails": tails,
+        "lagging_indexes": lagging,
+        "as_of_rule": (indices_payload or {}).get("as_of_rule") or "min(index_tails)",
+    }
+
+
 def build_close_snapshot(indices_payload: dict | None, sectors_payload: dict | None,
                          *, stale: bool = False, stale_since: str | None = None,
                          stale_reason: str | None = None,
@@ -174,6 +191,7 @@ def build_close_snapshot(indices_payload: dict | None, sectors_payload: dict | N
     return {
         "mode": "close",
         "as_of": indices_payload.get("as_of"),
+        **_index_tail_block(indices_payload),
         "generated_at": now_iso(),
         "stale": stale,
         "stale_since": stale_since,
@@ -314,10 +332,19 @@ def build_live_snapshot(quotes: dict[str, dict], history: HistoryStore,
 
     recent.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
     pending.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
-    as_of = max((item["history"][-1]["date"] for item in indices), default=today_str())
+    # as_of 口径统一（D5）：与 build_close_snapshot 相同规则——读收盘产物
+    # as_of = min(index_tails)（indices_payload 缺失时才退回盘中序列尾日最大值），
+    # 不再因收盘/盘中模式不同相差一个交易日。
+    tails_block = _index_tail_block(indices_payload)
+    if (indices_payload or {}).get("as_of"):
+        as_of = indices_payload["as_of"]
+    else:
+        as_of = max((item["history"][-1]["date"] for item in indices), default=today_str())
+        tails_block["as_of_rule"] = "max(live_history_tail)（收盘产物缺失时的兜底口径）"
     return {
         "mode": "live",
         "as_of": as_of,
+        **tails_block,
         "generated_at": now_iso(),
         "stale": stale,
         "stale_since": stale_since,
