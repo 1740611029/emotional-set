@@ -56,7 +56,7 @@ class CooldownTest(unittest.TestCase):
 
     def test_snapshot_reports_zero_when_clean(self):
         snapshot = RateLimiter().snapshot()
-        self.assertEqual(set(snapshot), {"eastmoney", "sina", "tencent"})
+        self.assertEqual(set(snapshot), {"eastmoney", "sina", "tencent", "ths"})
         for issuer in snapshot.values():
             self.assertEqual(issuer["cooldown_remaining"], 0.0)
             self.assertEqual(issuer["skipped_lines"], [])

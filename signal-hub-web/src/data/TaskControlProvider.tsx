@@ -34,7 +34,7 @@ export const TASKS: TaskDef[] = [
   },
   {
     id: 'evening_backfill', name: '晚间数据补齐', scope: 'server', cadence: '17:30 / 20:00 / 22:00',
-    detail: '补齐发布较晚的东财行业板块日线',
+    detail: '补齐发布较晚的同花顺行业指数日线',
   },
   {
     id: 'lhb_daily', name: '龙虎榜游资日更', scope: 'server', cadence: '20:00 / 22:00',

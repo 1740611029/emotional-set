@@ -3,7 +3,7 @@
 单飞设计：同一时刻只有一个刷新任务；并发请求直接读内存快照。
 启动直接出首屏，不做联网增量补齐（避免源接口慢/失败导致长时间不就绪）；
 数据更新统一交给收盘后重算、晚间固定补齐时刻与手动脚本。
-东财行业板块日线常在收盘数小时后才发布，所以收盘后还有几个固定的补齐时刻。
+同花顺行业指数日线通常在收盘当晚即可取得，所以收盘后保留几个固定的补齐时刻。
 """
 
 from __future__ import annotations
@@ -24,16 +24,16 @@ from .snapshot import (
 
 DEFAULT_INTERVAL = 30
 # 调度版本：随调度逻辑/时刻口径变更而升版，供多机经 /api/health 比对是否同步
-SCHEDULER_VERSION = "sched-v2.1-etf-line"
-# 收盘重算与晚间补齐时刻的校准声明：指数/ETF 已换新浪（全量 1 请求，定稿较早），
-# 东财仅剩板块线（BK 日线常在 T 日晚间甚至 T+1 上午才发布），故 17:00 首试并保留
+SCHEDULER_VERSION = "sched-v3.0-ths-sector"
+# 收盘重算与晚间补齐时刻的校准声明：指数/ETF 已换新浪（全量 1 请求，定稿较早）；
+# 板块线 2026-11-14 起为同花顺行业指数日线（90 个细分行业，通常当晚即可取得），17:00 首试并保留
 # 17:30/20:00/22:00 三个补齐时刻。校准口径见 data/research/source-eval/source-migration-20261114.md。
 CLOSE_HOUR_MINUTE = (
     17 * 60
 )  # 收盘重算首试：17:00（板块/指数 15:30 后陆续定稿，避开收盘高峰）
 MAX_CLOSE_ATTEMPTS = 3
 CLOSE_RETRY_MINUTES = 10
-# 收盘后补齐时刻：东财行业板块日线常在 T 日晚间甚至 T+1 上午才发布，17:00 重算常拿不到
+# 收盘后补齐时刻：同花顺行业指数日线通常当晚定稿，17:00 重算拿不到时按固定时刻补试
 EVENING_SLOTS = (("17:30", 17 * 60 + 30), ("20:00", 20 * 60), ("22:00", 22 * 60))
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
 LHB_SLOTS = (("20:00", 20 * 60), ("22:00", 22 * 60))
@@ -151,10 +151,10 @@ class MarketScheduler:
         changed = result.get("refreshed") or {}
         etf_changed = bool((changed.get("etf") or {}).get("updated"))
         if changed.get("indices") or changed.get("sectors"):
-            # 指数宽度依赖东财行业板块日线，任一类原始数据变化都重算产物
+            # 指数宽度依赖同花顺行业指数日线，任一类原始数据变化都重算产物
             self.progress.update("build", "增量补齐后重算")
             protected_write("index-signals.json", build_indices())
-            # 板块产物含 31 × 250 的序列，标量数组压成一行以控制体积（与 build_dashboard 的落盘格式一致）
+            # 板块产物含 90 × 250 的序列，标量数组压成一行以控制体积（与 build_dashboard 的落盘格式一致）
             protected_write("sector-trends.json", build_sectors(), compact_arrays=True)
         if etf_changed:
             # 仅 ETF 线有更新时只重建事件产物，不重算指数/板块信号（其输入未变）
@@ -473,7 +473,7 @@ class MarketScheduler:
                 "indices-ths-manifest.json", "新浪公开指数日线（不复权）"
             ),
             "sectors": manifest_source(
-                "sectors-em-industry-manifest.json", "东财行业板块"
+                "sectors-ths-industry-manifest.json", "同花顺行业指数（不复权）"
             ),
             "etf": manifest_source(
                 "etf-daily-manifest.json", "东财 ETF 历史日线（不复权）"

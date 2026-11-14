@@ -20,7 +20,7 @@ from confirmed_sector_trends import (
     spark_series,
 )
 from fetch_market import (
-    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, EM_SECTOR_UNIVERSE, INDEXES, INDEX_RAW, SECTOR_SOURCE,
+    THS_SECTOR_MANIFEST, THS_SECTOR_RAW, INDEXES, INDEX_RAW, SECTOR_SOURCE,
 )
 from etf_volume_events import (
     ALGORITHM_VERSION as ETF_VOLUME_VERSION, CLUSTER_GAP_DAYS, STATE_BASIS_INDEX,
@@ -36,10 +36,10 @@ RAW = ROOT / "data" / "raw"
 
 
 def load_breadth() -> pd.DataFrame:
-    """行业横截面宽度输入；与板块产物读同一份东财行业板块日线，缺失时直接报错不降级。"""
-    files = sorted(EM_SECTOR_RAW.glob("*.csv"))
+    """行业横截面宽度输入；与板块产物读同一份同花顺行业指数日线，缺失时直接报错不降级。"""
+    files = sorted(THS_SECTOR_RAW.glob("*.csv"))
     if len(files) < 20:
-        raise ValueError(f"东财行业板块文件不足 20 个，实际 {len(files)} 个")
+        raise ValueError(f"同花顺行业指数文件不足 20 个，实际 {len(files)} 个")
     return breadth_table({path.stem: read_sector_csv(path) for path in files})
 
 
@@ -148,21 +148,21 @@ def build_indices() -> dict:
 
 
 def build_sectors() -> dict:
-    manifest = json.loads(EM_SECTOR_MANIFEST.read_text(encoding="utf-8"))
+    manifest = json.loads(THS_SECTOR_MANIFEST.read_text(encoding="utf-8"))
     boards = manifest["boards"]
-    if len(boards) != len(EM_SECTOR_UNIVERSE):
-        raise ValueError(f"东财行业板块清单不完整：{len(boards)} 个，应为 {len(EM_SECTOR_UNIVERSE)} 个")
+    if len(boards) != len(manifest["universe"]):
+        raise ValueError(f"同花顺行业指数清单不完整：{len(boards)} 个，应为 {len(manifest['universe'])} 个")
 
     frames = {}
     for item in boards:
-        path = EM_SECTOR_RAW / f"{item['code']}.csv"
+        path = THS_SECTOR_RAW / f"{item['code']}.csv"
         if not path.exists():
             raise ValueError(f"板块行情文件缺失：{item['code']}")
         frames[item["code"]] = read_sector_csv(path)
 
     records = calculate_sector_universe(boards, frames)
     histories = {code: sector_history(frame) for code, frame in frames.items()}
-    # 交易日全局共享一份，避免 31 个板块各存一遍日期
+    # 交易日全局共享一份，避免 90 个板块各存一遍日期
     dates = sorted({row["date"] for rows in histories.values() for row in rows})[-HISTORY_DAYS:]
 
     def pack(record: dict) -> dict:

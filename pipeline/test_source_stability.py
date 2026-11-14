@@ -53,10 +53,10 @@ FROZEN_THRESHOLDS: dict = {
     "latency_p95_max_seconds": 10.0,
     # 日线定稿时刻要求：观察窗口内每条受影响线的日线须在该时刻前可获取（供调度校准）
     "daily_publish_deadline": "22:00",
-    # 口径可比性要求：板块与固化 31 个单层行业一一对应、ETF 与核心 6 只逐一对应，
+    # 口径可比性要求：板块与固化 90 个同花顺细分行业一一对应、ETF 与核心 6 只逐一对应，
     # 复权方式 / 字段顺序 / 价格与成交额单位不变；缺项即判不可比。
     "comparability": {
-        "sectors_required": 31,
+        "sectors_required": 90,
         "etfs_required": 6,
         "exact_match_only": True,
         "adjust": "none",
@@ -74,17 +74,30 @@ FROZEN_THRESHOLDS: dict = {
 
 FROZEN_CANDIDATES: list[dict] = [
     {
+        "id": "ths-industry-index",
+        "issuer": "ths",
+        "kind": "other-issuer",
+        "kind_label": "其他发行方·同花顺（现用主源）",
+        "api": "akshare stock_board_industry_name_ths（行业清单） / stock_board_industry_index_ths（行业指数日线，d.10jqka.com.cn v4/line）",
+        "adjust": "不复权",
+        "columns": ["date", "open", "close", "high", "low", "volume", "amount"],
+        "amount_unit": "元",
+        "coverage": "板块全历史（2020-10-30 起完整，尾日可达最近交易日）；行业粒度 90 个细分行业",
+        "requires_credentials": False,
+        "notes": "2026-11-14 起为生产板块主源；不限流、稳定（实测响应约 2.3s/行业）。",
+    },
+    {
         "id": "em-push2his-current",
         "issuer": "eastmoney",
         "kind": "same-issuer-current",
-        "kind_label": "同发行方·现用通道（基线参照）",
+        "kind_label": "同发行方·现用通道（已停用，回滚参照）",
         "api": "akshare stock_board_industry_name_em / stock_board_industry_hist_em / fund_etf_spot_em / fund_etf_hist_em（push2/push2his）",
         "adjust": "不复权",
         "columns": ["date", "open", "close", "high", "low", "volume", "amount"],
         "amount_unit": "元",
         "coverage": "板块与 ETF 全历史（2020-10-30 起完整）",
         "requires_credentials": False,
-        "notes": "现用主源；2026-11-12 起持续限流，作为对照基线参与同一套测试。",
+        "notes": "2026-11-14 起板块线停用、保留为回滚通道；2026-11-12 起持续限流，作为对照基线参与同一套测试。",
     },
     {
         "id": "em-fund-trend-channel",
@@ -108,9 +121,9 @@ FROZEN_CANDIDATES: list[dict] = [
         "adjust": "不复权",
         "columns": ["date", "open", "close", "high", "low", "volume", "amount"],
         "amount_unit": "元",
-        "coverage": "ETF 日线全历史；不提供东财 BK 行业板块清单与板块日线",
+        "coverage": "ETF 日线全历史；不提供同花顺行业清单与板块日线",
         "requires_credentials": False,
-        "notes": "板块线口径可比性预期不满足（无 BK 代码体系），测试以实测为准。",
+        "notes": "板块线口径可比性预期不满足（无 881xxx 行业代码体系），测试以实测为准。",
     },
     {
         "id": "tencent-daily-kline",
@@ -121,7 +134,7 @@ FROZEN_CANDIDATES: list[dict] = [
         "adjust": "不复权",
         "columns": ["date", "open", "close", "high", "low", "volume", "amount"],
         "amount_unit": "元",
-        "coverage": "ETF 日线全历史；不提供东财 BK 行业板块",
+        "coverage": "ETF 日线全历史；不提供同花顺行业板块",
         "requires_credentials": False,
         "notes": "公开网页行情通道，无需凭据；成交量/额字段单位以实测核对为准。",
     },
@@ -135,15 +148,24 @@ EXCLUDED_SOURCES: list[dict] = [
     {"id": "em-web11-manual", "issuer": "eastmoney", "reason": "网页导出通道需登录会话 cookie，视为凭据"},
 ]
 
-# 固化生产清单（与 fetch_market.EM_SECTOR_UNIVERSE / fetch_etf.ETF_UNIVERSE 一致）：
+# 固化生产清单（与 fetch_market.THS_SECTOR_MANIFEST['universe'] / fetch_etf.ETF_UNIVERSE 一致）：
 # 只做代码级一一对应，禁止按名称近似匹配。
 REQUIRED_SECTOR_CODES: tuple[str, ...] = (
-    "BK0433", "BK1206", "BK0479", "BK0478", "BK1201", "BK1211",
-    "BK0456", "BK0438", "BK0436", "BK1212", "BK1216", "BK0427",
-    "BK1210", "BK1202", "BK1213", "BK1214", "BK1283", "BK1203",
-    "BK1217", "BK1208", "BK1209", "BK1200", "BK1205", "BK1204",
-    "BK1207", "BK0486", "BK1215", "BK0437", "BK0464", "BK0728",
-    "BK1035",
+    "881121", "881273", "881131", "881156", "881138", "881174",
+    "881281", "881277", "881145", "881278", "881283", "881172",
+    "881153", "881280", "881167", "881136", "881135", "881268",
+    "881279", "881169", "881269", "881148", "881149", "881112",
+    "881122", "881168", "881284", "881181", "881177", "881132",
+    "881264", "881108", "881109", "881140", "881271", "881151",
+    "881276", "881166", "881139", "881130", "881114", "881178",
+    "881115", "881116", "881158", "881160", "881182", "881105",
+    "881159", "881103", "881263", "881267", "881128", "881126",
+    "881125", "881282", "881123", "881179", "881272", "881146",
+    "881265", "881134", "881142", "881180", "881162", "881129",
+    "881117", "881164", "881152", "881124", "881173", "881170",
+    "881266", "881270", "881175", "881144", "881133", "881107",
+    "881274", "881275", "881155", "881143", "881102", "881171",
+    "881165", "881157", "881141", "881118", "881137", "881101",
 )
 REQUIRED_ETF_CODES: tuple[str, ...] = ("588000", "159915", "510300", "510050", "512100", "510500")
 
@@ -228,10 +250,13 @@ def _probe_line(candidate: dict, line: str, observations: list[dict]) -> dict | 
     success, rate_limited, error, rows, payload = False, False, None, 0, None
     try:
         if line == "sector-spot":
-            if candidate["issuer"] != "eastmoney":
-                return None  # 该候选不提供东财 BK 板块清单，观测上如实缺线
-            frame = ak.stock_board_industry_name_em()
-            code_col = next((c for c in frame.columns if "代码" in c), None)
+            if candidate["issuer"] == "ths":
+                frame = ak.stock_board_industry_name_ths()
+            elif candidate["issuer"] == "eastmoney":
+                frame = ak.stock_board_industry_name_em()
+            else:
+                return None  # 该候选不提供同花顺行业板块清单，观测上如实缺线
+            code_col = next((c for c in frame.columns if c == "code" or "代码" in c), None)
             payload = {str(row[code_col]).strip() for _, row in frame.iterrows()} if code_col else set()
             rows = len(frame)
         elif line == "etf-daily":
@@ -279,7 +304,7 @@ def _probe_comparability(candidate: dict, observations: list[dict]) -> dict:
     seen: dict[str, list[str]] = {}
     sector_row = _probe_line(candidate, "sector-spot", observations)
     if sector_row is None or not sector_row["success"]:
-        missing["sectors"] = ["(候选不提供东财 BK 板块清单或本轮获取失败)"]
+        missing["sectors"] = ["(候选不提供同花顺行业板块清单或本轮获取失败)"]
         seen["sectors"] = []
     else:
         codes = {str(code) for code in sector_row.get("payload_sample") or []}
@@ -309,7 +334,7 @@ def run_observation() -> None:
     observations: list[dict] = []
     comparability: list[dict] = []
     for candidate in FROZEN_CANDIDATES:
-        lines = ["sector-spot"] if candidate["issuer"] == "eastmoney" else []
+        lines = ["sector-spot"] if candidate["issuer"] in ("ths", "eastmoney") else []
         lines.append("etf-daily")
         for line in lines:
             _probe_line(candidate, line, observations)
@@ -517,18 +542,20 @@ def build_report() -> Path:
     lines.append("")
     lines.append("## 口径可比性检查（固化代码一一对应，禁止名称近似匹配）")
     lines.append("")
-    lines.append("| 候选 | 板块清单可比（31） | ETF 可比（6） | 缺失项 | 结论 |")
+    lines.append("| 候选 | 板块清单可比（90） | ETF 可比（6） | 缺失项 | 结论 |")
     lines.append("| --- | --- | --- | --- | --- |")
     comps = []
     for candidate in FROZEN_CANDIDATES:
         # 可比性结论以最近一轮观测运行留下的探测为准；报告模式只引用 candidates.json 与观测台账
-        if candidate["issuer"] == "eastmoney" and candidate["kind"] == "same-issuer-current":
+        if candidate["issuer"] == "ths":
             sector_ok, etf_ok, missing = "是（现用源）", "是（现用源）", "—"
+        elif candidate["issuer"] == "eastmoney" and candidate["kind"] == "same-issuer-current":
+            sector_ok, etf_ok, missing = "否（已停用；31 一级 ≠ 90 细分，粒度不可比）", "是（自比基线）", "板块线粒度缺项"
         elif candidate["issuer"] == "eastmoney":
             sector_ok, etf_ok, missing = "否（无独立板块备用通道）", "待实测", "板块线缺项"
         else:
-            sector_ok, etf_ok, missing = "否（不提供东财 BK 板块体系）", "待实测", "板块线 31 项全部缺失"
-        conclusion = "板块线不可比 → 不可作为板块主源候选" if sector_ok == "否（不提供东财 BK 板块体系）" else "待观测窗口满足后判定"
+            sector_ok, etf_ok, missing = "否（不提供同花顺行业板块体系）", "待实测", "板块线 90 项全部缺失"
+        conclusion = "板块线不可比 → 不可作为板块主源候选" if sector_ok.startswith("否") else "待观测窗口满足后判定"
         lines.append(f"| {candidate['id']} | {sector_ok} | {etf_ok} | {missing} | {conclusion} |")
     lines.append("")
     lines.append("## ETF 线新旧源小样本对照（逐日涨跌幅差异与放量日差异）")
@@ -559,9 +586,8 @@ def build_report() -> Path:
     lines.append("")
     lines.append("## 板块四态一致率与翻转类型分布")
     lines.append("")
-    lines.append("本轮全部候选的板块线均不满足「31 个 BK 代码一一对应」，按规格判不可比，"
-                 "四态一致率与翻转分布不适用（不按名称近似匹配后继续评估）；"
-                 "若后续出现板块线可比候选，须在同一冻结判据下补算本节。")
+    lines.append("2026-11-14 起板块线切换为同花顺 90 个细分行业，口径从 31 个申万一级调整为 90 个细分行业；"
+                 "新旧产物不得直接比较，四态一致率与翻转分布按新冻结判据（90 个 881xxx 代码一一对应）重新评估。")
     lines.append("")
     lines.append("## 门槛逐项判定与结论")
     lines.append("")

@@ -1,9 +1,14 @@
 """确认版板块四态、当前有向强度与持续天数；本模块不写文件。
 
+v3.0 变更（2026-11-14）：板块数据源由东财行业板块（31 个一级行业）换为
+同花顺行业指数日线（90 个细分行业），四态判据、持续天数计数与统一有向强度公式
+与 v2.0 逐行一致，只换输入数据与清单粒度；因此新旧产物不得直接比较，切换口径
+变化须以换源对照报告（source-eval/source-migration-20261114.md）为参考。
 v2.0 变更：板块数据源由申万行业指数换为东财行业板块，清单改为单层 31 个行业，
 不再有一级/二级分层与继承关系。四态判据、持续天数计数与统一有向强度公式与 v1.0/v1.1 逐行一致，
 只换输入数据；因此新旧产物不得直接比较，必须通过换源对照报告核对。
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -15,7 +20,7 @@ from research_algorithms import (
     summarize_sector_events,
 )
 
-ALGORITHM_VERSION = "sector-donchian20-ma60-v2.0-em-source"
+ALGORITHM_VERSION = "sector-donchian20-ma60-v3.0-ths-source"
 HISTORY_DAYS = 250
 SPARK_DAYS = 30
 # 滞后清态阈值：换源前挂在「二级板块独立判定 · 数据滞后」场景下，单层清单改造后作为
@@ -33,9 +38,17 @@ def validate_history(frame: pd.DataFrame) -> None:
     dates = frame["date"]
     if not pd.api.types.is_datetime64_any_dtype(dates):
         raise ValueError("date 必须为已解析的交易日期")
-    if dates.isna().any() or dates.dt.tz is not None or not dates.eq(dates.dt.normalize()).all():
+    if (
+        dates.isna().any()
+        or dates.dt.tz is not None
+        or not dates.eq(dates.dt.normalize()).all()
+    ):
         raise ValueError("板块只接受无时区的有效日线日期")
-    if dates.duplicated().any() or not dates.is_monotonic_increasing or not frame.index.is_unique:
+    if (
+        dates.duplicated().any()
+        or not dates.is_monotonic_increasing
+        or not frame.index.is_unique
+    ):
         raise ValueError("交易日期必须唯一且升序，行索引不得重复")
     values = frame[list(columns)]
     if not all(pd.api.types.is_numeric_dtype(values[key]) for key in columns):
@@ -45,15 +58,20 @@ def validate_history(frame: pd.DataFrame) -> None:
     if (values <= 0).any().any():
         raise ValueError("板块价格必须为正")
     # 只严格检查研究段内的 OHLC 关系；历史数据异常仅警告（不影响60日滚动窗口后的计算）
-    ohlc_bad = ((frame["high"] < values[["open", "close", "low"]].max(axis=1))
-                | (frame["low"] > values[["open", "close", "high"]].min(axis=1)))
+    ohlc_bad = (frame["high"] < values[["open", "close", "low"]].max(axis=1)) | (
+        frame["low"] > values[["open", "close", "high"]].min(axis=1)
+    )
     research_start = pd.Timestamp("2020-10-30")
     recent_bad = ohlc_bad & (dates >= research_start)
     if recent_bad.any():
         raise ValueError(f"研究段内 OHLC 高低价关系异常，共 {recent_bad.sum()} 行")
     if ohlc_bad.any():
         import warnings
-        warnings.warn(f"历史数据存在 {ohlc_bad.sum()} 行 OHLC 异常（在研究段之前，不影响计算）", UserWarning)
+
+        warnings.warn(
+            f"历史数据存在 {ohlc_bad.sum()} 行 OHLC 异常（在研究段之前，不影响计算）",
+            UserWarning,
+        )
 
 
 def calculate_sector_trend(frame: pd.DataFrame) -> pd.DataFrame:
@@ -93,16 +111,19 @@ def calculate_sector_trend(frame: pd.DataFrame) -> pd.DataFrame:
         previous = value
         days.append(streak)
 
-    return pd.DataFrame({
-        "date": frame["date"],
-        "state": state,
-        "strength": strength,
-        "days": pd.Series(days, index=frame.index, dtype="Int64"),
-        "data_anomaly": zero_channel,
-        "range_position": range_position,
-        "ma_score": ma_part,
-        "strength_basis": basis,
-    }, index=frame.index)
+    return pd.DataFrame(
+        {
+            "date": frame["date"],
+            "state": state,
+            "strength": strength,
+            "days": pd.Series(days, index=frame.index, dtype="Int64"),
+            "data_anomaly": zero_channel,
+            "range_position": range_position,
+            "ma_score": ma_part,
+            "strength_basis": basis,
+        },
+        index=frame.index,
+    )
 
 
 def latest_sector_record(item: dict, trend: pd.DataFrame) -> dict:
@@ -135,7 +156,9 @@ def _clear_state(record: dict) -> None:
     record["days"] = None
 
 
-def calculate_sector_universe(boards: list[dict], frames: dict[str, pd.DataFrame]) -> list[dict]:
+def calculate_sector_universe(
+    boards: list[dict], frames: dict[str, pd.DataFrame]
+) -> list[dict]:
     """单层行业板块各自用自身日线判定四态与有向强度，无父子关系。
 
     滞后规则（自换源前沿用，属有意的保守化，不是换源带来的口径变更）：
@@ -144,8 +167,10 @@ def calculate_sector_universe(boards: list[dict], frames: dict[str, pd.DataFrame
       `strength_basis`/`days`，宁可显示无状态也不用陈旧结论误导（东财撤销或长停更板块）。
     该规则只作用于最新条目，不进入任何历史序列与信号计算，也不影响判定本身。
     """
-    records = [latest_sector_record(item, calculate_sector_trend(frames[item["code"]]))
-               for item in boards]
+    records = [
+        latest_sector_record(item, calculate_sector_trend(frames[item["code"]]))
+        for item in boards
+    ]
     as_of = max((record["date"] for record in records if record["date"]), default=None)
     for record in records:
         record["data_lag"] = bool(as_of and record["date"] and record["date"] != as_of)
@@ -167,11 +192,13 @@ def sector_history(frame: pd.DataFrame, days: int = HISTORY_DAYS) -> list[dict]:
     rows = []
     for position, (_, row) in enumerate(tail.iterrows()):
         state = row["state"]
-        rows.append({
-            "date": row["date"].strftime("%Y-%m-%d"),
-            "close": round(float(close.iloc[position]), 4),
-            "state": None if pd.isna(state) else str(state),
-        })
+        rows.append(
+            {
+                "date": row["date"].strftime("%Y-%m-%d"),
+                "close": round(float(close.iloc[position]), 4),
+                "state": None if pd.isna(state) else str(state),
+            }
+        )
     return rows
 
 
@@ -180,11 +207,14 @@ def spark_series(frame: pd.DataFrame, days: int = SPARK_DAYS) -> list[float]:
 
 
 def state_codes(series: list[dict]) -> list[str | None]:
-    return [None if row["state"] is None else STATE_CODES[row["state"]] for row in series]
+    return [
+        None if row["state"] is None else STATE_CODES[row["state"]] for row in series
+    ]
 
 
 def build_sector_evaluation(
-    boards: list[dict], frames: dict[str, pd.DataFrame],
+    boards: list[dict],
+    frames: dict[str, pd.DataFrame],
 ) -> dict:
     """构建板块入场计次验证统计：同一批事件按四态分组，覆盖单层清单内的全部行业板块。
 
@@ -196,16 +226,24 @@ def build_sector_evaluation(
         frame = frames[item["code"]]
         state = sector_state(frame, "Donchian20_MA60")
         events = evaluate_sector_states(
-            frame, state, code=item["code"], name=item["name"], method=ALGORITHM_VERSION,
+            frame,
+            state,
+            code=item["code"],
+            name=item["name"],
+            method=ALGORITHM_VERSION,
         )
         all_events.extend(events)
 
     summaries = summarize_sector_events(all_events, ["type"])
     research = [row for row in summaries if row["segment"] == "research"]
-    validation = [row for row in summaries if row["segment"] == "exploratory_validation"]
+    validation = [
+        row for row in summaries if row["segment"] == "exploratory_validation"
+    ]
 
     def build_cell(rows: list[dict], state: str, horizon: int) -> dict | None:
-        matches = [row for row in rows if row["type"] == state and row["horizon"] == horizon]
+        matches = [
+            row for row in rows if row["type"] == state and row["horizon"] == horizon
+        ]
         if not matches:
             return None
         row = matches[0]
@@ -226,7 +264,10 @@ def build_sector_evaluation(
             "segment": segment_name,
             "independent": False,
             "states": {
-                state: {str(horizon): build_cell(rows, state, horizon) for horizon in (10, 20)}
+                state: {
+                    str(horizon): build_cell(rows, state, horizon)
+                    for horizon in (10, 20)
+                }
                 for state in STATE_CODES
             },
         }

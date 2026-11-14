@@ -12,7 +12,7 @@ from jsonschema import Draft202012Validator
 from schemas import SECTOR_EVALUATION, validate_payload
 from build_dashboard import build_indices, current_signal
 from fetch_etf import ETF_UNIVERSE
-from fetch_market import EM_SECTOR_UNIVERSE, INDEXES
+from fetch_market import INDEXES
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -182,7 +182,7 @@ def _cell(samples: int = 100) -> dict:
 def _evaluation_payload() -> dict:
     """内存构造的四态评估载荷：不依赖生产产物，供契约拒收/放行用例使用。"""
     return {
-        "algorithm_version": "sector-donchian20-ma60-v2.0-em-source",
+        "algorithm_version": "sector-donchian20-ma60-v3.0-ths-source",
         "research_status": "post_hoc_exploratory_not_independent",
         "rate_unit": "fraction",
         "boundary_policy": "strict_segment_end_inclusive",
@@ -222,7 +222,7 @@ class SectorEvaluationSchemaTest(unittest.TestCase):
 
 
 class SectorContractTest(unittest.TestCase):
-    """板块产物契约：单层 31 个行业板块、共享日期、序列末项与强度构成自洽。"""
+    """板块产物契约：单层 90 个行业板块、共享日期、序列末项与强度构成自洽。"""
 
     @classmethod
     def setUpClass(cls):
@@ -234,7 +234,7 @@ class SectorContractTest(unittest.TestCase):
 
     def test_real_payload_is_valid(self):
         validate_payload("sector-trends.json", self.payload)
-        self.assertEqual(sum(len(rows) for rows in self.payload["groups"].values()), 31)
+        self.assertEqual(sum(len(rows) for rows in self.payload["groups"].values()), 90)
 
     def test_real_evaluation_is_split_by_four_states(self):
         """生产产物按四态拆分：四态齐备、每态 10/20 两档，且不再有聚合 horizons。"""
@@ -245,11 +245,13 @@ class SectorContractTest(unittest.TestCase):
                 self.assertEqual(set(horizons), {"10", "20"})
 
     def test_payload_declares_em_single_level_source(self):
-        self.assertEqual(self.payload["data_source"], "东财行业板块")
-        self.assertEqual(self.payload["algorithm_version"], "sector-donchian20-ma60-v2.0-em-source")
+        self.assertEqual(self.payload["data_source"], "同花顺行业指数（不复权）")
+        self.assertEqual(self.payload["algorithm_version"], "sector-donchian20-ma60-v3.0-ths-source")
         items = [item for rows in self.payload["groups"].values() for item in rows]
+        ths_manifest = json.loads(
+            (ROOT / "data" / "raw" / "sectors-ths-industry-manifest.json").read_text(encoding="utf-8"))
         self.assertEqual({item["code"] for item in items},
-                         {code for code, _ in EM_SECTOR_UNIVERSE})
+                         {item["code"] for item in ths_manifest["universe"]})
 
     def test_legacy_hierarchy_fields_are_rejected(self):
         for key, value in (("subsectors", []), ("level", "first"), ("parent", None)):

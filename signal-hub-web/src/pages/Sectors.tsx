@@ -1,4 +1,4 @@
-/** 板块趋势页：东财行业板块的独立四态、走势与强度解释（单层清单，每个板块各自判定）。 */
+/** 板块趋势页：同花顺行业指数的独立四态、走势与强度解释（单层清单，每个板块各自判定）。 */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useMarketData } from '../data/MarketDataProvider';
@@ -146,7 +146,7 @@ export function Sectors() {
         <div>
           <h3 className="text-2xl font-bold text-slate-800">板块趋势</h3>
           <p className="text-sm text-slate-500">
-            东财行业板块 {sectors.length} 个行业，各自独立判定四态
+            同花顺行业指数 {sectors.length} 个行业，各自独立判定四态
           </p>
         </div>
         {block?.as_of && (
@@ -163,7 +163,7 @@ export function Sectors() {
             板块数据滞后：板块日线截至 <span className="font-medium">{block.as_of}</span>，
             最近已完成交易日为 <span className="font-medium">{block.expected_as_of ?? '—'}</span>
             （差 {lagDays} 个交易日）。
-            东财行业板块日线的发布通常晚于交易所，服务会在启动与收盘后自动补齐；
+            同花顺行业指数日线的发布通常晚于交易所，服务会在启动与收盘后自动补齐；
             若持续滞后，说明数据源尚未发布或拉取失败，当前展示的仍是旧交易日结论，请谨慎参考。
             {block.expected_basis === 'workday' && '（交易日历不可用，应到日期为工作日近似）'}
           </Notice>
@@ -261,7 +261,7 @@ export function Sectors() {
                     <span className="text-xs text-slate-400 tabular-nums">{active.code}</span>
                   </div>
                   <p className="mt-1 text-xs text-slate-400">
-                    东财行业板块{active.date ? ` · 数据日 ${active.date}` : ''}
+                    同花顺行业指数{active.date ? ` · 数据日 ${active.date}` : ''}
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">

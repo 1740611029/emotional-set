@@ -10,20 +10,22 @@
 
 本模块只做请求节奏与冷却治理，不参与任何信号计算。
 """
+
 from __future__ import annotations
 
 import time
 
 # ---- 统一分批参数（原 fetch_market 的 SECTOR_* 经验值收敛而来，运行前声明）----
-BATCH_SIZE = 6          # 每批标的数
-BATCH_PAUSE = 20.0      # 批间休息（秒）
-REQUEST_GAP = 1.0       # 单请求间隔（秒）
+BATCH_SIZE = 6  # 每批标的数
+BATCH_PAUSE = 20.0  # 批间休息（秒）
+REQUEST_GAP = 1.0  # 单请求间隔（秒）
 # 触发限流后的全局冷却时长（沿用"停高频、30 分钟低频重试"口径）
 COOLDOWN_SECONDS = 30 * 60
 
-# 发行方标识：冷却按发行方隔离（东财限流不影响新浪/腾讯线，反之亦然）。
-# 2026-11-14 换源后：指数与 ETF 日线走新浪、ETF 清单走腾讯，东财只剩板块线。
-ISSUERS = ("eastmoney", "sina", "tencent")
+# 发行方标识：冷却按发行方隔离（东财限流不影响新浪/腾讯/同花顺线，反之亦然）。
+# 2026-11-14 换源后：指数与 ETF 日线走新浪、ETF 清单走腾讯、板块线走同花顺；
+# 东财仅剩回滚通道（push2 曾被 IP 限流，保留 eastmoney 是为了给回滚路径复权冷却治理）。
+ISSUERS = ("eastmoney", "sina", "tencent", "ths")
 
 
 class RateLimiter:
@@ -31,9 +33,9 @@ class RateLimiter:
 
     def __init__(self, *, cooldown_seconds: float = COOLDOWN_SECONDS) -> None:
         self.cooldown_seconds = float(cooldown_seconds)
-        self._limited_until: dict[str, float] = {}   # issuer -> epoch 秒
-        self._limited_at: dict[str, float] = {}      # issuer -> 触发时刻
-        self._skipped: dict[str, list[str]] = {}     # issuer -> 冷却期内被跳过的数据线
+        self._limited_until: dict[str, float] = {}  # issuer -> epoch 秒
+        self._limited_at: dict[str, float] = {}  # issuer -> 触发时刻
+        self._skipped: dict[str, list[str]] = {}  # issuer -> 冷却期内被跳过的数据线
 
     # ---------- 冷却判定 ----------
 

@@ -5886,38 +5886,51 @@
       ],
       "signals": [
         {
-          "date": "2022-11-15",
+          "date": "2024-02-20",
           "type": "bottom",
-          "price": 3134.078,
-          "candidate_date": "2022-10-31",
-          "grade": "B",
-          "score": 0.511,
-          "core_hits": 2,
+          "price": 2922.73,
+          "candidate_date": "2024-02-05",
+          "grade": "A",
+          "score": 0.6237,
+          "core_hits": 3,
           "factors": {
-            "position": 0.953,
+            "position": 0.965,
             "divergence": 0.0,
-            "volume": 0.6272,
-            "volatility": 0.4816,
-            "trend": 0.4892,
-            "breadth": 0.5152
+            "volume": 0.6552,
+            "volatility": 0.984,
+            "trend": 0.4548,
+            "breadth": 0.6832
           },
           "breadth": {
-            "breadth20": 0.2258,
-            "delta5": -0.0645
+            "breadth20": 0.0111,
+            "delta5": -0.0778
           },
           "confirmation": [
             {
-              "date": "2022-11-15",
+              "date": "2024-02-19",
               "offset": 0,
+              "price": true,
+              "momentum": true,
+              "volume": false,
+              "passed": 2,
+              "close": 2910.544,
+              "candidate_reference": 2739.738,
+              "rsi14": 56.746281588107514,
+              "volume_ratio": 0.910999552625665,
+              "breadth_delta5": 0.04444444444444444
+            },
+            {
+              "date": "2024-02-20",
+              "offset": 1,
               "price": true,
               "momentum": true,
               "volume": true,
               "passed": 3,
-              "close": 3134.078,
-              "candidate_reference": 2926.015,
-              "rsi14": 61.20200240538116,
-              "volume_ratio": 1.0301331755852574,
-              "breadth_delta5": 0.06451612903225812
+              "close": 2922.73,
+              "candidate_reference": 2739.738,
+              "rsi14": 57.89604829073404,
+              "volume_ratio": 0.7324520113840833,
+              "breadth_delta5": 0.07777777777777778
             }
           ]
         },
@@ -5927,7 +5940,7 @@
           "price": 3000.953,
           "candidate_date": "2024-09-13",
           "grade": "B",
-          "score": 0.3888,
+          "score": 0.3874,
           "core_hits": 1,
           "factors": {
             "position": 0.894,
@@ -5935,11 +5948,11 @@
             "volume": 0.0224,
             "volatility": 0.408,
             "trend": 0.4876,
-            "breadth": 0.5208
+            "breadth": 0.5124
           },
           "breadth": {
-            "breadth20": 0.0968,
-            "delta5": -0.0645
+            "breadth20": 0.1222,
+            "delta5": -0.1222
           },
           "confirmation": [
             {
@@ -5953,7 +5966,7 @@
               "candidate_reference": 2728.78,
               "rsi14": 75.60869626568359,
               "volume_ratio": 1.3306930173751903,
-              "breadth_delta5": 0.4193548387096774
+              "breadth_delta5": 0.5333333333333333
             }
           ]
         }
@@ -5986,10 +5999,10 @@
                 ],
                 "small_sample": true,
                 "note": "样本量较小，仅供参考",
-                "avg_max_adverse_excursion": -0.013105832066873213,
-                "worst_max_adverse_excursion": -0.03170725170209554,
-                "avg_forward_return_20": 0.053203840296882965,
-                "return_drawdown_ratio": 4.059554557498334
+                "avg_max_adverse_excursion": -0.0014742862574303461,
+                "worst_max_adverse_excursion": -0.008444160083209806,
+                "avg_forward_return_20": 0.07041839884783263,
+                "return_drawdown_ratio": 47.76440022616137
               },
               "top": {
                 "total": 0,
@@ -6012,20 +6025,20 @@
             },
             "events": [
               {
-                "date": "2022-11-15",
+                "date": "2024-02-20",
                 "type": "bottom",
-                "price": 3134.078,
+                "price": 2922.73,
                 "status": "success",
-                "confirmation_date": "2022-11-21",
-                "confirmation_days": 4,
+                "confirmation_date": "2024-02-27",
+                "confirmation_days": 5,
                 "reason": "ma_reversal",
-                "observed_trading_days": 4,
-                "max_adverse_excursion": -0.024858347494861266,
-                "max_adverse_excursion_20": -0.03170725170209554,
-                "max_drawdown_20": -0.0177178104692991,
-                "forward_return_5": -0.014401364611857037,
-                "forward_return_10": 0.004999875561488842,
-                "forward_return_20": 0.013480200556591049
+                "observed_trading_days": 5,
+                "max_adverse_excursion": -0.008444160083209806,
+                "max_adverse_excursion_20": -0.008444160083209806,
+                "max_drawdown_20": 0.009657409339898004,
+                "forward_return_5": 0.03173437163200177,
+                "forward_return_10": 0.04278978899864172,
+                "forward_return_20": 0.04790931765849038
               },
               {
                 "date": "2024-09-26",
@@ -6135,10 +6148,10 @@
           "triggers": 2,
           "successes": 2,
           "rate": 100.0,
-          "avg_max_adverse_excursion": -0.013105832066873213,
-          "worst_max_adverse_excursion": -0.03170725170209554,
-          "avg_forward_return_20": 0.053203840296882965,
-          "return_drawdown_ratio": 4.059554557498334
+          "avg_max_adverse_excursion": -0.0014742862574303461,
+          "worst_max_adverse_excursion": -0.008444160083209806,
+          "avg_forward_return_20": 0.07041839884783263,
+          "return_drawdown_ratio": 47.76440022616137
         },
         "top": {
           "triggers": 0,
@@ -6153,9 +6166,9 @@
       "candidates": [],
       "bottom_zones": [
         {
-          "start_date": "2021-07-28",
-          "end_date": "2021-07-28",
-          "days": 1,
+          "start_date": "2021-07-27",
+          "end_date": "2021-07-29",
+          "days": 3,
           "has_divergence": false
         },
         {
@@ -6178,8 +6191,14 @@
         },
         {
           "start_date": "2021-10-28",
-          "end_date": "2021-11-10",
-          "days": 10,
+          "end_date": "2021-10-29",
+          "days": 2,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2021-11-02",
+          "end_date": "2021-11-08",
+          "days": 5,
           "has_divergence": true
         },
         {
@@ -6195,15 +6214,27 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-02-24",
+          "end_date": "2022-02-24",
+          "days": 1,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-03-07",
           "end_date": "2022-03-18",
-          "days": 9,
+          "days": 10,
           "has_divergence": true
         },
         {
           "start_date": "2022-03-25",
           "end_date": "2022-03-29",
           "days": 3,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-04-11",
+          "end_date": "2022-04-11",
+          "days": 1,
           "has_divergence": false
         },
         {
@@ -6214,14 +6245,8 @@
         },
         {
           "start_date": "2022-04-18",
-          "end_date": "2022-04-18",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-20",
           "end_date": "2022-04-28",
-          "days": 7,
+          "days": 9,
           "has_divergence": true
         },
         {
@@ -6233,6 +6258,12 @@
         {
           "start_date": "2022-07-15",
           "end_date": "2022-07-15",
+          "days": 1,
+          "has_divergence": true
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
           "days": 1,
           "has_divergence": true
         },
@@ -6291,15 +6322,15 @@
           "has_divergence": false
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-26",
-          "days": 8,
+          "days": 7,
           "has_divergence": true
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
+          "end_date": "2024-01-10",
+          "days": 3,
           "has_divergence": true
         },
         {
@@ -6339,21 +6370,15 @@
           "has_divergence": true
         },
         {
-          "start_date": "2024-07-23",
-          "end_date": "2024-07-24",
-          "days": 2,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2024-08-29",
-          "end_date": "2024-08-29",
+          "start_date": "2024-07-30",
+          "end_date": "2024-07-30",
           "days": 1,
           "has_divergence": false
         },
         {
           "start_date": "2024-09-02",
-          "end_date": "2024-09-05",
-          "days": 4,
+          "end_date": "2024-09-04",
+          "days": 3,
           "has_divergence": true
         },
         {
@@ -6400,8 +6425,8 @@
         },
         {
           "start_date": "2026-02-02",
-          "end_date": "2026-02-02",
-          "days": 1,
+          "end_date": "2026-02-03",
+          "days": 2,
           "has_divergence": true
         },
         {
@@ -6448,14 +6473,8 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": false
         },
         {
@@ -6465,12 +6484,6 @@
           "has_divergence": true
         },
         {
-          "start_date": "2026-09-17",
-          "end_date": "2026-09-17",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
           "start_date": "2026-09-24",
           "end_date": "2026-09-28",
           "days": 2,
@@ -6478,14 +6491,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -12368,7 +12375,7 @@
           "price": 11785.768,
           "candidate_date": "2022-10-31",
           "grade": "B",
-          "score": 0.4521,
+          "score": 0.4404,
           "core_hits": 1,
           "factors": {
             "position": 0.9,
@@ -12376,11 +12383,11 @@
             "volume": 0.3976,
             "volatility": 0.376,
             "trend": 0.5236,
-            "breadth": 0.5152
+            "breadth": 0.4452
           },
           "breadth": {
-            "breadth20": 0.2258,
-            "delta5": -0.0645
+            "breadth20": 0.3371,
+            "delta5": -0.1236
           },
           "confirmation": [
             {
@@ -12394,7 +12401,7 @@
               "candidate_reference": 10518.392,
               "rsi14": 71.78805715592797,
               "volume_ratio": 1.1186894884681353,
-              "breadth_delta5": 0.09677419354838712
+              "breadth_delta5": 0.1235955056179775
             }
           ]
         },
@@ -12404,7 +12411,7 @@
           "price": 9514.864,
           "candidate_date": "2024-09-13",
           "grade": "B",
-          "score": 0.3986,
+          "score": 0.3972,
           "core_hits": 1,
           "factors": {
             "position": 0.832,
@@ -12412,11 +12419,11 @@
             "volume": 0.0728,
             "volatility": 0.3936,
             "trend": 0.5724,
-            "breadth": 0.5208
+            "breadth": 0.5124
           },
           "breadth": {
-            "breadth20": 0.0968,
-            "delta5": -0.0645
+            "breadth20": 0.1222,
+            "delta5": -0.1222
           },
           "confirmation": [
             {
@@ -12430,7 +12437,7 @@
               "candidate_reference": 8084.353,
               "rsi14": 82.1203479021877,
               "volume_ratio": 1.4281121397600043,
-              "breadth_delta5": 0.6451612903225806
+              "breadth_delta5": 0.6111111111111112
             }
           ]
         }
@@ -12630,9 +12637,9 @@
       "candidates": [],
       "bottom_zones": [
         {
-          "start_date": "2021-07-28",
-          "end_date": "2021-07-28",
-          "days": 1,
+          "start_date": "2021-07-27",
+          "end_date": "2021-07-29",
+          "days": 3,
           "has_divergence": false
         },
         {
@@ -12666,9 +12673,15 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-02-24",
+          "end_date": "2022-02-24",
+          "days": 1,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-03-07",
           "end_date": "2022-03-16",
-          "days": 7,
+          "days": 8,
           "has_divergence": true
         },
         {
@@ -12679,26 +12692,20 @@
         },
         {
           "start_date": "2022-04-07",
-          "end_date": "2022-04-07",
-          "days": 1,
-          "has_divergence": false
+          "end_date": "2022-04-11",
+          "days": 3,
+          "has_divergence": true
         },
         {
           "start_date": "2022-04-13",
-          "end_date": "2022-04-13",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-15",
-          "end_date": "2022-04-18",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-20",
           "end_date": "2022-04-28",
-          "days": 7,
+          "days": 12,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
+          "days": 1,
           "has_divergence": false
         },
         {
@@ -12756,9 +12763,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-22",
-          "days": 6,
+          "days": 5,
           "has_divergence": false
         },
         {
@@ -12769,9 +12776,9 @@
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
-          "has_divergence": false
+          "end_date": "2024-01-10",
+          "days": 3,
+          "has_divergence": true
         },
         {
           "start_date": "2024-01-17",
@@ -12814,12 +12821,6 @@
           "end_date": "2024-07-08",
           "days": 1,
           "has_divergence": false
-        },
-        {
-          "start_date": "2024-07-23",
-          "end_date": "2024-07-24",
-          "days": 2,
-          "has_divergence": true
         },
         {
           "start_date": "2024-08-22",
@@ -12907,25 +12908,13 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": true
         },
         {
           "start_date": "2026-09-15",
           "end_date": "2026-09-15",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-09-17",
-          "end_date": "2026-09-17",
           "days": 1,
           "has_divergence": false
         },
@@ -12937,14 +12926,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -18827,7 +18810,7 @@
           "price": 2539.521,
           "candidate_date": "2022-10-10",
           "grade": "B",
-          "score": 0.4682,
+          "score": 0.4742,
           "core_hits": 2,
           "factors": {
             "position": 0.875,
@@ -18835,11 +18818,11 @@
             "volume": 0.3416,
             "volatility": 0.464,
             "trend": 0.4788,
-            "breadth": 0.6496
+            "breadth": 0.686
           },
           "breadth": {
             "breadth20": 0.0,
-            "delta5": 0.0
+            "delta5": -0.0112
           },
           "confirmation": [
             {
@@ -18853,7 +18836,7 @@
               "candidate_reference": 2301.236,
               "rsi14": 70.90517660366861,
               "volume_ratio": 1.1350100562690792,
-              "breadth_delta5": 0.09677419354838712
+              "breadth_delta5": 0.1235955056179775
             }
           ]
         },
@@ -18863,7 +18846,7 @@
           "price": 1885.489,
           "candidate_date": "2024-09-23",
           "grade": "B",
-          "score": 0.6523,
+          "score": 0.6408,
           "core_hits": 0,
           "factors": {
             "position": 0.531,
@@ -18871,11 +18854,11 @@
             "volume": 0.336,
             "volatility": 0.5008,
             "trend": 0.9856,
-            "breadth": 0.5604
+            "breadth": 0.4912
           },
           "breadth": {
-            "breadth20": 0.4839,
-            "delta5": 0.3548
+            "breadth20": 0.4,
+            "delta5": 0.2
           },
           "confirmation": [
             {
@@ -18889,7 +18872,7 @@
               "candidate_reference": 1548.409,
               "rsi14": 83.42865265059038,
               "volume_ratio": 1.4901033767430283,
-              "breadth_delta5": 0.6451612903225806
+              "breadth_delta5": 0.6111111111111112
             }
           ]
         }
@@ -19089,9 +19072,9 @@
       "candidates": [],
       "bottom_zones": [
         {
-          "start_date": "2021-07-28",
+          "start_date": "2021-07-27",
           "end_date": "2021-07-28",
-          "days": 1,
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -19113,16 +19096,16 @@
           "has_divergence": true
         },
         {
-          "start_date": "2022-02-22",
+          "start_date": "2022-02-21",
           "end_date": "2022-02-22",
-          "days": 1,
+          "days": 2,
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-03-07",
           "end_date": "2022-03-10",
-          "days": 3,
-          "has_divergence": false
+          "days": 4,
+          "has_divergence": true
         },
         {
           "start_date": "2022-03-14",
@@ -19132,31 +19115,25 @@
         },
         {
           "start_date": "2022-04-07",
-          "end_date": "2022-04-07",
-          "days": 1,
-          "has_divergence": false
+          "end_date": "2022-04-11",
+          "days": 3,
+          "has_divergence": true
         },
         {
           "start_date": "2022-04-13",
-          "end_date": "2022-04-13",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-15",
-          "end_date": "2022-04-18",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-20",
           "end_date": "2022-04-28",
-          "days": 7,
-          "has_divergence": false
+          "days": 12,
+          "has_divergence": true
         },
         {
           "start_date": "2022-05-09",
           "end_date": "2022-05-09",
+          "days": 1,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
           "days": 1,
           "has_divergence": false
         },
@@ -19198,8 +19175,8 @@
         },
         {
           "start_date": "2023-06-06",
-          "end_date": "2023-06-07",
-          "days": 2,
+          "end_date": "2023-06-06",
+          "days": 1,
           "has_divergence": true
         },
         {
@@ -19215,9 +19192,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2023-09-21",
+          "start_date": "2023-09-20",
           "end_date": "2023-09-21",
-          "days": 1,
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -19227,16 +19204,16 @@
           "has_divergence": false
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-20",
-          "days": 4,
+          "days": 3,
           "has_divergence": false
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
-          "has_divergence": false
+          "end_date": "2024-01-10",
+          "days": 3,
+          "has_divergence": true
         },
         {
           "start_date": "2024-01-17",
@@ -19275,9 +19252,9 @@
           "has_divergence": true
         },
         {
-          "start_date": "2024-08-21",
+          "start_date": "2024-08-22",
           "end_date": "2024-08-22",
-          "days": 2,
+          "days": 1,
           "has_divergence": false
         },
         {
@@ -19342,25 +19319,13 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": true
         },
         {
           "start_date": "2026-09-15",
           "end_date": "2026-09-15",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-09-17",
-          "end_date": "2026-09-17",
           "days": 1,
           "has_divergence": false
         },
@@ -19372,14 +19337,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         },
         {
@@ -25268,7 +25227,7 @@
           "price": 1397.769,
           "candidate_date": "2021-03-25",
           "grade": "B",
-          "score": 0.4091,
+          "score": 0.4268,
           "core_hits": 0,
           "factors": {
             "position": null,
@@ -25276,11 +25235,11 @@
             "volume": 0.4737,
             "volatility": 0.1636,
             "trend": null,
-            "breadth": 0.3323
+            "breadth": 0.403
           },
           "breadth": {
-            "breadth20": 0.4516,
-            "delta5": -0.2817
+            "breadth20": 0.4222,
+            "delta5": -0.2222
           },
           "confirmation": [
             {
@@ -25294,7 +25253,7 @@
               "candidate_reference": 1230.788,
               "rsi14": 70.75403675489767,
               "volume_ratio": 1.521811665215442,
-              "breadth_delta5": 0.4516129032258064
+              "breadth_delta5": 0.4222222222222223
             }
           ]
         },
@@ -25304,7 +25263,7 @@
           "price": 740.016,
           "candidate_date": "2024-09-23",
           "grade": "B",
-          "score": 0.4385,
+          "score": 0.4269,
           "core_hits": 1,
           "factors": {
             "position": 0.781,
@@ -25312,11 +25271,11 @@
             "volume": 0.0728,
             "volatility": 0.0544,
             "trend": 0.8288,
-            "breadth": 0.5604
+            "breadth": 0.4912
           },
           "breadth": {
-            "breadth20": 0.4839,
-            "delta5": 0.3548
+            "breadth20": 0.4,
+            "delta5": 0.2
           },
           "confirmation": [
             {
@@ -25330,7 +25289,7 @@
               "candidate_reference": 652.254,
               "rsi14": 71.68789318016172,
               "volume_ratio": 1.0670729968082544,
-              "breadth_delta5": 0.6451612903225806
+              "breadth_delta5": 0.6111111111111112
             }
           ]
         },
@@ -25340,7 +25299,7 @@
           "price": 1455.173,
           "candidate_date": "2025-11-21",
           "grade": "B",
-          "score": 0.4348,
+          "score": 0.433,
           "core_hits": 2,
           "factors": {
             "position": 0.981,
@@ -25348,11 +25307,11 @@
             "volume": 0.28,
             "volatility": 0.5424,
             "trend": 0.128,
-            "breadth": 0.6776
+            "breadth": 0.6664
           },
           "breadth": {
-            "breadth20": 0.0,
-            "delta5": -0.8065
+            "breadth20": 0.0333,
+            "delta5": -0.7444
           },
           "confirmation": [
             {
@@ -25366,7 +25325,7 @@
               "candidate_reference": 1311.324,
               "rsi14": 70.35368353082269,
               "volume_ratio": 1.219155601677874,
-              "breadth_delta5": 0.32258064516129037
+              "breadth_delta5": 0.288888888888889
             }
           ]
         },
@@ -25376,7 +25335,7 @@
           "price": 1422.228,
           "candidate_date": "2026-04-03",
           "grade": "A",
-          "score": 0.5817,
+          "score": 0.5803,
           "core_hits": 3,
           "factors": {
             "position": 0.887,
@@ -25384,11 +25343,11 @@
             "volume": 0.6496,
             "volatility": 0.5616,
             "trend": 0.0448,
-            "breadth": 0.6804
+            "breadth": 0.672
           },
           "breadth": {
-            "breadth20": 0.0323,
-            "delta5": -0.0323
+            "breadth20": 0.0556,
+            "delta5": 0.0
           },
           "confirmation": [
             {
@@ -25402,7 +25361,7 @@
               "candidate_reference": 1272.837,
               "rsi14": 61.16099499395078,
               "volume_ratio": 1.07944930901796,
-              "breadth_delta5": 0.6451612903225806
+              "breadth_delta5": 0.49999999999999994
             }
           ]
         }
@@ -25665,9 +25624,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-03-07",
           "end_date": "2022-03-10",
-          "days": 3,
+          "days": 4,
           "has_divergence": true
         },
         {
@@ -25684,26 +25643,20 @@
         },
         {
           "start_date": "2022-03-31",
-          "end_date": "2022-04-07",
-          "days": 4,
+          "end_date": "2022-04-11",
+          "days": 6,
           "has_divergence": false
         },
         {
           "start_date": "2022-04-13",
-          "end_date": "2022-04-13",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-15",
           "end_date": "2022-04-15",
-          "days": 1,
+          "days": 3,
           "has_divergence": false
         },
         {
-          "start_date": "2022-04-20",
+          "start_date": "2022-04-19",
           "end_date": "2022-04-28",
-          "days": 7,
+          "days": 8,
           "has_divergence": true
         },
         {
@@ -25711,6 +25664,12 @@
           "end_date": "2022-07-12",
           "days": 1,
           "has_divergence": true
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
+          "days": 1,
+          "has_divergence": false
         },
         {
           "start_date": "2022-09-15",
@@ -25780,20 +25739,14 @@
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
+          "end_date": "2024-01-10",
+          "days": 3,
           "has_divergence": false
         },
         {
           "start_date": "2024-01-15",
-          "end_date": "2024-01-15",
-          "days": 1,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2024-01-17",
           "end_date": "2024-01-24",
-          "days": 6,
+          "days": 8,
           "has_divergence": true
         },
         {
@@ -25801,6 +25754,18 @@
           "end_date": "2024-02-05",
           "days": 6,
           "has_divergence": true
+        },
+        {
+          "start_date": "2024-03-27",
+          "end_date": "2024-03-27",
+          "days": 1,
+          "has_divergence": true
+        },
+        {
+          "start_date": "2024-05-24",
+          "end_date": "2024-05-24",
+          "days": 1,
+          "has_divergence": false
         },
         {
           "start_date": "2024-06-25",
@@ -25918,14 +25883,8 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": true
         },
         {
@@ -25942,14 +25901,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -31832,7 +31785,7 @@
           "price": 4166.085,
           "candidate_date": "2022-04-26",
           "grade": "B",
-          "score": 0.5916,
+          "score": 0.593,
           "core_hits": 2,
           "factors": {
             "position": 0.977,
@@ -31840,11 +31793,11 @@
             "volume": 0.4928,
             "volatility": 0.9328,
             "trend": 0.4636,
-            "breadth": 0.6832
+            "breadth": 0.6916
           },
           "breadth": {
             "breadth20": 0.0,
-            "delta5": -0.2903
+            "delta5": -0.2247
           },
           "confirmation": [
             {
@@ -31858,7 +31811,7 @@
               "candidate_reference": 3871.85,
               "rsi14": 61.47556243795918,
               "volume_ratio": 1.305001355741084,
-              "breadth_delta5": 0.0
+              "breadth_delta5": 0.03370786516853941
             }
           ]
         },
@@ -31868,7 +31821,7 @@
           "price": 3456.871,
           "candidate_date": "2024-02-02",
           "grade": "B",
-          "score": 0.5362,
+          "score": 0.5428,
           "core_hits": 2,
           "factors": {
             "position": 0.923,
@@ -31876,11 +31829,11 @@
             "volume": 0.5264,
             "volatility": 0.648,
             "trend": 0.4732,
-            "breadth": 0.6468
+            "breadth": 0.686
           },
           "breadth": {
-            "breadth20": 0.0323,
-            "delta5": -0.1613
+            "breadth20": 0.0111,
+            "delta5": -0.1333
           },
           "confirmation": [
             {
@@ -31894,7 +31847,7 @@
               "candidate_reference": 3235.408,
               "rsi14": 65.89188952652832,
               "volume_ratio": 1.0270102833416759,
-              "breadth_delta5": 0.16129032258064516
+              "breadth_delta5": 0.17777777777777778
             }
           ]
         },
@@ -31904,7 +31857,7 @@
           "price": 3545.32,
           "candidate_date": "2024-09-13",
           "grade": "B",
-          "score": 0.494,
+          "score": 0.4926,
           "core_hits": 1,
           "factors": {
             "position": 0.873,
@@ -31912,11 +31865,11 @@
             "volume": 0.5096,
             "volatility": 0.5376,
             "trend": 0.5228,
-            "breadth": 0.5208
+            "breadth": 0.5124
           },
           "breadth": {
-            "breadth20": 0.0968,
-            "delta5": -0.0645
+            "breadth20": 0.1222,
+            "delta5": -0.1222
           },
           "confirmation": [
             {
@@ -31930,7 +31883,7 @@
               "candidate_reference": 3188.915,
               "rsi14": 77.28459108640416,
               "volume_ratio": 1.3474814464153686,
-              "breadth_delta5": 0.4193548387096774
+              "breadth_delta5": 0.5333333333333333
             }
           ]
         }
@@ -32146,9 +32099,9 @@
       "candidates": [],
       "bottom_zones": [
         {
-          "start_date": "2021-07-28",
-          "end_date": "2021-07-28",
-          "days": 1,
+          "start_date": "2021-07-27",
+          "end_date": "2021-07-29",
+          "days": 3,
           "has_divergence": false
         },
         {
@@ -32171,8 +32124,8 @@
         },
         {
           "start_date": "2021-11-05",
-          "end_date": "2021-11-10",
-          "days": 4,
+          "end_date": "2021-11-08",
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -32194,9 +32147,15 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-02-24",
+          "end_date": "2022-02-24",
+          "days": 1,
+          "has_divergence": true
+        },
+        {
+          "start_date": "2022-03-07",
           "end_date": "2022-03-16",
-          "days": 7,
+          "days": 8,
           "has_divergence": true
         },
         {
@@ -32206,9 +32165,15 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-04-20",
+          "start_date": "2022-04-11",
+          "end_date": "2022-04-11",
+          "days": 1,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-04-19",
           "end_date": "2022-04-28",
-          "days": 7,
+          "days": 8,
           "has_divergence": true
         },
         {
@@ -32216,6 +32181,12 @@
           "end_date": "2022-05-09",
           "days": 2,
           "has_divergence": false
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
+          "days": 1,
+          "has_divergence": true
         },
         {
           "start_date": "2022-09-16",
@@ -32236,27 +32207,21 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-10-21",
-          "end_date": "2022-10-21",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
           "start_date": "2023-10-18",
           "end_date": "2023-10-26",
           "days": 7,
           "has_divergence": false
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-21",
-          "days": 5,
+          "days": 4,
           "has_divergence": false
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
+          "end_date": "2024-01-10",
+          "days": 3,
           "has_divergence": true
         },
         {
@@ -32290,8 +32255,8 @@
           "has_divergence": false
         },
         {
-          "start_date": "2024-08-29",
-          "end_date": "2024-08-29",
+          "start_date": "2024-07-30",
+          "end_date": "2024-07-30",
           "days": 1,
           "has_divergence": false
         },
@@ -32393,25 +32358,13 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": false
         },
         {
           "start_date": "2026-09-15",
           "end_date": "2026-09-15",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-09-17",
-          "end_date": "2026-09-17",
           "days": 1,
           "has_divergence": false
         },
@@ -32423,14 +32376,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -38313,7 +38260,7 @@
           "price": 6289.15,
           "candidate_date": "2022-10-10",
           "grade": "B",
-          "score": 0.4842,
+          "score": 0.4902,
           "core_hits": 2,
           "factors": {
             "position": 0.903,
@@ -38321,11 +38268,11 @@
             "volume": 0.2632,
             "volatility": 0.6032,
             "trend": 0.486,
-            "breadth": 0.6496
+            "breadth": 0.686
           },
           "breadth": {
             "breadth20": 0.0,
-            "delta5": 0.0
+            "delta5": -0.0112
           },
           "confirmation": [
             {
@@ -38339,7 +38286,7 @@
               "candidate_reference": 5758.042,
               "rsi14": 74.06254637040088,
               "volume_ratio": 1.3303416504231993,
-              "breadth_delta5": 0.09677419354838712
+              "breadth_delta5": 0.0449438202247191
             },
             {
               "date": "2023-01-31",
@@ -38352,7 +38299,7 @@
               "candidate_reference": 5758.042,
               "rsi14": 74.40020657457536,
               "volume_ratio": 1.146514840983885,
-              "breadth_delta5": 0.12903225806451613
+              "breadth_delta5": 0.0898876404494382
             }
           ]
         },
@@ -38362,7 +38309,7 @@
           "price": 5201.666,
           "candidate_date": "2024-09-13",
           "grade": "B",
-          "score": 0.5662,
+          "score": 0.5648,
           "core_hits": 1,
           "factors": {
             "position": 0.849,
@@ -38370,11 +38317,11 @@
             "volume": 0.1456,
             "volatility": 0.3296,
             "trend": 0.5524,
-            "breadth": 0.5208
+            "breadth": 0.5124
           },
           "breadth": {
-            "breadth20": 0.0968,
-            "delta5": -0.0645
+            "breadth20": 0.1222,
+            "delta5": -0.1222
           },
           "confirmation": [
             {
@@ -38388,7 +38335,7 @@
               "candidate_reference": 4509.072,
               "rsi14": 79.84192636107989,
               "volume_ratio": 1.2351477376750903,
-              "breadth_delta5": 0.6451612903225806
+              "breadth_delta5": 0.6111111111111112
             }
           ]
         }
@@ -38588,9 +38535,9 @@
       "candidates": [],
       "bottom_zones": [
         {
-          "start_date": "2021-07-28",
-          "end_date": "2021-07-28",
-          "days": 1,
+          "start_date": "2021-07-27",
+          "end_date": "2021-07-29",
+          "days": 3,
           "has_divergence": false
         },
         {
@@ -38619,15 +38566,15 @@
         },
         {
           "start_date": "2022-01-20",
-          "end_date": "2022-02-16",
-          "days": 15,
+          "end_date": "2022-02-17",
+          "days": 16,
           "has_divergence": true
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-03-07",
           "end_date": "2022-03-22",
-          "days": 11,
-          "has_divergence": false
+          "days": 12,
+          "has_divergence": true
         },
         {
           "start_date": "2022-03-24",
@@ -38637,26 +38584,14 @@
         },
         {
           "start_date": "2022-04-07",
-          "end_date": "2022-04-07",
-          "days": 1,
+          "end_date": "2022-04-11",
+          "days": 3,
           "has_divergence": false
         },
         {
           "start_date": "2022-04-13",
-          "end_date": "2022-04-13",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-15",
-          "end_date": "2022-04-18",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2022-04-20",
           "end_date": "2022-04-29",
-          "days": 8,
+          "days": 13,
           "has_divergence": true
         },
         {
@@ -38668,6 +38603,12 @@
         {
           "start_date": "2022-07-15",
           "end_date": "2022-07-15",
+          "days": 1,
+          "has_divergence": false
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
           "days": 1,
           "has_divergence": false
         },
@@ -38720,15 +38661,15 @@
           "has_divergence": false
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-27",
-          "days": 9,
-          "has_divergence": true
+          "days": 8,
+          "has_divergence": false
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
+          "end_date": "2024-01-10",
+          "days": 3,
           "has_divergence": true
         },
         {
@@ -38750,6 +38691,12 @@
           "has_divergence": true
         },
         {
+          "start_date": "2024-03-27",
+          "end_date": "2024-03-27",
+          "days": 1,
+          "has_divergence": true
+        },
+        {
           "start_date": "2024-06-20",
           "end_date": "2024-06-28",
           "days": 7,
@@ -38762,15 +38709,9 @@
           "has_divergence": true
         },
         {
-          "start_date": "2024-07-23",
-          "end_date": "2024-07-24",
-          "days": 2,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2024-08-21",
+          "start_date": "2024-08-22",
           "end_date": "2024-08-23",
-          "days": 3,
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -38835,14 +38776,8 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": true
         },
         {
@@ -38859,14 +38794,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -44749,19 +44678,19 @@
           "price": 6854.734,
           "candidate_date": "2021-02-05",
           "grade": "B",
-          "score": 0.3283,
-          "core_hits": 1,
+          "score": 0.0,
+          "core_hits": 0,
           "factors": {
             "position": null,
             "divergence": 0.0,
             "volume": null,
             "volatility": null,
             "trend": null,
-            "breadth": 0.6567
+            "breadth": null
           },
           "breadth": {
             "breadth20": 0.0667,
-            "delta5": 0.0667
+            "delta5": -0.0444
           },
           "confirmation": [
             {
@@ -44775,7 +44704,7 @@
               "candidate_reference": 6214.277,
               "rsi14": 78.68607035969937,
               "volume_ratio": 1.0615897343673268,
-              "breadth_delta5": 0.12903225806451613
+              "breadth_delta5": 0.16666666666666663
             }
           ]
         },
@@ -44785,7 +44714,7 @@
           "price": 6805.276,
           "candidate_date": "2022-10-10",
           "grade": "B",
-          "score": 0.5398,
+          "score": 0.5459,
           "core_hits": 2,
           "factors": {
             "position": 0.929,
@@ -44793,11 +44722,11 @@
             "volume": 0.476,
             "volatility": 0.7168,
             "trend": 0.4676,
-            "breadth": 0.6496
+            "breadth": 0.686
           },
           "breadth": {
             "breadth20": 0.0,
-            "delta5": 0.0
+            "delta5": -0.0112
           },
           "confirmation": [
             {
@@ -44811,7 +44740,7 @@
               "candidate_reference": 6154.063,
               "rsi14": 71.6703691600547,
               "volume_ratio": 1.38751718358231,
-              "breadth_delta5": 0.09677419354838712
+              "breadth_delta5": 0.0449438202247191
             },
             {
               "date": "2023-01-31",
@@ -44824,7 +44753,7 @@
               "candidate_reference": 6154.063,
               "rsi14": 72.576386389317,
               "volume_ratio": 1.128145960824875,
-              "breadth_delta5": 0.12903225806451613
+              "breadth_delta5": 0.0898876404494382
             }
           ]
         },
@@ -44834,7 +44763,7 @@
           "price": 6284.611,
           "candidate_date": "2025-01-10",
           "grade": "B",
-          "score": 0.5344,
+          "score": 0.5381,
           "core_hits": 2,
           "factors": {
             "position": 0.712,
@@ -44842,7 +44771,7 @@
             "volume": 0.532,
             "volatility": 0.5184,
             "trend": 0.1136,
-            "breadth": 0.6636
+            "breadth": 0.686
           },
           "breadth": {
             "breadth20": 0.0,
@@ -44860,7 +44789,7 @@
               "candidate_reference": 5718.212,
               "rsi14": 65.6284053677452,
               "volume_ratio": 0.9718957927723084,
-              "breadth_delta5": 0.22580645161290325
+              "breadth_delta5": 0.25555555555555554
             }
           ]
         }
@@ -45101,9 +45030,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2022-03-08",
+          "start_date": "2022-03-07",
           "end_date": "2022-03-18",
-          "days": 9,
+          "days": 10,
           "has_divergence": true
         },
         {
@@ -45114,27 +45043,21 @@
         },
         {
           "start_date": "2022-03-31",
-          "end_date": "2022-04-07",
-          "days": 4,
-          "has_divergence": false
+          "end_date": "2022-04-11",
+          "days": 6,
+          "has_divergence": true
         },
         {
           "start_date": "2022-04-13",
-          "end_date": "2022-04-13",
-          "days": 1,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2022-04-15",
-          "end_date": "2022-04-18",
-          "days": 2,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2022-04-20",
           "end_date": "2022-05-06",
-          "days": 10,
+          "days": 15,
           "has_divergence": true
+        },
+        {
+          "start_date": "2022-09-01",
+          "end_date": "2022-09-01",
+          "days": 1,
+          "has_divergence": false
         },
         {
           "start_date": "2022-09-15",
@@ -45167,27 +45090,21 @@
           "has_divergence": true
         },
         {
-          "start_date": "2023-12-15",
+          "start_date": "2023-12-18",
           "end_date": "2023-12-27",
-          "days": 9,
+          "days": 8,
           "has_divergence": false
         },
         {
           "start_date": "2024-01-08",
-          "end_date": "2024-01-08",
-          "days": 1,
+          "end_date": "2024-01-10",
+          "days": 3,
           "has_divergence": true
         },
         {
           "start_date": "2024-01-15",
-          "end_date": "2024-01-15",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2024-01-17",
           "end_date": "2024-01-24",
-          "days": 6,
+          "days": 8,
           "has_divergence": false
         },
         {
@@ -45233,15 +45150,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2024-07-23",
-          "end_date": "2024-07-24",
-          "days": 2,
-          "has_divergence": true
-        },
-        {
-          "start_date": "2024-08-21",
+          "start_date": "2024-08-22",
           "end_date": "2024-08-23",
-          "days": 3,
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -45287,9 +45198,9 @@
           "has_divergence": false
         },
         {
-          "start_date": "2026-02-06",
+          "start_date": "2026-02-05",
           "end_date": "2026-02-06",
-          "days": 1,
+          "days": 2,
           "has_divergence": false
         },
         {
@@ -45318,14 +45229,8 @@
         },
         {
           "start_date": "2026-07-24",
-          "end_date": "2026-07-24",
-          "days": 1,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-07-28",
-          "end_date": "2026-07-31",
-          "days": 4,
+          "end_date": "2026-08-03",
+          "days": 7,
           "has_divergence": true
         },
         {
@@ -45342,14 +45247,8 @@
         },
         {
           "start_date": "2026-10-12",
-          "end_date": "2026-10-13",
-          "days": 2,
-          "has_divergence": false
-        },
-        {
-          "start_date": "2026-10-15",
           "end_date": "2026-11-03",
-          "days": 14,
+          "days": 17,
           "has_divergence": true
         }
       ]
@@ -45457,6 +45356,16 @@
       "change_since": 16.1828
     },
     {
+      "date": "2024-02-20",
+      "code": "sh000001",
+      "name": "上证指数",
+      "type": "bottom",
+      "price": 2922.73,
+      "grade": "A",
+      "max_drawdown_20": 0.009657409339898004,
+      "change_since": 24.3479
+    },
+    {
       "date": "2023-01-31",
       "code": "sh000905",
       "name": "中证500",
@@ -45495,16 +45404,6 @@
       "grade": "B",
       "max_drawdown_20": -0.0059392820221813025,
       "change_since": -6.9319
-    },
-    {
-      "date": "2022-11-15",
-      "code": "sh000001",
-      "name": "上证指数",
-      "type": "bottom",
-      "price": 3134.078,
-      "grade": "B",
-      "max_drawdown_20": -0.0177178104692991,
-      "change_since": 15.9624
     },
     {
       "date": "2022-06-06",

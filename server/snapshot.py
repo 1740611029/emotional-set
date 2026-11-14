@@ -234,8 +234,8 @@ _BREADTH_LOCK = threading.Lock()
 
 
 def breadth_frame() -> pd.DataFrame | None:
-    """东财行业板块宽度（与收盘重建读同一份日线），按文件修改时间缓存；板块文件不足 20 个时返回 None。"""
-    files = sorted(paths.SECTOR_EM_RAW.glob("*.csv"))
+    """同花顺行业指数宽度（与收盘重建读同一份日线），按文件修改时间缓存；板块文件不足 20 个时返回 None。"""
+    files = sorted(paths.SECTOR_THS_RAW.glob("*.csv"))
     if len(files) < 20:
         return None
     mtime = max(path.stat().st_mtime for path in files)

@@ -1,0 +1,68 @@
+[
+  {
+    "probe": "sina-kline-sw801010",
+    "ts": "2026-11-14T18:47:08+08:00",
+    "success": false,
+    "latency_seconds": 0.471,
+    "error": null,
+    "status": 200,
+    "url": "https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20t=/CN_MarketDataService.getKLineData",
+    "body_preview": "/*<script>location.href='//sina.com';</script>*/\nvar t=(null);",
+    "body_len": 62
+  },
+  {
+    "probe": "sina-kline-SW801010",
+    "ts": "2026-11-14T18:47:11+08:00",
+    "success": false,
+    "latency_seconds": 0.061,
+    "error": null,
+    "status": 200,
+    "url": "https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20t=/CN_MarketDataService.getKLineData",
+    "body_preview": "/*<script>location.href='//sina.com';</script>*/\nvar t=(null);",
+    "body_len": 62
+  },
+  {
+    "probe": "sina-kline-sh801010",
+    "ts": "2026-11-14T18:47:13+08:00",
+    "success": false,
+    "latency_seconds": 0.057,
+    "error": null,
+    "status": 200,
+    "url": "https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20t=/CN_MarketDataService.getKLineData",
+    "body_preview": "/*<script>location.href='//sina.com';</script>*/\nvar t=(null);",
+    "body_len": 62
+  },
+  {
+    "probe": "sina-kline-sz801010",
+    "ts": "2026-11-14T18:47:15+08:00",
+    "success": false,
+    "latency_seconds": 0.065,
+    "error": null,
+    "status": 200,
+    "url": "https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20t=/CN_MarketDataService.getKLineData",
+    "body_preview": "/*<script>location.href='//sina.com';</script>*/\nvar t=(null);",
+    "body_len": 62
+  },
+  {
+    "probe": "tencent-kline-sz801010",
+    "ts": "2026-11-14T18:47:17+08:00",
+    "success": true,
+    "latency_seconds": 0.389,
+    "error": null,
+    "status": 200,
+    "url": "https://web.ifzq.gtimg.cn/appstock/app/kline/kline",
+    "body_preview": "{\"code\":0,\"msg\":\"\",\"data\":{\"sz801010\":{\"day\":[],\"qt\":{\"sz801010\":[],\"market\":[\"2026-11-14 18:47:13|HK_close_\\u5df2\\u4f11\\u5e02|SH_close_\\u5df2\\u4f11\\u5e02|SZ_close_\\u5df2\\u4f11\\u5e02|US_close_\\u5df2\\u4f11\\u5e02|SQ_close_\\u5df2\\u4f11\\u5e02|DS_close_\\u5df2\\u4f11\\u5e02|ZS_close_\\u5df2\\u4f11\\u5e02|NEWSH_close_\\u5df2\\u4f11\\u5e02|NEWSZ_close_\\u5df2\\u4f11\\u5e02|NEWHK_close_\\u5df2\\u4f11\\u5e02|NEWUS_close_\\u5df2\\u4f11\\u5e02|REPO_close_\\u5df2\\u4f11\\u5e02|UK_close_\\u5df2\\u4f11\\u5e02|KCB_close_\\u5df2\\u4f11\\u5e02|HSZB_close_\\u5df2\\u4f11\\u5e02|IT_close_\\u5df2\\u4f11\\u5e02|MY_close_\\u5df2\\u4f11\\u5e02|EU_close",
+    "body_len": 910
+  },
+  {
+    "probe": "tencent-kline-sh801010",
+    "ts": "2026-11-14T18:47:19+08:00",
+    "success": true,
+    "latency_seconds": 0.037,
+    "error": null,
+    "status": 200,
+    "url": "https://web.ifzq.gtimg.cn/appstock/app/kline/kline",
+    "body_preview": "{\"code\":0,\"msg\":\"\",\"data\":{\"sh801010\":{\"day\":[],\"qt\":{\"sh801010\":[],\"market\":[\"2026-11-14 18:47:16|HK_close_\\u5df2\\u4f11\\u5e02|SH_close_\\u5df2\\u4f11\\u5e02|SZ_close_\\u5df2\\u4f11\\u5e02|US_close_\\u5df2\\u4f11\\u5e02|SQ_close_\\u5df2\\u4f11\\u5e02|DS_close_\\u5df2\\u4f11\\u5e02|ZS_close_\\u5df2\\u4f11\\u5e02|NEWSH_close_\\u5df2\\u4f11\\u5e02|NEWSZ_close_\\u5df2\\u4f11\\u5e02|NEWHK_close_\\u5df2\\u4f11\\u5e02|NEWUS_close_\\u5df2\\u4f11\\u5e02|REPO_close_\\u5df2\\u4f11\\u5e02|UK_close_\\u5df2\\u4f11\\u5e02|KCB_close_\\u5df2\\u4f11\\u5e02|HSZB_close_\\u5df2\\u4f11\\u5e02|IT_close_\\u5df2\\u4f11\\u5e02|MY_close_\\u5df2\\u4f11\\u5e02|EU_close",
+    "body_len": 910
+  }
+]

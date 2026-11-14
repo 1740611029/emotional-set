@@ -318,7 +318,7 @@ SECTOR_EVALUATION = {
     "type": "object",
     "required": ["algorithm_version", "research_status", "rate_unit", "boundary_policy", "note", "segments"],
     "properties": {
-        "algorithm_version": {"const": "sector-donchian20-ma60-v2.0-em-source"},
+        "algorithm_version": {"const": "sector-donchian20-ma60-v3.0-ths-source"},
         "research_status": {"const": "post_hoc_exploratory_not_independent"},
         "rate_unit": {"const": "fraction"},
         "boundary_policy": {"const": "strict_segment_end_inclusive"},
@@ -339,7 +339,7 @@ SECTOR_SCHEMA = {
     "required": ["as_of", "is_mock", "dates", "groups", "algorithm_version", "data_source"],
     "properties": {"as_of": DATE, "is_mock": {"type": "boolean"},
                    "algorithm_version": {"type": "string", "minLength": 1},
-                   "data_source": {"const": "东财行业板块"},
+                   "data_source": {"const": "同花顺行业指数（不复权）"},
                    "dates": {"type": "array", "minItems": 1, "items": DATE},
                    "groups": {"type": "object", "required": ["bull", "warn", "bear", "rise"],
                               "properties": {key: {"type": "array", "items": SECTOR_ITEM} for key in ["bull", "warn", "bear", "rise"]},
@@ -968,8 +968,8 @@ def validate_payload(name: str, payload: dict) -> None:
                 validate_index_evaluation(item)
     elif name == "sector-trends.json":
         total = sum(len(rows) for rows in payload["groups"].values())
-        if total != 31:
-            raise ValueError(f"行业板块（含 unclassified 占位）必须为 31 个，实际 {total}")
+        if total != 90:
+            raise ValueError(f"行业板块（含 unclassified 占位）必须为 90 个，实际 {total}")
         validate_sector_display(payload)
     elif name == "institution-positions.json":
         validate_institution_display(payload)

@@ -442,18 +442,18 @@ class SectorFreshnessTest(unittest.TestCase):
 
 
 class BreadthSourceTest(unittest.TestCase):
-    """盘中宽度必须与收盘同源：读东财行业板块目录，不足 20 个只降级为 None。"""
+    """盘中宽度必须与收盘同源：读同花顺行业指数目录，不足 20 个只降级为 None。"""
 
     def _make_directory(self, temp: str, count: int) -> Path:
         directory = Path(temp)
         for index in range(count):
-            (directory / f"BK{index:04d}.csv").write_text(
+            (directory / f"8811{index:02d}.csv").write_text(
                 "date,open,close,high,low,volume,amount\n2026-11-03,1,1,1,1,1,1\n", encoding="utf-8")
         return directory
 
     def _patched(self, directory: Path, table=None):
         patches = [
-            mock.patch.object(paths, "SECTOR_EM_RAW", directory),
+            mock.patch.object(paths, "SECTOR_THS_RAW", directory),
             mock.patch.object(snapshot_module, "_BREADTH_CACHE", {"mtime": None, "frame": None}),
         ]
         if table is not None:
@@ -462,9 +462,9 @@ class BreadthSourceTest(unittest.TestCase):
 
     def test_directory_matches_production_sector_raw(self):
         """防路径漂移：盘中宽度与 build_dashboard.load_breadth 读同一个目录。"""
-        from fetch_market import EM_SECTOR_RAW  # noqa: PLC0415  # 只在测试里引入，不影响服务启动链路
+        from fetch_market import THS_SECTOR_RAW  # noqa: PLC0415  # 只在测试里引入，不影响服务启动链路
 
-        self.assertEqual(paths.SECTOR_EM_RAW, EM_SECTOR_RAW)
+        self.assertEqual(paths.SECTOR_THS_RAW, THS_SECTOR_RAW)
 
     def test_insufficient_sectors_degrade_to_none(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -485,7 +485,7 @@ class BreadthSourceTest(unittest.TestCase):
                 frame = breadth_frame()
         self.assertIsNotNone(frame)
         self.assertEqual(len(seen), 21)
-        self.assertEqual(sorted(seen)[:2], ["BK0000", "BK0001"])
+        self.assertEqual(sorted(seen)[:2], ["881100", "881101"])
 
 
 class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
@@ -561,7 +561,7 @@ class CloseCompletionGateTest(unittest.IsolatedAsyncioTestCase):
 
 
 class EveningBackfillTest(unittest.IsolatedAsyncioTestCase):
-    """东财行业板块日线常在收盘数小时后才发布：17:30/20:00/22:00 各补试一次。"""
+    """同花顺行业指数日线通常在收盘当晚即可取得：17:30/20:00/22:00 按需各补试一次。"""
 
     async def test_no_backfill_before_first_slot(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
@@ -918,8 +918,8 @@ class SectorHistoryApiTest(unittest.TestCase):
                             [row["close"] for row in first["series"]])
 
     def test_all_sectors_are_queryable(self):
-        """分组里的每个板块都能单独拉到历史（31 个板块全量）。"""
-        self.assertEqual(len(self.sectors), 31)
+        """分组里的每个板块都能单独拉到历史（90 个板块全量）。"""
+        self.assertEqual(len(self.sectors), 90)
         for item in self.sectors:
             with self.subTest(code=item["code"]):
                 data = sector_history(item["code"], 60)

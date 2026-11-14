@@ -53,9 +53,9 @@ for %%A in (%1 %2) do (
 
 echo.
 echo Mode: refresh missing daily bars first, then rebuild.
-echo Only data lines that lag the last completed trading day are pulled; EM sector
-echo bars are usually final right after the close, while index bars catch up later in
-echo the evening, so the two products may differ by 1 trading day.
+echo Only data lines that lag the last completed trading day are pulled; THS
+echo industry bars are usually final right after the close, while index bars
+echo catch up later in the evening, so the two products may differ by 1 trading day.
 echo A full sector refresh takes about 10-30 minutes. Please keep this window open.
 echo.
 

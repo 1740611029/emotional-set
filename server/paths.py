@@ -3,6 +3,7 @@
 流水线模块使用扁平 import（与原项目一致，避免改动算法文件），
 因此这里在包导入时把 `pipeline/` 加入 sys.path。
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,10 +18,11 @@ SECTOR_TRENDS = DATA / "sector-trends.json"
 INSTITUTION_POSITIONS = DATA / "institution-positions.json"
 # ETF 放量事件产物：只做展示标记，不参与任何信号计算
 ETF_VOLUME_EVENTS = DATA / "etf-volume-events.json"
-# 盘中横截面宽度的板块日线目录：必须与收盘重建（`fetch_market.EM_SECTOR_RAW`）读同一份
-# 东财行业板块日线，由单测防路径漂移；这里不直接 import fetch_market 是为了不把 akshare
-# 拉进服务启动链路。
-SECTOR_EM_RAW = DATA / "raw" / "sectors-em-industry"
+# 盘中横截面宽度的板块日线目录：必须与收盘重建（`fetch_market.THS_SECTOR_RAW`）读同一份
+# 同花顺行业指数日线（2026-11-14 起由东财行业板块换源，90 个细分行业），由单测防路径漂移；
+# 这里不直接 import fetch_market 是为了不把 akshare 拉进服务启动链路。
+SECTOR_THS_RAW = DATA / "raw" / "sectors-ths-industry"
+SECTOR_THS_MANIFEST = DATA / "raw" / "sectors-ths-industry-manifest.json"
 # ETF 成交额序列（【ETF 放量】页）：只读原始日线，展示层专用，不参与任何信号与放量计算。
 # 同样不 import fetch_etf，避免把 akshare 拉进服务启动链路；universe 只取自 manifest。
 ETF_DAILY_RAW = DATA / "raw" / "etf-daily"

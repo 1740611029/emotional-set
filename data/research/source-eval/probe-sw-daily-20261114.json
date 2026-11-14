@@ -1,0 +1,35 @@
+[
+  {
+    "probe": "baidu-sw-daily",
+    "ts": "2026-11-14T18:46:13+08:00",
+    "success": false,
+    "latency_seconds": 0.382,
+    "error": null,
+    "status": 403,
+    "url": "https://finance.pae.baidu.com/vapi/v1/getquotation",
+    "body_preview": "{\"QueryID\":\"15438225421109719319\",\"Result\":{\"code\":403,\"isCaptchaEnabled\":true,\"msg\":\"hit risk\"},\"ResultCode\":0}",
+    "body_len": 112
+  },
+  {
+    "probe": "xueqiu-sw-daily-SI801010",
+    "ts": "2026-11-14T18:46:15+08:00",
+    "success": false,
+    "latency_seconds": 0.448,
+    "error": null,
+    "status": 400,
+    "url": "https://stock.xueqiu.com/v5/stock/chart/kline.json",
+    "body_preview": "{\"error_description\":\"遇到错误，请刷新页面或者重新登录帐号后再试\",\"error_uri\":\"/v5/stock/chart/kline.json\",\"error_data\":null,\"error_code\":\"400016\"}",
+    "body_len": 126
+  },
+  {
+    "probe": "tencent-sw-daily-sw801010",
+    "ts": "2026-11-14T18:46:17+08:00",
+    "success": true,
+    "latency_seconds": 0.392,
+    "error": null,
+    "status": 200,
+    "url": "https://web.ifzq.gtimg.cn/appstock/app/kline/kline",
+    "body_preview": "{\"code\":0,\"msg\":\"param error\",\"data\":[]}",
+    "body_len": 40
+  }
+]

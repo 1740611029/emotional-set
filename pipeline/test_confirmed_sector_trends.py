@@ -269,7 +269,7 @@ class SectorHistoryTest(unittest.TestCase):
 
     def test_state_codes_cover_four_states(self):
         self.assertEqual(set(STATE_CODES.values()), {"B", "W", "D", "R"})
-        self.assertEqual(ALGORITHM_VERSION, "sector-donchian20-ma60-v2.0-em-source")
+        self.assertEqual(ALGORITHM_VERSION, "sector-donchian20-ma60-v3.0-ths-source")
 
 
 class SectorEvaluationTest(unittest.TestCase):

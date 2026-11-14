@@ -23,10 +23,10 @@ import pandas as pd  # noqa: E402
 
 from fetch_etf import ETF_DAILY_RAW, ETF_UNIVERSE  # noqa: E402
 from fetch_market import (  # noqa: E402
-    EM_SECTOR_MANIFEST, EM_SECTOR_RAW, INDEX_RAW, INDEX_SOURCE, INDEXES, MIN_SECTOR_ROWS, RAW,
+    THS_SECTOR_MANIFEST, THS_SECTOR_RAW, INDEX_RAW, INDEX_SOURCE, INDEXES, MIN_SECTOR_ROWS, RAW,
     SECTOR_BATCH_PAUSE, SECTOR_BATCH_SIZE, SECTOR_COLUMNS, SECTOR_REQUEST_GAP,
-    EmRateLimitedError, call_with_retry, check_sector_universe, em_cooldown_remaining,
-    fetch_index_daily_sina, fetch_sector_hist_em, save_csv, sector_request_start, sector_spot,
+    EmRateLimitedError, call_with_retry, check_sector_universe,
+    fetch_index_daily_sina, fetch_sector_hist_ths, save_csv, sector_request_start, sector_spot,
 )
 from research_algorithms import read_index_csv  # noqa: E402
 from trading_calendar import (  # noqa: E402
@@ -157,7 +157,7 @@ def raw_ready() -> bool:
                 return False
         except Exception:
             return False
-    return EM_SECTOR_MANIFEST.exists()
+    return THS_SECTOR_MANIFEST.exists()
 
 
 def _write_index_manifest() -> None:
@@ -187,7 +187,7 @@ def ensure_raw_data(progress: Progress | None = None) -> bool:
     from fetch_market import fetch_indexes
     fetch_indexes()
 
-    progress.update("sectors", "全量拉取东财行业板块日线")
+    progress.update("sectors", "全量拉取同花顺行业指数日线")
     from fetch_market import fetch_sectors
     fetch_sectors()
 
@@ -196,10 +196,10 @@ def ensure_raw_data(progress: Progress | None = None) -> bool:
 
 
 def _sector_universe_check(manifest: dict) -> dict:
-    """采集前校验固定清单，并把接口侧差异写入留痕；校验失败直接向上抛。
+    """采集前校验同花顺行业清单，并把接口侧差异写入留痕；校验失败直接向上抛。
 
-    清单是硬编码的，因此“变化”只会是东财改名/下架或细分板块增减：前两者必须人工评审，
-    后者只留痕不入列。绝不允许静默换一个板块继续算。
+    生产清单动态取自接口并固化在 manifest 的 `universe`；因此变化只可能是
+    同花顺新增/下架/改名行业，需人工评审，绝不允许静默换一个板块继续算。
     """
     spot = sector_spot()
     _boards, snapshot = check_sector_universe(spot)
@@ -227,34 +227,30 @@ def _frame_values_equal(left: pd.DataFrame, right: pd.DataFrame) -> bool:
 
 
 def update_sectors(progress: Progress | None = None) -> int:
-    """增量合并东财行业板块日线；返回有变化的板块数量。
+    """增量合并同花顺行业指数日线；返回有变化的板块数量。
 
-    先读本地尾日：已覆盖最近已完成交易日的板块不请求；确实需要请求时才校验固定清单。
+    先读本地尾日：已覆盖最近已完成交易日的板块不请求；确实需要请求时才校验动态清单。
     拉取终点由交易日历给出（15:00 分界），因此盘中不会把未完成 bar 当收盘数据。
     起点含尾日（见 `sector_request_start`）且写入前逐值比对，因此尾日那根 bar 会在
     下一轮被重取并在数值确实发生修正时被覆写，不会把收盘瞬间未定稿的量额定格。
 
-    push2 节奏控制：入口先看限流冷却（冷却中整轮跳过，零请求）；请求按
-    SECTOR_BATCH_SIZE 分批、批间 SECTOR_BATCH_PAUSE，单板块间隔 SECTOR_REQUEST_GAP；
-    途中再触发限流则立即中止本轮（已落盘的板块保留，manifest 不写半截状态）。
+    请求节奏控制：按 SECTOR_BATCH_SIZE 分批、批间 SECTOR_BATCH_PAUSE，
+    单板块间隔 SECTOR_REQUEST_GAP；同花顺实测不限流，但统一限速器内仍保留
+    `ths` 通道的冷却治理，途中再触发限流则立即中止本轮（已落盘的板块保留，
+    manifest 不写半截状态）。
     """
     progress = progress or Progress()
-    remaining = em_cooldown_remaining()
-    if remaining > 0:
-        progress.update("sectors",
-                        f"东财限流冷却中（剩余 {remaining / 60:.0f} 分钟），本轮跳过板块增量")
-        return 0
-    if not EM_SECTOR_MANIFEST.exists():
+    if not THS_SECTOR_MANIFEST.exists():
         return 0
 
-    manifest = json.loads(EM_SECTOR_MANIFEST.read_text(encoding="utf-8"))
+    manifest = json.loads(THS_SECTOR_MANIFEST.read_text(encoding="utf-8"))
     expected, _basis = last_completed_trading_day()
     pending = []
     skipped = 0
     for item in manifest["boards"]:
-        path = EM_SECTOR_RAW / f"{item['code']}.csv"
+        path = THS_SECTOR_RAW / f"{item['code']}.csv"
         tail = _tail_date(path, 0) if path.exists() else None
-        # 已覆盖最近交易日 → 跳过；落后超 60 个交易日 → 视为停更（东财撤销的板块不再发布），跳过
+        # 已覆盖最近交易日 → 跳过；落后超 60 个交易日 → 视为停更（下架行业不再发布），跳过
         if tail and (tail >= expected or lag_trading_days(tail, expected) > STALE_SECTOR_LAG_DAYS):
             skipped += 1
             continue
@@ -279,11 +275,12 @@ def update_sectors(progress: Progress | None = None) -> int:
                             f"已请求 {batch_start}/{len(pending)} 个板块，批间休息 {SECTOR_BATCH_PAUSE:.0f}s")
             time.sleep(SECTOR_BATCH_PAUSE)
         for item, path, tail in pending[batch_start:batch_start + SECTOR_BATCH_SIZE]:
-            code = item["code"]
+            code, name = item["code"], item["name"]
             try:
-                fresh = fetch_sector_hist_em(code, sector_request_start(tail), expected.replace("-", ""))
+                # 同花顺接口按行业名称请求（非代码）；end_date 传最近已完成交易日
+                fresh = fetch_sector_hist_ths(name, sector_request_start(tail), expected.replace("-", ""))
             except EmRateLimitedError as exc:
-                print(f"[bootstrap] 东财限流，本轮在 {changed} 个板块更新后中止（冷却自动计时）：{exc}",
+                print(f"[bootstrap] 板块限流，本轮在 {changed} 个板块更新后中止（冷却自动计时）：{exc}",
                       flush=True)
                 raise
             except Exception as exc:
@@ -312,7 +309,7 @@ def update_sectors(progress: Progress | None = None) -> int:
             time.sleep(SECTOR_REQUEST_GAP)
     if skipped:
         progress.update("sectors", f"跳过已最新 {skipped} 个板块")
-    EM_SECTOR_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    THS_SECTOR_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     return changed
 
 
@@ -340,7 +337,7 @@ def update_institutions(progress: Progress | None = None) -> dict:
 def refresh_daily(progress: Progress | None = None) -> dict:
     """收盘后刷新：先补原始日线，再由调用方重建 JSON。
 
-    四条数据线彼此解耦：板块（东财）限流/失败只影响自身，ETF 失败只告警，
+    四条数据线彼此解耦：板块（同花顺行业指数）失败只影响自身，ETF 失败只告警，
     均不中断其余线。ETF 也在 refreshed 中返回，供调度层判断是否需要
     重建 etf-volume-events.json（D4：ETF 数据线参与自动重建）。
     """
@@ -400,7 +397,7 @@ def latest_local_dates() -> dict[str, str | None]:
     """各数据线本地最后日期：指数取最小（与 index-signals 口径一致）、板块取最大、
     ETF 取 6 只尾日的最小齐备日（与 etf-volume-events 口径一致）。"""
     index_ends = [_tail_date(path, 0) for path in _index_files().values()]
-    sector_ends = [_tail_date(path, 0) for path in sorted(EM_SECTOR_RAW.glob("*.csv"))]
+    sector_ends = [_tail_date(path, 0) for path in sorted(THS_SECTOR_RAW.glob("*.csv"))]
     cffex = sorted(CFFEX_RAW.glob("*.csv"))
     return {
         "indices": min(index_ends) if index_ends and all(index_ends) else None,
