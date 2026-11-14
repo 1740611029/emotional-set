@@ -10,6 +10,7 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { ApiError, fetchSnapshot } from './client';
+import { useTaskControl } from './TaskControlProvider';
 import type { Snapshot } from './types';
 
 // 矩阵聚合为纯计算模块，单独导出便于不依赖 React 的单元测试直接引用。
@@ -35,6 +36,8 @@ function nowLabel(): string {
 }
 
 export function MarketDataProvider({ children }: { children: ReactNode }) {
+  const { enabled } = useTaskControl();
+  const pollEnabled = enabled.snapshot_poll;
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,15 +71,19 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
+  // 首次加载与「切回页面」时各取一次；停止定时任务后仍保留这一步与手动刷新
   useEffect(() => {
     if (!visible) return undefined;
     void load();
-    const timer = window.setInterval(() => void load(), REFRESH_INTERVAL_MS);
-    return () => {
-      window.clearInterval(timer);
-      inFlight.current?.abort();
-    };
+    return () => inFlight.current?.abort();
   }, [visible, load]);
+
+  // 30 秒自动轮询单独受任务开关控制：关闭时不再创建定时器
+  useEffect(() => {
+    if (!visible || !pollEnabled) return undefined;
+    const timer = window.setInterval(() => void load(), REFRESH_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [visible, load, pollEnabled]);
 
   const value = useMemo<MarketDataValue>(
     () => ({ snapshot, error, isLoading, lastSuccessAt, refresh: () => void load() }),

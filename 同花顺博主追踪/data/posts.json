@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-13 21:00:03",
+    "updated_at": "2026-11-14 09:00:03",
     "retention_days": 30,
-    "total": 43
+    "total": 44
   },
   "posts": [
     {
@@ -534,6 +534,21 @@
       "stocks": [],
       "images": 1,
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f53v5yambrnqu648a9fca"
+    },
+    {
+      "id": "2423336998",
+      "ctime": 1794576459000,
+      "date": "2026-11-13",
+      "time": "21:27",
+      "text": "$九阳股份(002242)$ $阳光照明(600261)$ $科创50ETF景顺(588950)$ 交割单随便看看吧，也没有心情了。周一走一步看一步。还是要聚焦核心。不能玩杂毛。科技是真有毒。目前仓位36%",
+      "stocks": [
+        {
+          "name": "九阳股份",
+          "code": "002242"
+        }
+      ],
+      "images": 4,
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f54yn5zjw4lx2e261d55a"
     }
   ]
 }

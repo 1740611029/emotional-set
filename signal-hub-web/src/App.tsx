@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
+import { PageTaskBar } from './components/TaskButtons';
+import { TaskControlProvider } from './data/TaskControlProvider';
 import { MarketDataProvider } from './data/MarketDataProvider';
 import { BloggerNotificationProvider } from './data/BloggerNotificationProvider';
 import { Dashboard } from './pages/Dashboard';
@@ -12,35 +14,41 @@ const InstitutionPositions = lazy(() => import('./pages/InstitutionPositions').t
 const EtfVolume = lazy(() => import('./pages/EtfVolume').then((module) => ({ default: module.EtfVolume })));
 const BloggerPosts = lazy(() => import('./pages/BloggerPosts').then((module) => ({ default: module.BloggerPosts })));
 const LhbTraders = lazy(() => import('./pages/LhbTraders').then((module) => ({ default: module.LhbTraders })));
+const LimitCycle = lazy(() => import('./pages/LimitCycle').then((module) => ({ default: module.LimitCycle })));
 
 export default function App() {
   return (
-    <BloggerNotificationProvider>
-      <MarketDataProvider>
-        <BrowserRouter>
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <main className="flex-1 overflow-hidden flex flex-col">
-              <TopBar />
-              <div className="flex-1 min-h-0 overflow-y-auto">
-                <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/sectors" element={<Sectors />} />
-                    <Route path="/institutions" element={<InstitutionPositions />} />
-                    <Route path="/etf-volume" element={<EtfVolume />} />
-                    <Route path="/blogger" element={<BloggerPosts />} />
-                    <Route path="/lhb" element={<LhbTraders />} />
-                    <Route path="/institution" element={<Navigate to="/institutions" replace />} />
-                    {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </Suspense>
-              </div>
-            </main>
-          </div>
-        </BrowserRouter>
-      </MarketDataProvider>
-    </BloggerNotificationProvider>
+    <TaskControlProvider>
+      <BloggerNotificationProvider>
+        <MarketDataProvider>
+          <BrowserRouter>
+            <div className="flex h-screen overflow-hidden">
+              <Sidebar />
+              <main className="flex-1 overflow-hidden flex flex-col">
+                <TopBar />
+                <div className="flex-1 min-h-0 overflow-y-auto">
+                  {/* 按路由渲染本页关联的定时任务开关，新增页面只需在 PAGE_TASKS 登记 */}
+                  <PageTaskBar />
+                  <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/sectors" element={<Sectors />} />
+                      <Route path="/limit-cycle" element={<LimitCycle />} />
+                      <Route path="/institutions" element={<InstitutionPositions />} />
+                      <Route path="/etf-volume" element={<EtfVolume />} />
+                      <Route path="/blogger" element={<BloggerPosts />} />
+                      <Route path="/lhb" element={<LhbTraders />} />
+                      <Route path="/institution" element={<Navigate to="/institutions" replace />} />
+                      {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </Suspense>
+                </div>
+              </main>
+            </div>
+          </BrowserRouter>
+        </MarketDataProvider>
+      </BloggerNotificationProvider>
+    </TaskControlProvider>
   );
 }

@@ -26,6 +26,8 @@ CLOSE_RETRY_MINUTES = 10
 EVENING_SLOTS = (("17:30", 17 * 60 + 30), ("20:00", 20 * 60), ("22:00", 22 * 60))
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
 LHB_SLOTS = (("20:00", 20 * 60), ("22:00", 22 * 60))
+# 可由页面单独启停的服务端调度分支；网页侧轮询开关由前端自行管理，不在此登记
+SERVER_TASKS = ("live_quote", "close_rebuild", "evening_backfill", "lhb_daily")
 
 
 def _stale_detail(gap: dict) -> str:
@@ -59,6 +61,8 @@ class MarketScheduler:
         self._lhb_day: str | None = None
         self._lhb_done_slots: set[str] = set()
         self._task: asyncio.Task | None = None
+        # 定时任务开关只在进程内生效：重启服务一律恢复全开，避免"忘了开过"导致数据长期不更新
+        self.task_enabled = {name: True for name in SERVER_TASKS}
         self.last_error: str | None = None
 
     # ---------- 生命周期 ----------
@@ -163,6 +167,24 @@ class MarketScheduler:
             etf_volume_events=self.payloads.etf_volume_events(),
         ))
 
+    # ---------- 定时任务开关 ----------
+
+    def task_states(self) -> dict:
+        """返回各调度分支的开关快照；调用方拿到的是副本，改它不影响调度器。"""
+        return dict(self.task_enabled)
+
+    def set_task_enabled(self, task: str, enabled: bool) -> dict:
+        """启停单个分支或全部（task="all"）。只改开关，不触碰任何信号计算与已落盘数据。
+
+        未知任务名抛 ValueError，由 HTTP 层转成 400，避免静默接受拼写错误。
+        """
+        if task != "all" and task not in SERVER_TASKS:
+            raise ValueError(f"未知定时任务：{task}")
+        targets = SERVER_TASKS if task == "all" else (task,)
+        for name in targets:
+            self.task_enabled[name] = bool(enabled)
+        return self.task_states()
+
     # ---------- 主循环 ----------
 
     async def _loop(self) -> None:
@@ -179,13 +201,17 @@ class MarketScheduler:
     async def tick(self) -> None:
         now = datetime.now(CN)
         if trading_session(now):
-            async with self._lock:
-                await self._tick_live(now)
+            if self.task_enabled["live_quote"]:
+                async with self._lock:
+                    await self._tick_live(now)
         else:
             # 收盘分支内部自己取锁：原始日线刷新可能长达十余分钟，不得长期占住盘中刷新的单飞锁
+            # _tick_close 内的「重建收盘快照」不受开关影响，只停用 17:00 的日线重算
             await self._tick_close(now)
-            await self._tick_evening(now)
-            await self._tick_lhb(now)
+            if self.task_enabled["evening_backfill"]:
+                await self._tick_evening(now)
+            if self.task_enabled["lhb_daily"]:
+                await self._tick_lhb(now)
 
     async def _tick_live(self, now: datetime) -> None:
         from fetch_market import INDEXES  # noqa: PLC0415
@@ -226,6 +252,10 @@ class MarketScheduler:
             if self.store.mode != "close" or version != self._close_version:
                 self._rebuild_close()
                 self._close_version = version
+
+        # 开关只停 17:00 的日线重算/增量刷新；上面的快照重建是展示层同步，必须保留
+        if not self.task_enabled["close_rebuild"]:
+            return
 
         minutes = now.hour * 60 + now.minute
         today = now.strftime("%Y-%m-%d")
@@ -356,6 +386,7 @@ class MarketScheduler:
             },
             "last_error": self.last_error,
             "interval_seconds": self.interval,
+            "tasks": self.task_states(),
         }
 
 

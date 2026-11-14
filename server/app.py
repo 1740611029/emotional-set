@@ -18,6 +18,7 @@ from .institutions import (
 )
 from .lhb import DEFAULT_LIMIT as LHB_DEFAULT_LIMIT, MAX_LIMIT as LHB_MAX_LIMIT, LhbStore
 from .lhb import daily as lhb_daily, overview as lhb_overview, trader_detail as lhb_trader_detail
+from .limit_cycle import load_payload as limit_cycle_payload
 from .scheduler import MarketScheduler
 from .snapshot import PayloadStore, SnapshotStore, now_iso
 from confirmed_sector_trends import STATE_NAMES  # noqa: E402  # paths 已配置 sys.path
@@ -54,6 +55,31 @@ app.add_middleware(
 @app.get("/api/health")
 def health() -> dict:
     return {**SCHEDULER.status(), "server_time": now_iso()}
+
+
+@app.get("/api/tasks")
+def task_list() -> dict:
+    """服务端 4 个定时调度分支的开关状态；网页侧轮询开关由前端自行管理。"""
+    return {"tasks": SCHEDULER.task_states()}
+
+
+@app.post("/api/tasks")
+def task_switch(payload: dict = Body(default={})):
+    """启停单个或全部定时任务：{"task": "live_quote" | "all", "enabled": bool}。
+
+    只切换调度分支的开关，不触发任何抓取、重算或信号计算。
+    """
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="请求体必须是对象")
+    task = payload.get("task")
+    enabled = payload.get("enabled")
+    if not isinstance(task, str) or not isinstance(enabled, bool):
+        raise HTTPException(status_code=400, detail="需要 task 与布尔型 enabled")
+    try:
+        states = SCHEDULER.set_task_enabled(task, enabled)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"tasks": states}
 
 
 @app.get("/api/snapshot")
@@ -151,6 +177,12 @@ def lhb_trader_api(trader_id: str, limit: int = LHB_DEFAULT_LIMIT):
 def lhb_daily_api(date: str):
     """某交易日全部已收录游资的买卖动向（单日榜口径）。"""
     return lhb_daily(LHB_STORE.load(), date)
+
+
+@app.get("/api/limit-cycle")
+def limit_cycle_api():
+    """连板周期只读数据：产物未落地时返回 preparing 空结构，不返回演示数值。"""
+    return limit_cycle_payload()
 
 
 @app.get("/api/indices/{code}/history")

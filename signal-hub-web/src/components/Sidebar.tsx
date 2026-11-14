@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import type { ComponentType, SVGProps } from 'react';
-import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon, LhbIcon } from './icons';
+import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon, LhbIcon, LimitCycleIcon } from './icons';
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -31,6 +31,11 @@ export const navGroups: NavGroup[] = [
   {
     section: '板块',
     items: [{ key: 'sectors', label: '板块趋势', to: '/sectors', icon: SectorIcon }],
+  },
+  {
+    section: '情绪',
+    // 连板周期：页面已就绪，涨停/连板数据管道待口径确认（preparing），暂不参与任何信号计算
+    items: [{ key: 'limit-cycle', label: '连板周期', to: '/limit-cycle', icon: LimitCycleIcon }],
   },
   {
     section: '机构持仓',

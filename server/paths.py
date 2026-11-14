@@ -27,6 +27,8 @@ ETF_DAILY_RAW = DATA / "raw" / "etf-daily"
 ETF_DAILY_MANIFEST = DATA / "raw" / "etf-daily-manifest.json"
 # 龙虎榜知名游资聚合产物：只做事后统计与展示，不参与任何信号计算（AGENTS 第 1 条）
 LHB_TRADERS = DATA / "lhb-traders.json"
+# 连板周期产物：只读展示层；产物未落地时接口返回 preparing，不生成演示数值
+LIMIT_CYCLE = DATA / "limit-cycle.json"
 INDEX_THS_RAW = DATA / "raw" / "indices-ths"
 # 上证指数代码：与 ETF 日线同为 `date` 字符串升序，按日期查表对齐
 SH_INDEX_CODE = "sh000001"

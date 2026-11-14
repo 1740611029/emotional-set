@@ -114,3 +114,12 @@ export const LhbIcon = (p: P) => (
     <path d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" />
   </Svg>
 );
+
+/** 连板周期：递升的连板高度 + 情绪波动 */
+export const LimitCycleIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M3 20h18" />
+    <path d="M5 20v-4h3v4M10 20v-8h3v8M15 20v-12h3v12" />
+    <path d="M3 7l3-3 3 2 3-4 3 3 3-2 3 1" />
+  </Svg>
+);
