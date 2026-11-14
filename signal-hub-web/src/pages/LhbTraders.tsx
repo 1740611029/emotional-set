@@ -503,14 +503,6 @@ export function LhbTraders() {
   const { traders, hiddenCodes } = mainView;
   const hiddenCount = hiddenCodes.size;
 
-  // 详情页基线视图：始终默认隐藏（不受开关影响），点进游资详情只看 5 日内操作
-  const detailView = useMemo(
-    () => buildView(rawTraders, tradingDates, asOf, {
-      hideAfterDays: EXIT_VISIBILITY_DAYS, includeExpired: false,
-    }),
-    [rawTraders, tradingDates, asOf],
-  );
-
   // 每日动向视图：保持既有 3 个交易日口径，不受开关影响
   const dailyView = useMemo(
     () => buildView(rawTraders, tradingDates, asOf, {
@@ -527,17 +519,8 @@ export function LhbTraders() {
     return list;
   }, [traders, sortKey]);
 
-  // 详情页：从不受开关影响的基线视图取，确保点进去只看到 5 日内操作记录
-  const selected = useMemo(
-    () => {
-      const list = [...detailView.traders];
-      if (sortKey === 'net') list.sort((a, b) => Math.abs(b.stats.net_total) - Math.abs(a.stats.net_total));
-      if (sortKey === 'active') list.sort((a, b) => b.stats.active_days - a.stats.active_days);
-      if (sortKey === 'records') list.sort((a, b) => b.stats.records - a.stats.records);
-      return list.find((trader) => trader.id === selectedId) ?? null;
-    },
-    [detailView, sortKey, selectedId],
-  );
+  // 详情页：从受开关控制的 sorted 取，卡片与详情统一可见集合
+  const selected = sorted.find((trader) => trader.id === selectedId) ?? null;
   const dailyRows = useMemo(() => {
     const map = new Map<string, LhbDailyRow[]>();
     for (const trader of dailyView.traders) {
