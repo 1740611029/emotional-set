@@ -3,14 +3,12 @@ setlocal
 cd /d "%~dp0"
 
 REM Rebuild signal JSON from raw daily data.
-REM Optional switch: fetch the daily bars that lag the last completed trading day
-REM first, then rebuild. Both modes rebuild the two JSON files.
+REM Every run first refreshes the daily bars that lag the last completed trading
+REM day (no-op when already fresh), then rebuilds the front-end JSON files.
 REM
 REM Usage:
-REM   rebuild.bat                  interactive menu (press Enter = rebuild only)
-REM   rebuild.bat fetch            fetch missing bars, then rebuild
-REM   rebuild.bat fetch --force    ignore the "already backfilled today" mark
-REM   rebuild.bat rebuild          rebuild only, no network
+REM   重建信号数据.bat            refresh missing bars, then rebuild (default)
+REM   重建信号数据.bat --force    ignore the "already backfilled today" mark
 REM
 REM Requires Python 3.10+; the "python" on PATH may be Python 2.
 set "PY="
@@ -45,69 +43,32 @@ echo.
 %PY% -c "import sys; sys.path.insert(0,'pipeline'); from confirmed_index_signals import ACTIVE_ALGORITHM, ALGORITHM_VERSION; print('Active algorithm: ' + ACTIVE_ALGORITHM + '  (' + ALGORITHM_VERSION + ')')"
 if errorlevel 1 goto :failed
 
-REM ---- switch: rebuild only, or fetch missing daily bars first ----
-set "MODE="
+REM ---- always: refresh missing daily bars first, then rebuild ----
+REM --force skips the "already backfilled today" mark; a plain run is enough daily.
 set "FORCE="
 for %%A in (%1 %2) do (
-  if /i "%%~A"=="fetch" set "MODE=fetch"
-  if /i "%%~A"=="--fetch" set "MODE=fetch"
-  if /i "%%~A"=="/f" set "MODE=fetch"
-  if /i "%%~A"=="rebuild" set "MODE=rebuild"
-  if /i "%%~A"=="--rebuild-only" set "MODE=rebuild"
   if /i "%%~A"=="--force" set "FORCE=--force"
+  if /i "%%~A"=="/f" set "FORCE=--force"
 )
-if defined MODE goto :dispatch
 
 echo.
-echo   [1] Rebuild only      - rebuild JSON from the raw CSV files already on disk
-echo   [2] Fetch data first  - pull the missing daily bars, then rebuild
-echo.
-:ask
-set "CHOICE="
-set /p CHOICE=Choose 1 or 2, then press Enter (default 1): 
-if not defined CHOICE set "CHOICE=1"
-set "MODE="
-if "%CHOICE%"=="1" set "MODE=rebuild"
-if "%CHOICE%"=="2" set "MODE=fetch"
-if defined MODE goto :dispatch
-echo Please type 1 or 2.
-goto :ask
-
-:dispatch
-if "%MODE%"=="fetch" goto :fetch_first
-
-echo.
-echo Mode: rebuild only, from the raw CSV files already on disk.
-echo NOTE: this mode does NOT touch the network and does NOT change the data trading day.
-echo       If raw CSVs still lag, rebuilding will NOT advance the data date.
-echo Building... this can take from a few seconds to a minute.
-echo.
-
-%PY% pipeline\build_dashboard.py
-if errorlevel 1 goto :failed
-
-echo.
-echo [OK] Rebuilt: data\index-signals.json + data\sector-trends.json + data\etf-volume-events.json
-echo A running service picks up the new files within 30 seconds; no restart needed.
-echo.
-REM 输出三份产物各自的 as_of 与相对最近已完成交易日的落后交易日数（不联网）。
-REM as_of 只由原始 CSV 尾日决定，不因生成时间更新而显示为最新。
-%PY% pipeline\report_asof.py
-goto :end
-
-:fetch_first
-echo.
-echo Mode: fetch missing daily bars first, then rebuild.
+echo Mode: refresh missing daily bars first, then rebuild.
 echo Only data lines that lag the last completed trading day are pulled; EM sector
 echo bars are usually final right after the close, while index bars catch up later in
 echo the evening, so the two products may differ by 1 trading day.
 echo A full sector refresh takes about 10-30 minutes. Please keep this window open.
 echo.
+
 %PY% pipeline\refresh_and_rebuild.py %FORCE%
 if errorlevel 1 goto :failed
+
 echo.
 echo [OK] Data refreshed and rebuilt: data\index-signals.json + data\sector-trends.json + data\etf-volume-events.json
 echo A running service picks up the new files within 30 seconds; no restart needed.
+echo.
+REM 输出三份产物各自的 as_of 与相对最近已完成交易日的落后交易日数（不联网）。
+REM as_of 只由原始 CSV 尾日决定，不因生成时间更新而显示为最新。
+%PY% pipeline\report_asof.py
 goto :end
 
 :failed
