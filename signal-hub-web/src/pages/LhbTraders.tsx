@@ -2,19 +2,19 @@ import { Fragment, useMemo, useState } from 'react';
 import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
 import { LhbIcon } from '../components/icons';
 import { useLhbOverview } from '../hooks/useLhbOverview';
-import type { LhbDailyRow, LhbOverviewTrader, LhbPosition, LhbRecord } from '../data/types';
+import type { LhbDailyRow, LhbPosition, LhbRecord } from '../data/types';
+import {
+  buildViewTraders as buildView,
+  EXIT_VISIBILITY_DAYS,
+  DAILY_VIEW_MARK_DAYS,
+  type ViewTrader,
+} from '../lib/lhbExitVisibility';
 
 type ViewKey = 'overview' | 'daily' | 'stocks';
 type SortKey = 'net' | 'active' | 'records';
 
 const yi = (value: number) => (value / 1e8).toFixed(2);
 const signedYi = (value: number) => `${value > 0 ? '+' : ''}${yi(value)}亿`;
-
-/** 离场标记保鲜期（交易日）：与管道 EXIT_MARK_DAYS 一致 */
-const EXIT_MARK_DAYS = 3;
-
-/** 展示层游资视图：在产物游资上附加「离场标记期内配对」索引（key=个股代码） */
-type ViewTrader = LhbOverviewTrader & { exits: Map<string, LhbPosition> };
 
 const EXIT_LABEL: Record<string, string> = {
   exited_confirmed: '已清仓',
@@ -36,49 +36,6 @@ function ExitBadge({ status }: { status: LhbPosition['status'] }) {
       {label}
     </span>
   );
-}
-
-/**
- * 在场过滤：离场配对保留 exit_date 起 EXIT_MARK_DAYS 个交易日的标记展示，
- * 超过保鲜期整段隐藏（数据完整保留于产物，仅页面过滤）。
- * exit_date 不在交易日序列（异常）时保守显示，避免误隐藏。
- */
-function buildViewTraders(
-  traders: LhbOverviewTrader[], tradingDates: string[], asOf: string | null,
-): ViewTrader[] {
-  const refDate = asOf ?? tradingDates[tradingDates.length - 1] ?? null;
-  const round2 = (value: number) => Math.round(value * 100) / 100;
-  const result: ViewTrader[] = [];
-  for (const trader of traders) {
-    const exits = new Map<string, LhbPosition>();
-    const records = trader.records.filter((record) => {
-      const position = trader.positions?.find((item) => item.code === record.code);
-      if (!position || position.status === 'active' || !position.exit_date) return true;
-      const i = tradingDates.indexOf(position.exit_date);
-      const j = refDate ? tradingDates.indexOf(refDate) : -1;
-      if (i < 0 || j < 0 || j < i) return true;
-      if (j - i > EXIT_MARK_DAYS) return false;
-      exits.set(record.code, position);
-      return true;
-    });
-    // 原有记录但全部配对已离场超期 → 整卡隐藏（游资级"不再记录"）
-    if (trader.records.length > 0 && records.length === 0) continue;
-    // 操作记录统一按日期倒序（新→旧），同日按净额绝对值倒序。
-    // 显式排序不依赖产物顺序：旧版产物或回滚时，卡片取头部仍为最近操作、详情表格仍为倒序。
-    records.sort((a, b) => b.date.localeCompare(a.date) || Math.abs(b.net) - Math.abs(a.net));
-    // 统计口径与管道一致：只累计单日榜；展示什么就统计什么（离场隐藏同步剔除）
-    const single = records.filter((record) => !record.is_multi_day);
-    const stats = {
-      active_days: new Set(single.map((record) => record.date)).size,
-      records: single.length,
-      stocks: new Set(single.map((record) => record.code)).size,
-      buy_total: round2(single.reduce((sum, record) => sum + record.buy, 0)),
-      sell_total: round2(single.reduce((sum, record) => sum + record.sell, 0)),
-      net_total: round2(single.reduce((sum, record) => sum + record.net, 0)),
-    };
-    result.push({ ...trader, records, stats, exits });
-  }
-  return result;
 }
 
 const TIER_CLASS: Record<string, string> = {
@@ -529,12 +486,31 @@ export function LhbTraders() {
   const [view, setView] = useState<ViewKey>('overview');
   const [sortKey, setSortKey] = useState<SortKey>('net');
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 页面级开关：是否显示 5 个交易日外已离场的个股配对（游资总览 + 个股游资总览共用）
+  const [showExpired, setShowExpired] = useState(false);
 
-  // 在场过滤：离场超期配对隐藏、标记期配对保留+标记，stats 同口径重算
-  const traders = useMemo(
-    () => buildViewTraders(data?.traders ?? [], data?.trading_dates ?? [], data?.as_of ?? null),
-    [data],
+  const rawTraders = data?.traders ?? [];
+  const tradingDates = data?.trading_dates ?? [];
+  const asOf = data?.as_of ?? null;
+
+  // 主视图：游资总览 + 个股游资总览 — 5 个交易日阈值，受开关控制
+  const mainView = useMemo(
+    () => buildView(rawTraders, tradingDates, asOf, {
+      hideAfterDays: EXIT_VISIBILITY_DAYS, includeExpired: showExpired,
+    }),
+    [rawTraders, tradingDates, asOf, showExpired],
   );
+  const { traders, hiddenCodes } = mainView;
+  const hiddenCount = hiddenCodes.size;
+
+  // 每日动向视图：保持既有 3 个交易日口径，不受开关影响
+  const dailyView = useMemo(
+    () => buildView(rawTraders, tradingDates, asOf, {
+      hideAfterDays: DAILY_VIEW_MARK_DAYS, includeExpired: false,
+    }),
+    [rawTraders, tradingDates, asOf],
+  );
+
   const sorted = useMemo(() => {
     const list = [...traders];
     if (sortKey === 'net') list.sort((a, b) => Math.abs(b.stats.net_total) - Math.abs(a.stats.net_total));
@@ -546,7 +522,7 @@ export function LhbTraders() {
   const selected = sorted.find((trader) => trader.id === selectedId) ?? null;
   const dailyRows = useMemo(() => {
     const map = new Map<string, LhbDailyRow[]>();
-    for (const trader of traders) {
+    for (const trader of dailyView.traders) {
       for (const record of trader.records) {
         if (record.is_multi_day) continue;
         const list = map.get(record.date);
@@ -563,9 +539,11 @@ export function LhbTraders() {
     }
     for (const list of map.values()) list.sort((a, b) => Math.abs(b.net) - Math.abs(a.net));
     return map;
-  }, [traders]);
+  }, [dailyView]);
 
   const preparing = data !== null && data.data_state === 'preparing';
+  const ready = !isLoading && !error && !preparing;
+  const toggleBtn = (hiddenCount > 0 || showExpired) && ready;
 
   return (
     <div className="flex h-full flex-col overflow-hidden p-8">
@@ -586,7 +564,8 @@ export function LhbTraders() {
         <Notice>
           统计口径：仅计入单日榜金额（三日累计榜仅存记录不参与统计）；同股同席位跨上榜原因的重复披露已按当日去重。
           席位映射为公开资料交叉整理，<b>非官方认证</b>，低置信席位操作已标注「存疑」；数据仅供参考，不构成投资建议。
-          在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」；标记保留 3 个交易日，之后该游资在该股的操作不再展示（判定仅基于窗口内数据，非真实持仓）。
+          在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」。
+          离场配对展示时效：游资总览与个股游资总览保留 5 个交易日，第 6 个交易日起默认隐藏，可点击下方按钮切换显示；每日动向保持既有 3 个交易日口径。数据完整保留于产物，判定仅基于窗口内数据，非真实持仓。
         </Notice>
       </div>
 
@@ -616,7 +595,29 @@ export function LhbTraders() {
                 {label}
               </button>
             ))}
+            {toggleBtn && (
+              <button
+                type="button"
+                onClick={() => setShowExpired((prev) => !prev)}
+                className={`ml-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
+                }`}
+              >
+                {showExpired ? '隐藏' : '显示'} 5 日外离场个股（{hiddenCount}）
+              </button>
+            )}
           </div>
+        )}
+        {view === 'stocks' && toggleBtn && (
+          <button
+            type="button"
+            onClick={() => setShowExpired((prev) => !prev)}
+            className={`ml-auto rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
+            }`}
+          >
+            {showExpired ? '隐藏' : '显示'} 5 日外离场个股（{hiddenCount}）
+          </button>
         )}
       </div>
 
@@ -632,19 +633,19 @@ export function LhbTraders() {
           龙虎榜游资数据准备中（首次建库或当日尚未更新），请稍后刷新
         </div>
       )}
-      {!isLoading && !error && !preparing && view === 'overview' && selected && (
+      {ready && view === 'overview' && selected && (
         <div className="flex-1 min-h-0">
           <TraderDetail trader={selected} onBack={() => setSelectedId(null)} />
         </div>
       )}
-      {!isLoading && !error && !preparing && view === 'overview' && !selected && (
+      {ready && view === 'overview' && !selected && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 flex-1 min-h-0 overflow-y-auto">
           {sorted.map((trader) => (
             <TraderCard key={trader.id} trader={trader} onSelect={() => setSelectedId(trader.id)} />
           ))}
         </div>
       )}
-      {!isLoading && !error && !preparing && view === 'daily' && (
+      {ready && view === 'daily' && (
         <div className="flex-1 min-h-0">
           <DailyView
             dates={data?.trading_dates ?? []}
@@ -652,7 +653,7 @@ export function LhbTraders() {
           />
         </div>
       )}
-      {!isLoading && !error && !preparing && view === 'stocks' && (
+      {ready && view === 'stocks' && (
         <div className="flex-1 min-h-0">
           <StockOverviewView traders={traders} asOf={data?.as_of ?? null} />
         </div>
