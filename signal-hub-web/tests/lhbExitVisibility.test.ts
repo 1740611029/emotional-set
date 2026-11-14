@@ -304,20 +304,20 @@ test('5 日视图独立性：age=4 和 age=5 的配对均保留，不经过 3 �
 // ================================================================
 test('exitAgeInTradingDays：正常值、边界、异常', () => {
   assert.equal(exitAgeInTradingDays(
-    { exit_date: TD[3] } as LhbPosition, TD, AS_OF,
+    { last_seen: TD[3] } as LhbPosition, TD, AS_OF,
   ), 4);
   assert.equal(exitAgeInTradingDays(
-    { exit_date: AS_OF } as LhbPosition, TD, AS_OF,
+    { last_seen: AS_OF } as LhbPosition, TD, AS_OF,
   ), 0);
   assert.equal(exitAgeInTradingDays(
-    { exit_date: '2099-01-01' } as LhbPosition, TD, AS_OF,
+    { last_seen: '2099-01-01' } as LhbPosition, TD, AS_OF,
   ), null);
   assert.equal(exitAgeInTradingDays(
-    { exit_date: TD[3] } as LhbPosition, TD, null,
+    { last_seen: TD[3] } as LhbPosition, TD, null,
   ), null);
   // j < i 的情形
   assert.equal(exitAgeInTradingDays(
-    { exit_date: TD[7] } as LhbPosition, TD, TD[3],
+    { last_seen: TD[7] } as LhbPosition, TD, TD[3],
   ), null);
 });
 

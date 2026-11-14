@@ -4,7 +4,8 @@
  * 口径（2026-11-14 用户确认）：
  * - 游资总览 + 个股游资总览：统一 5 个交易日，第 6 个交易日起默认隐藏，可切换回显；
  * - 每日动向：保持既有 3 个交易日过滤口径，不参与开关；
- * - 起算日为产物 positions[].exit_date，按 trading_dates 序号差计交易日；
+ * - 起算日为产物 positions[].last_seen（该游资在该股最后一次上单日榜的日期），
+ *   按 trading_dates 序号差计交易日；
  * - 产物数据完整保留，本模块只决定页面可见性，沿用「展示什么就统计什么」。
  *
  * 两份视图各自直接从原始产物构建，互不复用结果：5 日视图不经过 3 日裁剪，
@@ -34,14 +35,14 @@ export interface BuildViewResult {
 }
 
 /**
- * exit_date 距 as_of 的交易日数；日期无法可靠定位时返回 null，调用方按保守展示处理。
+ * last_seen 距 as_of 的交易日数；日期无法可靠定位时返回 null，调用方按保守展示处理。
  * 只用产物已有的交易日序列，不插值、不外推交易日历。
  */
 export function exitAgeInTradingDays(
   position: LhbPosition, tradingDates: string[], asOf: string | null,
 ): number | null {
-  if (!asOf || !position.exit_date) return null;
-  const i = tradingDates.indexOf(position.exit_date);
+  if (!asOf || !position.last_seen) return null;
+  const i = tradingDates.indexOf(position.last_seen);
   const j = tradingDates.indexOf(asOf);
   if (i < 0 || j < 0 || j < i) return null;
   return j - i;
@@ -66,7 +67,7 @@ export function buildViewTraders(
     const exits = new Map<string, LhbPosition>();
     const records = trader.records.filter((record) => {
       const position = trader.positions?.find((item) => item.code === record.code);
-      if (!position || position.status === 'active' || !position.exit_date) return true;
+      if (!position || position.status === 'active' || !position.last_seen) return true;
       const age = exitAgeInTradingDays(position, tradingDates, asOf);
       // 日期异常 → 保守展示，且不打离场标记（沿用既有行为）
       if (age === null) return true;

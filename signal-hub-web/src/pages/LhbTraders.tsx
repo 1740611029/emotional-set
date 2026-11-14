@@ -604,7 +604,7 @@ export function LhbTraders() {
                   showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
                 }`}
               >
-                {showExpired ? '隐藏' : '显示'} 5 日外离场个股（{hiddenCount}）
+                {showExpired ? '隐藏' : '显示'} 5 日外离场个股
               </button>
             )}
           </div>
@@ -617,7 +617,7 @@ export function LhbTraders() {
               showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
             }`}
           >
-            {showExpired ? '隐藏' : '显示'} 5 日外离场个股（{hiddenCount}）
+            {showExpired ? '隐藏' : '显示'} 5 日外离场个股
           </button>
         )}
       </div>
