@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-16 16:00:05",
+    "updated_at": "2026-11-16 17:02:16",
     "retention_days": 30,
-    "total": 61
+    "total": 64
   },
   "posts": [
     {
@@ -809,6 +809,52 @@
         "https://u.thsi.cn/imgsrc/sns/76a8d23602cd66b3c24c4cb7caa384cd_1320_2868.jpg"
       ],
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5j1enr0c5cs6f9115f43"
+    },
+    {
+      "id": "2423852676",
+      "ctime": 1794816219000,
+      "date": "2026-11-16",
+      "time": "16:03",
+      "text": "$九阳股份(002242)$ 今晚我去KTV找个富婆，赚点增量资金。受不了",
+      "stocks": [
+        {
+          "name": "九阳股份",
+          "code": "002242"
+        }
+      ],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5j2efbtuzkdy57af8ea2"
+    },
+    {
+      "id": "2423860506",
+      "ctime": 1794819221000,
+      "date": "2026-11-16",
+      "time": "16:53",
+      "text": "$东方海洋(002086)$ 这里面有没有人需要救的。",
+      "stocks": [
+        {
+          "name": "东方海洋",
+          "code": "002086"
+        }
+      ],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5ja3z52aiz1yb0b56a62"
+    },
+    {
+      "id": "2423861475",
+      "ctime": 1794819570000,
+      "date": "2026-11-16",
+      "time": "16:59",
+      "text": "都在问我怎么办，怎么办。2.40分之前你怎么不问。做好仓位管理，带上预期去执行。你赚钱了又不带我分。一直问就代表了你做了自己看不懂的。交易唯有自渡。我天天挂嘴边。",
+      "stocks": [],
+      "images": 2,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/97c350a12ce175e4376489e41c607ea9_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/b028e443b05232e8996e1d13edfd57f9_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5jb2bob4n5km089cde8d"
     }
   ]
 }

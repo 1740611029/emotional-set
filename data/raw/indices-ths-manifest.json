@@ -3,8 +3,8 @@
     "code": "sh000001",
     "name": "上证指数",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 8763,
+    "start": "1990-12-19",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sh000001.csv"
   },
@@ -12,8 +12,8 @@
     "code": "sz399001",
     "name": "深证成指",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 8671,
+    "start": "1991-04-03",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sz399001.csv"
   },
@@ -21,8 +21,8 @@
     "code": "sz399006",
     "name": "创业板指",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 3995,
+    "start": "2010-06-01",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sz399006.csv"
   },
@@ -30,8 +30,8 @@
     "code": "sh000688",
     "name": "科创50",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 1663,
+    "start": "2020-01-02",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sh000688.csv"
   },
@@ -39,8 +39,8 @@
     "code": "sh000300",
     "name": "沪深300",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 6030,
+    "start": "2002-01-04",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sh000300.csv"
   },
@@ -48,8 +48,8 @@
     "code": "sh000905",
     "name": "中证500",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 5309,
+    "start": "2005-01-04",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sh000905.csv"
   },
@@ -57,8 +57,8 @@
     "code": "sh000852",
     "name": "中证1000",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1465,
-    "start": "2020-10-30",
+    "rows": 2936,
+    "start": "2014-10-17",
     "end": "2026-11-13",
     "path": "data\\raw\\indices-ths\\sh000852.csv"
   }
