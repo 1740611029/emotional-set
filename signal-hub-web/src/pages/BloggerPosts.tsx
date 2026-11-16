@@ -185,7 +185,7 @@ function ZoomHintIcon() {
 }
 
 export function BloggerPosts() {
-  const { data, error, isLoading, refresh } = useBloggerPosts();
+  const { data, error, isLoading, isRefreshing, refreshNotice, refresh } = useBloggerPosts();
   const [range, setRange] = useState<RangeKey>('all');
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
@@ -237,9 +237,10 @@ export function BloggerPosts() {
             <button
               type="button"
               onClick={refresh}
-              className="mt-2 rounded-lg bg-brand-50 px-3 py-1 font-medium text-brand-700 transition-colors hover:bg-brand-100"
+              disabled={isRefreshing}
+              className="mt-2 rounded-lg bg-brand-50 px-3 py-1 font-medium text-brand-700 transition-colors hover:bg-brand-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              手动刷新
+              {isRefreshing ? '采集中…' : '手动刷新'}
             </button>
           </div>
         )}
@@ -257,6 +258,12 @@ export function BloggerPosts() {
           <Notice tone="warn">
             刷新失败：{error}。{data ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}
           </Notice>
+        </div>
+      )}
+
+      {refreshNotice && (
+        <div className="mb-5">
+          <Notice tone="warn">手动刷新提示：{refreshNotice}</Notice>
         </div>
       )}
 
@@ -325,7 +332,7 @@ export function BloggerPosts() {
         <div className="glass-card rounded-2xl p-6">
           <EmptyState
             text="暂无采集到的发文"
-            hint="采集脚本运行并落盘后即可展示；也可点击右上角「手动刷新」重试"
+            hint="点击右上角「手动刷新」立即触发一次采集，采集中请稍候数秒"
           />
         </div>
       )}

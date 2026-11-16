@@ -12,6 +12,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from . import paths
 from .blogger import load_posts as blogger_posts
 from .blogger import mark_presence as blogger_presence
+from .blogger import trigger_refresh as blogger_trigger_refresh
 from .etf_volume import EtfVolumeStore
 from .institutions import (
     DEFAULT_LIMIT,
@@ -195,6 +196,17 @@ def blogger_presence_api(payload: dict = Body(default={})):
     online = bool(payload.get("online", True))
     notify = bool(payload.get("notify", False))
     return blogger_presence(online, notify)
+
+
+@app.post("/api/blogger/refresh")
+async def blogger_refresh_api():
+    """手动触发一轮同花顺发文采集（同步等待采集完成后返回）。
+
+    采集逻辑完全复用 collect.js（与计划任务同一脚本），本接口只负责拉起进程并等待，
+    不改任何数据口径、不参与信号计算。
+    status：ok=采集完成 / busy=已有采集在跑 / timeout / error。
+    """
+    return await blogger_trigger_refresh()
 
 
 @app.get("/api/lhb/overview")

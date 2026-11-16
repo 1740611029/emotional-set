@@ -1,14 +1,19 @@
-"""同花顺博主发文（【全能的野人】）只读展示层。
+"""同花顺博主发文（【全能的野人】）展示层。
 
 数据来源：独立的采集脚本 `同花顺博主追踪/collect.js`
 - 结构化落盘：`同花顺博主追踪/data/posts.json`
 - 人可读记录：`【全能的野人】同花顺发文.md`（与 JSON 同源生成）
 
-本模块只读取已落盘数据，不发起任何网络请求，也不参与信号计算。
+列表读取为只读模式；`trigger_refresh` 负责拉起 collect.js 完成手动采集，
+采集与落盘逻辑全部复用脚本现有实现，本模块不发起任何同花顺网络请求，也不参与信号计算。
 """
 from __future__ import annotations
 
+import asyncio
 import json
+import os
+import shutil
+import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
@@ -119,3 +124,79 @@ def mark_presence(online: bool, notify: bool) -> dict:
     except OSError:
         return {"at": 0, "notify": False, "written": False}
     return {**payload, "written": True}
+
+
+# ---------- 手动触发采集 ----------
+# 采集脚本位置：同花顺博主追踪/collect.js（零第三方依赖，Node 18+ 可直接运行）
+COLLECT_JS = paths.ROOT / "同花顺博主追踪" / "collect.js"
+# 计划任务 vbs 所用 node 路径优先，找不到时回退 PATH 中的 node
+NODE_CANDIDATES = (Path("E:/nvm/nodejs/node.exe"),)
+# 单次采集等待上限：正常 2-5 秒；令牌失效起无头 Chrome 约 3-20 秒；抓取重试最多 3 次
+COLLECT_TIMEOUT_SECONDS = 120.0
+
+_collect_lock: asyncio.Lock | None = None
+
+
+def _collect_lock_instance() -> asyncio.Lock:
+    """懒初始化锁：须在事件循环内首次调用（FastAPI 请求处理内安全）。"""
+    global _collect_lock
+    if _collect_lock is None:
+        _collect_lock = asyncio.Lock()
+    return _collect_lock
+
+
+def _find_node() -> Path | None:
+    for candidate in NODE_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    found = shutil.which("node")
+    return Path(found) if found else None
+
+
+async def trigger_refresh() -> dict:
+    """手动触发一轮采集：同步等待 collect.js 跑完后返回状态。
+
+    - 并发防护：进程内 asyncio.Lock 单飞；collect.js 自带 run.lock（3 分钟窗口）
+      兜底计划任务与手动触发撞车，撞车方立即退出且退出码 0。
+    - 数据口径不变：采集、去重、落盘、通知逻辑全部复用 collect.js 现有实现。
+    - 返回 status：ok=采集完成；busy=已有采集在跑（本次未重复执行）；
+      timeout=等待超时已终止进程；error=脚本退出异常。
+    """
+    if not COLLECT_JS.exists():
+        return {"status": "error", "detail": "采集脚本不存在"}
+    node = _find_node()
+    if node is None:
+        return {"status": "error", "detail": "未找到 node 可执行文件"}
+
+    lock = _collect_lock_instance()
+    if lock.locked():
+        return {"status": "busy", "detail": "已有采集任务在执行"}
+
+    async with lock:
+        creationflags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                str(node), str(COLLECT_JS),
+                cwd=str(COLLECT_JS.parent),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT,
+                creationflags=creationflags,
+            )
+        except OSError as exc:
+            return {"status": "error", "detail": f"启动采集进程失败：{exc}"}
+
+        try:
+            out, _ = await asyncio.wait_for(proc.communicate(), timeout=COLLECT_TIMEOUT_SECONDS)
+        except asyncio.TimeoutError:
+            proc.kill()
+            await proc.wait()
+            return {"status": "timeout", "detail": f"采集超过 {int(COLLECT_TIMEOUT_SECONDS)} 秒未完成，已终止"}
+
+    text = (out or b"").decode("utf-8", errors="replace")
+    lines = [line for line in text.strip().splitlines() if line.strip()]
+    tail = lines[-1] if lines else ""
+    if proc.returncode == 0:
+        if "本轮跳过" in text:
+            return {"status": "busy", "detail": tail}
+        return {"status": "ok", "detail": tail}
+    return {"status": "error", "detail": tail or f"采集进程退出码 {proc.returncode}"}

@@ -316,8 +316,67 @@ export async function fetchBloggerPosts(signal?: AbortSignal): Promise<BloggerPo
   }
 }
 
-function normalizeLhb(payload: unknown, label: string): Record<string, unknown> {
-  if (!isRecord(payload)) throw new ApiError(`${label}响应格式错误`);
+/** 手动刷新采集超时：后端同步等待 collect.js 上限 120 秒，这里留出余量。 */
+const BLOGGER_REFRESH_TIMEOUT_MS = 150_000;
+
+export type BloggerRefreshStatus = 'ok' | 'busy' | 'timeout' | 'error';
+
+export interface BloggerRefreshResult {
+  status: BloggerRefreshStatus;
+  detail: string;
+}
+
+/**
+ * 手动触发一轮同花顺发文采集：后端拉起 collect.js 并同步等待完成。
+ * 返回后由调用方重新请求 /api/blogger/posts 取最新列表。
+ */
+export async function refreshBloggerPosts(signal?: AbortSignal): Promise<BloggerRefreshResult> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), BLOGGER_REFRESH_TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch('/api/blogger/refresh', {
+      method: 'POST',
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      let detail = `手动采集接口返回 ${response.status}`;
+      try {
+        const body = await response.json();
+        if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
+      } catch {
+        /* 响应体非 JSON 时保留状态码文案 */
+      }
+      throw new ApiError(detail, response.status);
+    }
+    const payload = await response.json();
+    if (!isRecord(payload) || typeof payload.status !== 'string') {
+      throw new ApiError('手动采集响应缺少 status');
+    }
+    const status = payload.status;
+    if (!['ok', 'busy', 'timeout', 'error'].includes(status)) {
+      throw new ApiError(`手动采集返回未知状态：${status}`);
+    }
+    return {
+      status: status as BloggerRefreshStatus,
+      detail: typeof payload.detail === 'string' ? payload.detail : '',
+    };
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') {
+      throw new ApiError('手动采集请求超时或已取消，稍后可重试');
+    }
+    throw new ApiError((error as Error)?.message || '手动采集请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+function normalizeLhb(payload: unknown, label: string): Record<string, unknown> {  if (!isRecord(payload)) throw new ApiError(`${label}响应格式错误`);
   return payload;
 }
 
