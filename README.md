@@ -78,14 +78,14 @@ cd signal-hub-web && npm install && npm run dev   # http://localhost:5173
 | 场景 | 数据源 | 发布时点 | 刷新 |
 | --- | --- | --- | --- |
 | 指数日线（历史 + 收盘） | 新浪公开指数日线（2026-11-14 起换源，原同花顺） | 收盘后陆续定稿 | 启动/收盘后补齐 |
-| 板块日线（31 个东财行业板块，不复权） | akshare 东财行业板块接口 | 收盘后即发布，15:01 那轮通常已含当日 bar | 启动/收盘后增量（起点含本地尾日） |
+| 板块日线（90 个同花顺细分行业，不复权；2026-11-14 起换源，原东财行业板块） | akshare 同花顺行业指数接口 | 收盘后陆续可取（2026-11-14 探测实测覆盖最新已完成交易日） | 启动/收盘后增量（起点含本地尾日） |
 | ETF 日线（6 只核心池，不复权） | 新浪 ETF 日线（清单校验走腾讯实时） | 收盘后定稿 | 启动/收盘后增量 |
 | 盘中指数快照 | akshare 新浪指数快照（备源：东方财富） | 实时 | 交易时段每 30 秒 |
 | 机构多空单（前 20 会员持仓排名） | akshare 中金所持仓排名 | 当日晚间披露 | 启动/收盘后增量更新 |
 
-实测（本地文件时间戳）：东财行业板块收盘后即发布，新浪指数日线晚间定稿，
-因此**同一批重建里板块 `as_of` 允许领先指数 `as_of` 至多 1 个交易日**——指数 `as_of` 取七个指数尾日的
-最早值，板块 `as_of` 取 31 个板块尾日的最晚值，属两种数据源发布节奏差异，不是计算缺陷。
+实测（换源前本地文件时间戳）：东财行业板块收盘后即发布，新浪指数日线晚间定稿。
+板块线换源后两线节奏仍可能不同，**同一批重建里板块 `as_of` 允许领先指数 `as_of` 至多 1 个交易日**——
+指数 `as_of` 取七个指数尾日的最早值，板块 `as_of` 取全部板块尾日的最晚值，属两种数据源发布节奏差异，不是计算缺陷。
 两份产物与界面各自显式标注自身时点（板块页的「数据截至」与滞后提示即为此而设），
 领先超过 1 个交易日按发布节奏异常核查后再发布。
 
@@ -95,6 +95,15 @@ cd signal-hub-web && npm install && npm run dev   # http://localhost:5173
 （样本 13,702 行业日，2025-01-02～2026-11-03），其中 bull↔bear 方向相反 5.20%/4.25%，
 详见 `data/research/sector-source-migration-sw-vs-em.md`；指数侧横截面宽度同步换源，
 顶底信号由 73 条变为 81 条（日期一致 45），对照见 `data/research/breadth-source-migration-sw-vs-em.md`。
+
+板块日线又于 2026-11-14 由东财行业板块**换源为同花顺行业指数**：背景是东财 push2 系自 2026-11-12 起
+IP 限流多日无法补齐，且申万一级的 9 条免费日线通道探测全部不可用。粒度由 31 个一级行业变为
+**90 个细分行业**，四态判据、有向强度公式与滞后规则逐行不变，算法版本升为
+`sector-donchian20-ma60-v3.0-ths-source`。探测与可选路径见
+`data/research/source-eval/probe-sectors-conclusion-20261114.md`，换源前东财 v2.0 产物备份在
+`data/research/source-eval/manifests-before-migration-20261114/sector-trends.json.before-migration`
+（as_of 2026-11-11）。指数侧横截面宽度同批次改用同花顺 90 行业；本次为粒度变更，无申万→东财
+那类逐日四态一致率对照，口径以版本升位声明与算法决策日志（`openspec/sector-trend-algorithm-log.md`）为准。
 
 **盘中态与收盘态严格隔离**：
 
@@ -107,7 +116,7 @@ cd signal-hub-web && npm install && npm run dev   # http://localhost:5173
 
 ```
 pipeline/            信号流水线（扁平 import，保持与原研究项目一致）
-  fetch_market.py      日线抓取（新浪指数 / 东财行业板块）
+  fetch_market.py      日线抓取（新浪指数 / 同花顺行业指数）
   trading_calendar.py  交易日历与“最近已完成交易日”判定
   research_algorithms.py, multifactor_research.py   指标与因子
   confirmed_index_signals.py, confirmed_sector_trends.py  确认型信号
@@ -134,7 +143,7 @@ signal-hub-web/      前端（React + Vite + Tailwind）
 | `GET /api/health` | 存活、最近刷新时间、模式、数据源、算法版本 |
 | `GET /api/indices/{code}/history` | 单指数历史与信号 |
 | `GET /api/institutions/positions` | 机构多空单：`institution`（`all`/`guotai`/`citic`/`others`）、`variety`（`all`/`IF`/`IC`/`IH`/`IM`）、`from`/`to`、`limit`（默认 60） |
-| `GET /api/sectors/{code}/history?days=60\|120\|250` | 单板块历史序列（31 个东财行业板块之一，凭 code 定位），默认 120 |
+| `GET /api/sectors/{code}/history?days=60\|120\|250` | 单板块历史序列（同花顺 90 个细分行业之一，凭 code 定位），默认 120 |
 
 `data_state` 取值：`ready` / `preparing`（首次拉取数据中，返回 202）/ `degraded`（数据源异常，`stale=true`）。
 
@@ -163,11 +172,13 @@ python pipeline/compare_snapshot.py --baseline <旧 index-signals.json> --curren
 
 ## 板块趋势口径（/sectors）
 
-- **清单与数据源**：31 个东财行业板块，`fetch_market.EM_SECTOR_UNIVERSE` 硬编码 BK 代码 + 每日名称校验
-  （名称对不上直接报错，不静默重新匹配）；**单层、无父子关系**，不复权日线，
-  缓存 `data/raw/sectors-em-industry/{BKxxxx}.csv`；盘中与收盘同源
-  （`server/paths.SECTOR_EM_RAW == fetch_market.EM_SECTOR_RAW`，已由单测固化）。
-- **四态判据**（算法版本 `sector-donchian20-ma60-v2.0-em-source`，判定规则本体与 `v1.0` 一致，
+- **清单与数据源**：90 个同花顺细分行业指数（881xxx），清单由 akshare
+  `stock_board_industry_name_ths` 动态返回并固化进 `data/raw/sectors-ths-industry-manifest.json`
+  （少于 60 个视为接口异常拒绝采集，`fetch_market.THS_MIN_UNIVERSE`）；**单层、无父子关系**，
+  不复权日线，缓存 `data/raw/sectors-ths-industry/{881xxx}.csv`；盘中与收盘同源
+  （`server/paths.SECTOR_THS_RAW == fetch_market.THS_SECTOR_RAW`）。
+  前身：申万两层（v1.0/v1.1）→ 东财 31 行业（v2.0），均已留痕（见本节末尾）。
+- **四态判据**（算法版本 `sector-donchian20-ma60-v3.0-ths-source`，判定规则本体与 `v1.0` 一致，
   版本号升位只标识数据源与清单变更）：
   收盘价相对唐奇安 20 日通道中轨、相对 60 日均线两条判据组合成
   `bull`（多头，两者皆上）、`warn`（退潮，破中轨仍在 MA60 上）、
@@ -178,33 +189,36 @@ python pipeline/compare_snapshot.py --baseline <旧 index-signals.json> --curren
   四种状态使用同一公式，不按多空取反；通道宽度为零时固定为 0 并标记 `data_anomaly`。
   例如两项均值 80 对应强度 30，两项均值 20 对应强度 -30。
   改动前 0–100 且空头/退潮取反的旧产物已备份为 `data/sector-trends.pre-signed-strength.json`。
-- **滞后与展示降级**（自换源前沿用，本次未收紧也未放宽）：尾日早于产物 `as_of` 的板块标记 `data_lag`，
+- **滞后与展示降级**（自换源前沿用，未收紧未放宽）：尾日早于产物 `as_of` 的板块标记 `data_lag`，
   仍展示其状态；滞后超过 30 个自然日则清空 `state`/`strength`/`strength_parts`/`strength_basis`/`days`，
   宁可显示无状态也不用陈旧结论示人。该规则只作用于最新条目，不进入任何历史序列与信号计算。
+- **算法决策日志（改算法前必读）**：`openspec/sector-trend-algorithm-log.md` 记录了本页已测试不通过、
+  通过未采用与当前采用的全部算法口径；任何算法修改前必须先完整阅读该文档，测试结束后必须回写其变更登记表
+  （AGENTS 第 14 条）。
 - **准确率披露**：产物 `evaluation` 按研究段 / 验证段 × 10 / 20 日、**再按四态分组**给出方向胜率，
   每格同时给已判定样本、成功数、未决数与 Wilson 95% 区间。**四态样本之和恒等于拆分前的聚合样本**，
-  需要总体口径时直接相加即可（研究段 10 日 5,075 / 20 日 5,049；验证段 10 日 2,184 / 20 日 2,120）。
+  需要总体口径时直接相加即可（研究段 10 日 13,639 / 20 日 13,533；验证段 10 日 6,274 / 20 日 6,186）。
   方向按状态期望：`bull` / `rise` 期望上涨，`warn` / `bear` 期望下跌；未决事件不计入分母。
   格内格式为「方向胜率（已判定样本，Wilson 95% 区间）」，数据照录生产 `data/sector-trends.json`
-  （as_of 2026-11-04）：
+  （as_of 2026-11-13）：
 
   研究段（`research`，2020-10-30～2024-12-31）
 
   | 状态 | 10 日 | 20 日 |
   | --- | --- | --- |
-  | `bull` 多头 | 52.14%（1,404，49.52%–54.74%） | 48.21%（1,398，45.60%–50.83%） |
-  | `warn` 退潮 | 53.90%（1,128，50.98%–56.79%） | 54.33%（1,108，51.39%–57.25%） |
-  | `bear` 空头 | 53.42%（1,359，50.76%–56.06%） | 53.42%（1,359，50.76%–56.06%） |
-  | `rise` 反转 | 50.84%（1,184，48.00%–53.68%） | 53.04%（1,184，50.19%–55.87%） |
+  | `bull` 多头 | 52.38%（3,795，50.79%–53.97%） | 50.39%（3,765，48.79%–51.98%） |
+  | `warn` 退潮 | 54.10%（3,100，52.34%–55.84%） | 54.81%（3,027，53.03%–56.57%） |
+  | `bear` 空头 | 53.72%（3,604，52.09%–55.34%） | 51.96%（3,601，50.32%–53.59%） |
+  | `rise` 反转 | 52.61%（3,140，50.86%–54.35%） | 53.47%（3,140，51.72%–55.21%） |
 
   验证段（`exploratory_validation`，2025-01-02 起）
 
   | 状态 | 10 日 | 20 日 |
   | --- | --- | --- |
-  | `bull` 多头 | 57.75%（684，54.01%–61.40%） | 61.38%（668，57.63%–64.99%） |
-  | `warn` 退潮 | 50.62%（565，46.51%–54.72%） | 51.29%（544，47.09%–55.46%） |
-  | `bear` 空头 | 43.12%（494，38.82%–47.52%） | 39.32%（468，35.00%–43.81%） |
-  | `rise` 反转 | 72.11%（441，67.75%–76.09%） | 74.32%（440，70.04%–78.18%） |
+  | `bull` 多头 | 57.38%（1,924，55.16%–59.57%） | 58.12%（1,908，55.90%–60.32%） |
+  | `warn` 退潮 | 49.22%（1,605，46.78%–51.67%） | 51.04%（1,591，48.58%–53.49%） |
+  | `bear` 空头 | 43.10%（1,492，40.60%–45.62%） | 41.43%（1,453，38.92%–43.98%） |
+  | `rise` 反转 | 70.23%（1,253，67.64%–72.70%） | 70.66%（1,234，68.06%–73.14%） |
 
   产物自带 `research_status=post_hoc_exploratory_not_independent`：**验证段为事后观察、不构成独立验证**；
   说明文字为「板块趋势为描述性分类，方向胜率不代表交易收益；空头状态在验证段胜率低于 50%、
@@ -216,25 +230,37 @@ python pipeline/compare_snapshot.py --baseline <旧 index-signals.json> --curren
 python -c "import sys; sys.path.insert(0,'pipeline'); from build_dashboard import build_sectors; from io_utils import protected_write; protected_write('sector-trends.json', build_sectors(), compact_arrays=True)"
 ```
 
-板块回归比对（`compare_snapshot.py` 不带参数时现场重建并与两份生产产物逐板块/逐指数对账，
-板块只比 `state`/`strength`/`days`/分组；`--baseline-sectors` 指向不存在的文件则跳过板块部分）：
+板块回归比对（`compare_snapshot.py` 不带参数时现场重建并与生产产物逐指数对账，
+`--baseline-sectors` 可叠加板块级对账：板块只比 `state`/`strength`/`days`/分组；指向不存在的文件则跳过板块部分）：
 
 ```bash
 python pipeline/compare_snapshot.py
 ```
 
-换源前的申万两层基线 `data/research/sector-trends-baseline.json`（`v1.0`，as_of 2026-10-30）
-仅作换源前留痕保留，不再参与比对（旧新可比性已由 `pipeline/sector_source_migration.py` 的对照报告接管）。
+换源留痕（均不再参与比对）：申万两层基线 `data/research/sector-trends-baseline.json`
+（`v1.0`，as_of 2026-10-30，可比性由 `pipeline/sector_source_migration.py` 对照报告接管）；
+东财 v2.0 产物备份 `data/research/source-eval/manifests-before-migration-20261114/sector-trends.json.before-migration`
+（`v2.0-em-source`，as_of 2026-11-11）。
 
-## 信号算法（index-swing6-v2.0）
+## 信号算法（当前 `index-bigwave-bottom-v1.0`）
 
-生产信号由 `pipeline/swing_signal_engine.py` 生成，`confirmed_index_signals.ACTIVE_ALGORITHM` 控制生效算法（`swing` / `legacy`）。
+生产信号由 `pipeline/confirmed_index_signals.py` 生成，`ACTIVE_ALGORITHM` 三选一：
+`bigwave`（现行）/ `swing`（回滚）/ `legacy`（回滚）。
 
-- **六个正交方向**：价格位置、动量背离、量能极值、波动状态、趋势状态、横截面宽度（31 个东财行业板块站上 MA20/MA60 的占比及 5 日变化）；每个方向独立打分，等权合成。
-- **两道闸门**：核心三项（位置 / 宽度 / 量能）至少两项达到极端；趋势处于"加速恶化"时否决底部候选（顶部对称）。
-- **波段交替**：`bottom` 与 `top` 严格交替，一个波段只发一个转折信号；同向候选在出现反向信号前一律丢弃，并要求最小波段间隔与振幅。
-- **三层确认**：价格（突破候选日高低点）→ 动量（K 线方向 + RSI 转向，顶部额外要求 MA5 掉头）→ 量能（放量或宽度改善 ≥5pp），窗口 1–3 个交易日，超时作废；信号日期记为确认日。
-- **分级**：A 级要求核心三项全部极端且分数不低于本指数信号中位数，其余为 B 级。
+- **现行 `bigwave`（大波段底部，仅底部信号）**：自适应幅度 ZigZag 极值（幅度线 = k × 训练段年化波动，
+  按波动分 3 组冻结参数）→ 1~3 日三层确认（价格 → 动量 → 量能）→ 信号日记为确认日；
+  顶部按用户 2026-11-09 决定暂时关闭；另输出「超卖 + 宽度冰点」情绪底背景带。
+  逐指数人工核对表见 `data/research/bigwave-bottom-checklist.md`。
+- **回滚 `swing`（`index-swing6-v2.0`）**：六个正交方向独立打分、等权合成；两道闸门（核心三项
+  至少两项达到极端 + 趋势"加速恶化"否决底部候选、顶部对称）；`bottom` 与 `top` 波段严格交替，
+  同向候选在出现反向信号前一律丢弃，要求最小波段间隔与振幅。
+- **回滚 `legacy`（`index-mf4-participation-v1.1-confirmed`）**：四因子确认算法，swing6 之前的生产口径。
+- **横截面宽度**：90 个同花顺行业指数站上 MA20/MA60 的占比及 5 日变化（2026-11-14 起与板块线同源）；
+  2026-11-03~11-14 为东财 31 行业，更早为申万两层。
+- **三层确认与分级**（bigwave / swing 共用）：价格（突破候选日高低点）→ 动量（K 线方向 + RSI 转向，
+  顶部额外要求 MA5 掉头）→ 量能（放量或宽度改善 ≥5pp），窗口 1–3 个交易日，超时作废；信号日期记为确认日。
+  A 级要求核心三项全部极端且分数不低于本指数信号中位数，其余为 B 级。
+- **算法决策日志（改算法前必读）**：`openspec/index-signal-algorithm-log.md`，规则同板块页（AGENTS 第 14 条）。
 
 ### 回撤口径
 
@@ -246,21 +272,27 @@ python pipeline/compare_snapshot.py
 ### 研究口径
 
 - 训练段 `2020-10-30 ~ 2024-12-31` 选参，验证段 `2025-01-01` 起仅作报告，隔离期 20 个交易日；
-- 选参指标为底部/顶部 Wilson 下界取小，已判定样本 <20 淘汰；一致性要求 ≥4/7 个指数的 20 日前瞻收益高于同期全样本均值；
-- 冻结参数与淘汰记录见 `data/research/swing-factors-index-swing6-v2.0.json`，新旧对照见 `data/research/swing-vs-legacy-index-swing6-v2.0.json`；
+- swing6 择参规则：底部/顶部 Wilson 下界取小，已判定样本 <20 淘汰；一致性要求 ≥4/7 个指数的
+  20 日前瞻收益高于同期全样本均值；冻结参数与淘汰记录见 `data/research/swing-factors-index-swing6-v2.0.json`，
+  新旧对照见 `data/research/swing-vs-legacy-index-swing6-v2.0.json`；
+- bigwave 择参：训练段按指数年化波动分 3 组冻结（objective = train direction + big-band hit
+  under per-year ≤ 2.5），验证段未参与择参；研究源 `pipeline/research_dual_bottom.py`，
+  结论 `data/research/dual-bottom-research.json`；
 - 研究脚本只写 `data/research/`，不触碰生产 JSON。
 
 ## 数据口径与约束
 
-- 复权方式与数据源已固定，变更等于更换一套信号历史，需单独评审（2026-11 那次板块换源即走了单独评审与
-  新旧对照留痕，口径为**东财行业板块日线、不复权**）；2026-11-14 指数线（同花顺→新浪）与
+- 复权方式与数据源已固定，变更等于更换一套信号历史，需单独评审（板块线 2026-11 两轮换源均走了
+  单独评审与留痕：申万→东财有逐日四态一致率对照；东财→同花顺为粒度变更，以探测结论与版本升位
+  声明为准，均见 `openspec/sector-trend-algorithm-log.md`）；2026-11-14 指数线（同花顺→新浪）与
   ETF 线（东财→新浪，清单校验→腾讯）经用户授权以可用性优先换源，信号事实对照见
   `data/research/source-eval/source-migration-20261114.md`（信号日期/类型 100% 一致）；
 - 信号只在三层确认全部通过后产生，未确认候选不计入准确率；
 - 页面展示准确率时必须同时给出已判定样本数与统计区间，并并列展示回撤；
 - 原始日线 `data/raw/` **全量随仓库分发**（git ls-files 可核）：生产实际使用约 23MB
-  （中金所 10.9MB + 东财行业板块 9.1MB + 指数等），克隆即有历史；另有约 41MB 的旧申万板块缓存
-  仅作为换源前留痕保留，已不参与任何计算（删除后重建结果逐字节一致，已验证）；
+  （中金所 10.9MB + 同花顺行业板块 9.0MB + 指数等），克隆即有历史；另有约 41MB 的旧申万板块缓存
+  与约 9.1MB 的东财 31 行业缓存（2026-11-14 板块线换源后转为留痕）不参与任何计算
+  （删除后重建结果逐字节一致，已验证）；
   唯一例外是 `data/raw/refresh-state.json`：本机补齐台账（当日尝试次数与完成标记），
   已加入 `.gitignore`，多机 pull 不会互相覆盖；
 - `data/*.json` 随仓库分发，作为离线首屏兜底。
@@ -311,7 +343,8 @@ python pipeline/institution_positions.py --force     # 忽略缓存重抓
 `.venv` → `py -3` → `python3` → `python`（校验版本），正常不会触发。
 若你手动执行 `python start.py`，请改用 `py -3 start.py`，或先激活虚拟环境。
 
-**首次启动很慢？** 需拉取 7 个指数 + 31 个行业板块的日线，逐标的串行请求，首轮耗时主要取决于网络；页面会显示「数据准备中」。
+**首次启动很慢？** 需拉取 7 个指数 + 90 个行业板块的日线，逐标的串行请求（板块首次全量约 630 请求、
+实测约 25 分钟），首轮耗时主要取决于网络；页面会显示「数据准备中」。
 **启动后页面长时间「数据准备中」？** 启动会先把落后的日线补完才出首屏：
 可看 `GET /api/health` 的 `stage`/`detail` 确认在拉哪一类；补齐报错也会继续启动，`last_error` 保留原因。
 
