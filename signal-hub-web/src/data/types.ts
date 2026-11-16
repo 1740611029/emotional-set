@@ -468,6 +468,8 @@ export interface BloggerPost {
   text: string;
   stocks: BloggerStockTag[];
   images: number;
+  /** 配图直链（同花顺 u.thsi.cn CDN，浏览器直接热链加载；历史旧数据可能为空） */
+  image_urls: string[];
   url: string;
 }
 

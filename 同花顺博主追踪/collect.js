@@ -321,6 +321,8 @@ function normalize(c) {
   const stat = c.stat || {};
   const tags = (c.tag && c.tag.tags) || [];
   const imgs = (c.image && c.image.urls) || [];
+  // 只保留合法的 http(s) 直链，页面直接热链加载（u.thsi.cn CDN 无防盗链，已实测）
+  const imageUrls = imgs.filter((u) => typeof u === 'string' && /^https?:\/\//.test(u));
   const raw = (c.abstract && c.abstract.content) || '';
   const text = raw
     .replace(/<br\s*\/?>/gi, '\n')
@@ -339,7 +341,8 @@ function normalize(c) {
     time: cn.time,
     text,
     stocks: tags.map((t) => ({ name: t.name, code: t.code })),
-    images: imgs.length,
+    images: imageUrls.length,
+    image_urls: imageUrls,
     url: info.pc_jump_url || info.jump_url || '',
   };
 }
@@ -502,11 +505,22 @@ async function main() {
     }
 
     const fresh = [];
+    let backfilled = 0;
     for (const c of contents) {
       const item = normalize(c);
-      if (!item.id || known.has(item.id)) continue;
-      known.add(item.id);
-      fresh.push(item);
+      if (!item.id) continue;
+      if (!known.has(item.id)) {
+        known.add(item.id);
+        fresh.push(item);
+        continue;
+      }
+      // 回填：接口每次返回最近一页内容，对已收录但缺图片 URL 的旧帖就地补齐（能补多少补多少）
+      const idx = posts.findIndex((p) => p.id === item.id);
+      if (idx >= 0 && item.image_urls.length && !(posts[idx].image_urls || []).length) {
+        posts[idx].image_urls = item.image_urls;
+        posts[idx].images = item.image_urls.length;
+        backfilled++;
+      }
     }
 
     state.token = token;
@@ -549,6 +563,7 @@ async function main() {
     } else {
       log(`无新发文（当前已收录 ${kept.length} 条）`);
     }
+    if (backfilled) log(`回填历史发文图片 URL ${backfilled} 条`);
     if (removed > 0) log(`清理超期发文 ${removed} 条（保留 ${cutoff} 及之后）`);
   } catch (e) {
     log(`执行失败：${e.message}`);

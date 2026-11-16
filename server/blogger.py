@@ -62,6 +62,12 @@ def load_posts() -> dict:
         for stock in item.get("stocks") or []:
             if isinstance(stock, dict) and stock.get("name"):
                 stocks.append({"name": str(stock["name"]), "code": str(stock.get("code") or "")})
+        # 配图直链（同花顺 u.thsi.cn CDN，浏览器直接热链加载）
+        image_urls = [
+            str(url)
+            for url in item.get("image_urls") or []
+            if isinstance(url, str) and url.startswith(("http://", "https://"))
+        ]
         items.append({
             "id": str(item.get("id") or ""),
             "date": str(date),
@@ -69,6 +75,7 @@ def load_posts() -> dict:
             "text": str(item.get("text") or ""),
             "stocks": stocks,
             "images": int(item.get("images") or 0),
+            "image_urls": image_urls,
             "url": str(item.get("url") or ""),
         })
 

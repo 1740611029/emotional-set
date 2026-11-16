@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
 import { PostIcon } from '../components/icons';
 import { useBloggerPosts } from '../hooks/useBloggerPosts';
@@ -53,11 +53,143 @@ function renderText(text: string) {
   ));
 }
 
+/** 配图（CDN 直链热链加载）：加载失败降级为占位提示，不撑破布局 */
+function PostImage({ src, alt, className }: { src: string; alt: string; className: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={`${className} flex items-center justify-center bg-slate-50 text-[11px] text-slate-400`}>
+        配图加载失败
+      </div>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
+/** 放大查看器：全屏遮罩 + 大图，支持左右切换、键盘方向键与 ESC、点击遮罩关闭 */
+function ImageViewer({
+  images,
+  index,
+  onClose,
+  onNavigate,
+}: {
+  images: string[];
+  index: number;
+  onClose: () => void;
+  onNavigate: (delta: number) => void;
+}) {
+  const [failed, setFailed] = useState(false);
+  const multi = images.length > 1;
+
+  useEffect(() => setFailed(false), [index]);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+      else if (event.key === 'ArrowLeft') onNavigate(-1);
+      else if (event.key === 'ArrowRight') onNavigate(1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose, onNavigate]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-slate-900/70 p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="发文配图查看"
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+        aria-label="关闭大图"
+      >
+        <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <path d="M4 4l8 8M12 4l-8 8" strokeLinecap="round" />
+        </svg>
+      </button>
+
+      {multi && (
+        <button
+          type="button"
+          onClick={(event) => { event.stopPropagation(); onNavigate(-1); }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
+          aria-label="上一张"
+        >
+          <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M10 3L5 8l5 5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+      {multi && (
+        <button
+          type="button"
+          onClick={(event) => { event.stopPropagation(); onNavigate(1); }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
+          aria-label="下一张"
+        >
+          <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M6 3l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+
+      <div
+        className="flex max-h-full max-w-full flex-col items-center gap-3"
+        onClick={(event) => event.stopPropagation()}
+      >
+        {failed ? (
+          <div className="rounded-xl bg-white/90 px-8 py-10 text-sm text-slate-500 shadow-2xl">
+            配图加载失败，可点击「查看原帖」回到原始页面
+          </div>
+        ) : (
+          <img
+            src={images[index]}
+            alt={`发文配图 ${index + 1}`}
+            className="max-h-[82vh] max-w-[88vw] rounded-xl object-contain shadow-2xl"
+            referrerPolicy="no-referrer"
+            onError={() => setFailed(true)}
+          />
+        )}
+        {multi && (
+          <div className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/90 tabular-nums">
+            {index + 1} / {images.length}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** 放大镜小图标（缩略图 hover 提示） */
+function ZoomHintIcon() {
+  return (
+    <svg viewBox="0 0 16 16" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <circle cx="7" cy="7" r="4.5" />
+      <path d="M10.5 10.5L13.5 13.5" strokeLinecap="round" />
+      <path d="M7 5.5v3M5.5 7h3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function BloggerPosts() {
   const { data, error, isLoading, refresh } = useBloggerPosts();
   const [range, setRange] = useState<RangeKey>('all');
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
+  const [viewer, setViewer] = useState<{ images: string[]; index: number } | null>(null);
 
   const today = beijingToday();
 
@@ -234,8 +366,31 @@ export function BloggerPosts() {
                         </p>
                       ) : (
                         <p className="text-sm italic text-slate-400">
-                          （纯图片帖{post.images > 0 ? `，${post.images} 张配图` : ''}，正文为空）
+                          {post.image_urls.length ? '（纯图片帖，正文为空）' : '（正文为空）'}
                         </p>
+                      )}
+
+                      {post.image_urls.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {post.image_urls.map((src, imageIndex) => (
+                            <button
+                              key={src}
+                              type="button"
+                              onClick={() => setViewer({ images: post.image_urls, index: imageIndex })}
+                              className="group relative cursor-zoom-in overflow-hidden rounded-lg border border-slate-100 transition hover:ring-2 hover:ring-brand-200"
+                              aria-label={`点击放大查看配图 ${imageIndex + 1}`}
+                            >
+                              <PostImage
+                                src={src}
+                                alt={`发文配图 ${imageIndex + 1}`}
+                                className={post.image_urls.length === 1 ? 'h-44 w-56 object-cover' : 'h-28 w-28 object-cover'}
+                              />
+                              <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-900/20 text-white opacity-0 transition-opacity group-hover:opacity-100">
+                                <ZoomHintIcon />
+                              </span>
+                            </button>
+                          ))}
+                        </div>
                       )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -267,6 +422,18 @@ export function BloggerPosts() {
           </section>
         ))}
       </div>
+
+      {viewer && (
+        <ImageViewer
+          images={viewer.images}
+          index={viewer.index}
+          onClose={() => setViewer(null)}
+          onNavigate={(delta) => setViewer((current) => current && {
+            images: current.images,
+            index: (current.index + delta + current.images.length) % current.images.length,
+          })}
+        />
+      )}
     </div>
   );
 }
