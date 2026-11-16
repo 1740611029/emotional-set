@@ -2,18 +2,22 @@
  * 【龙虎榜知名游资】离场配对展示时效：纯函数，无 DOM、无请求、无副作用。
  *
  * 口径（2026-11-14 用户确认）：
- * - 游资总览 + 个股游资总览：统一 5 个交易日，第 6 个交易日起默认隐藏，可切换回显；
- * - 每日动向：保持既有 3 个交易日过滤口径，不参与开关；
+ * - 每日动向：保持既有 3 个交易日过滤口径（hideAfterDays 路径），不参与开关；
  * - 起算日为产物 positions[].last_seen（该游资在该股最后一次上单日榜的日期），
  *   按 trading_dates 序号差计交易日；
  * - 产物数据完整保留，本模块只决定页面可见性，沿用「展示什么就统计什么」。
  *
- * 两份视图各自直接从原始产物构建，互不复用结果：5 日视图不经过 3 日裁剪，
+ * 口径变更（2026-11-16 用户确认）：游资总览 + 个股游资总览 + 游资详情操作记录
+ * 切换为 hideAllExited 一律隐藏——隐藏态下所有已离场配对（不再按 5 个交易日分级，
+ * 含 5 日内带徽章的记录）全部隐藏，开关打开才回显并带离场徽章；
+ * 旧的 hideAfterDays 路径完整保留供每日动向使用，可对照验证。
+ *
+ * 两份视图各自直接从原始产物构建，互不复用结果：主视图不经过 3 日裁剪，
  * 每日动向视图不消费显示开关。
  */
 import type { LhbOverviewTrader, LhbPosition } from '../data/types';
 
-/** 游资总览 + 个股游资总览：离场配对展示时效（交易日） */
+/** 历史主视图阈值（交易日）。2026-11-16 起主视图切换为 hideAllExited 一律隐藏口径，此常量仅作历史口径对照与测试基线留存 */
 export const EXIT_VISIBILITY_DAYS = 5;
 /** 每日动向：既有展示口径（交易日），保持不变 */
 export const DAILY_VIEW_MARK_DAYS = 3;
@@ -22,10 +26,12 @@ export const DAILY_VIEW_MARK_DAYS = 3;
 export type ViewTrader = LhbOverviewTrader & { exits: Map<string, LhbPosition> };
 
 export interface BuildViewOptions {
-  /** 距 exit_date 超过该交易日数即默认隐藏 */
-  hideAfterDays: number;
-  /** true = 回显超期配对（显示开关开启）；false = 默认隐藏 */
+  /** 距 exit_date 超过该交易日数即默认隐藏；hideAllExited=true 时忽略。与 hideAllExited 至少传一个 */
+  hideAfterDays?: number;
+  /** true = 回显被隐藏的离场配对（显示开关开启）；false = 默认隐藏 */
   includeExpired: boolean;
+  /** true = 已离场配对一律默认隐藏（不按交易日阈值分级，含 5 日内带徽章的）；2026-11-16 用户确认口径 */
+  hideAllExited?: boolean;
 }
 
 export interface BuildViewResult {
@@ -50,7 +56,7 @@ export function exitAgeInTradingDays(
 
 /**
  * 展示层「在场过滤」：从原始产物独立构建一份视图。
- * 返回 hiddenCodes 供按钮显示精确计数；该集合恒表示「默认隐藏」的个股，切换开关不改变它。
+ * 返回 hiddenCodes 供按钮显示；该集合恒表示「默认隐藏」的个股，切换开关不改变它。
  */
 export function buildViewTraders(
   rawTraders: LhbOverviewTrader[],
@@ -58,7 +64,8 @@ export function buildViewTraders(
   asOf: string | null,
   options: BuildViewOptions,
 ): BuildViewResult {
-  const { hideAfterDays, includeExpired } = options;
+  const { includeExpired, hideAllExited = false } = options;
+  const hideAfterDays = options.hideAfterDays ?? 0;
   const round2 = (value: number) => Math.round(value * 100) / 100;
   const result: ViewTrader[] = [];
   const hiddenCodes = new Set<string>();
@@ -71,7 +78,8 @@ export function buildViewTraders(
       const age = exitAgeInTradingDays(position, tradingDates, asOf);
       // 日期异常 → 保守展示，且不打离场标记（沿用既有行为）
       if (age === null) return true;
-      if (age > hideAfterDays) {
+      const shouldHide = hideAllExited ? true : age > hideAfterDays;
+      if (shouldHide) {
         hiddenCodes.add(record.code);
         if (includeExpired) {
           exits.set(record.code, position);

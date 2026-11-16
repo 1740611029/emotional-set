@@ -1,11 +1,10 @@
-import { Fragment, useMemo, useState } from 'react';
-import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { CollapseChevron, EmptyState, IndicatorHeader, Notice } from '../components/ui';
 import { LhbIcon } from '../components/icons';
 import { useLhbOverview } from '../hooks/useLhbOverview';
 import type { LhbDailyRow, LhbPosition, LhbRecord } from '../data/types';
 import {
   buildViewTraders as buildView,
-  EXIT_VISIBILITY_DAYS,
   DAILY_VIEW_MARK_DAYS,
   type ViewTrader,
 } from '../lib/lhbExitVisibility';
@@ -123,90 +122,125 @@ function TraderCard({ trader, onSelect }: { trader: ViewTrader; onSelect: () => 
   );
 }
 
-function TraderDetail({ trader, onBack }: { trader: ViewTrader; onBack: () => void }) {
+/** 游资详情弹窗：按项目弹层规范（遮罩点击关闭、内层 stopPropagation、ESC 关闭），需求 2026-11-16 */
+function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: () => void }) {
   const [showMultiDay, setShowMultiDay] = useState(false);
+  // 收录席位默认收起，点击标题行展开（需求 2026-11-16）
+  const [showSeats, setShowSeats] = useState(false);
+  // ESC 关闭
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onClose]);
   const records = useMemo(
     () => trader.records.filter((record) => showMultiDay || !record.is_multi_day),
     [trader.records, showMultiDay],
   );
   return (
-    <div className="glass-card rounded-2xl p-6 flex flex-col h-full">
-      <div className="flex flex-wrap items-center gap-3 mb-1">
-        <button type="button" onClick={onBack} className="text-sm text-brand-600 hover:text-brand-700">← 返回总览</button>
-        <h3 className="text-xl font-bold text-slate-800">{trader.full_name}</h3>
-        <span className={`rounded px-2 py-0.5 text-xs font-semibold ${TIER_CLASS[trader.tier] ?? 'bg-slate-100 text-slate-500'}`}>{trader.tier}</span>
-      </div>
-      <p className="text-xs text-slate-500 mb-4">{trader.style}{trader.note ? ` · ${trader.note}` : ''}</p>
+    <div
+      className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="glass-card rounded-2xl w-full max-w-5xl max-h-[88vh] flex flex-col overflow-hidden"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex flex-wrap items-center gap-3 mb-1 px-6 pt-6">
+          <h3 className="text-xl font-bold text-slate-800">{trader.full_name}</h3>
+          <span className={`rounded px-2 py-0.5 text-xs font-semibold ${TIER_CLASS[trader.tier] ?? 'bg-slate-100 text-slate-500'}`}>{trader.tier}</span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="关闭详情"
+            className="ml-auto flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors text-lg leading-none"
+          >
+            ×
+          </button>
+        </div>
+        <p className="text-xs text-slate-500 mb-4 px-6">{trader.style}{trader.note ? ` · ${trader.note}` : ''}</p>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5">
-        {([
-          ['活跃天数', `${trader.stats.active_days}`],
-          ['操作笔数', `${trader.stats.records}`],
-          ['买入合计', `${yi(trader.stats.buy_total)}亿`],
-          ['卖出合计', `${yi(trader.stats.sell_total)}亿`],
-          ['净买入', signedYi(trader.stats.net_total)],
-        ] as const).map(([label, value]) => (
-          <div key={label} className="rounded-xl bg-white/60 border border-slate-100 px-4 py-3">
-            <p className="text-xs text-slate-400">{label}</p>
-            <p className="text-base font-bold text-slate-700 tabular-nums">{value}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mb-5">
-        <h4 className="text-sm font-bold text-slate-700 mb-2">收录席位（{trader.seats.length}）</h4>
-        <div className="flex flex-wrap gap-2">
-          {trader.seats.map((seat) => (
-            <span key={seat.full} className="inline-flex items-center gap-1.5 rounded-lg bg-white/70 border border-slate-100 px-2.5 py-1 text-xs text-slate-600">
-              {seat.full}
-              <ConfidenceBadge value={seat.confidence} />
-            </span>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5 px-6">
+          {([
+            ['活跃天数', `${trader.stats.active_days}`],
+            ['操作笔数', `${trader.stats.records}`],
+            ['买入合计', `${yi(trader.stats.buy_total)}亿`],
+            ['卖出合计', `${yi(trader.stats.sell_total)}亿`],
+            ['净买入', signedYi(trader.stats.net_total)],
+          ] as const).map(([label, value]) => (
+            <div key={label} className="rounded-xl bg-white/60 border border-slate-100 px-4 py-3">
+              <p className="text-xs text-slate-400">{label}</p>
+              <p className="text-base font-bold text-slate-700 tabular-nums">{value}</p>
+            </div>
           ))}
         </div>
-      </div>
 
-      <div className="flex items-center gap-3 mb-2">
-        <h4 className="text-sm font-bold text-slate-700">操作记录（{records.length}）</h4>
-        <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
-          <input type="checkbox" checked={showMultiDay} onChange={(event) => setShowMultiDay(event.target.checked)} className="accent-brand-500" />
-          显示多日累计榜（不计入统计）
-        </label>
-      </div>
-      <div className="overflow-auto rounded-lg border border-slate-100 flex-1 min-h-0">
-        <table className="w-full min-w-[860px]">
-          <thead className="sticky top-0 bg-white z-10">
-            <tr className="border-b border-slate-100">
-              {['日期', '股票', '涨跌幅', '买入', '卖出', '净额', '板块', '席位', '置信'].map((label) => (
-                <th key={label} className="text-left text-xs font-semibold text-slate-400 py-2.5 px-3 whitespace-nowrap">{label}</th>
+        <div className="mb-5 px-6">
+          <button
+            type="button"
+            onClick={() => setShowSeats((prev) => !prev)}
+            className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-700 transition-colors"
+          >
+            <CollapseChevron open={showSeats} />
+            收录席位（{trader.seats.length}）
+          </button>
+          {showSeats && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {trader.seats.map((seat) => (
+                <span key={seat.full} className="inline-flex items-center gap-1.5 rounded-lg bg-white/70 border border-slate-100 px-2.5 py-1 text-xs text-slate-600">
+                  {seat.full}
+                  <ConfidenceBadge value={seat.confidence} />
+                </span>
               ))}
-            </tr>
-          </thead>
-          <tbody className="text-sm">
-            {records.map((record) => (
-              <tr key={`${record.date}-${record.code}-${record.is_multi_day}`} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                <td className="py-2.5 px-3 text-slate-500 tabular-nums whitespace-nowrap">{record.date}</td>
-                <td className="py-2.5 px-3 whitespace-nowrap">
-                  <span className="font-medium text-slate-700">{record.name}</span>
-                  <span className="text-xs text-slate-400 ml-1">{record.code}</span>
-                  {record.is_multi_day && <span className="ml-1 rounded bg-slate-100 px-1 text-[10px] text-slate-500">多日</span>}
-                  {trader.exits.get(record.code) && <span className="ml-1.5"><ExitBadge status={trader.exits.get(record.code)!.status} /></span>}
-                </td>
-                <td className={`py-2.5 px-3 tabular-nums whitespace-nowrap ${(record.pct_chg ?? 0) > 0 ? 'text-coral-500' : (record.pct_chg ?? 0) < 0 ? 'text-mint-600' : 'text-slate-400'}`}>
-                  {record.pct_chg === null ? '—' : `${record.pct_chg > 0 ? '+' : ''}${record.pct_chg.toFixed(2)}%`}
-                </td>
-                <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.buy)}亿</td>
-                <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.sell)}亿</td>
-                <td className="py-2.5 px-3"><NetText value={record.net} className="font-medium" /></td>
-                <td className="py-2.5 px-3 text-slate-500 text-xs">{record.board ?? '—'}</td>
-                <td className="py-2.5 px-3 text-xs text-slate-400 max-w-[220px] truncate" title={record.seat_hits.join('；')}>{record.seat_hits.join('；')}</td>
-                <td className="py-2.5 px-3"><ConfidenceBadge value={record.confidence} /></td>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3 mb-2 px-6">
+          <h4 className="text-sm font-bold text-slate-700">操作记录（{records.length}）</h4>
+          <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" checked={showMultiDay} onChange={(event) => setShowMultiDay(event.target.checked)} className="accent-brand-500" />
+            显示多日累计榜（不计入统计）
+          </label>
+        </div>
+        <div className="overflow-auto rounded-lg border border-slate-100 flex-1 min-h-0 mx-6 mb-6">
+          <table className="w-full min-w-[860px]">
+            <thead className="sticky top-0 bg-white z-10">
+              <tr className="border-b border-slate-100">
+                {['日期', '股票', '涨跌幅', '买入', '卖出', '净额', '板块', '席位', '置信'].map((label) => (
+                  <th key={label} className="text-left text-xs font-semibold text-slate-400 py-2.5 px-3 whitespace-nowrap">{label}</th>
+                ))}
               </tr>
-            ))}
-            {records.length === 0 && (
-              <tr><td colSpan={9}><EmptyState text="无匹配记录" /></td></tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-sm">
+              {records.map((record) => (
+                <tr key={`${record.date}-${record.code}-${record.is_multi_day}`} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                  <td className="py-2.5 px-3 text-slate-500 tabular-nums whitespace-nowrap">{record.date}</td>
+                  <td className="py-2.5 px-3 whitespace-nowrap">
+                    <span className="font-medium text-slate-700">{record.name}</span>
+                    <span className="text-xs text-slate-400 ml-1">{record.code}</span>
+                    {record.is_multi_day && <span className="ml-1 rounded bg-slate-100 px-1 text-[10px] text-slate-500">多日</span>}
+                    {trader.exits.get(record.code) && <span className="ml-1.5"><ExitBadge status={trader.exits.get(record.code)!.status} /></span>}
+                  </td>
+                  <td className={`py-2.5 px-3 tabular-nums whitespace-nowrap ${(record.pct_chg ?? 0) > 0 ? 'text-coral-500' : (record.pct_chg ?? 0) < 0 ? 'text-mint-600' : 'text-slate-400'}`}>
+                    {record.pct_chg === null ? '—' : `${record.pct_chg > 0 ? '+' : ''}${record.pct_chg.toFixed(2)}%`}
+                  </td>
+                  <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.buy)}亿</td>
+                  <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.sell)}亿</td>
+                  <td className="py-2.5 px-3"><NetText value={record.net} className="font-medium" /></td>
+                  <td className="py-2.5 px-3 text-slate-500 text-xs">{record.board ?? '—'}</td>
+                  <td className="py-2.5 px-3 text-xs text-slate-400 max-w-[220px] truncate" title={record.seat_hits.join('；')}>{record.seat_hits.join('；')}</td>
+                  <td className="py-2.5 px-3"><ConfidenceBadge value={record.confidence} /></td>
+                </tr>
+              ))}
+              {records.length === 0 && (
+                <tr><td colSpan={9}><EmptyState text="无匹配记录" /></td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -344,7 +378,7 @@ function StockOverviewView({ traders, asOf }: { traders: ViewTrader[]; asOf: str
                   className={`border-b border-slate-50 cursor-pointer transition-colors hover:bg-slate-50/50 ${expanded.has(stock.code) ? 'bg-brand-50/40' : ''}`}
                 >
                   <td className="py-2.5 px-3 whitespace-nowrap">
-                    <span className="text-xs text-slate-300 mr-1.5">{expanded.has(stock.code) ? '▾' : '▸'}</span>
+                    <span className="inline-flex align-[-3px] mr-1.5"><CollapseChevron open={expanded.has(stock.code)} /></span>
                     <span className="font-medium text-slate-700">{stock.name}</span>
                     <span className="text-xs text-slate-400 ml-1">{stock.code}</span>
                   </td>
@@ -488,15 +522,18 @@ export function LhbTraders() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   // 页面级开关：是否显示 5 个交易日外已离场的个股配对（游资总览 + 个股游资总览共用）
   const [showExpired, setShowExpired] = useState(false);
+  // 统计口径默认收起，点击标题行展开（需求 2026-11-16）
+  const [showNotice, setShowNotice] = useState(false);
 
   const rawTraders = data?.traders ?? [];
   const tradingDates = data?.trading_dates ?? [];
   const asOf = data?.as_of ?? null;
 
-  // 主视图：游资总览 + 个股游资总览 — 5 个交易日阈值，受开关控制
+  // 主视图：游资总览 + 个股游资总览 + 游资详情操作记录 — 已离场配对一律隐藏（含 5 日内带徽章的），
+  // 开关打开才回显；2026-11-16 用户确认口径（操作记录与按钮完全同步）
   const mainView = useMemo(
     () => buildView(rawTraders, tradingDates, asOf, {
-      hideAfterDays: EXIT_VISIBILITY_DAYS, includeExpired: showExpired,
+      includeExpired: showExpired, hideAllExited: true,
     }),
     [rawTraders, tradingDates, asOf, showExpired],
   );
@@ -547,7 +584,8 @@ export function LhbTraders() {
   const toggleBtn = (hiddenCount > 0 || showExpired) && ready;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden p-8">
+    <div className="flex flex-1 min-h-0 flex-col overflow-hidden p-6">
+      {/* flex-1 min-h-0：分得滚动容器中 PageTaskBar 之下的全部剩余高度（h-full 会把 PageTaskBar 高度溢出视口） */}
       <IndicatorHeader
         icon={LhbIcon}
         gradientClass="from-brand-400 to-mint-400"
@@ -562,12 +600,24 @@ export function LhbTraders() {
       />
 
       <div className="mb-5">
-        <Notice>
-          统计口径：仅计入单日榜金额（三日累计榜仅存记录不参与统计）；同股同席位跨上榜原因的重复披露已按当日去重。
-          席位映射为公开资料交叉整理，<b>非官方认证</b>，低置信席位操作已标注「存疑」；数据仅供参考，不构成投资建议。
-          在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」。
-          离场配对展示时效：游资总览与个股游资总览保留 5 个交易日，第 6 个交易日起默认隐藏，可点击下方按钮切换显示；每日动向保持既有 3 个交易日口径。数据完整保留于产物，判定仅基于窗口内数据，非真实持仓。
-        </Notice>
+        <button
+          type="button"
+          onClick={() => setShowNotice((prev) => !prev)}
+          className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-colors"
+        >
+          <CollapseChevron open={showNotice} />
+          统计口径
+        </button>
+        {showNotice && (
+          <div className="mt-2">
+            <Notice>
+              统计口径：仅计入单日榜金额（三日累计榜仅存记录不参与统计）；同股同席位跨上榜原因的重复披露已按当日去重。
+              席位映射为公开资料交叉整理，<b>非官方认证</b>，低置信席位操作已标注「存疑」；数据仅供参考，不构成投资建议。
+              在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」。
+              离场配对展示时效：游资总览、个股游资总览与游资详情操作记录默认隐藏全部已离场个股（含 5 日内离场、带徽章的记录），可点击下方按钮切换显示并带离场徽章；每日动向保持既有 3 个交易日口径。数据完整保留于产物，判定仅基于窗口内数据，非真实持仓。
+            </Notice>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-2 mb-5">
@@ -604,7 +654,7 @@ export function LhbTraders() {
                   showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
                 }`}
               >
-                {showExpired ? '隐藏' : '显示'} 5 日外离场个股
+                {showExpired ? '隐藏' : '显示'} 已离场个股
               </button>
             )}
           </div>
@@ -617,7 +667,7 @@ export function LhbTraders() {
               showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
             }`}
           >
-            {showExpired ? '隐藏' : '显示'} 5 日外离场个股
+            {showExpired ? '隐藏' : '显示'} 已离场个股
           </button>
         )}
       </div>
@@ -635,11 +685,9 @@ export function LhbTraders() {
         </div>
       )}
       {ready && view === 'overview' && selected && (
-        <div className="flex-1 min-h-0">
-          <TraderDetail trader={selected} onBack={() => setSelectedId(null)} />
-        </div>
+        <TraderDetailModal trader={selected} onClose={() => setSelectedId(null)} />
       )}
-      {ready && view === 'overview' && !selected && (
+      {ready && view === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 flex-1 min-h-0 overflow-y-auto">
           {sorted.map((trader) => (
             <TraderCard key={trader.id} trader={trader} onSelect={() => setSelectedId(trader.id)} />

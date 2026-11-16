@@ -322,6 +322,113 @@ test('exitAgeInTradingDays：正常值、边界、异常', () => {
 });
 
 // ================================================================
+// 13. hideAllExited：已离场配对一律隐藏（2026-11-16 用户确认口径）
+// ================================================================
+test('hideAllExited：5 日内已离场配对也默认隐藏，开关打开回显带徽章', () => {
+  const exitDate2 = TD[7 - 2]; // age=2（远小于历史 5 日阈值）
+  const raw = trader('t1', '游资A', [
+    rec(TD[0], '000001'), // 5 日内离场 → 新口径隐藏
+    rec(TD[0], '000002'), // active → 保留
+  ], [
+    pos('000001', 'exited_confirmed', exitDate2),
+    pos('000002', 'active', null),
+  ]);
+  const { traders, hiddenCodes } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: false, hideAllExited: true,
+  });
+  assert.equal(traders.length, 1);
+  assert.ok(!traders[0].records.some((r) => r.code === '000001'), '5 日内已离场也应隐藏');
+  assert.ok(traders[0].records.some((r) => r.code === '000002'), 'active 保留');
+  assert.ok(hiddenCodes.has('000001'), 'hiddenCodes 含 5 日内离场个股');
+  assert.ok(!traders[0].exits.has('000001'), '隐藏态下无离场徽章');
+
+  // 开关打开 → 回显并带徽章
+  const { traders: shown } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: true, hideAllExited: true,
+  });
+  assert.ok(shown[0].records.some((r) => r.code === '000001'), '回显后记录可见');
+  assert.ok(shown[0].exits.has('000001'), '回显后带离场徽章');
+  // hiddenCodes 与开关无关
+  assert.ok(hiddenCodes.has('000001'));
+});
+
+test('hideAllExited：唯一配对 5 日内离场 → 整卡隐藏，开关打开恢复', () => {
+  const exitDate2 = TD[7 - 2]; // age=2
+  const raw = trader('t1', '游资A', [
+    rec(TD[0], '000001'),
+  ], [
+    pos('000001', 'exited_confirmed', exitDate2),
+  ]);
+  const { traders } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: false, hideAllExited: true,
+  });
+  assert.equal(traders.length, 0, '全部记录为已离场配对 → 整卡隐藏');
+
+  const { traders: shown } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: true, hideAllExited: true,
+  });
+  assert.equal(shown.length, 1, '开关打开后卡片恢复');
+});
+
+test('hideAllExited：age 异常（asOf 缺失）保守展示，不打徽章', () => {
+  const exitDate2 = TD[7 - 2];
+  const raw = trader('t1', '游资A', [
+    rec(TD[0], '000001'),
+  ], [
+    pos('000001', 'exited_confirmed', exitDate2),
+  ]);
+  const { traders } = buildViewTraders([raw], TD, null, {
+    includeExpired: false, hideAllExited: true,
+  });
+  assert.equal(traders.length, 1, 'asOf 缺失时保守展示');
+  assert.ok(traders[0].records.some((r) => r.code === '000001'));
+  assert.ok(!traders[0].exits.has('000001'), 'age 无法计算时不打徽章');
+});
+
+test('hideAllExited：stats 同步剔除隐藏的离场记录', () => {
+  const exitDate2 = TD[7 - 2];
+  const raw = trader('t1', '游资A', [
+    rec(TD[0], 'A001', '甲', 1e8), // 5 日内离场 → 隐藏
+    rec(TD[0], 'A002', '乙', 2e8), // active → 保留
+  ], [
+    pos('A001', 'exited_confirmed', exitDate2),
+    pos('A002', 'active', null),
+  ]);
+  const { traders } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: false, hideAllExited: true,
+  });
+  assert.equal(traders[0].stats.records, 1, '隐藏后只统计在场记录');
+  assert.equal(traders[0].stats.net_total, 2e8);
+
+  const { traders: shown } = buildViewTraders([raw], TD, AS_OF, {
+    includeExpired: true, hideAllExited: true,
+  });
+  assert.equal(shown[0].stats.records, 2, '回显后全部统计');
+  assert.equal(shown[0].stats.net_total, 3e8);
+});
+
+// ================================================================
+// 14. hideAfterDays 路径回归：hideAllExited 缺省时行为不变（每日动向口径）
+// ================================================================
+test('回归：hideAllExited 缺省时 5 日阈值行为不变', () => {
+  const exitDate5 = TD[7 - 5]; // age=5 → 保留
+  const exitDate6 = TD[7 - 6]; // age=6 → 隐藏
+  const raw = trader('t1', '游资A', [
+    rec(TD[0], '000001'),
+    rec(TD[0], '000002'),
+  ], [
+    pos('000001', 'exited_confirmed', exitDate5),
+    pos('000002', 'exited_confirmed', exitDate6),
+  ]);
+  const { traders } = buildViewTraders([raw], TD, AS_OF, {
+    hideAfterDays: 5, includeExpired: false,
+  });
+  assert.ok(traders[0].records.some((r) => r.code === '000001'), 'age=5 应保留');
+  assert.ok(traders[0].exits.has('000001'), 'age=5 应带徽章');
+  assert.ok(!traders[0].records.some((r) => r.code === '000002'), 'age=6 应隐藏');
+});
+
+// ================================================================
 // 12. stats 口径与展示同步：隐藏的记录不参与统计
 // ================================================================
 test('stats 同步：隐藏配对不参与统计，回显后同步恢复', () => {
