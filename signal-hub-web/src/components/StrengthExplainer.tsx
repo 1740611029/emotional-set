@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import type { SectorState, SectorStateBasis, SectorStrengthParts } from '../data/types';
 import { STATE_LABELS, explainStrength } from '../lib/sectorStates';
+import { CollapseChevron } from './ui';
 
 export function StrengthExplainer({
   state,
@@ -24,8 +25,9 @@ export function StrengthExplainer({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="text-xs font-medium text-ocean-600 hover:text-ocean-700"
+        className="flex items-center gap-1.5 text-xs font-medium text-ocean-600 hover:text-ocean-700"
       >
+        <CollapseChevron open={open} />
         {open ? '收起强度说明' : '强度怎么读？'}
       </button>
 

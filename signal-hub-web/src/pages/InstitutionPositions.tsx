@@ -177,7 +177,7 @@ export function InstitutionPositions() {
   const hasSeries = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
 
   return (
-    <div className="p-8">
+    <div className="p-6">
       <IndicatorHeader
         icon={InstitutionIcon}
         gradientClass="from-brand-400 to-coral-400"

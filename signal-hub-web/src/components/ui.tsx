@@ -93,7 +93,25 @@ export function ChartPlaceholder({
   );
 }
 
-/** 指标详情页头部（图标 + 名称 + 描述 + 右侧统计） */
+/** 折叠区方向指示箭头：收起朝右、展开旋转 90° 朝下（需求 2026-11-16：原字符箭头过小不明显） */
+export function CollapseChevron({ open, className = '' }: { open: boolean; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+      className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-200 ${open ? 'rotate-90' : ''} ${className}`}
+    >
+      <path
+        fillRule="evenodd"
+        d="M6.28 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 10 6.28 6.28a.75.75 0 0 1 0-1.06Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+/** 指标详情页头部（图标 + 名称 + 描述 + 右侧统计）；紧凑单行版，压缩首屏占位（需求 2026-11-16） */
 export function IndicatorHeader({
   icon: Icon,
   gradientClass,
@@ -108,17 +126,17 @@ export function IndicatorHeader({
   extra?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="flex items-center gap-3 mb-3">
       <div
-        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradientClass} flex items-center justify-center text-white`}
+        className={`w-9 h-9 rounded-lg bg-gradient-to-br ${gradientClass} flex items-center justify-center text-white shrink-0`}
       >
-        <Icon className="w-6 h-6" />
+        <Icon className="w-5 h-5" />
       </div>
-      <div>
-        <h3 className="text-2xl font-bold text-slate-800">{title}</h3>
-        <p className="text-sm text-slate-500">{subtitle}</p>
+      <div className="min-w-0 flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+        <h3 className="text-lg font-bold text-slate-800">{title}</h3>
+        <p className="text-xs text-slate-400">{subtitle}</p>
       </div>
-      {extra && <div className="ml-auto flex gap-3">{extra}</div>}
+      {extra && <div className="ml-auto flex gap-3 shrink-0">{extra}</div>}
     </div>
   );
 }

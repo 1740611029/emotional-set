@@ -11,7 +11,7 @@
  * - 两张折线图悬停提示只索引产物已有的观测点，不插值、不推算、不补点。
  */
 import { useState, type MouseEvent } from 'react';
-import { EmptyState, Notice } from '../components/ui';
+import { CollapseChevron, EmptyState, Notice } from '../components/ui';
 import { useLimitCycle } from '../hooks/useLimitCycle';
 import {
   BOARD_COLORS, LIMIT_CYCLE_STAGES,
@@ -451,7 +451,8 @@ function CoverageDetails({ methodology, coverage, metrics, asOf }: {
   return (
     <details className="group glass-card rounded-xl px-4 py-3 mb-6">
       <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-xs text-slate-500">
-        <span>
+        <span className="flex items-center gap-1.5">
+          <CollapseChevron open={false} className="group-open:rotate-90" />
           数据源 · 晋级率 · 数据覆盖率（默认收起）{asOf ? ` · 截至 ${asOf}` : ''}
         </span>
         <span className="shrink-0 text-brand-600">
@@ -485,7 +486,7 @@ export function LimitCycle() {
   const ready = data?.data_state === 'ready';
 
   return (
-    <div className="p-8 fade-in">
+    <div className="p-6 fade-in">
       <div className="flex items-center justify-between gap-4 mb-6">
         <p className="text-sm text-slate-500">情绪周期 · 连板梯队 · 今日连板个股</p>
         <div className="flex items-center gap-3">

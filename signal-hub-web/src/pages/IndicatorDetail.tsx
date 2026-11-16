@@ -32,7 +32,7 @@ export function IndicatorPage({ config }: { config: IndicatorPageConfig }) {
 
   if (!snapshot || snapshot.data_state === 'preparing') {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <IndicatorHeader
           icon={config.icon}
           gradientClass={config.gradientClass}
@@ -51,7 +51,7 @@ export function IndicatorPage({ config }: { config: IndicatorPageConfig }) {
   const pending = snapshot.candidates.length;
 
   return (
-    <div className="p-8">
+    <div className="p-6">
       <IndicatorHeader
         icon={config.icon}
         gradientClass={config.gradientClass}

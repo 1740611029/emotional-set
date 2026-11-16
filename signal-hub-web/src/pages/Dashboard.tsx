@@ -13,7 +13,7 @@ import {
 
 function Loading() {
   return (
-    <div className="p-8">
+    <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className="glass-card rounded-2xl p-6 h-32 animate-pulse" />
@@ -27,7 +27,7 @@ function Loading() {
 function Unavailable({ message }: { message: string | null }) {
   const { refresh } = useMarketData();
   return (
-    <div className="p-8">
+    <div className="p-6">
       <div className="glass-card rounded-2xl p-12 text-center">
         <p className="text-slate-600 font-medium">数据暂不可用</p>
         <p className="text-sm text-slate-400 mt-2">{message ?? '请确认数据服务已启动'}</p>
@@ -67,7 +67,7 @@ export function Dashboard() {
   if (!snapshot) return <Unavailable message={error} />;
   if (snapshot.data_state === 'preparing') {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <div className="glass-card rounded-2xl p-12 text-center">
           <p className="text-slate-700 font-medium">首次运行，正在准备行情数据</p>
           <p className="text-sm text-slate-400 mt-2">
@@ -86,7 +86,7 @@ export function Dashboard() {
   const chartIndices = orderIndicesForCharts(snapshot.indices);
 
   return (
-    <div className="p-8">
+    <div className="p-6">
       {snapshot.stale && (
         <div className="mb-6">
           <Notice tone="warn">

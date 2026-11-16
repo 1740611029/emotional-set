@@ -24,7 +24,7 @@ export function EtfVolume() {
   const rangeLabel = indexChartRangeOption(range).label;
 
   return (
-    <div className="p-8">
+    <div className="p-6">
       <IndicatorHeader
         icon={VolumeIcon}
         gradientClass="from-brand-400 to-ocean-400"

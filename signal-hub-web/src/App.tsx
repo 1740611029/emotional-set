@@ -26,10 +26,11 @@ export default function App() {
               <Sidebar />
               <main className="flex-1 overflow-hidden flex flex-col">
                 <TopBar />
-                <div className="flex-1 min-h-0 overflow-y-auto">
+                {/* flex flex-col：长内容页（/lhb）以 flex-1 锁定视口剩余高度；块级页面行为不变 */}
+                <div className="flex-1 min-h-0 overflow-y-auto flex flex-col">
                   {/* 按路由渲染本页关联的定时任务开关，新增页面只需在 PAGE_TASKS 登记 */}
                   <PageTaskBar />
-                  <Suspense fallback={<div className="p-8 text-sm text-slate-500">加载中…</div>}>
+                  <Suspense fallback={<div className="p-6 text-sm text-slate-500">加载中…</div>}>
                     <Routes>
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/sectors" element={<Sectors />} />

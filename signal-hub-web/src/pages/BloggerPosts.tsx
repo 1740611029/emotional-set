@@ -224,7 +224,7 @@ export function BloggerPosts() {
   const hasData = posts.length > 0;
 
   return (
-    <div className="p-8">
+    <div className="p-6">
       <IndicatorHeader
         icon={PostIcon}
         gradientClass="from-brand-400 to-mint-400"

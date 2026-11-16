@@ -12,7 +12,7 @@ import { SectorEvaluationPanel } from '../components/SectorEvaluationPanel';
 import { SectorTrendChart } from '../components/SectorTrendChart';
 import { SectorStocksDialog } from '../components/SectorStocksDialog';
 import { StrengthExplainer } from '../components/StrengthExplainer';
-import { Notice } from '../components/ui';
+import { IndicatorHeader, Notice } from '../components/ui';
 import { SectorIcon } from '../components/icons';
 import {
   STATE_LABELS,
@@ -125,7 +125,7 @@ export function Sectors() {
 
   if (!snapshot && isLoading) {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <div className="glass-card rounded-2xl p-10 text-center text-sm text-slate-500">板块数据加载中…</div>
       </div>
     );
@@ -133,7 +133,7 @@ export function Sectors() {
 
   if (sectors.length === 0) {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <div className="glass-card rounded-2xl p-10 text-center">
           <p className="text-sm text-slate-500">暂无板块数据</p>
           <p className="mt-1 text-xs text-slate-400">
@@ -145,24 +145,19 @@ export function Sectors() {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center gap-4 mb-6">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-ocean-400 flex items-center justify-center text-white">
-          <SectorIcon className="w-6 h-6" />
-        </div>
-        <div>
-          <h3 className="text-2xl font-bold text-slate-800">板块趋势</h3>
-          <p className="text-sm text-slate-500">
-            同花顺行业指数 {sectors.length} 个行业，各自独立判定四态
-          </p>
-        </div>
-        {block?.as_of && (
-          <span className={`ml-auto text-xs tabular-nums ${lagDays > 0 ? 'text-coral-600 font-medium' : 'text-slate-400'}`}>
+    <div className="p-6">
+      <IndicatorHeader
+        icon={SectorIcon}
+        gradientClass="from-brand-400 to-ocean-400"
+        title="板块趋势"
+        subtitle={`同花顺行业指数 ${sectors.length} 个行业，各自独立判定四态`}
+        extra={block?.as_of ? (
+          <span className={`text-xs tabular-nums ${lagDays > 0 ? 'text-coral-600 font-medium' : 'text-slate-400'}`}>
             数据截至 {block.as_of}
             {lagDays > 0 && `（滞后 ${lagDays} 个交易日）`}
           </span>
-        )}
-      </div>
+        ) : undefined}
+      />
 
       {block?.as_of && lagDays > 0 && (
         <div className="mb-4">
