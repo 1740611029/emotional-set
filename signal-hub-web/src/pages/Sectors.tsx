@@ -5,10 +5,12 @@ import { useMarketData } from '../data/MarketDataProvider';
 import { SECTOR_HISTORY_RANGES } from '../data/client';
 import type { SectorHistoryRange } from '../data/client';
 import { useSectorHistory } from '../data/useSectorHistory';
+import { useSectorStocks } from '../data/useSectorStocks';
 import type { SectorItem, SectorState } from '../data/types';
 import { SectorStateBadge } from '../components/SectorStateBadge';
 import { SectorEvaluationPanel } from '../components/SectorEvaluationPanel';
 import { SectorTrendChart } from '../components/SectorTrendChart';
+import { SectorStocksDialog } from '../components/SectorStocksDialog';
 import { StrengthExplainer } from '../components/StrengthExplainer';
 import { Notice } from '../components/ui';
 import { SectorIcon } from '../components/icons';
@@ -63,6 +65,7 @@ export function Sectors() {
   const { snapshot, error, isLoading } = useMarketData();
   const [params, setParams] = useSearchParams();
   const [range, setRange] = useState<SectorHistoryRange>(120);
+  const [showStocks, setShowStocks] = useState(false);
 
   const block = snapshot?.sectors;
   // 板块只有收盘日线一条通道：与服务端判定的最近已完成交易日比较，落后即在页面显式提示
@@ -111,6 +114,10 @@ export function Sectors() {
 
   const history = useSectorHistory(active?.code ?? null, range);
   const ready = Boolean(history.code === active?.code && history.history);
+
+  // 成分股快照（个股弹窗，只读展示层，不参与信号计算）：仅弹窗打开时请求
+  const stocksCode = showStocks && active ? active.code : null;
+  const stocksValue = useSectorStocks(stocksCode);
 
   const update = (key: SectorNavKey, value: string) => {
     setParams((prev) => nextSectorParams(prev, key, value), { replace: true });
@@ -265,6 +272,13 @@ export function Sectors() {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowStocks(true)}
+                    className="rounded-lg bg-brand-500 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-brand-600"
+                  >
+                    成分股个股
+                  </button>
                   <SectorStateBadge state={stateOf(active)} />
                   {active.data_lag && (
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-500">数据滞后</span>
@@ -351,6 +365,15 @@ export function Sectors() {
                 {history.error && <span className="text-coral-500">走势加载失败：{history.error}</span>}
               </div>
             </div>
+          )}
+
+          {showStocks && active && (
+            <SectorStocksDialog
+              key={active.code}
+              code={active.code}
+              value={stocksValue}
+              onClose={() => setShowStocks(false)}
+            />
           )}
 
           <div className="rounded-xl bg-slate-50 px-4 py-3 text-[11px] leading-relaxed text-slate-500">

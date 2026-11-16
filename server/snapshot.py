@@ -4,6 +4,7 @@
 - 盘中态：在日线序列尾部合成"当日未完成 K 线"后复用同一套确认算法，
   结果只存在于内存，标记 `provisional`，不写回任何文件。
 """
+
 from __future__ import annotations
 
 import json
@@ -16,8 +17,14 @@ import pandas as pd
 from . import paths  # noqa: F401  # 配置 sys.path
 from candidate_state import candidate_records  # noqa: E402
 from confirmed_index_signals import (  # noqa: E402
-    ACTIVE_ALGORITHM, ALGORITHM_VERSION, confirmed_signals, detail_records,
-    evaluate_signals, legacy_accuracy, signal_details, signal_records,
+    ACTIVE_ALGORITHM,
+    ALGORITHM_VERSION,
+    confirmed_signals,
+    detail_records,
+    evaluate_signals,
+    legacy_accuracy,
+    signal_details,
+    signal_records,
 )
 from research_algorithms import read_index_csv, read_sector_csv  # noqa: E402
 from swing_indicators import breadth_table  # noqa: E402
@@ -110,11 +117,15 @@ class PayloadStore:
             return []
         if not payload:
             return []
-        rows = [{
-            "date": str(row["date"]), "level": row["level"],
-            "etf_codes": list(row.get("etf_codes") or []),
-            "total_amount": float(row["total_amount"]),
-        } for row in payload.get("days") or []]
+        rows = [
+            {
+                "date": str(row["date"]),
+                "level": row["level"],
+                "etf_codes": list(row.get("etf_codes") or []),
+                "total_amount": float(row["total_amount"]),
+            }
+            for row in payload.get("days") or []
+        ]
         return sorted(rows, key=lambda row: row["date"])
 
     def invalidate(self) -> None:
@@ -123,16 +134,30 @@ class PayloadStore:
 
     def version(self) -> tuple[float, float, float]:
         """落盘文件版本（mtime），用于判断是否需要重建快照。"""
+
         def mtime(path) -> float:
             return path.stat().st_mtime if path.exists() else 0.0
-        return (mtime(paths.INDEX_SIGNALS), mtime(paths.SECTOR_TRENDS),
-                mtime(paths.ETF_VOLUME_EVENTS))
+
+        return (
+            mtime(paths.INDEX_SIGNALS),
+            mtime(paths.SECTOR_TRENDS),
+            mtime(paths.ETF_VOLUME_EVENTS),
+        )
 
 
 # 板块为单层结构：条目只有自身判定结果，无层级、父级与二级列表字段
 _SECTOR_SUMMARY_KEYS = (
-    "code", "name", "date", "state", "strength", "strength_parts",
-    "strength_basis", "days", "data_anomaly", "data_lag", "spark",
+    "code",
+    "name",
+    "date",
+    "state",
+    "strength",
+    "strength_parts",
+    "strength_basis",
+    "days",
+    "data_anomaly",
+    "data_lag",
+    "spark",
 )
 
 
@@ -145,9 +170,16 @@ def _sector_block(payload: dict | None) -> dict:
     """板块快照：只读落盘产物，另补充与最近已完成交易日的差距供页面提示。"""
     expected, basis = last_completed_trading_day()
     if not payload:
-        return {"as_of": None, "is_mock": True, "groups": {}, "evaluation": None,
-                "algorithm_version": None,
-                "expected_as_of": expected, "expected_basis": basis, "lag_days": None}
+        return {
+            "as_of": None,
+            "is_mock": True,
+            "groups": {},
+            "evaluation": None,
+            "algorithm_version": None,
+            "expected_as_of": expected,
+            "expected_basis": basis,
+            "lag_days": None,
+        }
     as_of = payload.get("as_of")
     return {
         "as_of": as_of,
@@ -156,8 +188,10 @@ def _sector_block(payload: dict | None) -> dict:
         "lag_days": lag_trading_days(as_of, expected),
         "is_mock": payload.get("is_mock", False),
         "algorithm_version": payload.get("algorithm_version"),
-        "groups": {group: [_sector_item(item) for item in rows]
-                   for group, rows in payload.get("groups", {}).items()},
+        "groups": {
+            group: [_sector_item(item) for item in rows]
+            for group, rows in payload.get("groups", {}).items()
+        },
         "evaluation": payload.get("evaluation"),
     }
 
@@ -170,8 +204,9 @@ def _index_tail_block(indices_payload: dict | None) -> dict:
     tails = (indices_payload or {}).get("index_tails") or {}
     as_of = (indices_payload or {}).get("as_of")
     latest_tail = max(tails.values()) if tails else None
-    lagging = [code for code, tail in tails.items()
-               if latest_tail and tail < latest_tail]
+    lagging = [
+        code for code, tail in tails.items() if latest_tail and tail < latest_tail
+    ]
     return {
         "index_tails": tails,
         "lagging_indexes": lagging,
@@ -179,10 +214,15 @@ def _index_tail_block(indices_payload: dict | None) -> dict:
     }
 
 
-def build_close_snapshot(indices_payload: dict | None, sectors_payload: dict | None,
-                         *, stale: bool = False, stale_since: str | None = None,
-                         stale_reason: str | None = None,
-                         etf_volume_events: list[dict] | None = None) -> dict:
+def build_close_snapshot(
+    indices_payload: dict | None,
+    sectors_payload: dict | None,
+    *,
+    stale: bool = False,
+    stale_since: str | None = None,
+    stale_reason: str | None = None,
+    etf_volume_events: list[dict] | None = None,
+) -> dict:
     if not indices_payload:
         raise ValueError("缺少 index-signals.json，无法生成收盘快照")
     indices = []
@@ -214,11 +254,21 @@ def _merged_frame(frame: pd.DataFrame, quote: dict) -> pd.DataFrame:
     today = pd.Timestamp(today_str())
     amount = float(frame["amount"].tail(20).median()) if "amount" in frame else 0.0
     row = {
-        "date": today, "open": float(quote["open"]), "high": float(quote["high"]),
-        "low": float(quote["low"]), "close": float(quote["close"]),
-        "volume": float(quote["volume"]), "amount": amount,
+        "date": today,
+        "open": float(quote["open"]),
+        "high": float(quote["high"]),
+        "low": float(quote["low"]),
+        "close": float(quote["close"]),
+        "volume": float(quote["volume"]),
+        "amount": amount,
     }
     columns = ["date", "open", "close", "high", "low", "volume", "amount"]
+    # 新浪指数日线无 amount 列（换源口径，见 precision_config）；追加分支会按
+    # columns 列表索引，缺列会抛 "['amount'] not in index"。这里补列避免崩溃，
+    # amount 本身不参与指数信号计算，仅用于合成当日未完成 K 线的输出对齐。
+    if "amount" not in frame.columns:
+        frame = frame.copy()
+        frame["amount"] = 0.0
     if len(frame) and frame["date"].iat[-1].normalize() == today:
         merged = frame.copy()
         for key in ("open", "high", "low", "close", "volume", "amount"):
@@ -248,8 +298,9 @@ def breadth_frame() -> pd.DataFrame | None:
     return frame
 
 
-def build_live_index(frame: pd.DataFrame, quote: dict, name: str,
-                     breadth: pd.DataFrame | None = None) -> dict:
+def build_live_index(
+    frame: pd.DataFrame, quote: dict, name: str, breadth: pd.DataFrame | None = None
+) -> dict:
     merged = _merged_frame(frame, quote)
     code = quote["code"]
     if ACTIVE_ALGORITHM == "bigwave":
@@ -267,16 +318,21 @@ def build_live_index(frame: pd.DataFrame, quote: dict, name: str,
     evaluation = evaluate_signals(frame, daily_signals)
     accuracy = legacy_accuracy(evaluation)
 
-    history = [{"date": row.date.strftime("%Y-%m-%d"), "close": float(row.close)}
-               for row in merged.itertuples()]
+    history = [
+        {"date": row.date.strftime("%Y-%m-%d"), "close": float(row.close)}
+        for row in merged.itertuples()
+    ]
     latest = float(merged["close"].iat[-1])
     previous = float(merged["close"].iat[-2]) if len(merged) > 1 else latest
     return {
-        "code": quote["code"], "name": name,
+        "code": quote["code"],
+        "name": name,
         "latest": latest,
         "change_pct": round((latest / previous - 1) * 100, 4),
-        "open": float(quote["open"]), "high": float(quote["high"]),
-        "low": float(quote["low"]), "volume": float(quote["volume"]),
+        "open": float(quote["open"]),
+        "high": float(quote["high"]),
+        "low": float(quote["low"]),
+        "volume": float(quote["volume"]),
         "current_signal": current_signal(records, history),
         "history": history,
         "signals": records,
@@ -288,12 +344,17 @@ def build_live_index(frame: pd.DataFrame, quote: dict, name: str,
     }
 
 
-def build_live_snapshot(quotes: dict[str, dict], history: HistoryStore,
-                        sectors_payload: dict | None, *,
-                        stale: bool = False, stale_since: str | None = None,
-                        stale_reason: str | None = None,
-                        etf_volume_events: list[dict] | None = None,
-                        indices_payload: dict | None = None) -> dict:
+def build_live_snapshot(
+    quotes: dict[str, dict],
+    history: HistoryStore,
+    sectors_payload: dict | None,
+    *,
+    stale: bool = False,
+    stale_since: str | None = None,
+    stale_reason: str | None = None,
+    etf_volume_events: list[dict] | None = None,
+    indices_payload: dict | None = None,
+) -> dict:
     from fetch_market import INDEXES  # noqa: PLC0415
 
     # 盘中只刷新行情与信号；准确率矩阵沿用收盘冻结产物，不在盘中重算（避免口径漂移）。
@@ -315,20 +376,32 @@ def build_live_snapshot(quotes: dict[str, dict], history: HistoryStore,
             item["precision_matrix"] = matrix_by_code[code]
         indices.append(item)
         for signal in item["signals"]:
-            recent.append({
-                "date": signal["date"], "code": code, "name": name,
-                "type": signal["type"], "price": signal["price"],
-                "grade": signal.get("grade"),
-                "max_drawdown_20": next(
-                    (event.get("max_drawdown_20")
-                     for segment in item["evaluation"]["segments"]
-                     for event in segment["events"]
-                     if event["date"] == signal["date"] and event["type"] == signal["type"]),
-                    None,
-                ),
-                "change_since": round((item["latest"] / signal["price"] - 1) * 100, 4),
-            })
-        pending.extend({**record, "code": code, "name": name} for record in item["candidates"])
+            recent.append(
+                {
+                    "date": signal["date"],
+                    "code": code,
+                    "name": name,
+                    "type": signal["type"],
+                    "price": signal["price"],
+                    "grade": signal.get("grade"),
+                    "max_drawdown_20": next(
+                        (
+                            event.get("max_drawdown_20")
+                            for segment in item["evaluation"]["segments"]
+                            for event in segment["events"]
+                            if event["date"] == signal["date"]
+                            and event["type"] == signal["type"]
+                        ),
+                        None,
+                    ),
+                    "change_since": round(
+                        (item["latest"] / signal["price"] - 1) * 100, 4
+                    ),
+                }
+            )
+        pending.extend(
+            {**record, "code": code, "name": name} for record in item["candidates"]
+        )
 
     recent.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
     pending.sort(key=lambda row: (row["date"], row["code"]), reverse=True)
@@ -339,7 +412,9 @@ def build_live_snapshot(quotes: dict[str, dict], history: HistoryStore,
     if (indices_payload or {}).get("as_of"):
         as_of = indices_payload["as_of"]
     else:
-        as_of = max((item["history"][-1]["date"] for item in indices), default=today_str())
+        as_of = max(
+            (item["history"][-1]["date"] for item in indices), default=today_str()
+        )
         tails_block["as_of_rule"] = "max(live_history_tail)（收盘产物缺失时的兜底口径）"
     return {
         "mode": "live",

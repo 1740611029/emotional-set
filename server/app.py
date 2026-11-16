@@ -1,4 +1,5 @@
 """HTTP 服务：只读快照 API + 前端静态托管。"""
+
 from __future__ import annotations
 
 import os
@@ -13,13 +14,25 @@ from .blogger import load_posts as blogger_posts
 from .blogger import mark_presence as blogger_presence
 from .etf_volume import EtfVolumeStore
 from .institutions import (
-    DEFAULT_LIMIT, InstitutionStore, slice_payload,
-    summary as institution_summary, validate_params,
+    DEFAULT_LIMIT,
+    InstitutionStore,
+    slice_payload,
+    summary as institution_summary,
+    validate_params,
 )
-from .lhb import DEFAULT_LIMIT as LHB_DEFAULT_LIMIT, MAX_LIMIT as LHB_MAX_LIMIT, LhbStore
-from .lhb import daily as lhb_daily, overview as lhb_overview, trader_detail as lhb_trader_detail
+from .lhb import (
+    DEFAULT_LIMIT as LHB_DEFAULT_LIMIT,
+    MAX_LIMIT as LHB_MAX_LIMIT,
+    LhbStore,
+)
+from .lhb import (
+    daily as lhb_daily,
+    overview as lhb_overview,
+    trader_detail as lhb_trader_detail,
+)
 from .limit_cycle import load_payload as limit_cycle_payload
 from .scheduler import MarketScheduler
+from .sector_stocks import LimitCycleStore, SectorStocksStore
 from .snapshot import PayloadStore, SnapshotStore, now_iso
 from confirmed_sector_trends import STATE_NAMES  # noqa: E402  # paths 已配置 sys.path
 
@@ -30,7 +43,13 @@ INSTITUTION_STORE = InstitutionStore()
 ETF_VOLUME_STORE = EtfVolumeStore()
 # 龙虎榜知名游资：只读展示层，不参与任何信号计算
 LHB_STORE = LhbStore()
-SCHEDULER = MarketScheduler(STORE, interval=int(os.environ.get("REFRESH_SECONDS", "30")))
+# 板块成分股快照（【板块趋势】页个股弹窗）：只读展示层，不参与任何信号计算
+SECTOR_STOCKS_STORE = SectorStocksStore()
+# 连板周期涨停池索引（成分股 limit 字段 join 用）：只读展示层，不参与信号计算
+LIMIT_CYCLE_STORE = LimitCycleStore()
+SCHEDULER = MarketScheduler(
+    STORE, interval=int(os.environ.get("REFRESH_SECONDS", "30"))
+)
 HISTORY_DAYS = (60, 120, 250)
 
 
@@ -98,9 +117,16 @@ def snapshot():
                 "stale_reason": "数据准备中",
                 "progress": SCHEDULER.progress.as_dict(),
                 "indices": [],
-                "sectors": {"as_of": None, "is_mock": True, "groups": {}, "evaluation": None,
-                            "algorithm_version": None,
-                            "expected_as_of": None, "expected_basis": None, "lag_days": None},
+                "sectors": {
+                    "as_of": None,
+                    "is_mock": True,
+                    "groups": {},
+                    "evaluation": None,
+                    "algorithm_version": None,
+                    "expected_as_of": None,
+                    "expected_basis": None,
+                    "lag_days": None,
+                },
                 "recent_signals": [],
                 "candidates": [],
                 "etf_volume_events": [],
@@ -127,14 +153,25 @@ def institution_positions(
         return JSONResponse(
             status_code=202,
             content={
-                "data_state": "preparing", "stale": True, "as_of": None,
-                "generated_at": None, "stale_since": None,
+                "data_state": "preparing",
+                "stale": True,
+                "as_of": None,
+                "generated_at": None,
+                "stale_since": None,
                 "stale_reason": "机构持仓数据准备中",
-                "dates": [], "series": {}, "stats": {},
+                "dates": [],
+                "series": {},
+                "stats": {},
             },
         )
-    return slice_payload(payload, institution=institution, variety=variety,
-                         start=start, end=end, limit=limit)
+    return slice_payload(
+        payload,
+        institution=institution,
+        variety=variety,
+        start=start,
+        end=end,
+        limit=limit,
+    )
 
 
 @app.get("/api/etf/volume-series")
@@ -209,9 +246,12 @@ def index_history(code: str) -> dict:
                             "single_digit_resolved": cell["resolved"] < 10,
                         }
             return {
-                "code": item["code"], "name": item["name"],
-                "as_of": data["as_of"], "mode": data["mode"],
-                "history": item["history"], "signals": item["signals"],
+                "code": item["code"],
+                "name": item["name"],
+                "as_of": data["as_of"],
+                "mode": data["mode"],
+                "history": item["history"],
+                "signals": item["signals"],
                 "current_signal": item["current_signal"],
                 "accuracy": item["accuracy"],
                 "candidates": item.get("candidates", []),
@@ -253,21 +293,28 @@ def sector_history(code: str, days: int = 120) -> dict:
     total = min(len(dates), len(close), len(states))
     take = min(days, total)
     start = total - take
-    series = [{
-        "date": dates[index],
-        "close": close[index],
-        "state": STATE_NAMES.get(states[index]) if states[index] else None,
-    } for index in range(start, total)]
+    series = [
+        {
+            "date": dates[index],
+            "close": close[index],
+            "state": STATE_NAMES.get(states[index]) if states[index] else None,
+        }
+        for index in range(start, total)
+    ]
     snapshot = STORE.get() or {}
     return {
-        "code": item.get("code"), "name": item.get("name"),
-        "as_of": payload.get("as_of"), "date": item.get("date"),
+        "code": item.get("code"),
+        "name": item.get("name"),
+        "as_of": payload.get("as_of"),
+        "date": item.get("date"),
         "requested_days": days,
-        "state": item.get("state"), "strength": item.get("strength"),
+        "state": item.get("state"),
+        "strength": item.get("strength"),
         "strength_parts": item.get("strength_parts"),
         "strength_basis": item.get("strength_basis"),
         "days": item.get("days"),
-        "data_anomaly": item.get("data_anomaly"), "data_lag": item.get("data_lag"),
+        "data_anomaly": item.get("data_anomaly"),
+        "data_lag": item.get("data_lag"),
         "series": series,
         "insufficient": take < days,
         "coverage": {
@@ -277,6 +324,66 @@ def sector_history(code: str, days: int = 120) -> dict:
         },
         "stale": bool(snapshot.get("stale")),
         "stale_since": snapshot.get("stale_since"),
+    }
+
+
+def _find_sector_stocks(payload: dict, code: str) -> dict | None:
+    """单层板块成分股：按代码直接定位，不依赖层级。"""
+    for board in payload.get("boards") or []:
+        if board.get("code") == code:
+            return board
+    return None
+
+
+@app.get("/api/sectors/{code}/stocks")
+def sector_stocks(code: str) -> dict:
+    """板块成分股快照（【板块趋势】页个股弹窗，只读展示层）。
+
+    产物未落地 / 读盘异常 → 202 preparing（不返回 5xx，参照 institutions 降级）；
+    未知板块代码 → 404。每只个股按 6 位代码 join 涨停池（data/limit-cycle.json）：
+    涨停股附加 limit（first_seal/boards/seal_amount/status），非涨停股 limit 为 null；
+    排序由前端按列头切换（涨停时间/连板数/封单金额/成交额/涨幅）。
+    """
+    payload = SECTOR_STOCKS_STORE.load()
+    if not payload:
+        return JSONResponse(
+            status_code=202,
+            content={
+                "data_state": "preparing",
+                "stale": True,
+                "as_of": None,
+                "generated_at": None,
+                "stale_since": None,
+                "stale_reason": "板块成分股快照尚未生成（请先运行 pipeline/fetch_sector_stocks.py）",
+                "code": code,
+                "name": None,
+                "page_count": 0,
+                "total": 0,
+                "stocks": [],
+            },
+        )
+    board = _find_sector_stocks(payload, code)
+    if board is None:
+        raise HTTPException(status_code=404, detail=f"未知板块代码：{code}")
+    limit_index = LIMIT_CYCLE_STORE.load() or {}
+    stocks = []
+    for stock in board.get("stocks") or []:
+        item = dict(stock)
+        item["limit"] = limit_index.get(str(item.get("code") or ""))
+        stocks.append(item)
+    return {
+        "data_state": "ready",
+        "as_of": payload.get("as_of"),
+        "generated_at": payload.get("generated_at"),
+        "source": payload.get("source"),
+        "heat_algorithm": payload.get("heat_algorithm"),
+        "code": board.get("code"),
+        "name": board.get("name"),
+        "page_count": board.get("page_count"),
+        "total": board.get("total"),
+        "stocks": stocks,
+        # 涨停池数据日期（东财股池，与成分股快照可能不同日，前端如实展示）
+        "limit_as_of": LIMIT_CYCLE_STORE.as_of(),
     }
 
 
@@ -292,7 +399,9 @@ def spa(full_path: str):
     index_file = dist / "index.html"
     if index_file.exists():
         # 入口 HTML 必须每次校验更新，否则浏览器缓存旧页面会继续加载上一版前端包（需手动刷新）
-        return FileResponse(index_file, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
+        return FileResponse(
+            index_file, headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+        )
     return JSONResponse(
         status_code=404,
         content={"detail": "前端尚未构建，请先在 signal-hub-web 执行 npm run build"},

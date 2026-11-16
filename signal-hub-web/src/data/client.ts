@@ -1,7 +1,7 @@
 /** 快照接口客户端：超时、结构校验与错误归一化。 */
 import type {
   BloggerPosts, EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams,
-  LhbDaily, LhbOverview, LhbTraderDetail, SectorHistory, Snapshot,
+  LhbDaily, LhbOverview, LhbTraderDetail, SectorHistory, SectorStocks, Snapshot,
 } from './types';
 
 const ENDPOINT = '/api/snapshot';
@@ -166,6 +166,58 @@ export async function fetchSectorHistory(
       throw new ApiError('板块历史请求超时或已取消');
     }
     throw new ApiError((error as Error)?.message || '板块历史请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+function normalizeSectorStocks(payload: unknown): SectorStocks {
+  if (!isRecord(payload)) {
+    throw new ApiError('板块成分股响应不是合法对象');
+  }
+  const state = payload.data_state;
+  if (state !== 'ready' && state !== 'preparing' && state !== 'degraded') {
+    throw new ApiError('板块成分股响应状态非法');
+  }
+  if (!Array.isArray(payload.stocks)) {
+    throw new ApiError('板块成分股响应缺少 stocks');
+  }
+  return payload as unknown as SectorStocks;
+}
+
+/** 板块成分股快照：服务端 202 准备中同样解析为结构（data_state=preparing），不由客户端伪造数值。 */
+export async function fetchSectorStocks(
+  code: string,
+  signal?: AbortSignal,
+): Promise<SectorStocks> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch(`/api/sectors/${encodeURIComponent(code)}/stocks`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok && response.status !== 202) {
+      let detail = `板块成分股接口返回 ${response.status}`;
+      try {
+        const body = await response.json();
+        if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
+      } catch {
+        /* 响应体非 JSON 时保留状态码文案 */
+      }
+      throw new ApiError(detail, response.status);
+    }
+    return normalizeSectorStocks(await response.json());
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') {
+      throw new ApiError('板块成分股请求超时或已取消');
+    }
+    throw new ApiError((error as Error)?.message || '板块成分股请求失败');
   } finally {
     window.clearTimeout(timer);
     signal?.removeEventListener('abort', forwardAbort);

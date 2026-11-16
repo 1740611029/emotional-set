@@ -4,6 +4,7 @@
 没补到（源尚未发布或拉取失败）不会记为完成，下次运行还会再拉（`--force` 可强制）。
 本模块只做编排与日志，不参与任何顶部/底部信号或板块趋势计算。
 """
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,13 @@ if str(PIPELINE) not in sys.path:
     sys.path.insert(0, str(PIPELINE))
 
 import build_dashboard  # noqa: E402
-from bootstrap import Progress, data_gap, ensure_fresh_data, update_etf  # noqa: E402
+from bootstrap import (  # noqa: E402
+    Progress,
+    data_gap,
+    ensure_fresh_data,
+    update_display_snapshots,
+    update_etf,
+)
 
 LABELS = {"indices": "指数", "sectors": "板块", "institutions": "机构", "etf": "ETF"}
 
@@ -33,9 +40,11 @@ def report_after(gap: dict) -> None:
         return
     for key in gap["stale"]:
         lag = gap["lag"].get(key)
-        print(f"[rebuild] WARNING：{LABELS.get(key, key)} 仍停在 {gap['local'].get(key) or '—'}，"
-              f"落后 {lag if lag is not None else '未知'} 个交易日（源尚未发布或拉取失败，"
-              f"下次运行会自动再试）")
+        print(
+            f"[rebuild] WARNING：{LABELS.get(key, key)} 仍停在 {gap['local'].get(key) or '—'}，"
+            f"落后 {lag if lag is not None else '未知'} 个交易日（源尚未发布或拉取失败，"
+            f"下次运行会自动再试）"
+        )
 
 
 def describe_etf(etf: dict) -> str:
@@ -74,8 +83,10 @@ def main(*, force: bool = False) -> int:
             parts.append(f"机构 {(core['institutions'] or {}).get('status', '-')}")
         print(f"[rebuild] 增量拉取：{'、'.join(parts)}")
     elif result.get("skipped"):
-        detail = "、".join(f"{LABELS.get(key, key)} {result['gap']['local'].get(key) or '—'}"
-                          for key in result["skipped"])
+        detail = "、".join(
+            f"{LABELS.get(key, key)} {result['gap']['local'].get(key) or '—'}"
+            for key in result["skipped"]
+        )
         print(f"[rebuild] 当日已标记补齐，跳过拉取：{detail}（加 --force 可强制再拉）")
     elif result.get("bootstrap"):
         print("[rebuild] 原始数据缺失，已完成首次全量拉取")
@@ -87,12 +98,23 @@ def main(*, force: bool = False) -> int:
 
     # 无论是否拉取到新行情都重建：本开关的语义是"补数据 + 重建"
     build_dashboard.main()
+    # 手动重建入口顺带刷新两块展示产物（板块成分股 / 东财涨停池），
+    # 失败只告警不阻断重建主流程（update_display_snapshots 内部已兜底）
+    display = update_display_snapshots()
+    for name in ("fetch_sector_stocks", "limit_cycle"):
+        item = display.get(name) or {"status": "failed", "error": "未执行"}
+        state = "成功" if item.get("status") == "ok" else "失败"
+        as_of = item.get("as_of") or "—"
+        detail = f"（{item.get('error')}）" if state == "失败" else ""
+        print(f"[rebuild] 展示产物 {name}：{state}（as_of={as_of}）{detail}")
     report_after(result.get("after") or data_gap())
     return 0
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="先补原始日线，再重建信号 JSON")
-    parser.add_argument("--force", action="store_true", help="忽略“当日已补齐”标记，强制增量拉取")
+    parser.add_argument(
+        "--force", action="store_true", help="忽略“当日已补齐”标记，强制增量拉取"
+    )
     args = parser.parse_args()
     sys.exit(main(force=args.force))

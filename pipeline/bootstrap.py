@@ -3,6 +3,7 @@
 首次运行（`data/raw` 为空）时全量拉取；之后按交易日增量合并，避免重复下载历史。
 本模块只负责原始日线，不参与信号计算。
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,14 +24,31 @@ import pandas as pd  # noqa: E402
 
 from fetch_etf import ETF_DAILY_RAW, ETF_UNIVERSE  # noqa: E402
 from fetch_market import (  # noqa: E402
-    THS_SECTOR_MANIFEST, THS_SECTOR_RAW, INDEX_RAW, INDEX_SOURCE, INDEXES, MIN_SECTOR_ROWS, RAW,
-    SECTOR_BATCH_PAUSE, SECTOR_BATCH_SIZE, SECTOR_COLUMNS, SECTOR_REQUEST_GAP,
-    EmRateLimitedError, call_with_retry, check_sector_universe,
-    fetch_index_daily_sina, fetch_sector_hist_ths, save_csv, sector_request_start, sector_spot,
+    THS_SECTOR_MANIFEST,
+    THS_SECTOR_RAW,
+    INDEX_RAW,
+    INDEX_SOURCE,
+    INDEXES,
+    MIN_SECTOR_ROWS,
+    RAW,
+    SECTOR_BATCH_PAUSE,
+    SECTOR_BATCH_SIZE,
+    SECTOR_COLUMNS,
+    SECTOR_REQUEST_GAP,
+    EmRateLimitedError,
+    call_with_retry,
+    check_sector_universe,
+    fetch_index_daily_sina,
+    fetch_sector_hist_ths,
+    save_csv,
+    sector_request_start,
+    sector_spot,
 )
 from research_algorithms import read_index_csv  # noqa: E402
 from trading_calendar import (  # noqa: E402
-    lag_trading_days, last_completed_trading_day, refresh_calendar,
+    lag_trading_days,
+    last_completed_trading_day,
+    refresh_calendar,
 )
 
 INDEX_MANIFEST = RAW / "indices-ths-manifest.json"
@@ -42,7 +60,9 @@ CN = ZoneInfo("Asia/Shanghai")
 # 补齐完成标记的语义：只有“确实覆盖到当时的最近交易日”才算完成。
 # 失败（源尚未发布或拉取报错）不算完成，下一次启动仍会重新尝试补齐。
 
-_index_attempt_day: str | None = None  # 进程内当日降频标记：已覆盖最近交易日才算尝试完成
+_index_attempt_day: str | None = (
+    None  # 进程内当日降频标记：已覆盖最近交易日才算尝试完成
+)
 
 
 INDEX_COMPENSATION_ATTEMPTS = 3  # 单只指数失败的独立补偿重试次数（含首试，退避 2s/4s）
@@ -61,13 +81,17 @@ def _fetch_index_with_compensation(code: str, name: str) -> object:
         except Exception as exc:  # 单只失败不影响其余指数，先退避再补偿
             last_error = exc
             if attempt < INDEX_COMPENSATION_ATTEMPTS:
-                print(f"[bootstrap] {code} {name} 第 {attempt} 次失败，退避后补偿重试：{exc}",
-                      flush=True)
+                print(
+                    f"[bootstrap] {code} {name} 第 {attempt} 次失败，退避后补偿重试：{exc}",
+                    flush=True,
+                )
                 time.sleep(attempt * 2)
     raise RuntimeError(f"补偿重试后仍失败：{last_error}") from last_error
 
 
-def update_indices(progress: Progress | None = None, *, force: bool = False) -> list[str]:
+def update_indices(
+    progress: Progress | None = None, *, force: bool = False
+) -> list[str]:
     """增量合并指数日线（新浪全量返回后本地合并）；返回更新后有变化的指数代码。
 
     当日降频：新浪日线收盘后陆续定稿，判重只看行数与尾日，因此"本地已覆盖最近
@@ -91,16 +115,24 @@ def update_indices(progress: Progress | None = None, *, force: bool = False) -> 
             fresh = _fetch_index_with_compensation(code, name)
         except Exception as exc:  # 补偿重试仍失败：标记落后，保留旧尾日不插值
             lagged.append(code)
-            print(f"[bootstrap] {code} {name} 补偿重试后仍失败，保留旧尾日（落后标记）：{exc}",
-                  flush=True)
+            print(
+                f"[bootstrap] {code} {name} 补偿重试后仍失败，保留旧尾日（落后标记）：{exc}",
+                flush=True,
+            )
             continue
         if path.exists():
             cached = read_index_csv(path)
             fresh["date"] = pd.to_datetime(fresh["date"])
-            merged = (pd.concat([cached, fresh], ignore_index=True)
-                      .sort_values("date").drop_duplicates("date", keep="last")
-                      .reset_index(drop=True))
-            if len(merged) == len(cached) and merged["date"].iat[-1] == cached["date"].iat[-1]:
+            merged = (
+                pd.concat([cached, fresh], ignore_index=True)
+                .sort_values("date")
+                .drop_duplicates("date", keep="last")
+                .reset_index(drop=True)
+            )
+            if (
+                len(merged) == len(cached)
+                and merged["date"].iat[-1] == cached["date"].iat[-1]
+            ):
                 time.sleep(0.2)
                 continue
         else:
@@ -115,8 +147,10 @@ def update_indices(progress: Progress | None = None, *, force: bool = False) -> 
     if changed:
         _write_index_manifest()
     if lagged:
-        progress.update("indices",
-                        f"{len(lagged)} 个指数落后（补偿重试失败，保留旧尾日）：{'、'.join(lagged)}")
+        progress.update(
+            "indices",
+            f"{len(lagged)} 个指数落后（补偿重试失败，保留旧尾日）：{'、'.join(lagged)}",
+        )
     # 只有真覆盖到最近交易日才标记当日已完成；未覆盖（源未发布）留给下轮再试
     if "indices" not in data_gap()["stale"]:
         _index_attempt_day = today
@@ -139,7 +173,11 @@ class Progress:
         print(f"[bootstrap] {stage} {detail}", flush=True)
 
     def as_dict(self) -> dict:
-        return {"stage": self.stage, "detail": self.detail, "started_at": self.started_at}
+        return {
+            "stage": self.stage,
+            "detail": self.detail,
+            "started_at": self.started_at,
+        }
 
 
 def _index_files() -> dict[str, Path]:
@@ -167,14 +205,21 @@ def _write_index_manifest() -> None:
         if not path.exists():
             continue
         frame = read_index_csv(path)
-        rows.append({
-            "code": code, "name": name, "source": INDEX_SOURCE,
-            "rows": len(frame), "start": frame["date"].iat[0].strftime("%Y-%m-%d"),
-            "end": frame["date"].iat[-1].strftime("%Y-%m-%d"),
-            "path": str(path.relative_to(ROOT)),
-        })
+        rows.append(
+            {
+                "code": code,
+                "name": name,
+                "source": INDEX_SOURCE,
+                "rows": len(frame),
+                "start": frame["date"].iat[0].strftime("%Y-%m-%d"),
+                "end": frame["date"].iat[-1].strftime("%Y-%m-%d"),
+                "path": str(path.relative_to(ROOT)),
+            }
+        )
     INDEX_RAW.mkdir(parents=True, exist_ok=True)
-    INDEX_MANIFEST.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    INDEX_MANIFEST.write_text(
+        json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 def ensure_raw_data(progress: Progress | None = None) -> bool:
@@ -185,10 +230,12 @@ def ensure_raw_data(progress: Progress | None = None) -> bool:
 
     progress.update("indices", "全量拉取指数日线")
     from fetch_market import fetch_indexes
+
     fetch_indexes()
 
     progress.update("sectors", "全量拉取同花顺行业指数日线")
     from fetch_market import fetch_sectors
+
     fetch_sectors()
 
     progress.update("ready", "原始数据就绪")
@@ -206,7 +253,9 @@ def _sector_universe_check(manifest: dict) -> dict:
     previous = manifest.get("universe_snapshot") or {}
     if previous and any(previous.get(key) != value for key, value in snapshot.items()):
         changes = list(manifest.get("universe_changes") or [])
-        changes.append({"date": date.today().isoformat(), "from": previous, "to": snapshot})
+        changes.append(
+            {"date": date.today().isoformat(), "from": previous, "to": snapshot}
+        )
         manifest["universe_changes"] = changes[-20:]
     manifest["universe_snapshot"] = snapshot
     return manifest
@@ -220,7 +269,9 @@ def _frame_values_equal(left: pd.DataFrame, right: pd.DataFrame) -> bool:
         if column == "date":
             continue
         fresh = pd.to_numeric(left[column], errors="coerce").astype("float64").round(6)
-        cached = pd.to_numeric(right[column], errors="coerce").astype("float64").round(6)
+        cached = (
+            pd.to_numeric(right[column], errors="coerce").astype("float64").round(6)
+        )
         if not fresh.equals(cached):
             return False
     return True
@@ -251,7 +302,9 @@ def update_sectors(progress: Progress | None = None) -> int:
         path = THS_SECTOR_RAW / f"{item['code']}.csv"
         tail = _tail_date(path, 0) if path.exists() else None
         # 已覆盖最近交易日 → 跳过；落后超 60 个交易日 → 视为停更（下架行业不再发布），跳过
-        if tail and (tail >= expected or lag_trading_days(tail, expected) > STALE_SECTOR_LAG_DAYS):
+        if tail and (
+            tail >= expected or lag_trading_days(tail, expected) > STALE_SECTOR_LAG_DAYS
+        ):
             skipped += 1
             continue
         pending.append((item, path, tail))
@@ -271,26 +324,35 @@ def update_sectors(progress: Progress | None = None) -> int:
     changed = 0
     for batch_start in range(0, len(pending), SECTOR_BATCH_SIZE):
         if batch_start:
-            progress.update("sectors",
-                            f"已请求 {batch_start}/{len(pending)} 个板块，批间休息 {SECTOR_BATCH_PAUSE:.0f}s")
+            progress.update(
+                "sectors",
+                f"已请求 {batch_start}/{len(pending)} 个板块，批间休息 {SECTOR_BATCH_PAUSE:.0f}s",
+            )
             time.sleep(SECTOR_BATCH_PAUSE)
-        for item, path, tail in pending[batch_start:batch_start + SECTOR_BATCH_SIZE]:
+        for item, path, tail in pending[batch_start : batch_start + SECTOR_BATCH_SIZE]:
             code, name = item["code"], item["name"]
             try:
                 # 同花顺接口按行业名称请求（非代码）；end_date 传最近已完成交易日
-                fresh = fetch_sector_hist_ths(name, sector_request_start(tail), expected.replace("-", ""))
+                fresh = fetch_sector_hist_ths(
+                    name, sector_request_start(tail), expected.replace("-", "")
+                )
             except EmRateLimitedError as exc:
-                print(f"[bootstrap] 板块限流，本轮在 {changed} 个板块更新后中止（冷却自动计时）：{exc}",
-                      flush=True)
+                print(
+                    f"[bootstrap] 板块限流，本轮在 {changed} 个板块更新后中止（冷却自动计时）：{exc}",
+                    flush=True,
+                )
                 raise
             except Exception as exc:
                 print(f"[bootstrap] 板块 {code} 拉取失败：{exc}", flush=True)
                 continue
             if path.exists():
                 cached = pd.read_csv(path, dtype={"date": str})
-                merged = (pd.concat([cached, fresh], ignore_index=True)
-                          .sort_values("date").drop_duplicates("date", keep="last")
-                          .reset_index(drop=True))
+                merged = (
+                    pd.concat([cached, fresh], ignore_index=True)
+                    .sort_values("date")
+                    .drop_duplicates("date", keep="last")
+                    .reset_index(drop=True)
+                )
                 # 起点含尾日意味着每轮都会重取最后一根 bar，因此不能再用「行数与尾日未变」
                 # 判定无变化：那会把未定稿的量额修正直接丢掉
                 if len(merged) == len(cached) and _frame_values_equal(merged, cached):
@@ -309,7 +371,9 @@ def update_sectors(progress: Progress | None = None) -> int:
             time.sleep(SECTOR_REQUEST_GAP)
     if skipped:
         progress.update("sectors", f"跳过已最新 {skipped} 个板块")
-    THS_SECTOR_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    THS_SECTOR_MANIFEST.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     return changed
 
 
@@ -334,12 +398,44 @@ def update_institutions(progress: Progress | None = None) -> dict:
         return {"status": "failed", "error": detail}
 
 
+def update_display_snapshots(progress: Progress | None = None) -> dict:
+    """盘后展示产物刷新：板块成分股快照 + 东财涨停池（个股弹窗数据）。
+
+    只读展示层，不参与任何信号计算（AGENTS 第 1 条）；任一条失败只告警，
+    不阻断指数/板块/机构/ETF 主线（与机构数据线同策略）。
+    板块成分股全量 90 板块翻页抓取耗时较长（分钟级），刷新节奏由调用方决定
+    （收盘链每日一次、手动重建入口每次执行），不在本函数内做节流。
+    """
+    progress = progress or Progress()
+    from io_utils import protected_write  # noqa: PLC0415
+
+    results: dict[str, dict] = {}
+
+    def refresh_one(name: str, module_name: str) -> None:
+        try:
+            module = __import__(module_name)
+            payload = module.build_payload()
+            protected_write(name, payload)
+            results[module_name] = {"status": "ok", "as_of": payload["as_of"]}
+            progress.update("display", f"{name} 已刷新（{payload['as_of']}）")
+        except Exception as exc:  # 展示层失败只告警，不阻断收盘主链
+            detail = f"{type(exc).__name__}: {exc}"
+            print(f"[bootstrap] {name} 刷新失败（已跳过）：{detail}", flush=True)
+            results[module_name] = {"status": "failed", "error": detail}
+
+    refresh_one("sector-stocks.json", "fetch_sector_stocks")
+    refresh_one("limit-cycle.json", "limit_cycle")
+    return results
+
+
 def refresh_daily(progress: Progress | None = None) -> dict:
     """收盘后刷新：先补原始日线，再由调用方重建 JSON。
 
     四条数据线彼此解耦：板块（同花顺行业指数）失败只影响自身，ETF 失败只告警，
     均不中断其余线。ETF 也在 refreshed 中返回，供调度层判断是否需要
     重建 etf-volume-events.json（D4：ETF 数据线参与自动重建）。
+    收盘链每日一次顺带刷新两块侧展示产物（板块成分股 / 东财涨停池），
+    失败只告警不阻塞主链。
     """
     progress = progress or Progress()
     ensure_raw_data(progress)
@@ -351,12 +447,19 @@ def refresh_daily(progress: Progress | None = None) -> dict:
         print(f"[bootstrap] 板块增量失败（不影响指数与机构数据线）：{exc}", flush=True)
     institutions = update_institutions(progress)
     etf = update_etf(progress)
+    display = update_display_snapshots(progress)
     progress.update("ready", f"指数 {len(indices)} 个、板块 {sectors} 个有更新")
-    return {"indices": indices, "sectors": sectors,
-            "institutions": institutions, "etf": etf}
+    return {
+        "indices": indices,
+        "sectors": sectors,
+        "institutions": institutions,
+        "etf": etf,
+        "display": display,
+    }
 
 
 # ---------- 数据新鲜度判定（只影响调度，不参与任何信号计算） ----------
+
 
 def _tail_date(path: Path, column: int) -> str | None:
     """廉价读文件尾部的日期：只取最后一行，完整文件按日期升序落盘。"""
@@ -411,10 +514,19 @@ def data_gap(now: datetime | None = None) -> dict:
     """本地数据与最近已完成交易日的差距；`lag` 为 None 表示本地无该数据线。"""
     expected, basis = last_completed_trading_day(now)
     local = latest_local_dates()
-    lag = {key: (lag_trading_days(value, expected) if value else None)
-           for key, value in local.items()}
-    return {"expected": expected, "basis": basis, "local": local, "lag": lag,
-            "stale": sorted(key for key, value in lag.items() if value is None or value > 0)}
+    lag = {
+        key: (lag_trading_days(value, expected) if value else None)
+        for key, value in local.items()
+    }
+    return {
+        "expected": expected,
+        "basis": basis,
+        "local": local,
+        "lag": lag,
+        "stale": sorted(
+            key for key, value in lag.items() if value is None or value > 0
+        ),
+    }
 
 
 def _load_state() -> dict:
@@ -429,7 +541,9 @@ def _load_state() -> dict:
 
 def _save_state(state: dict) -> None:
     REFRESH_STATE.parent.mkdir(parents=True, exist_ok=True)
-    REFRESH_STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+    REFRESH_STATE.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 def _record_attempt(state: dict, day: str, key: str) -> None:
@@ -490,7 +604,9 @@ def ensure_fresh_data(progress: Progress | None = None, *, force: bool = False) 
     return result
 
 
-def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = False) -> dict:
+def _ensure_fresh_data_core(
+    progress: Progress | None = None, *, force: bool = False
+) -> dict:
     """启动时判断数据是否覆盖最近已完成交易日，落后就当场增量刷新。
 
     失败不计入当日次数：只要还没补到，下次调用（下次启动）仍会再试。
@@ -507,15 +623,23 @@ def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = F
     day = datetime.now(CN).strftime("%Y-%m-%d")
     state = _load_state()
     done = _done_marks(state, day)
-    targets = [key for key in gap["stale"]
-               if force or done.get(key) != gap["expected"]]
+    targets = [key for key in gap["stale"] if force or done.get(key) != gap["expected"]]
     if not targets:
         detail = "、".join(f"{key} 已补到 {gap['expected']}" for key in gap["stale"])
         progress.update("ready", f"{detail}，本地数据与源发布进度一致（{day}）")
-        return {"bootstrap": False, "gap": gap, "refreshed": {}, "skipped": gap["stale"]}
+        return {
+            "bootstrap": False,
+            "gap": gap,
+            "refreshed": {},
+            "skipped": gap["stale"],
+        }
 
-    detail = "、".join(f"{key}（本地 {gap['local'][key]}，应为 {gap['expected']}）" for key in targets)
-    tries = "、".join(f"{key} 第 {_attempt_count(state, day, key) + 1} 次" for key in targets)
+    detail = "、".join(
+        f"{key}（本地 {gap['local'][key]}，应为 {gap['expected']}）" for key in targets
+    )
+    tries = "、".join(
+        f"{key} 第 {_attempt_count(state, day, key) + 1} 次" for key in targets
+    )
     progress.update("refresh", f"增量补齐：{detail}（{tries}）")
     refreshed: dict[str, object] = {}
     if "indices" in targets:
@@ -526,7 +650,9 @@ def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = F
             refreshed["sectors"] = update_sectors(progress)
         except Exception as exc:  # 板块线失败不拖累机构数据线，失败也计入当日尝试
             refreshed["sectors"] = 0
-            print(f"[bootstrap] sectors 增量失败（不影响其余数据线）：{exc}", flush=True)
+            print(
+                f"[bootstrap] sectors 增量失败（不影响其余数据线）：{exc}", flush=True
+            )
         _record_attempt(state, day, "sectors")
     if "institutions" in targets:
         refreshed["institutions"] = update_institutions(progress)
@@ -542,18 +668,30 @@ def _ensure_fresh_data_core(progress: Progress | None = None, *, force: bool = F
     _save_state({day: state.get(day, {})})
     for key in targets:
         if after["lag"].get(key):
-            print(f"[freshness] {key} 刷新后仍停在 {after['local'][key]}"
-                  f"（应为 {after['expected']}，源尚未发布或拉取失败，下次启动会再试）", flush=True)
+            print(
+                f"[freshness] {key} 刷新后仍停在 {after['local'][key]}"
+                f"（应为 {after['expected']}，源尚未发布或拉取失败，下次启动会再试）",
+                flush=True,
+            )
     return {"bootstrap": False, "gap": gap, "refreshed": refreshed, "after": after}
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true",
-                        help="只做新鲜度判定：数据已覆盖最近交易日则不拉取")
-    parser.add_argument("--force", action="store_true", help="忽略“当日已补齐”标记，再拉一次")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="只做新鲜度判定：数据已覆盖最近交易日则不拉取",
+    )
+    parser.add_argument(
+        "--force", action="store_true", help="忽略“当日已补齐”标记，再拉一次"
+    )
     args = parser.parse_args()
     if args.check:
-        print(json.dumps(ensure_fresh_data(force=args.force), ensure_ascii=False, default=str))
+        print(
+            json.dumps(
+                ensure_fresh_data(force=args.force), ensure_ascii=False, default=str
+            )
+        )
     else:
         print(json.dumps(refresh_daily(), ensure_ascii=False, default=str))

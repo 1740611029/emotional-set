@@ -42,9 +42,10 @@ export function MarketDataProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [lastSuccessAt, setLastSuccessAt] = useState<string | null>(null);
-  const [visible, setVisible] = useState(
-    () => typeof document === 'undefined' || document.visibilityState === 'visible',
-  );
+  // 首屏加载不应依赖初始可见性：深链/后台挂载时 visibilityState 可能为 hidden，
+  // 且真实状态不变则不会触发 visibilitychange，导致 load() 永不执行。
+  // 因此默认可见（保证 mount 即加载一次），轮询仍然由 visibilitychange 控制。
+  const [visible, setVisible] = useState(true);
   const inFlight = useRef<AbortController | null>(null);
 
   const load = useCallback(async () => {

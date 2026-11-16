@@ -36,9 +36,9 @@ export function LayerDots({ layers, passed }: { layers: CandidateLayers; passed:
   );
 }
 
-/** 涨跌幅文本：沿用项目色彩系统（薄荷绿上涨 / 珊瑚橙下跌） */
+/** 涨跌幅文本：沿用项目色彩系统（珊瑚橙上涨 / 薄荷绿下跌），保留平盘 slate */
 export function ChangeText({ value, className = '' }: { value: number; className?: string }) {
-  const tone = value > 0 ? 'text-mint-600' : value < 0 ? 'text-coral-500' : 'text-slate-500';
+  const tone = value > 0 ? 'text-coral-500' : value < 0 ? 'text-mint-600' : 'text-slate-500';
   const arrow = value > 0 ? '↑' : value < 0 ? '↓' : '→';
   return (
     <span className={`${tone} ${className}`}>

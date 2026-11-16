@@ -601,3 +601,61 @@ export interface LhbDaily {
   rows: LhbDailyRow[];
   trading_dates: string[];
 }
+
+/** 涨停池 join 信息（data/limit-cycle.json，东财股池，只读展示层；非涨停股为 null） */
+export interface SectorStockLimit {
+  /** 首次封板时间 "HH:MM"；越早封板越强（09:25 一字板最强） */
+  first_seal: string | null;
+  /** 连板数（1 = 首板） */
+  boards: number | null;
+  /** 封单金额，单位万元 */
+  seal_amount: number | null;
+  /** 封板状态（封住 / 回封 等） */
+  status: string | null;
+}
+
+/** 【板块趋势】页个股弹窗：单只成分股快照（只读展示层，不参与信号计算） */
+export interface SectorStock {
+  code: string;
+  name: string;
+  price: number | null;
+  /** 涨跌幅 %，排序维度「涨幅」 */
+  change_pct: number | null;
+  change: number | null;
+  /** 涨速 % */
+  speed_pct: number | null;
+  turnover_pct: number | null;
+  volume_ratio: number | null;
+  amplitude_pct: number | null;
+  /** 成交额（元），排序维度「成交额」；原文保留在 amount_text 供展示 */
+  amount: number | null;
+  amount_text: string;
+  float_shares: number | null;
+  float_shares_text: string;
+  float_mv: number | null;
+  float_mv_text: string;
+  pe: number | null;
+  /** 热度 0-100；换手率/量比/成交额全缺失（停牌）时为 null，排序置尾 */
+  heat: number | null;
+  /** 涨停池 join 信息；非涨停股为 null（排序/展示按非涨停处理，恒置尾） */
+  limit: SectorStockLimit | null;
+}
+
+/** 板块成分股快照响应：202 准备中时 stocks 为空、data_state=preparing */
+export interface SectorStocks {
+  data_state: DataState;
+  stale: boolean;
+  as_of: string | null;
+  generated_at: string | null;
+  stale_since: string | null;
+  stale_reason: string | null;
+  code: string;
+  name: string | null;
+  page_count: number;
+  total: number;
+  stocks: SectorStock[];
+  source?: string;
+  heat_algorithm?: string;
+  /** 涨停池数据日期（东财股池），可能与成分股快照 as_of 不同日 */
+  limit_as_of?: string | null;
+}

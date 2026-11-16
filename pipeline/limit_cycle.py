@@ -11,6 +11,7 @@
 
 本模块只写展示产物，不参与任何信号计算，也不改动既有算法链路。
 """
+
 from __future__ import annotations
 
 import json
@@ -22,10 +23,11 @@ from pathlib import Path
 import akshare as ak
 import pandas as pd
 
+from io_utils import protected_write
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 CALENDAR = DATA / "raw" / "trade-calendar.json"
-OUTPUT = DATA / "limit-cycle.json"
 
 LOOKBACK_DAYS = 30
 MAX_WORKERS = 4
@@ -84,9 +86,16 @@ def _seal_time(raw: object) -> str | None:
     return text[:5] if text and text.lower() != "nan" else None
 
 
-def _promote_counts(zt: pd.DataFrame, prev: pd.DataFrame | None) -> tuple[int, int] | None:
+def _promote_counts(
+    zt: pd.DataFrame, prev: pd.DataFrame | None
+) -> tuple[int, int] | None:
     """2→3 晋级：分母=昨日 2 板家数，分子=其中今日仍在涨停池的家数。"""
-    if prev is None or prev.empty or "昨日连板数" not in prev.columns or "代码" not in prev.columns:
+    if (
+        prev is None
+        or prev.empty
+        or "昨日连板数" not in prev.columns
+        or "代码" not in prev.columns
+    ):
         return None
     boards = pd.to_numeric(prev["昨日连板数"], errors="coerce")
     second = prev[boards == 2]
@@ -107,15 +116,17 @@ def _stocks(zt: pd.DataFrame) -> list[dict]:
             continue
         seal = pd.to_numeric(row.get("封板资金"), errors="coerce")
         broken = pd.to_numeric(row.get("炸板次数"), errors="coerce")
-        rows.append({
-            "code": str(row["代码"]).strip().zfill(6),
-            "name": str(row["名称"]).strip(),
-            "boards": boards,
-            "sector": str(row.get("所属行业", "")).strip() or None,
-            "seal_amount": round(float(seal) / 10000) if pd.notna(seal) else None,
-            "first_seal": _seal_time(row.get("首次封板时间")),
-            "status": "回封" if pd.notna(broken) and float(broken) > 0 else "封住",
-        })
+        rows.append(
+            {
+                "code": str(row["代码"]).strip().zfill(6),
+                "name": str(row["名称"]).strip(),
+                "boards": boards,
+                "sector": str(row.get("所属行业", "")).strip() or None,
+                "seal_amount": round(float(seal) / 10000) if pd.notna(seal) else None,
+                "first_seal": _seal_time(row.get("首次封板时间")),
+                "status": "回封" if pd.notna(broken) and float(broken) > 0 else "封住",
+            }
+        )
     return rows
 
 
@@ -141,12 +152,14 @@ def build_payload() -> dict:
     promote_days = 0
     for day, zt, prev in valid:
         boards = pd.to_numeric(zt["连板数"], errors="coerce").dropna().astype(int)
-        history.append({
-            "date": day,
-            "limit_up": int(len(zt)),
-            "max_board": int(boards.max()) if len(boards) else 0,
-            "continuous": int((boards >= 2).sum()),
-        })
+        history.append(
+            {
+                "date": day,
+                "limit_up": int(len(zt)),
+                "max_board": int(boards.max()) if len(boards) else 0,
+                "continuous": int((boards >= 2).sum()),
+            }
+        )
         counts = _promote_counts(zt, prev)
         if counts:
             promote_num += counts[0]
@@ -158,13 +171,21 @@ def build_payload() -> dict:
     previous = history[-2] if len(history) > 1 else None
     limit_values = [row["limit_up"] for row in history]
 
-    boards_series = pd.to_numeric(last_zt["连板数"], errors="coerce").dropna().astype(int)
+    boards_series = (
+        pd.to_numeric(last_zt["连板数"], errors="coerce").dropna().astype(int)
+    )
     max_board = last["max_board"]
-    ladder = [{"board": level, "count": int((boards_series == level).sum())}
-              for level in range(1, max_board + 1)]
+    ladder = [
+        {"board": level, "count": int((boards_series == level).sum())}
+        for level in range(1, max_board + 1)
+    ]
 
     leader = last_zt[pd.to_numeric(last_zt["连板数"], errors="coerce") == max_board]
-    leader_code = str(leader.sort_values("代码").iloc[0]["代码"]).strip().zfill(6) if not leader.empty else None
+    leader_code = (
+        str(leader.sort_values("代码").iloc[0]["代码"]).strip().zfill(6)
+        if not leader.empty
+        else None
+    )
 
     broken_count = None
     try:
@@ -175,7 +196,11 @@ def build_payload() -> dict:
         broken_count = None
 
     rate = round(promote_num / promote_den * 100, 1) if promote_den else None
-    window = f"{history[0]['date']} ~ {last_day}（{promote_days} 个有效交易日累计）" if promote_den else None
+    window = (
+        f"{history[0]['date']} ~ {last_day}（{promote_days} 个有效交易日累计）"
+        if promote_den
+        else None
+    )
 
     # 当日客观读数只放当日可观测值。晋级率属带样本量的统计口径，
     # 按用户要求收进页面默认折叠区，不占首屏；metrics 中仍完整保留比率 / n / 区间。
@@ -202,7 +227,9 @@ def build_payload() -> dict:
             "curve_metric": "每日最高连板高度",
             "curve_unit": "板",
             "curve_max": CURVE_MAX_BOARDS,
-            "observed": [{"date": row["date"], "value": row["max_board"]} for row in history],
+            "observed": [
+                {"date": row["date"], "value": row["max_board"]} for row in history
+            ],
             "readouts": readouts,
         },
         "temperature": {
@@ -211,15 +238,18 @@ def build_payload() -> dict:
             "value": last["limit_up"],
             "change": last["limit_up"] - previous["limit_up"] if previous else None,
             "percentile": _percentile(limit_values, last["limit_up"]),
-            "series": [{"date": row["date"], "value": row["limit_up"]}
-                       for row in history],
+            "series": [
+                {"date": row["date"], "value": row["limit_up"]} for row in history
+            ],
             "formula": "当日涨停家数 = 东财涨停池行数；分位为该值在有效交易日区间内的百分位排名，无主观权重。",
         },
         "metrics": {
             "max_board": max_board,
             "max_board_leader": leader_code,
             "continuous_count": last["continuous"],
-            "continuous_change": last["continuous"] - previous["continuous"] if previous else None,
+            "continuous_change": last["continuous"] - previous["continuous"]
+            if previous
+            else None,
             "limit_up_count": last["limit_up"],
             "broken_count": broken_count,
             "promote_rate": rate,
@@ -233,14 +263,17 @@ def build_payload() -> dict:
 
 def main() -> int:
     payload = build_payload()
-    OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"已写入 {OUTPUT}")
-    print(f"覆盖 {payload['coverage']['valid_days']}/{payload['coverage']['requested_days']} 个交易日"
-          f" · 区间 {payload['coverage']['start']} ~ {payload['coverage']['end']}")
-    print(f"截至 {payload['as_of']}：涨停 {payload['metrics']['limit_up_count']} 家"
-          f" · 最高 {payload['metrics']['max_board']} 板"
-          f" · 连板 {payload['metrics']['continuous_count']} 家"
-          f" · 2→3 晋级率 {payload['metrics']['promote_rate']}% (n={payload['metrics']['promote_sample']})")
+    protected_write("limit-cycle.json", payload)
+    print(
+        f"覆盖 {payload['coverage']['valid_days']}/{payload['coverage']['requested_days']} 个交易日"
+        f" · 区间 {payload['coverage']['start']} ~ {payload['coverage']['end']}"
+    )
+    print(
+        f"截至 {payload['as_of']}：涨停 {payload['metrics']['limit_up_count']} 家"
+        f" · 最高 {payload['metrics']['max_board']} 板"
+        f" · 连板 {payload['metrics']['continuous_count']} 家"
+        f" · 2→3 晋级率 {payload['metrics']['promote_rate']}% (n={payload['metrics']['promote_sample']})"
+    )
     return 0
 
 
