@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-17 12:03:01",
+    "updated_at": "2026-11-17 14:25:02",
     "retention_days": 30,
-    "total": 74
+    "total": 76
   },
   "posts": [
     {
@@ -972,6 +972,42 @@
         "https://u.thsi.cn/imgsrc/sns/6c3f401ad0aabcd340aba1e3d09c4f13_1936_3840.jpg"
       ],
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5pwrmojnwu7q3ceece82"
+    },
+    {
+      "id": "2424199075",
+      "ctime": 1794890319000,
+      "date": "2026-11-17",
+      "time": "12:38",
+      "text": "发帖时间9.39分，阳光红几个点，就这还能怪我？？？你也真是大神发声？？？我滴妈哎！我真是惊呆了这些发言。亏钱怨我，卖飞怨我。唯独赚钱没有我。",
+      "stocks": [],
+      "images": 1,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/a617388bddaac12025a88dd5d6bc71c9_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5sjh8u7b9uye37a9ac4d"
+    },
+    {
+      "id": "2424200611",
+      "ctime": 1794890984000,
+      "date": "2026-11-17",
+      "time": "12:49",
+      "text": "$九阳股份(002242)$ $阳光照明(600261)$ 给你看看什么叫体面离场，然后在分歧切核心，这二句话。菜就学，我直接发交割单。不同性格的人，同一时间做同样的东西，结局和差距都很大。原因就是人性的博弈，现在应该能明白我以前经常说的那句交易唯有自渡的含义了吧。（200终于做到1000万了）。本月最后一条帖子了。不想发了。昨天亏钱都是我的锅行了吧！",
+      "stocks": [
+        {
+          "name": "九阳股份",
+          "code": "002242"
+        }
+      ],
+      "images": 6,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/a617388bddaac12025a88dd5d6bc71c9_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/6f456a24d7ab1b5345b45242a270dbdb_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/2cd4a213993eb375aa055cbcf6c80d25_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/984a95f3328d2e42033af8a02eda07e6_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/71aed93373abd7fb712cfaf5d682696a_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/a0fbeeaa4a2053b78073e5bb2cc85894_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5skzox2hfth27710294d"
     }
   ]
 }
