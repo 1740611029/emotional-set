@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-13",
-  "generated_at": "2026-11-13T20:01:03+08:00",
+  "as_of": "2026-11-16",
+  "generated_at": "2026-11-16T20:08:07+08:00",
   "algorithm_version": "lhb-traders-v1.1",
   "seat_map_version": "lhb-seat-map-v1.0",
   "scope_note": "金额统计仅基于单日榜（上榜原因含「连续」的多日累计榜只存记录不参与统计）；同股同席位跨上榜原因/买卖榜的重复披露已按当日去重；板块归属为独立展示口径（新浪行业打底、东财解封后自动补全），与板块趋势页面申万体系不对照；席位为公开资料整理非官方认证，低置信命中已在记录级标注；在场判定（游资×个股，仅单日榜）：窗口内累计卖出≥累计买入、或最后记录卖出占比>80%且该股此后再上榜未现身买方→确认清仓；最后现身≥4个交易日静默且静默期内该股再上榜或换手覆盖（静默期市场总成交额≥窗口内买入×5）→疑似离场；≥8个交易日无记录→强制离场；离场配对展示时效：游资总览与个股游资总览保留5个交易日、第6个交易日起默认隐藏（页面可切换显示），每日动向保持3个交易日口径（数据完整保留于产物）；判定仅基于窗口内数据，窗口前买入不可见",
@@ -28,7 +28,8 @@
     "2026-11-10",
     "2026-11-11",
     "2026-11-12",
-    "2026-11-13"
+    "2026-11-13",
+    "2026-11-16"
   ],
   "traders": [
     {
@@ -114,14 +115,377 @@
         }
       ],
       "stats": {
-        "active_days": 24,
-        "records": 189,
-        "stocks": 125,
-        "buy_total": 4954645749.88,
-        "sell_total": 3586808159.32,
-        "net_total": 1367837590.56
+        "active_days": 25,
+        "records": 201,
+        "stocks": 131,
+        "buy_total": 5399004820.32,
+        "sell_total": 3886626965.18,
+        "net_total": 1512377855.14
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "601929",
+          "name": "吉视传媒",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 95615827.18,
+          "sell": 0.0,
+          "close": 2.96,
+          "pct_chg": 10.0372,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "国泰海通证券长宁区江苏路(addr)"
+          ],
+          "confidence": "high",
+          "net": 95615827.18
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000156",
+          "name": "华数传媒",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 90753143.18,
+          "sell": 3804145.0,
+          "close": 8.54,
+          "pct_chg": 10.0515,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 86948998.18
+        },
+        {
+          "date": "2026-11-16",
+          "code": "601599",
+          "name": "浙文影业",
+          "reasons": [
+            "有价格涨跌幅限制的日换手率达到20%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 86560035.51,
+          "close": 5.06,
+          "pct_chg": 0.3968,
+          "board": "纺织行业",
+          "seat_hits": [
+            "国泰海通证券长宁区江苏路(addr)",
+            "国泰海通证券宁波广福街(exact)"
+          ],
+          "confidence": "medium",
+          "net": -86560035.51
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002343",
+          "name": "慈文传媒",
+          "reasons": [
+            "日振幅值达到15%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 86678981.6,
+          "sell": 1723925.0,
+          "close": 10.12,
+          "pct_chg": 5.4167,
+          "board": "塑料制品",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 84955056.6
+        },
+        {
+          "date": "2026-11-16",
+          "code": "603118",
+          "name": "共进股份",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 84167017.41,
+          "close": 14.71,
+          "pct_chg": 10.0224,
+          "board": "电子器件",
+          "seat_hits": [
+            "国泰海通证券长宁区江苏路(addr)"
+          ],
+          "confidence": "high",
+          "net": -84167017.41
+        },
+        {
+          "date": "2026-11-16",
+          "code": "600936",
+          "name": "北投科技",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 80150587.0,
+          "sell": 0.0,
+          "close": 4.02,
+          "pct_chg": 10.137,
+          "board": null,
+          "seat_hits": [
+            "国泰海通证券长宁区江苏路(addr)"
+          ],
+          "confidence": "high",
+          "net": 80150587.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 18368530.0,
+          "sell": 58984166.86,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": -40615636.86
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 42823293.32,
+          "sell": 4587027.47,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 38236265.85
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "日换手率达到20%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 40299777.32,
+          "sell": 4372377.47,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 35927399.85
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 78287546.0,
+          "sell": 59296539.86,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 18991006.14
+        },
+        {
+          "date": "2026-11-16",
+          "code": "600327",
+          "name": "大东方",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 15906665.61,
+          "close": 5.81,
+          "pct_chg": -10.0619,
+          "board": "商业百货",
+          "seat_hits": [
+            "国泰海通证券长宁区江苏路(addr)"
+          ],
+          "confidence": "high",
+          "net": -15906665.61
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002685",
+          "name": "华东重机",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 23780780.0,
+          "sell": 38311680.0,
+          "close": 6.09,
+          "pct_chg": 9.9278,
+          "board": "机械行业",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": -14530900.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "300530",
+          "name": "领湃科技",
+          "reasons": [
+            "日涨幅达到15%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 15024434.0,
+          "sell": 1707495.0,
+          "close": 27.83,
+          "pct_chg": 20.0086,
+          "board": null,
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 13316939.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "603725",
+          "name": "天安新材",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 10996379.16,
+          "sell": 23806743.0,
+          "close": 11.14,
+          "pct_chg": -10.0162,
+          "board": null,
+          "seat_hits": [
+            "浙商证券杭州五星路(exact)",
+            "国泰海通证券长宁区江苏路(addr)"
+          ],
+          "confidence": "high",
+          "net": -12810363.84
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002685",
+          "name": "华东重机",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 6471411.0,
+          "sell": 18786235.0,
+          "close": 6.09,
+          "pct_chg": 9.9278,
+          "board": "机械行业",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": -12314824.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002748",
+          "name": "世龙实业",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 20964379.0,
+          "sell": 9940886.0,
+          "close": 13.63,
+          "pct_chg": 10.0081,
+          "board": "化工行业",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 11023493.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002853",
+          "name": "皮阿诺",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 6546196.0,
+          "sell": 1446322.0,
+          "close": 22.84,
+          "pct_chg": 4.915,
+          "board": null,
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 5099874.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002905",
+          "name": "金逸影视",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 4892547.0,
+          "sell": 553671.0,
+          "close": 10.89,
+          "pct_chg": 10.0,
+          "board": null,
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 4338876.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002425",
+          "name": "凯撒文化",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 35593673.0,
+          "sell": 32782624.0,
+          "close": 4.36,
+          "pct_chg": 10.101,
+          "board": "服装鞋类",
+          "seat_hits": [
+            "国泰海通证券上海长宁区江苏路(exact)"
+          ],
+          "confidence": "high",
+          "net": 2811049.0
+        },
         {
           "date": "2026-11-13",
           "code": "600715",
@@ -5241,6 +5605,138 @@
       ],
       "positions": [
         {
+          "code": "601929",
+          "name": "吉视传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 200078913.18,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000156",
+          "name": "华数传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 90753143.18,
+          "sell_total": 3804145.0,
+          "silent_days": 0
+        },
+        {
+          "code": "601599",
+          "name": "浙文影业",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 314868700.7,
+          "sell_total": 210689224.51,
+          "silent_days": 0
+        },
+        {
+          "code": "002343",
+          "name": "慈文传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 181509741.22,
+          "sell_total": 132548704.14,
+          "silent_days": 0
+        },
+        {
+          "code": "603118",
+          "name": "共进股份",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 84167017.41,
+          "silent_days": 0
+        },
+        {
+          "code": "600936",
+          "name": "北投科技",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 80150587.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000595",
+          "name": "新能股份",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 18368530.0,
+          "sell_total": 58984166.86,
+          "silent_days": 0
+        },
+        {
+          "code": "002148",
+          "name": "北纬科技",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 41637262.32,
+          "sell_total": 93230671.47,
+          "silent_days": 0
+        },
+        {
+          "code": "600327",
+          "name": "大东方",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 134440720.48,
+          "sell_total": 77525961.97,
+          "silent_days": 0
+        },
+        {
+          "code": "300530",
+          "name": "领湃科技",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 15024434.0,
+          "sell_total": 1707495.0,
+          "silent_days": 0
+        },
+        {
+          "code": "603725",
+          "name": "天安新材",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 41908402.16,
+          "sell_total": 23806743.0,
+          "silent_days": 0
+        },
+        {
+          "code": "002685",
+          "name": "华东重机",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 6471411.0,
+          "sell_total": 18786235.0,
+          "silent_days": 0
+        },
+        {
           "code": "002172",
           "name": "澳洋健康",
           "status": "exited_confirmed",
@@ -5260,7 +5756,7 @@
           "exit_date": null,
           "buy_total": 86504251.0,
           "sell_total": 2262000.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "603366",
@@ -5271,7 +5767,7 @@
           "exit_date": null,
           "buy_total": 83078907.04,
           "sell_total": 0.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "300237",
@@ -5282,29 +5778,7 @@
           "exit_date": null,
           "buy_total": 72094159.0,
           "sell_total": 115037.0,
-          "silent_days": 0
-        },
-        {
-          "code": "600327",
-          "name": "大东方",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-13",
-          "exit_date": null,
-          "buy_total": 134440720.48,
-          "sell_total": 61619296.36,
-          "silent_days": 0
-        },
-        {
-          "code": "601599",
-          "name": "浙文影业",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-13",
-          "exit_date": null,
-          "buy_total": 314868700.7,
-          "sell_total": 124129189.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "601566",
@@ -5315,18 +5789,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 52948903.84,
-          "silent_days": 0
-        },
-        {
-          "code": "603725",
-          "name": "天安新材",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-13",
-          "exit_date": null,
-          "buy_total": 30912023.0,
-          "sell_total": 0.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "600467",
@@ -5337,7 +5800,7 @@
           "exit_date": null,
           "buy_total": 24153288.0,
           "sell_total": 21643443.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002187",
@@ -5351,17 +5814,6 @@
           "silent_days": 0
         },
         {
-          "code": "601929",
-          "name": "吉视传媒",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-12",
-          "exit_date": null,
-          "buy_total": 104463086.0,
-          "sell_total": 0.0,
-          "silent_days": 1
-        },
-        {
           "code": "600715",
           "name": "文投控股",
           "status": "exited_confirmed",
@@ -5370,17 +5822,6 @@
           "exit_date": "2026-11-12",
           "buy_total": 71077943.0,
           "sell_total": 182991172.0,
-          "silent_days": 0
-        },
-        {
-          "code": "002148",
-          "name": "北纬科技",
-          "status": "exited_confirmed",
-          "exit_type": "sell_cover",
-          "last_seen": "2026-11-12",
-          "exit_date": "2026-11-12",
-          "buy_total": 1337485.0,
-          "sell_total": 88858294.0,
           "silent_days": 0
         },
         {
@@ -5447,7 +5888,7 @@
           "exit_date": null,
           "buy_total": 56437046.4,
           "sell_total": 296872.64,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "603330",
@@ -5458,7 +5899,7 @@
           "exit_date": null,
           "buy_total": 60609090.0,
           "sell_total": 20306370.24,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "603258",
@@ -5469,7 +5910,7 @@
           "exit_date": null,
           "buy_total": 24629553.0,
           "sell_total": 0.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "301591",
@@ -5480,7 +5921,7 @@
           "exit_date": null,
           "buy_total": 33376428.0,
           "sell_total": 27708171.22,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "002639",
@@ -5502,7 +5943,7 @@
           "exit_date": null,
           "buy_total": 66865993.0,
           "sell_total": 516422.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "300613",
@@ -5513,7 +5954,7 @@
           "exit_date": null,
           "buy_total": 60059436.73,
           "sell_total": 3454009.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "301718",
@@ -5535,7 +5976,7 @@
           "exit_date": null,
           "buy_total": 32877871.0,
           "sell_total": 2390678.64,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "603703",
@@ -5568,7 +6009,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 5158593.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "002865",
@@ -5579,18 +6020,18 @@
           "exit_date": null,
           "buy_total": 33798204.0,
           "sell_total": 30891958.42,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "000530",
           "name": "冰山冷热",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_probable",
+          "exit_type": "silent",
           "last_seen": "2026-11-10",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 67672259.6,
           "sell_total": 37394161.46,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "688585",
@@ -5601,7 +6042,7 @@
           "exit_date": null,
           "buy_total": 130252940.29,
           "sell_total": 0.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "300825",
@@ -5612,7 +6053,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 70790827.48,
           "sell_total": 1007364.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "600127",
@@ -5667,7 +6108,7 @@
           "exit_date": null,
           "buy_total": 34289817.0,
           "sell_total": 1407918.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "002708",
@@ -5689,7 +6130,7 @@
           "exit_date": null,
           "buy_total": 25087850.41,
           "sell_total": 592279.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "002712",
@@ -5700,18 +6141,7 @@
           "exit_date": null,
           "buy_total": 21969153.0,
           "sell_total": 3446660.86,
-          "silent_days": 4
-        },
-        {
-          "code": "002343",
-          "name": "慈文传媒",
-          "status": "exited_confirmed",
-          "exit_type": "sell_cover",
-          "last_seen": "2026-11-06",
-          "exit_date": "2026-11-06",
-          "buy_total": 94830759.62,
-          "sell_total": 130824779.14,
-          "silent_days": 0
+          "silent_days": 5
         },
         {
           "code": "601595",
@@ -5722,7 +6152,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 50890852.08,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "601188",
@@ -5733,7 +6163,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 30506585.0,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "300686",
@@ -5744,7 +6174,7 @@
           "exit_date": null,
           "buy_total": 30511545.0,
           "sell_total": 559531.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "600278",
@@ -5755,7 +6185,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 20383201.0,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "002903",
@@ -5788,7 +6218,7 @@
           "exit_date": null,
           "buy_total": 67659886.0,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "002058",
@@ -5810,7 +6240,7 @@
           "exit_date": null,
           "buy_total": 39000701.0,
           "sell_total": 3254934.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "300709",
@@ -5821,7 +6251,7 @@
           "exit_date": null,
           "buy_total": 36745497.48,
           "sell_total": 1449957.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "300093",
@@ -5848,13 +6278,13 @@
         {
           "code": "688507",
           "name": "索辰科技",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 116266117.45,
           "sell_total": 100763607.94,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "002696",
@@ -5870,13 +6300,13 @@
         {
           "code": "603382",
           "name": "海阳科技",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 0.0,
           "sell_total": 18977911.07,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "301520",
@@ -5909,7 +6339,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 49436436.8,
           "sell_total": 445071.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "300426",
@@ -5942,7 +6372,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 24330987.0,
           "sell_total": 81632.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "301311",
@@ -5953,7 +6383,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 16383962.0,
           "sell_total": 1410775.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "300413",
@@ -5964,7 +6394,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 73104980.28,
           "sell_total": 19805666.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "603278",
@@ -5997,7 +6427,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 13572161.99,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "001225",
@@ -6008,7 +6438,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 9908560.4,
           "sell_total": 320978.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002724",
@@ -6030,7 +6460,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 124190554.4,
           "sell_total": 57438210.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002164",
@@ -6052,7 +6482,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 32570324.0,
           "sell_total": 2100573.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "601083",
@@ -6063,7 +6493,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 20284786.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002889",
@@ -6085,7 +6515,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 42804211.6,
           "sell_total": 2690008.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "688691",
@@ -6096,7 +6526,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 30380256.54,
           "sell_total": 0.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "002820",
@@ -6118,7 +6548,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 20614801.0,
           "sell_total": 2161386.5,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "301313",
@@ -6173,7 +6603,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 48789776.0,
           "sell_total": 2767370.8,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "603138",
@@ -6184,7 +6614,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 30167251.0,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "688386",
@@ -6195,7 +6625,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 26582578.0,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "603933",
@@ -6217,7 +6647,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 21221737.0,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "920157",
@@ -6239,7 +6669,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 198228217.46,
           "sell_total": 108884398.48,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "603028",
@@ -6250,7 +6680,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 4430552.0,
           "sell_total": 0.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "300839",
@@ -6261,7 +6691,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 34873697.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "000678",
@@ -6272,7 +6702,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 33754455.0,
           "sell_total": 2762720.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "600178",
@@ -6294,7 +6724,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 0.0,
           "sell_total": 24866215.48,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "301190",
@@ -6316,7 +6746,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 38318674.0,
           "sell_total": 3360375.78,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "002792",
@@ -6349,7 +6779,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 21348338.0,
           "sell_total": 0.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "003029",
@@ -6371,7 +6801,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 15134256.0,
           "sell_total": 776589.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "002134",
@@ -6382,7 +6812,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 65535865.0,
           "sell_total": 33999466.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "300006",
@@ -6404,7 +6834,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 42067782.0,
           "sell_total": 1237742.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "000892",
@@ -6415,7 +6845,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 41197181.0,
           "sell_total": 38648295.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "603386",
@@ -6437,7 +6867,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 24297691.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "301586",
@@ -6448,7 +6878,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 24513589.0,
           "sell_total": 959227.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "301002",
@@ -6470,7 +6900,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 8841409.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "603533",
@@ -6481,7 +6911,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 97390291.11,
           "sell_total": 0.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "300111",
@@ -6492,7 +6922,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 42045275.0,
           "sell_total": 450959.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603598",
@@ -6514,7 +6944,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 53064748.97,
           "sell_total": 3095300.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "603466",
@@ -6558,7 +6988,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 58632207.0,
           "sell_total": 4327729.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "002980",
@@ -6569,7 +6999,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 39876809.0,
           "sell_total": 1785140.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "002640",
@@ -6580,7 +7010,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 36831140.0,
           "sell_total": 1411696.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "002768",
@@ -6591,7 +7021,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 20634603.0,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "002692",
@@ -6613,7 +7043,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 7251750.43,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         }
       ]
     },
@@ -6656,14 +7086,33 @@
         }
       ],
       "stats": {
-        "active_days": 12,
-        "records": 13,
-        "stocks": 11,
+        "active_days": 13,
+        "records": 14,
+        "stocks": 12,
         "buy_total": 64313631.0,
-        "sell_total": 132120878.33,
-        "net_total": -67807247.33
+        "sell_total": 152954422.93,
+        "net_total": -88640791.93
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "603389",
+          "name": "亚振家居",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 20833544.6,
+          "close": 55.23,
+          "pct_chg": -10.0049,
+          "board": null,
+          "seat_hits": [
+            "中国银河证券绍兴鲁迅中路(addr)"
+          ],
+          "confidence": "high",
+          "net": -20833544.6
+        },
         {
           "date": "2026-11-13",
           "code": "600327",
@@ -6971,12 +7420,23 @@
       ],
       "positions": [
         {
-          "code": "600327",
-          "name": "大东方",
+          "code": "603389",
+          "name": "亚振家居",
           "status": "active",
           "exit_type": null,
-          "last_seen": "2026-11-13",
+          "last_seen": "2026-11-16",
           "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 20833544.6,
+          "silent_days": 0
+        },
+        {
+          "code": "600327",
+          "name": "大东方",
+          "status": "exited_confirmed",
+          "exit_type": "heavy_sell",
+          "last_seen": "2026-11-13",
+          "exit_date": "2026-11-13",
           "buy_total": 0.0,
           "sell_total": 20420105.64,
           "silent_days": 0
@@ -6990,18 +7450,18 @@
           "exit_date": null,
           "buy_total": 680000.0,
           "sell_total": 0.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "900939",
           "name": "汇丽B",
-          "status": "exited_probable",
-          "exit_type": "silent",
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": "2026-11-10",
+          "exit_date": "2026-11-16",
           "buy_total": 21859.0,
           "sell_total": 0.0,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "603131",
@@ -7012,7 +7472,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 0.0,
           "sell_total": 40614640.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002865",
@@ -7023,7 +7483,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 28655856.0,
           "sell_total": 299309.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "600261",
@@ -7045,7 +7505,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 0.0,
           "sell_total": 1092920.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "300045",
@@ -7056,7 +7516,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 30258887.0,
           "sell_total": 150430.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "601118",
@@ -7067,7 +7527,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 0.0,
           "sell_total": 61262107.69,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603172",
@@ -7078,7 +7538,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 0.0,
           "sell_total": 3885766.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603008",
@@ -7089,7 +7549,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 4697029.0,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         }
       ]
     },
@@ -7207,7 +7667,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 5129428.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "600097",
@@ -7218,7 +7678,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 0.0,
           "sell_total": 3131400.0,
-          "silent_days": 22
+          "silent_days": 23
         }
       ]
     },
@@ -7251,14 +7711,33 @@
         }
       ],
       "stats": {
-        "active_days": 5,
-        "records": 6,
-        "stocks": 5,
+        "active_days": 6,
+        "records": 7,
+        "stocks": 6,
         "buy_total": 32334341.0,
-        "sell_total": 76568597.81,
-        "net_total": -44234256.81
+        "sell_total": 105044467.89,
+        "net_total": -72710126.89
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "688433",
+          "name": "华曙高科",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅达到15%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 28475870.08,
+          "close": 57.0,
+          "pct_chg": -15.5556,
+          "board": null,
+          "seat_hits": [
+            "中信证券上海虹口区溧阳路(addr)"
+          ],
+          "confidence": "high",
+          "net": -28475870.08
+        },
         {
           "date": "2026-11-13",
           "code": "688661",
@@ -7395,12 +7874,23 @@
       ],
       "positions": [
         {
-          "code": "688661",
-          "name": "和林微纳",
+          "code": "688433",
+          "name": "华曙高科",
           "status": "active",
           "exit_type": null,
-          "last_seen": "2026-11-13",
+          "last_seen": "2026-11-16",
           "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 28475870.08,
+          "silent_days": 0
+        },
+        {
+          "code": "688661",
+          "name": "和林微纳",
+          "status": "exited_confirmed",
+          "exit_type": "heavy_sell",
+          "last_seen": "2026-11-13",
+          "exit_date": "2026-11-13",
           "buy_total": 0.0,
           "sell_total": 31571828.6,
           "silent_days": 0
@@ -7436,7 +7926,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 12401257.0,
           "sell_total": 45543.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "000032",
@@ -7494,14 +7984,299 @@
         }
       ],
       "stats": {
-        "active_days": 24,
-        "records": 211,
-        "stocks": 173,
-        "buy_total": 6043523733.78,
-        "sell_total": 3073835182.03,
-        "net_total": 2969688551.75
+        "active_days": 25,
+        "records": 220,
+        "stocks": 182,
+        "buy_total": 6178871575.65,
+        "sell_total": 3320614456.94,
+        "net_total": 2858257118.71
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "000819",
+          "name": "岳阳兴长",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 197400.0,
+          "sell": 77085798.0,
+          "close": 14.1,
+          "pct_chg": 9.9844,
+          "board": "石油行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -76888398.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "日换手率达到20%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 18930.0,
+          "sell": 69190320.0,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -69171390.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002685",
+          "name": "华东重机",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 54024015.46,
+          "sell": 105566238.6,
+          "close": 6.09,
+          "pct_chg": 9.9278,
+          "board": "机械行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -51542223.14
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 61563603.6,
+          "sell": 25698338.8,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": 35865264.8
+        },
+        {
+          "date": "2026-11-16",
+          "code": "688433",
+          "name": "华曙高科",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅达到15%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 33185913.92,
+          "sell": 0.0,
+          "close": 57.0,
+          "pct_chg": -15.5556,
+          "board": null,
+          "seat_hits": [
+            "国金证券深圳分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 33185913.92
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000665",
+          "name": "湖北广电",
+          "reasons": [
+            "日振幅值达到15%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 148335.0,
+          "sell": 31220135.51,
+          "close": 4.74,
+          "pct_chg": 3.4934,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -31071800.51
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000156",
+          "name": "华数传媒",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 25880091.0,
+          "sell": 266876.0,
+          "close": 8.54,
+          "pct_chg": 10.0515,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": 25613215.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "688765",
+          "name": "禾元生物",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅达到15%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 13938662.09,
+          "sell": 0.0,
+          "close": 29.98,
+          "pct_chg": -18.444,
+          "board": null,
+          "seat_hits": [
+            "国金证券深圳分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 13938662.09
+        },
+        {
+          "date": "2026-11-16",
+          "code": "603389",
+          "name": "亚振家居",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格跌幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 13069503.0,
+          "close": 55.23,
+          "pct_chg": -10.0049,
+          "board": null,
+          "seat_hits": [
+            "国金证券深圳分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": -13069503.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 35476328.0,
+          "sell": 25692808.8,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": 9783519.2
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000819",
+          "name": "岳阳兴长",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 70276342.0,
+          "sell": 77110914.0,
+          "close": 14.1,
+          "pct_chg": 9.9844,
+          "board": "石油行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -6834572.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 62609280.0,
+          "sell": 69282177.0,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -6672897.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002748",
+          "name": "世龙实业",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 44404745.0,
+          "sell": 39975175.0,
+          "close": 13.63,
+          "pct_chg": 10.0081,
+          "board": "化工行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": 4429570.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002685",
+          "name": "华东重机",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 26502181.86,
+          "sell": 30253833.6,
+          "close": 6.09,
+          "pct_chg": 9.9278,
+          "board": "机械行业",
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -3751651.74
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002853",
+          "name": "皮阿诺",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 18508490.0,
+          "sell": 19153405.3,
+          "close": 22.84,
+          "pct_chg": 4.915,
+          "board": null,
+          "seat_hits": [
+            "开源证券西安西大街(exact)"
+          ],
+          "confidence": "high",
+          "net": -644915.3
+        },
         {
           "date": "2026-11-13",
           "code": "300324",
@@ -13381,6 +14156,105 @@
       ],
       "positions": [
         {
+          "code": "000819",
+          "name": "岳阳兴长",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 197400.0,
+          "sell_total": 77085798.0,
+          "silent_days": 0
+        },
+        {
+          "code": "002148",
+          "name": "北纬科技",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 18930.0,
+          "sell_total": 69190320.0,
+          "silent_days": 0
+        },
+        {
+          "code": "688433",
+          "name": "华曙高科",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 33185913.92,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000665",
+          "name": "湖北广电",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 148335.0,
+          "sell_total": 31220135.51,
+          "silent_days": 0
+        },
+        {
+          "code": "000156",
+          "name": "华数传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 25880091.0,
+          "sell_total": 266876.0,
+          "silent_days": 0
+        },
+        {
+          "code": "688765",
+          "name": "禾元生物",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 13938662.09,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "603389",
+          "name": "亚振家居",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 13069503.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000595",
+          "name": "新能股份",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 35476328.0,
+          "sell_total": 25692808.8,
+          "silent_days": 0
+        },
+        {
+          "code": "002685",
+          "name": "华东重机",
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 26502181.86,
+          "sell_total": 30253833.6,
+          "silent_days": 0
+        },
+        {
           "code": "300324",
           "name": "旋极信息",
           "status": "active",
@@ -13389,7 +14263,7 @@
           "exit_date": null,
           "buy_total": 70860218.0,
           "sell_total": 679214.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002623",
@@ -13411,7 +14285,7 @@
           "exit_date": null,
           "buy_total": 41250470.8,
           "sell_total": 5734.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "000766",
@@ -13422,7 +14296,7 @@
           "exit_date": null,
           "buy_total": 39545435.0,
           "sell_total": 910530.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "300237",
@@ -13433,7 +14307,7 @@
           "exit_date": null,
           "buy_total": 48902712.0,
           "sell_total": 208363.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002124",
@@ -13444,7 +14318,7 @@
           "exit_date": null,
           "buy_total": 29392098.0,
           "sell_total": 262881.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002593",
@@ -13499,7 +14373,7 @@
           "exit_date": null,
           "buy_total": 9553509.0,
           "sell_total": 3941840.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "002343",
@@ -13521,7 +14395,7 @@
           "exit_date": null,
           "buy_total": 70071149.0,
           "sell_total": 0.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "002916",
@@ -13532,7 +14406,7 @@
           "exit_date": null,
           "buy_total": 66081065.86,
           "sell_total": 21348.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "301591",
@@ -13543,7 +14417,7 @@
           "exit_date": null,
           "buy_total": 65755309.56,
           "sell_total": 62079419.43,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "600715",
@@ -13565,7 +14439,7 @@
           "exit_date": null,
           "buy_total": 1863316.0,
           "sell_total": 0.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "300264",
@@ -13576,7 +14450,7 @@
           "exit_date": null,
           "buy_total": 73703778.0,
           "sell_total": 0.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "300613",
@@ -13587,7 +14461,7 @@
           "exit_date": null,
           "buy_total": 73246886.0,
           "sell_total": 81742.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "002578",
@@ -13609,7 +14483,7 @@
           "exit_date": null,
           "buy_total": 5043954.0,
           "sell_total": 0.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "688585",
@@ -13631,7 +14505,7 @@
           "exit_date": null,
           "buy_total": 75466847.0,
           "sell_total": 86304.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "601599",
@@ -13653,7 +14527,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 45455921.64,
           "sell_total": 4836.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "600609",
@@ -13664,7 +14538,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 31373940.0,
           "sell_total": 0.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "301010",
@@ -13675,7 +14549,7 @@
           "exit_date": null,
           "buy_total": 28273479.92,
           "sell_total": 57851.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "002388",
@@ -13697,7 +14571,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 77311193.76,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "601188",
@@ -13708,7 +14582,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 39463395.95,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "002929",
@@ -13719,7 +14593,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 70144516.0,
           "sell_total": 38673072.66,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "300118",
@@ -13730,7 +14604,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 28801108.0,
           "sell_total": 356879.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "002903",
@@ -13741,7 +14615,7 @@
           "exit_date": null,
           "buy_total": 26769981.0,
           "sell_total": 1720355.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "301697",
@@ -13763,7 +14637,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 9934294.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "300071",
@@ -13774,7 +14648,7 @@
           "exit_date": null,
           "buy_total": 80334317.0,
           "sell_total": 63448.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "300093",
@@ -13785,7 +14659,7 @@
           "exit_date": null,
           "buy_total": 71465963.0,
           "sell_total": 16458.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "002131",
@@ -13796,7 +14670,7 @@
           "exit_date": null,
           "buy_total": 68082917.89,
           "sell_total": 168762.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "600986",
@@ -13807,7 +14681,7 @@
           "exit_date": null,
           "buy_total": 47776695.0,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "688316",
@@ -13818,7 +14692,7 @@
           "exit_date": null,
           "buy_total": 31494646.38,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "600569",
@@ -13829,7 +14703,7 @@
           "exit_date": null,
           "buy_total": 31311934.0,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "000603",
@@ -13840,7 +14714,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 31165900.0,
           "sell_total": 6652723.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "002164",
@@ -13851,7 +14725,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 332652158.88,
           "sell_total": 71036424.72,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "688648",
@@ -13862,7 +14736,7 @@
           "exit_date": null,
           "buy_total": 11684138.21,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "600683",
@@ -13873,7 +14747,7 @@
           "exit_date": null,
           "buy_total": 5500217.0,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "601566",
@@ -13911,13 +14785,13 @@
         {
           "code": "603777",
           "name": "来伊份",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 31904350.0,
           "sell_total": 0.0,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "002086",
@@ -13933,13 +14807,13 @@
         {
           "code": "688517",
           "name": "金冠电气",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 19111840.77,
           "sell_total": 0.0,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "603330",
@@ -13955,24 +14829,24 @@
         {
           "code": "603289",
           "name": "泰瑞机器",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 0.0,
           "sell_total": 10001514.0,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "603382",
           "name": "海阳科技",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 0.0,
           "sell_total": 4871284.0,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "002652",
@@ -14005,7 +14879,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 51548913.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "600327",
@@ -14016,7 +14890,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 30655320.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "600358",
@@ -14027,7 +14901,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 22072363.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "001318",
@@ -14038,7 +14912,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 21337908.0,
           "sell_total": 7492.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "002300",
@@ -14049,7 +14923,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 18011870.32,
           "sell_total": 83106.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "127118",
@@ -14060,7 +14934,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 0.0,
           "sell_total": 749639.85,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "002708",
@@ -14071,7 +14945,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 90632831.0,
           "sell_total": 683223.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "301520",
@@ -14093,7 +14967,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 71395936.0,
           "sell_total": 99192.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "300182",
@@ -14104,7 +14978,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 71090245.92,
           "sell_total": 19788.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "300085",
@@ -14115,7 +14989,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 66156771.0,
           "sell_total": 22293.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "600721",
@@ -14137,7 +15011,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 20033170.0,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "000010",
@@ -14148,7 +15022,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 758651.0,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002636",
@@ -14159,7 +15033,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 116381924.0,
           "sell_total": 644381.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "301079",
@@ -14181,7 +15055,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 70132140.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "301187",
@@ -14192,7 +15066,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 41885672.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "600611",
@@ -14203,7 +15077,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 0.0,
           "sell_total": 16464956.8,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "605118",
@@ -14247,7 +15121,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 6115783.27,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "002731",
@@ -14280,7 +15154,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 70873356.0,
           "sell_total": 0.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "600838",
@@ -14313,7 +15187,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 21933743.0,
           "sell_total": 0.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "600078",
@@ -14324,7 +15198,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 14951493.3,
           "sell_total": 0.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "603758",
@@ -14335,7 +15209,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 40510042.0,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "300504",
@@ -14346,7 +15220,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 40408983.96,
           "sell_total": 3304.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "600626",
@@ -14357,7 +15231,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 32190437.0,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002535",
@@ -14401,7 +15275,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 0.0,
           "sell_total": 7794640.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "000559",
@@ -14412,7 +15286,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 72333316.0,
           "sell_total": 787332.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "000700",
@@ -14456,7 +15330,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 46681247.0,
           "sell_total": 10675956.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "000678",
@@ -14489,7 +15363,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 63442719.5,
           "sell_total": 33577222.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "600826",
@@ -14500,7 +15374,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 19538775.6,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "603901",
@@ -14511,7 +15385,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 0.0,
           "sell_total": 16395630.98,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "601091",
@@ -14533,7 +15407,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 11852420.7,
           "sell_total": 47014.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "605577",
@@ -14544,7 +15418,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 2607744.0,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "003021",
@@ -14555,7 +15429,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 105037782.0,
           "sell_total": 1204506.63,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "002241",
@@ -14566,7 +15440,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 103075615.62,
           "sell_total": 76217.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "301660",
@@ -14577,7 +15451,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 101040135.0,
           "sell_total": 101989.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "300296",
@@ -14588,7 +15462,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 170388464.74,
           "sell_total": 333746.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "002747",
@@ -14599,7 +15473,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 70186956.0,
           "sell_total": 31597.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "300369",
@@ -14610,7 +15484,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 66763855.98,
           "sell_total": 126475.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "300307",
@@ -14621,7 +15495,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 51832489.0,
           "sell_total": 0.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "600215",
@@ -14632,7 +15506,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 30964822.0,
           "sell_total": 0.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "301563",
@@ -14643,7 +15517,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 104515200.0,
           "sell_total": 752400.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "301023",
@@ -14654,7 +15528,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 72963072.0,
           "sell_total": 72870.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "000032",
@@ -14687,7 +15561,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 31603574.0,
           "sell_total": 21696.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "603058",
@@ -14709,7 +15583,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 21927078.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "600192",
@@ -14720,7 +15594,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 19114205.61,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "301502",
@@ -14731,7 +15605,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 5918400.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "600252",
@@ -14742,7 +15616,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 47547881.0,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "688500",
@@ -14753,7 +15627,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 25733595.48,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "688286",
@@ -14764,7 +15638,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 17592120.01,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "605388",
@@ -14775,7 +15649,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 16134158.4,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "301102",
@@ -14786,7 +15660,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 5846470.15,
           "sell_total": 29445.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "002792",
@@ -14819,7 +15693,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 73908288.0,
           "sell_total": 15843.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "300244",
@@ -14830,7 +15704,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 55111364.42,
           "sell_total": 82444.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "603999",
@@ -14841,7 +15715,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 0.0,
           "sell_total": 28775158.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "301190",
@@ -14852,7 +15726,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 11996932.11,
           "sell_total": 6337945.76,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "300716",
@@ -14863,7 +15737,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 4339630.0,
           "sell_total": 2738.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "301030",
@@ -14885,7 +15759,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 72648819.0,
           "sell_total": 31210.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "002085",
@@ -14907,7 +15781,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 82214664.12,
           "sell_total": 0.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "000995",
@@ -14929,7 +15803,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 7485918.0,
           "sell_total": 6904427.41,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "920690",
@@ -14962,7 +15836,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 59649086.0,
           "sell_total": 27584.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "600699",
@@ -14973,7 +15847,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 57309863.8,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "003029",
@@ -14995,7 +15869,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 56691980.0,
           "sell_total": 51512058.9,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "001696",
@@ -15006,7 +15880,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 45272095.08,
           "sell_total": 30153.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "300411",
@@ -15017,7 +15891,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 28655616.0,
           "sell_total": 29142.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "300681",
@@ -15028,7 +15902,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 27560412.18,
           "sell_total": 232033.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "600319",
@@ -15039,7 +15913,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 26880506.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "002667",
@@ -15061,7 +15935,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 19825317.09,
           "sell_total": 41335.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "603168",
@@ -15072,7 +15946,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 8490456.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "002945",
@@ -15083,7 +15957,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 153856464.0,
           "sell_total": 147404.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603533",
@@ -15105,7 +15979,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 51381410.0,
           "sell_total": 0.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "000530",
@@ -15127,7 +16001,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 11734289.78,
           "sell_total": 0.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "002917",
@@ -15138,7 +16012,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 4855189.0,
           "sell_total": 1535602.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603466",
@@ -15160,7 +16034,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 61850594.88,
           "sell_total": 115131.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "600408",
@@ -15182,7 +16056,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 0.0,
           "sell_total": 35794827.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "600097",
@@ -15193,7 +16067,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 35776391.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "000601",
@@ -15204,7 +16078,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 33374851.6,
           "sell_total": 199603.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "002878",
@@ -15226,7 +16100,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 53171939.0,
           "sell_total": 115607.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "002430",
@@ -15237,7 +16111,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 38126162.0,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         },
         {
           "code": "601811",
@@ -15281,7 +16155,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 12331540.0,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         }
       ]
     },
@@ -15308,14 +16182,33 @@
         }
       ],
       "stats": {
-        "active_days": 17,
-        "records": 29,
-        "stocks": 23,
-        "buy_total": 966060347.62,
+        "active_days": 18,
+        "records": 30,
+        "stocks": 24,
+        "buy_total": 1178436651.61,
         "sell_total": 996052619.36,
-        "net_total": -29992271.74
+        "net_total": 182384032.25
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "603687",
+          "name": "大胜达",
+          "reasons": [
+            "有价格涨跌幅限制的日价格振幅达到15%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 212376303.99,
+          "sell": 0.0,
+          "close": 15.16,
+          "pct_chg": 8.6738,
+          "board": null,
+          "seat_hits": [
+            "国泰海通证券南京太平南路(exact)"
+          ],
+          "confidence": "high",
+          "net": 212376303.99
+        },
         {
           "date": "2026-11-12",
           "code": "603396",
@@ -16098,6 +16991,17 @@
       ],
       "positions": [
         {
+          "code": "603687",
+          "name": "大胜达",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 212376303.99,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "300052",
           "name": "中青宝",
           "status": "active",
@@ -16106,7 +17010,7 @@
           "exit_date": null,
           "buy_total": 18248720.99,
           "sell_total": 39585.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "000525",
@@ -16161,7 +17065,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 23020723.47,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002565",
@@ -16172,7 +17076,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 29390881.54,
           "sell_total": 87070.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "002636",
@@ -16183,7 +17087,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 38147949.0,
           "sell_total": 192731.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "002741",
@@ -16194,7 +17098,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 33197359.0,
           "sell_total": 67456.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "002343",
@@ -16216,7 +17120,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 44005939.0,
           "sell_total": 295349.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "000995",
@@ -16238,7 +17142,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 14947051.44,
           "sell_total": 156245.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002307",
@@ -16249,7 +17153,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 257980622.42,
           "sell_total": 667.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "920229",
@@ -16260,7 +17164,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 0.0,
           "sell_total": 2062116.73,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "688500",
@@ -16293,7 +17197,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 5403314.0,
           "sell_total": 0.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "301230",
@@ -16304,7 +17208,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 196824682.5,
           "sell_total": 191163850.3,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "002815",
@@ -16326,7 +17230,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 42660875.0,
           "sell_total": 55590.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "301282",
@@ -16337,7 +17241,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 99060045.4,
           "sell_total": 9590.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "600408",
@@ -16998,7 +17902,7 @@
           "exit_date": null,
           "buy_total": 114323138.89,
           "sell_total": 219899.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "688661",
@@ -17009,7 +17913,7 @@
           "exit_date": null,
           "buy_total": 11228603.49,
           "sell_total": 0.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "920157",
@@ -17020,7 +17924,7 @@
           "exit_date": null,
           "buy_total": 45970152.97,
           "sell_total": 17521348.09,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002463",
@@ -17031,7 +17935,7 @@
           "exit_date": null,
           "buy_total": 112519145.61,
           "sell_total": 1628050.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "920296",
@@ -17053,7 +17957,7 @@
           "exit_date": null,
           "buy_total": 1551732.8,
           "sell_total": 47406.58,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "920071",
@@ -17069,13 +17973,13 @@
         {
           "code": "920045",
           "name": "蘅东光",
-          "status": "exited_probable",
-          "exit_type": "silent",
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": "2026-11-10",
+          "exit_date": "2026-11-16",
           "buy_total": 20940443.34,
           "sell_total": 655556.65,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "920021",
@@ -17108,7 +18012,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 2421044.05,
           "sell_total": 144845.16,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "118077",
@@ -17119,7 +18023,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 0.0,
           "sell_total": 2440470.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "920207",
@@ -17141,7 +18045,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 3203360.06,
           "sell_total": 126748.58,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "920196",
@@ -17174,7 +18078,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 34031835.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         }
       ]
     },
@@ -17276,7 +18180,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 0.0,
           "sell_total": 9382112.69,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "601091",
@@ -17287,7 +18191,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 8491013.37,
           "sell_total": 0.0,
-          "silent_days": 18
+          "silent_days": 19
         }
       ]
     },
@@ -17420,7 +18324,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 0.0,
           "sell_total": 106367.6,
-          "silent_days": 10
+          "silent_days": 11
         }
       ]
     },
@@ -17485,7 +18389,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 0.0,
           "sell_total": 2944392.6,
-          "silent_days": 20
+          "silent_days": 21
         }
       ]
     },
@@ -17599,7 +18503,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 0.0,
           "sell_total": 286000.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "301159",
@@ -17631,14 +18535,33 @@
         }
       ],
       "stats": {
-        "active_days": 18,
-        "records": 25,
+        "active_days": 19,
+        "records": 26,
         "stocks": 19,
-        "buy_total": 613519164.71,
-        "sell_total": 396410047.09,
-        "net_total": 217109117.62
+        "buy_total": 626222586.71,
+        "sell_total": 420926994.81,
+        "net_total": 205295591.9
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "000678",
+          "name": "襄阳轴承",
+          "reasons": [
+            "日跌幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 12703422.0,
+          "sell": 24516947.72,
+          "close": 17.78,
+          "pct_chg": -9.9747,
+          "board": "机械行业",
+          "seat_hits": [
+            "国盛证券宁波桑田路(exact)"
+          ],
+          "confidence": "high",
+          "net": -11813525.72
+        },
         {
           "date": "2026-11-13",
           "code": "000678",
@@ -18254,10 +19177,10 @@
           "name": "襄阳轴承",
           "status": "exited_confirmed",
           "exit_type": "sell_cover",
-          "last_seen": "2026-11-13",
-          "exit_date": "2026-11-13",
-          "buy_total": 54535570.84,
-          "sell_total": 73154800.68,
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
+          "buy_total": 67238992.84,
+          "sell_total": 97671748.4,
           "silent_days": 0
         },
         {
@@ -18269,7 +19192,7 @@
           "exit_date": null,
           "buy_total": 12622521.14,
           "sell_total": 179121.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "600467",
@@ -18302,7 +19225,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 39778624.08,
           "sell_total": 579093.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "600371",
@@ -18324,7 +19247,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 34558403.67,
           "sell_total": 1664132.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "123290",
@@ -18357,7 +19280,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 5790738.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "001216",
@@ -18379,7 +19302,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 20954790.76,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002076",
@@ -18390,7 +19313,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 31009291.0,
           "sell_total": 1641342.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "601091",
@@ -18401,7 +19324,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 108279966.5,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "600178",
@@ -18412,7 +19335,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 30631792.24,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "300006",
@@ -18445,7 +19368,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 61985272.6,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "001330",
@@ -18528,14 +19451,33 @@
         }
       ],
       "stats": {
-        "active_days": 7,
-        "records": 8,
+        "active_days": 8,
+        "records": 9,
         "stocks": 6,
         "buy_total": 82804031.77,
-        "sell_total": 35216189.88,
-        "net_total": 47587841.89
+        "sell_total": 50927062.88,
+        "net_total": 31876968.89
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "002343",
+          "name": "慈文传媒",
+          "reasons": [
+            "日振幅值达到15%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 15710873.0,
+          "close": 10.12,
+          "pct_chg": 5.4167,
+          "board": "塑料制品",
+          "seat_hits": [
+            "华鑫证券深圳益田路(exact)"
+          ],
+          "confidence": "low",
+          "net": -15710873.0
+        },
         {
           "date": "2026-11-13",
           "code": "002343",
@@ -18712,12 +19654,12 @@
         {
           "code": "002343",
           "name": "慈文传媒",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-13",
-          "exit_date": null,
+          "status": "exited_confirmed",
+          "exit_type": "sell_cover",
+          "last_seen": "2026-11-16",
+          "exit_date": "2026-11-16",
           "buy_total": 15167805.0,
-          "sell_total": 255136.0,
+          "sell_total": 15966009.0,
           "silent_days": 0
         },
         {
@@ -18729,7 +19671,7 @@
           "exit_date": null,
           "buy_total": 35891568.0,
           "sell_total": 0.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "601091",
@@ -18751,7 +19693,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 4274556.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "600828",
@@ -18762,7 +19704,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 4245606.0,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002134",
@@ -18966,7 +19908,7 @@
           "exit_date": null,
           "buy_total": 10234210.0,
           "sell_total": 0.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "603706",
@@ -18977,7 +19919,7 @@
           "exit_date": null,
           "buy_total": 10688097.0,
           "sell_total": 0.0,
-          "silent_days": 2
+          "silent_days": 3
         }
       ]
     },
@@ -19054,7 +19996,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 5530000.0,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         }
       ]
     },
@@ -19970,7 +20912,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 595344773.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "002343",
@@ -19992,7 +20934,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 28938864.0,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002432",
@@ -20003,7 +20945,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 109887336.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002636",
@@ -20014,7 +20956,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 109885545.0,
           "sell_total": 108256000.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002747",
@@ -20025,7 +20967,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 49949636.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002384",
@@ -20036,7 +20978,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 114879042.0,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "002149",
@@ -20047,7 +20989,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 40583165.55,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "601188",
@@ -20058,7 +21000,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 37479750.0,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "301080",
@@ -20069,7 +21011,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 49941692.0,
           "sell_total": 0.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "002724",
@@ -20091,7 +21033,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 522172854.07,
           "sell_total": 519799404.11,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002076",
@@ -20102,7 +21044,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 73008540.0,
           "sell_total": 51678800.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "003029",
@@ -20113,7 +21055,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 31995000.0,
           "sell_total": 2203.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "301486",
@@ -20124,7 +21066,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 64461000.0,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "301666",
@@ -20135,7 +21077,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 109886595.0,
           "sell_total": 0.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "002242",
@@ -20146,7 +21088,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 65775097.33,
           "sell_total": 0.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "000887",
@@ -20157,7 +21099,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 39512125.66,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "000530",
@@ -20179,7 +21121,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 30907200.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "605577",
@@ -20223,14 +21165,71 @@
         }
       ],
       "stats": {
-        "active_days": 23,
-        "records": 78,
-        "stocks": 43,
-        "buy_total": 3036764562.17,
-        "sell_total": 1673845423.11,
-        "net_total": 1362919139.06
+        "active_days": 24,
+        "records": 81,
+        "stocks": 44,
+        "buy_total": 3139968888.21,
+        "sell_total": 1696682215.11,
+        "net_total": 1443286673.1
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "601929",
+          "name": "吉视传媒",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 50001180.0,
+          "sell": 0.0,
+          "close": 2.96,
+          "pct_chg": 10.0372,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "国泰海通证券湛江万豪世家(exact)"
+          ],
+          "confidence": "low",
+          "net": 50001180.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002343",
+          "name": "慈文传媒",
+          "reasons": [
+            "日振幅值达到15%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 30807832.0,
+          "sell": 641342.0,
+          "close": 10.12,
+          "pct_chg": 5.4167,
+          "board": "塑料制品",
+          "seat_hits": [
+            "国泰海通证券武汉紫阳东路(exact)"
+          ],
+          "confidence": "high",
+          "net": 30166490.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000530",
+          "name": "冰山冷热",
+          "reasons": [
+            "日换手率达到20%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 22395314.04,
+          "sell": 22195450.0,
+          "close": 11.0,
+          "pct_chg": 6.486,
+          "board": "机械行业",
+          "seat_hits": [
+            "国泰海通证券武汉紫阳东路(exact)"
+          ],
+          "confidence": "high",
+          "net": 199864.04
+        },
         {
           "date": "2026-11-13",
           "code": "002086",
@@ -22029,12 +23028,45 @@
       ],
       "positions": [
         {
-          "code": "002086",
-          "name": "东方海洋",
+          "code": "601929",
+          "name": "吉视传媒",
           "status": "active",
           "exit_type": null,
-          "last_seen": "2026-11-13",
+          "last_seen": "2026-11-16",
           "exit_date": null,
+          "buy_total": 50001180.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "002343",
+          "name": "慈文传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 116271971.6,
+          "sell_total": 2043199.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000530",
+          "name": "冰山冷热",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 332440196.98,
+          "sell_total": 227202037.93,
+          "silent_days": 0
+        },
+        {
+          "code": "002086",
+          "name": "东方海洋",
+          "status": "exited_confirmed",
+          "exit_type": "heavy_sell",
+          "last_seen": "2026-11-13",
+          "exit_date": "2026-11-13",
           "buy_total": 167968237.0,
           "sell_total": 167710001.28,
           "silent_days": 0
@@ -22048,18 +23080,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 61160088.0,
-          "silent_days": 0
-        },
-        {
-          "code": "000530",
-          "name": "冰山冷热",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-13",
-          "exit_date": null,
-          "buy_total": 310044882.94,
-          "sell_total": 205006587.93,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "002310",
@@ -22081,18 +23102,7 @@
           "exit_date": null,
           "buy_total": 90059106.0,
           "sell_total": 55141938.0,
-          "silent_days": 1
-        },
-        {
-          "code": "002343",
-          "name": "慈文传媒",
-          "status": "active",
-          "exit_type": null,
-          "last_seen": "2026-11-12",
-          "exit_date": null,
-          "buy_total": 85464139.6,
-          "sell_total": 1401857.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "002275",
@@ -22103,7 +23113,7 @@
           "exit_date": null,
           "buy_total": 10102389.92,
           "sell_total": 48264.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "002639",
@@ -22114,7 +23124,7 @@
           "exit_date": null,
           "buy_total": 172051036.91,
           "sell_total": 123045188.49,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "002172",
@@ -22136,7 +23146,7 @@
           "exit_date": null,
           "buy_total": 50096671.0,
           "sell_total": 48176200.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "600371",
@@ -22158,7 +23168,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 50150834.0,
           "sell_total": 27408.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "600327",
@@ -22169,7 +23179,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 19888943.4,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "002131",
@@ -22180,7 +23190,7 @@
           "exit_date": null,
           "buy_total": 149932807.0,
           "sell_total": 115391.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "000603",
@@ -22191,7 +23201,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 59004561.0,
           "sell_total": 54705.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "600721",
@@ -22224,7 +23234,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 99716077.06,
           "sell_total": 12755.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "601188",
@@ -22235,7 +23245,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 70086122.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "603330",
@@ -22257,7 +23267,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 54949578.0,
           "sell_total": 25559.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "605179",
@@ -22268,7 +23278,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 38916926.0,
           "sell_total": 16084457.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002747",
@@ -22279,7 +23289,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 91194613.0,
           "sell_total": 1403722.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002636",
@@ -22290,7 +23300,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 80054798.0,
           "sell_total": 570005.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "301079",
@@ -22312,7 +23322,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 50080926.0,
           "sell_total": 73569.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "920201",
@@ -22334,7 +23344,7 @@
           "exit_date": "2026-11-09",
           "buy_total": 197872370.2,
           "sell_total": 764936.0,
-          "silent_days": 12
+          "silent_days": 13
         },
         {
           "code": "001331",
@@ -22367,7 +23377,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 122318237.25,
           "sell_total": 39125.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "603186",
@@ -22389,7 +23399,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 29947056.0,
           "sell_total": 26650.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "301660",
@@ -22422,7 +23432,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 100295244.0,
           "sell_total": 1072720.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "002076",
@@ -22433,7 +23443,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 56526262.0,
           "sell_total": 29546820.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "600202",
@@ -22444,7 +23454,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 13969644.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "002242",
@@ -22455,7 +23465,7 @@
           "exit_date": "2026-10-30",
           "buy_total": 50104368.0,
           "sell_total": 377216.0,
-          "silent_days": 18
+          "silent_days": 19
         },
         {
           "code": "001216",
@@ -22466,7 +23476,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 23676148.37,
           "sell_total": 218114.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "920006",
@@ -22477,7 +23487,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 4750692.13,
           "sell_total": 3674670.49,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "600812",
@@ -22488,7 +23498,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 58379885.0,
           "sell_total": 0.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "603230",
@@ -22690,7 +23700,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 145820110.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "118064",
@@ -22701,7 +23711,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 60497550.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "123270",
@@ -22734,7 +23744,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 4842000.0,
           "sell_total": 2700.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "688376",
@@ -22745,7 +23755,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 4030344.0,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         }
       ]
     },
@@ -23912,7 +24922,7 @@
           "exit_date": null,
           "buy_total": 55344263.0,
           "sell_total": 0.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "603330",
@@ -23923,7 +24933,7 @@
           "exit_date": null,
           "buy_total": 125179562.0,
           "sell_total": 0.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "600715",
@@ -23983,13 +24993,13 @@
         {
           "code": "600189",
           "name": "泉阳泉",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_forced",
+          "exit_type": "forced",
           "last_seen": "2026-11-04",
-          "exit_date": null,
+          "exit_date": "2026-11-16",
           "buy_total": 0.0,
           "sell_total": 56666671.2,
-          "silent_days": 7
+          "silent_days": 8
         },
         {
           "code": "000591",
@@ -24000,7 +25010,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 60264516.0,
           "sell_total": 1338173.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "601599",
@@ -24022,7 +25032,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 62095296.0,
           "sell_total": 1483252.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "300085",
@@ -24033,7 +25043,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 60923352.0,
           "sell_total": 910547.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "000915",
@@ -24044,7 +25054,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 10137804.6,
           "sell_total": 96909.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "000530",
@@ -24066,7 +25076,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 50636710.0,
           "sell_total": 264701.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "600611",
@@ -24077,7 +25087,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 0.0,
           "sell_total": 26543877.8,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002889",
@@ -24110,7 +25120,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 101570319.0,
           "sell_total": 489445.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "301660",
@@ -24165,7 +25175,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 61969078.0,
           "sell_total": 1237031.24,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "002815",
@@ -24176,7 +25186,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 149389769.0,
           "sell_total": 10672984.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "600721",
@@ -24198,7 +25208,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 61245855.0,
           "sell_total": 56850798.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "603598",
@@ -24272,14 +25282,147 @@
         }
       ],
       "stats": {
-        "active_days": 24,
-        "records": 92,
-        "stocks": 56,
-        "buy_total": 2629928471.23,
-        "sell_total": 2301597068.35,
-        "net_total": 328331402.88
+        "active_days": 25,
+        "records": 95,
+        "stocks": 59,
+        "buy_total": 2783509263.23,
+        "sell_total": 2386824088.35,
+        "net_total": 396685174.88
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "日换手率达到20%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 85227020.0,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": -85227020.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 76790400.0,
+          "sell": 0.0,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 76790400.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "000595",
+          "name": "新能股份",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 76790400.0,
+          "sell": 0.0,
+          "close": 6.08,
+          "pct_chg": 9.9458,
+          "board": "机械行业",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 76790400.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "601929",
+          "name": "吉视传媒",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 76790392.0,
+          "sell": 0.0,
+          "close": 2.96,
+          "pct_chg": 10.0372,
+          "board": "传媒娱乐",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 76790392.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002748",
+          "name": "世龙实业",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 18423473.0,
+          "sell": 0.0,
+          "close": 13.63,
+          "pct_chg": 10.0081,
+          "board": "化工行业",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 18423473.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002148",
+          "name": "北纬科技",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 77447853.0,
+          "sell": 85227020.0,
+          "close": 8.75,
+          "pct_chg": 10.0629,
+          "board": "电子信息",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": -7779167.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002425",
+          "name": "凯撒文化",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 68280501.0,
+          "sell": 75177571.0,
+          "close": 4.36,
+          "pct_chg": 10.101,
+          "board": "服装鞋类",
+          "seat_hits": [
+            "国新证券北京分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": -6897070.0
+        },
         {
           "date": "2026-11-13",
           "code": "002520",
@@ -26810,6 +27953,39 @@
       ],
       "positions": [
         {
+          "code": "002148",
+          "name": "北纬科技",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 85227020.0,
+          "silent_days": 0
+        },
+        {
+          "code": "000595",
+          "name": "新能股份",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 76790400.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "601929",
+          "name": "吉视传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 76790392.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "002520",
           "name": "日发精机",
           "status": "active",
@@ -26818,7 +27994,7 @@
           "exit_date": null,
           "buy_total": 77438130.0,
           "sell_total": 14360.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "300324",
@@ -26829,7 +28005,7 @@
           "exit_date": null,
           "buy_total": 72996660.0,
           "sell_total": 0.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "600802",
@@ -26840,7 +28016,7 @@
           "exit_date": null,
           "buy_total": 63029092.0,
           "sell_total": 53269037.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "601566",
@@ -26851,7 +28027,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 22233563.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "301052",
@@ -26873,7 +28049,7 @@
           "exit_date": null,
           "buy_total": 61406066.0,
           "sell_total": 24353615.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "000678",
@@ -26906,7 +28082,7 @@
           "exit_date": null,
           "buy_total": 92673180.0,
           "sell_total": 45407978.0,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "603381",
@@ -26917,7 +28093,7 @@
           "exit_date": null,
           "buy_total": 26663491.0,
           "sell_total": 25026440.92,
-          "silent_days": 2
+          "silent_days": 3
         },
         {
           "code": "000530",
@@ -26972,7 +28148,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 38185750.0,
           "sell_total": 0.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "002712",
@@ -26983,7 +28159,7 @@
           "exit_date": null,
           "buy_total": 25304690.6,
           "sell_total": 1761.0,
-          "silent_days": 4
+          "silent_days": 5
         },
         {
           "code": "002086",
@@ -27005,7 +28181,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 30499050.0,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "600327",
@@ -27016,7 +28192,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 29201243.0,
           "sell_total": 0.0,
-          "silent_days": 5
+          "silent_days": 6
         },
         {
           "code": "300071",
@@ -27027,7 +28203,7 @@
           "exit_date": null,
           "buy_total": 59508540.0,
           "sell_total": 0.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "000995",
@@ -27038,7 +28214,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 22708225.0,
           "sell_total": 11916.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "300426",
@@ -27049,7 +28225,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 50380599.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "000417",
@@ -27071,7 +28247,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 8962008.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "600715",
@@ -27082,7 +28258,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 148293291.0,
           "sell_total": 77322476.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002929",
@@ -27093,7 +28269,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 78079146.0,
           "sell_total": 0.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002181",
@@ -27104,7 +28280,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 76288412.0,
           "sell_total": 62475100.15,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "603131",
@@ -27115,7 +28291,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 0.0,
           "sell_total": 32623195.46,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "003032",
@@ -27137,7 +28313,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 130726438.0,
           "sell_total": 44067.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "002708",
@@ -27170,7 +28346,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 12591062.1,
           "sell_total": 3956264.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "301660",
@@ -27192,7 +28368,7 @@
           "exit_date": "2026-11-04",
           "buy_total": 82177315.0,
           "sell_total": 0.0,
-          "silent_days": 15
+          "silent_days": 16
         },
         {
           "code": "600293",
@@ -27203,7 +28379,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 10350693.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "300006",
@@ -27214,7 +28390,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 84093858.0,
           "sell_total": 1913706.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "003029",
@@ -27247,7 +28423,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 8647356.0,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "301102",
@@ -27258,7 +28434,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 8647246.4,
           "sell_total": 0.0,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "002242",
@@ -27269,7 +28445,7 @@
           "exit_date": "2026-11-02",
           "buy_total": 176619080.0,
           "sell_total": 89827994.73,
-          "silent_days": 17
+          "silent_days": 18
         },
         {
           "code": "000993",
@@ -27291,7 +28467,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 84166995.0,
           "sell_total": 93093.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "600721",
@@ -27313,7 +28489,7 @@
           "exit_date": "2026-10-28",
           "buy_total": 8679000.0,
           "sell_total": 0.0,
-          "silent_days": 20
+          "silent_days": 21
         },
         {
           "code": "603533",
@@ -27357,7 +28533,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 33748731.0,
           "sell_total": 12312.0,
-          "silent_days": 21
+          "silent_days": 22
         },
         {
           "code": "000823",
@@ -27379,7 +28555,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 85712223.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "600252",
@@ -27390,7 +28566,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 85703344.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "300107",
@@ -27423,7 +28599,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 48371960.0,
           "sell_total": 0.0,
-          "silent_days": 23
+          "silent_days": 24
         }
       ]
     },
@@ -27444,14 +28620,71 @@
         }
       ],
       "stats": {
-        "active_days": 2,
-        "records": 8,
-        "stocks": 6,
-        "buy_total": 162639654.52,
-        "sell_total": 195868431.86,
-        "net_total": -33228777.34
+        "active_days": 3,
+        "records": 11,
+        "stocks": 9,
+        "buy_total": 241756033.46,
+        "sell_total": 226472557.86,
+        "net_total": 15283475.6
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "603118",
+          "name": "共进股份",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 63223920.86,
+          "sell": 0.0,
+          "close": 14.71,
+          "pct_chg": 10.0224,
+          "board": "电子器件",
+          "seat_hits": [
+            "开源证券西安太华路(exact)"
+          ],
+          "confidence": "medium",
+          "net": 63223920.86
+        },
+        {
+          "date": "2026-11-16",
+          "code": "603687",
+          "name": "大胜达",
+          "reasons": [
+            "有价格涨跌幅限制的日价格振幅达到15%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 0.0,
+          "sell": 30604126.0,
+          "close": 15.16,
+          "pct_chg": 8.6738,
+          "board": null,
+          "seat_hits": [
+            "开源证券西安太华路(exact)"
+          ],
+          "confidence": "medium",
+          "net": -30604126.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "600386",
+          "name": "北巴传媒",
+          "reasons": [
+            "有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 15892458.08,
+          "sell": 0.0,
+          "close": 3.81,
+          "pct_chg": 10.1156,
+          "board": "交通运输",
+          "seat_hits": [
+            "开源证券西安太华路(exact)"
+          ],
+          "confidence": "medium",
+          "net": 15892458.08
+        },
         {
           "date": "2026-11-13",
           "code": "600802",
@@ -27683,6 +28916,39 @@
       ],
       "positions": [
         {
+          "code": "603118",
+          "name": "共进股份",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 63223920.86,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
+          "code": "603687",
+          "name": "大胜达",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 0.0,
+          "sell_total": 30604126.0,
+          "silent_days": 0
+        },
+        {
+          "code": "600386",
+          "name": "北巴传媒",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 15892458.08,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "600802",
           "name": "福建水泥",
           "status": "active",
@@ -27691,7 +28957,7 @@
           "exit_date": null,
           "buy_total": 70977039.0,
           "sell_total": 63974141.0,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "603366",
@@ -27702,7 +28968,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 36708781.76,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "601566",
@@ -27713,15 +28979,15 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 21017097.69,
-          "silent_days": 0
+          "silent_days": 1
         },
         {
           "code": "603725",
           "name": "天安新材",
-          "status": "active",
-          "exit_type": null,
+          "status": "exited_confirmed",
+          "exit_type": "heavy_sell",
           "last_seen": "2026-11-13",
-          "exit_date": null,
+          "exit_date": "2026-11-13",
           "buy_total": 20559499.52,
           "sell_total": 19912819.94,
           "silent_days": 0
@@ -27735,7 +29001,7 @@
           "exit_date": null,
           "buy_total": 71103116.0,
           "sell_total": 0.0,
-          "silent_days": 1
+          "silent_days": 2
         },
         {
           "code": "603135",
@@ -27746,7 +29012,7 @@
           "exit_date": null,
           "buy_total": 0.0,
           "sell_total": 54255591.47,
-          "silent_days": 1
+          "silent_days": 2
         }
       ]
     },
@@ -27773,14 +29039,52 @@
         }
       ],
       "stats": {
-        "active_days": 11,
-        "records": 19,
-        "stocks": 15,
-        "buy_total": 367244275.64,
+        "active_days": 12,
+        "records": 20,
+        "stocks": 16,
+        "buy_total": 384130411.64,
         "sell_total": 414341350.41,
-        "net_total": -47097074.77
+        "net_total": -30210938.77
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "000819",
+          "name": "岳阳兴长",
+          "reasons": [
+            "日涨幅偏离值达到7%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 16886136.0,
+          "sell": 0.0,
+          "close": 14.1,
+          "pct_chg": 9.9844,
+          "board": "石油行业",
+          "seat_hits": [
+            "国泰海通证券上海松江区中山东路(exact)"
+          ],
+          "confidence": "medium",
+          "net": 16886136.0
+        },
+        {
+          "date": "2026-11-16",
+          "code": "002548",
+          "name": "金新农",
+          "reasons": [
+            "连续三个交易日内，涨幅偏离值累计达到20%的证券"
+          ],
+          "is_multi_day": true,
+          "buy": 4155666.0,
+          "sell": 4545663.0,
+          "close": 4.21,
+          "pct_chg": 9.9217,
+          "board": "农林牧渔",
+          "seat_hits": [
+            "国泰海通证券上海松江区中山东路(exact)"
+          ],
+          "confidence": "medium",
+          "net": -389997.0
+        },
         {
           "date": "2026-11-06",
           "code": "605339",
@@ -28373,6 +29677,17 @@
       ],
       "positions": [
         {
+          "code": "000819",
+          "name": "岳阳兴长",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 16886136.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "600327",
           "name": "大东方",
           "status": "exited_forced",
@@ -28381,7 +29696,7 @@
           "exit_date": "2026-11-13",
           "buy_total": 4359570.0,
           "sell_total": 0.0,
-          "silent_days": 8
+          "silent_days": 9
         },
         {
           "code": "002929",
@@ -28392,7 +29707,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 75844297.0,
           "sell_total": 70760.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "002708",
@@ -28425,7 +29740,7 @@
           "exit_date": "2026-11-10",
           "buy_total": 6857076.0,
           "sell_total": 0.0,
-          "silent_days": 11
+          "silent_days": 12
         },
         {
           "code": "001331",
@@ -28436,7 +29751,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 17893876.0,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "002354",
@@ -28469,7 +29784,7 @@
           "exit_date": "2026-11-05",
           "buy_total": 18545820.0,
           "sell_total": 0.0,
-          "silent_days": 14
+          "silent_days": 15
         },
         {
           "code": "001216",
@@ -28535,7 +29850,7 @@
           "exit_date": "2026-10-27",
           "buy_total": 20031222.0,
           "sell_total": 36421.0,
-          "silent_days": 21
+          "silent_days": 22
         }
       ]
     },
@@ -28554,14 +29869,33 @@
         }
       ],
       "stats": {
-        "active_days": 16,
-        "records": 24,
-        "stocks": 16,
-        "buy_total": 261978616.61,
+        "active_days": 17,
+        "records": 25,
+        "stocks": 17,
+        "buy_total": 278997737.36,
         "sell_total": 226515518.9,
-        "net_total": 35463097.71
+        "net_total": 52482218.46
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "301513",
+          "name": "尚水智能",
+          "reasons": [
+            "日换手率达到30%的前5只证券"
+          ],
+          "is_multi_day": false,
+          "buy": 17019120.75,
+          "sell": 0.0,
+          "close": 65.02,
+          "pct_chg": 14.2104,
+          "board": "次新股",
+          "seat_hits": [
+            "东亚前海证券上海分公司(exact)"
+          ],
+          "confidence": "medium",
+          "net": 17019120.75
+        },
         {
           "date": "2026-11-13",
           "code": "920157",
@@ -29192,6 +30526,17 @@
       ],
       "positions": [
         {
+          "code": "301513",
+          "name": "尚水智能",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 17019120.75,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "920157",
           "name": "宇特光电",
           "status": "exited_confirmed",
@@ -29222,7 +30567,7 @@
           "exit_date": null,
           "buy_total": 18530945.0,
           "sell_total": 17484982.0,
-          "silent_days": 6
+          "silent_days": 7
         },
         {
           "code": "000678",
@@ -29244,7 +30589,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 11393547.0,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "688066",
@@ -29255,7 +30600,7 @@
           "exit_date": "2026-11-11",
           "buy_total": 4952671.33,
           "sell_total": 0.0,
-          "silent_days": 10
+          "silent_days": 11
         },
         {
           "code": "301314",
@@ -29266,7 +30611,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 14882580.8,
           "sell_total": 0.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "601091",
@@ -29288,7 +30633,7 @@
           "exit_date": "2026-11-03",
           "buy_total": 5092451.0,
           "sell_total": 0.0,
-          "silent_days": 16
+          "silent_days": 17
         },
         {
           "code": "002929",
@@ -29310,7 +30655,7 @@
           "exit_date": "2026-10-29",
           "buy_total": 11986434.0,
           "sell_total": 0.0,
-          "silent_days": 19
+          "silent_days": 20
         },
         {
           "code": "603968",
@@ -29343,7 +30688,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 9087177.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "603661",
@@ -29354,7 +30699,7 @@
           "exit_date": "2026-10-26",
           "buy_total": 3172287.0,
           "sell_total": 0.0,
-          "silent_days": 22
+          "silent_days": 23
         },
         {
           "code": "920779",
@@ -29365,7 +30710,7 @@
           "exit_date": "2026-10-23",
           "buy_total": 2531279.33,
           "sell_total": 306805.71,
-          "silent_days": 23
+          "silent_days": 24
         }
       ]
     },
@@ -29416,14 +30761,33 @@
         }
       ],
       "stats": {
-        "active_days": 5,
-        "records": 5,
-        "stocks": 4,
-        "buy_total": 61269997.28,
+        "active_days": 6,
+        "records": 6,
+        "stocks": 5,
+        "buy_total": 66048327.28,
         "sell_total": 12078015.67,
-        "net_total": 49191981.61
+        "net_total": 53970311.61
       },
       "records": [
+        {
+          "date": "2026-11-16",
+          "code": "118078",
+          "name": "N航亚转",
+          "reasons": [
+            "向不特定对象发行的可转债上市首日交易公开信息"
+          ],
+          "is_multi_day": false,
+          "buy": 4778330.0,
+          "sell": 0.0,
+          "close": 130.73,
+          "pct_chg": 30.73,
+          "board": null,
+          "seat_hits": [
+            "华泰证券成都蜀金路(exact)"
+          ],
+          "confidence": "medium",
+          "net": 4778330.0
+        },
         {
           "date": "2026-11-10",
           "code": "002827",
@@ -29522,6 +30886,17 @@
       ],
       "positions": [
         {
+          "code": "118078",
+          "name": "N航亚转",
+          "status": "active",
+          "exit_type": null,
+          "last_seen": "2026-11-16",
+          "exit_date": null,
+          "buy_total": 4778330.0,
+          "sell_total": 0.0,
+          "silent_days": 0
+        },
+        {
           "code": "002827",
           "name": "高争民爆",
           "status": "active",
@@ -29530,7 +30905,7 @@
           "exit_date": null,
           "buy_total": 34633328.0,
           "sell_total": 4444063.0,
-          "silent_days": 3
+          "silent_days": 4
         },
         {
           "code": "002862",
@@ -29541,7 +30916,7 @@
           "exit_date": "2026-11-12",
           "buy_total": 9066448.0,
           "sell_total": 359938.0,
-          "silent_days": 9
+          "silent_days": 10
         },
         {
           "code": "000729",
@@ -29552,7 +30927,7 @@
           "exit_date": "2026-11-06",
           "buy_total": 14665889.0,
           "sell_total": 222786.0,
-          "silent_days": 13
+          "silent_days": 14
         },
         {
           "code": "920157",
@@ -40588,6 +41963,502 @@
         "board": "次新股",
         "confidence": "medium"
       }
+    ],
+    "2026-11-16": [
+      {
+        "trader": "作手新一",
+        "trader_id": "zuoshou-xinyi",
+        "tier": "殿堂级",
+        "code": "603687",
+        "name": "大胜达",
+        "buy": 212376303.99,
+        "sell": 0.0,
+        "net": 212376303.99,
+        "pct_chg": 8.6738,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "601929",
+        "name": "吉视传媒",
+        "buy": 95615827.18,
+        "sell": 0.0,
+        "net": 95615827.18,
+        "pct_chg": 10.0372,
+        "board": "传媒娱乐",
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "000156",
+        "name": "华数传媒",
+        "buy": 90753143.18,
+        "sell": 3804145.0,
+        "net": 86948998.18,
+        "pct_chg": 10.0515,
+        "board": "传媒娱乐",
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "601599",
+        "name": "浙文影业",
+        "buy": 0.0,
+        "sell": 86560035.51,
+        "net": -86560035.51,
+        "pct_chg": 0.3968,
+        "board": "纺织行业",
+        "confidence": "medium"
+      },
+      {
+        "trader": "国新系",
+        "trader_id": "guoxin-xi",
+        "tier": "新生代",
+        "code": "002148",
+        "name": "北纬科技",
+        "buy": 0.0,
+        "sell": 85227020.0,
+        "net": -85227020.0,
+        "pct_chg": 10.0629,
+        "board": "电子信息",
+        "confidence": "medium"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "002343",
+        "name": "慈文传媒",
+        "buy": 86678981.6,
+        "sell": 1723925.0,
+        "net": 84955056.6,
+        "pct_chg": 5.4167,
+        "board": "塑料制品",
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "603118",
+        "name": "共进股份",
+        "buy": 0.0,
+        "sell": 84167017.41,
+        "net": -84167017.41,
+        "pct_chg": 10.0224,
+        "board": "电子器件",
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "600936",
+        "name": "北投科技",
+        "buy": 80150587.0,
+        "sell": 0.0,
+        "net": 80150587.0,
+        "pct_chg": 10.137,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "000819",
+        "name": "岳阳兴长",
+        "buy": 197400.0,
+        "sell": 77085798.0,
+        "net": -76888398.0,
+        "pct_chg": 9.9844,
+        "board": "石油行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "国新系",
+        "trader_id": "guoxin-xi",
+        "tier": "新生代",
+        "code": "000595",
+        "name": "新能股份",
+        "buy": 76790400.0,
+        "sell": 0.0,
+        "net": 76790400.0,
+        "pct_chg": 9.9458,
+        "board": "机械行业",
+        "confidence": "medium"
+      },
+      {
+        "trader": "国新系",
+        "trader_id": "guoxin-xi",
+        "tier": "新生代",
+        "code": "601929",
+        "name": "吉视传媒",
+        "buy": 76790392.0,
+        "sell": 0.0,
+        "net": 76790392.0,
+        "pct_chg": 10.0372,
+        "board": "传媒娱乐",
+        "confidence": "medium"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "002148",
+        "name": "北纬科技",
+        "buy": 18930.0,
+        "sell": 69190320.0,
+        "net": -69171390.0,
+        "pct_chg": 10.0629,
+        "board": "电子信息",
+        "confidence": "high"
+      },
+      {
+        "trader": "开源西安太华路",
+        "trader_id": "kaiyuan-taihualu",
+        "tier": "新生代",
+        "code": "603118",
+        "name": "共进股份",
+        "buy": 63223920.86,
+        "sell": 0.0,
+        "net": 63223920.86,
+        "pct_chg": 10.0224,
+        "board": "电子器件",
+        "confidence": "medium"
+      },
+      {
+        "trader": "紫阳东路",
+        "trader_id": "ziyang-donglu",
+        "tier": "新生代",
+        "code": "601929",
+        "name": "吉视传媒",
+        "buy": 50001180.0,
+        "sell": 0.0,
+        "net": 50001180.0,
+        "pct_chg": 10.0372,
+        "board": "传媒娱乐",
+        "confidence": "low"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "000595",
+        "name": "新能股份",
+        "buy": 18368530.0,
+        "sell": 58984166.86,
+        "net": -40615636.86,
+        "pct_chg": 9.9458,
+        "board": "机械行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "002148",
+        "name": "北纬科技",
+        "buy": 40299777.32,
+        "sell": 4372377.47,
+        "net": 35927399.85,
+        "pct_chg": 10.0629,
+        "board": "电子信息",
+        "confidence": "high"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "688433",
+        "name": "华曙高科",
+        "buy": 33185913.92,
+        "sell": 0.0,
+        "net": 33185913.92,
+        "pct_chg": -15.5556,
+        "board": null,
+        "confidence": "medium"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "000665",
+        "name": "湖北广电",
+        "buy": 148335.0,
+        "sell": 31220135.51,
+        "net": -31071800.51,
+        "pct_chg": 3.4934,
+        "board": "传媒娱乐",
+        "confidence": "high"
+      },
+      {
+        "trader": "开源西安太华路",
+        "trader_id": "kaiyuan-taihualu",
+        "tier": "新生代",
+        "code": "603687",
+        "name": "大胜达",
+        "buy": 0.0,
+        "sell": 30604126.0,
+        "net": -30604126.0,
+        "pct_chg": 8.6738,
+        "board": null,
+        "confidence": "medium"
+      },
+      {
+        "trader": "紫阳东路",
+        "trader_id": "ziyang-donglu",
+        "tier": "新生代",
+        "code": "002343",
+        "name": "慈文传媒",
+        "buy": 30807832.0,
+        "sell": 641342.0,
+        "net": 30166490.0,
+        "pct_chg": 5.4167,
+        "board": "塑料制品",
+        "confidence": "high"
+      },
+      {
+        "trader": "孙哥",
+        "trader_id": "sun-ge",
+        "tier": "殿堂级",
+        "code": "688433",
+        "name": "华曙高科",
+        "buy": 0.0,
+        "sell": 28475870.08,
+        "net": -28475870.08,
+        "pct_chg": -15.5556,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "000156",
+        "name": "华数传媒",
+        "buy": 25880091.0,
+        "sell": 266876.0,
+        "net": 25613215.0,
+        "pct_chg": 10.0515,
+        "board": "传媒娱乐",
+        "confidence": "high"
+      },
+      {
+        "trader": "赵老哥",
+        "trader_id": "zhao-laoge",
+        "tier": "殿堂级",
+        "code": "603389",
+        "name": "亚振家居",
+        "buy": 0.0,
+        "sell": 20833544.6,
+        "net": -20833544.6,
+        "pct_chg": -10.0049,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "思明南路",
+        "trader_id": "siming-nanlu",
+        "tier": "新生代",
+        "code": "301513",
+        "name": "尚水智能",
+        "buy": 17019120.75,
+        "sell": 0.0,
+        "net": 17019120.75,
+        "pct_chg": 14.2104,
+        "board": "次新股",
+        "confidence": "medium"
+      },
+      {
+        "trader": "中山东路",
+        "trader_id": "zhongshan-donglu",
+        "tier": "极活跃",
+        "code": "000819",
+        "name": "岳阳兴长",
+        "buy": 16886136.0,
+        "sell": 0.0,
+        "net": 16886136.0,
+        "pct_chg": 9.9844,
+        "board": "石油行业",
+        "confidence": "medium"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "600327",
+        "name": "大东方",
+        "buy": 0.0,
+        "sell": 15906665.61,
+        "net": -15906665.61,
+        "pct_chg": -10.0619,
+        "board": "商业百货",
+        "confidence": "high"
+      },
+      {
+        "trader": "开源西安太华路",
+        "trader_id": "kaiyuan-taihualu",
+        "tier": "新生代",
+        "code": "600386",
+        "name": "北巴传媒",
+        "buy": 15892458.08,
+        "sell": 0.0,
+        "net": 15892458.08,
+        "pct_chg": 10.1156,
+        "board": "交通运输",
+        "confidence": "medium"
+      },
+      {
+        "trader": "欢乐海岸",
+        "trader_id": "huanle-haian",
+        "tier": "极活跃",
+        "code": "002343",
+        "name": "慈文传媒",
+        "buy": 0.0,
+        "sell": 15710873.0,
+        "net": -15710873.0,
+        "pct_chg": 5.4167,
+        "board": "塑料制品",
+        "confidence": "low"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "688765",
+        "name": "禾元生物",
+        "buy": 13938662.09,
+        "sell": 0.0,
+        "net": 13938662.09,
+        "pct_chg": -18.444,
+        "board": null,
+        "confidence": "medium"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "300530",
+        "name": "领湃科技",
+        "buy": 15024434.0,
+        "sell": 1707495.0,
+        "net": 13316939.0,
+        "pct_chg": 20.0086,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "603389",
+        "name": "亚振家居",
+        "buy": 0.0,
+        "sell": 13069503.0,
+        "net": -13069503.0,
+        "pct_chg": -10.0049,
+        "board": null,
+        "confidence": "medium"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "603725",
+        "name": "天安新材",
+        "buy": 10996379.16,
+        "sell": 23806743.0,
+        "net": -12810363.84,
+        "pct_chg": -10.0162,
+        "board": null,
+        "confidence": "high"
+      },
+      {
+        "trader": "章盟主",
+        "trader_id": "zhang-mengzhu",
+        "tier": "殿堂级",
+        "code": "002685",
+        "name": "华东重机",
+        "buy": 6471411.0,
+        "sell": 18786235.0,
+        "net": -12314824.0,
+        "pct_chg": 9.9278,
+        "board": "机械行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "宁波桑田路",
+        "trader_id": "ningbo-sangtianlu",
+        "tier": "极活跃",
+        "code": "000678",
+        "name": "襄阳轴承",
+        "buy": 12703422.0,
+        "sell": 24516947.72,
+        "net": -11813525.72,
+        "pct_chg": -9.9747,
+        "board": "机械行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "000595",
+        "name": "新能股份",
+        "buy": 35476328.0,
+        "sell": 25692808.8,
+        "net": 9783519.2,
+        "pct_chg": 9.9458,
+        "board": "机械行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "成都系",
+        "trader_id": "chengdu-xi",
+        "tier": "极活跃",
+        "code": "118078",
+        "name": "N航亚转",
+        "buy": 4778330.0,
+        "sell": 0.0,
+        "net": 4778330.0,
+        "pct_chg": 30.73,
+        "board": null,
+        "confidence": "medium"
+      },
+      {
+        "trader": "方新侠",
+        "trader_id": "fang-xinxia",
+        "tier": "殿堂级",
+        "code": "002685",
+        "name": "华东重机",
+        "buy": 26502181.86,
+        "sell": 30253833.6,
+        "net": -3751651.74,
+        "pct_chg": 9.9278,
+        "board": "机械行业",
+        "confidence": "high"
+      },
+      {
+        "trader": "紫阳东路",
+        "trader_id": "ziyang-donglu",
+        "tier": "新生代",
+        "code": "000530",
+        "name": "冰山冷热",
+        "buy": 22395314.04,
+        "sell": 22195450.0,
+        "net": 199864.04,
+        "pct_chg": 6.486,
+        "board": "机械行业",
+        "confidence": "high"
+      }
     ]
   },
   "quality": {
@@ -40723,6 +42594,7 @@
       "东方证券股份有限公司广州广州大道中路证券营业部",
       "东方证券股份有限公司张家港东环路证券营业部",
       "东方证券股份有限公司成都万象南路证券营业部",
+      "东方证券股份有限公司抚顺新华大街证券营业部",
       "东方证券股份有限公司拉萨金珠西路证券营业部",
       "东方证券股份有限公司无锡梁清路证券营业部",
       "东方证券股份有限公司昆明北京路证券营业部",
@@ -40793,6 +42665,7 @@
       "东莞证券股份有限公司佛山禅城季华五路证券营业部",
       "东莞证券股份有限公司北京兴华大街证券营业部",
       "东莞证券股份有限公司南京分公司",
+      "东莞证券股份有限公司厦门分公司",
       "东莞证券股份有限公司四川分公司",
       "东莞证券股份有限公司宜昌献福路证券营业部",
       "东莞证券股份有限公司常熟东南大道证券营业部",
@@ -40911,6 +42784,7 @@
       "中信证券华南股份有限公司贵州分公司",
       "中信证券股份有限公司上海分公司",
       "中信证券股份有限公司上海徐汇区漕溪北路证券营业部",
+      "中信证券股份有限公司上海松江区新松江路证券营业部",
       "中信证券股份有限公司上海浦东新区东方路证券营业部",
       "中信证券股份有限公司上海浦东新区联洋证券营业部",
       "中信证券股份有限公司上海长宁区红宝石路证券营业部",
@@ -40918,6 +42792,7 @@
       "中信证券股份有限公司上海静安区南京西路证券营业部",
       "中信证券股份有限公司上海静安区山西北路证券营业部",
       "中信证券股份有限公司东阳吴宁西路证券营业部",
+      "中信证券股份有限公司丽水花园路证券营业部",
       "中信证券股份有限公司义乌城中中路证券营业部",
       "中信证券股份有限公司余姚南雷路证券营业部",
       "中信证券股份有限公司内蒙古分公司",
@@ -40951,6 +42826,7 @@
       "中信证券股份有限公司常州分公司",
       "中信证券股份有限公司徐州建国西路证券营业部",
       "中信证券股份有限公司成都人民南路证券营业部",
+      "中信证券股份有限公司景德镇珠山大道证券营业部",
       "中信证券股份有限公司杭州凤起路证券营业部",
       "中信证券股份有限公司杭州古墩路证券营业部",
       "中信证券股份有限公司杭州婺江路证券营业部",
@@ -40960,6 +42836,7 @@
       "中信证券股份有限公司杭州金城路证券营业部",
       "中信证券股份有限公司杭州鸿泰路证券营业部",
       "中信证券股份有限公司武汉中北路证券营业部",
+      "中信证券股份有限公司武汉建设大道证券营业部",
       "中信证券股份有限公司河北分公司",
       "中信证券股份有限公司浙江分公司",
       "中信证券股份有限公司海宁海昌南路证券营业部",
@@ -41022,9 +42899,11 @@
       "中国中金财富证券有限公司扬州文昌西路证券营业部",
       "中国中金财富证券有限公司承德翠桥路证券营业部",
       "中国中金财富证券有限公司晋江世纪大道证券营业部",
+      "中国中金财富证券有限公司杭州江河汇证券营业部",
       "中国中金财富证券有限公司株洲珠江北路证券营业部",
       "中国中金财富证券有限公司武汉中北路证券营业部",
       "中国中金财富证券有限公司武汉中山大道证券营业部",
+      "中国中金财富证券有限公司江门迎宾大道证券营业部",
       "中国中金财富证券有限公司洛阳天津路证券营业部",
       "中国中金财富证券有限公司淮北黎苑路证券营业部",
       "中国中金财富证券有限公司淮安水渡口大道证券营业部",
@@ -41206,10 +43085,13 @@
       "中泰证券股份有限公司苏州分公司",
       "中泰证券股份有限公司诸城人民东路证券营业部",
       "中泰证券股份有限公司阜阳颍淮大道证券营业部",
+      "中泰证券股份有限公司青岛分公司",
+      "中泰证券股份有限公司青岛香港东路证券营业部",
       "中航证券有限公司北京慧忠路证券营业部",
       "中航证券有限公司南昌赣江北大道证券营业部",
       "中航证券有限公司天河北路证券营业部",
       "中航证券有限公司广州营业部",
+      "中航证券有限公司景德镇营业部",
       "中航证券有限公司泉州九灌路证券营业部",
       "中航证券有限公司湖南分公司",
       "中航证券有限公司赣州营业部",
@@ -41243,6 +43125,7 @@
       "五矿证券有限公司深圳金田路证券营业部",
       "信达证券股份有限公司上海分公司",
       "信达证券股份有限公司上海浦东新区源深路证券营业部",
+      "信达证券股份有限公司上海铁岭路证券营业部",
       "信达证券股份有限公司丹东青年大街证券营业部",
       "信达证券股份有限公司北京五棵松证券营业部",
       "信达证券股份有限公司北京牡丹园证券营业部",
@@ -41267,6 +43150,7 @@
       "光大证券股份有限公司东莞石龙裕兴路证券营业部",
       "光大证券股份有限公司余姚南雷南路证券营业部",
       "光大证券股份有限公司北京三元桥证券营业部",
+      "光大证券股份有限公司北京东中街证券营业部",
       "光大证券股份有限公司北京小营路证券营业部",
       "光大证券股份有限公司北京月坛北街证券营业部",
       "光大证券股份有限公司北京朝阳路证券营业部",
@@ -41296,6 +43180,7 @@
       "光大证券股份有限公司重庆大坪正街营业部",
       "光大证券股份有限公司重庆民权路证券营业部",
       "光大证券股份有限公司金华宾虹路证券营业部",
+      "光大证券股份有限公司长沙芙蓉中路证券营业部",
       "兴业证券股份有限公司三明列东街证券营业部",
       "兴业证券股份有限公司上海世博馆路证券营业部",
       "兴业证券股份有限公司乐山分公司",
@@ -41332,6 +43217,7 @@
       "华安证券股份有限公司合肥分公司",
       "华安证券股份有限公司安庆分公司",
       "华安证券股份有限公司广州金融城证券营业部",
+      "华安证券股份有限公司池州分公司",
       "华安证券股份有限公司河南分公司",
       "华安证券股份有限公司浙江分公司",
       "华安证券股份有限公司涡阳时代广场证券营业部",
@@ -41346,6 +43232,7 @@
       "华宝证券股份有限公司深圳福华一路证券营业部",
       "华林证券股份有限公司北京分公司",
       "华林证券股份有限公司北京石景山路证券营业部",
+      "华林证券股份有限公司成都东二环路证券营业部",
       "华林证券股份有限公司江苏分公司",
       "华林证券股份有限公司浏阳大道证券营业部",
       "华林证券股份有限公司深圳分公司",
@@ -41376,6 +43263,7 @@
       "华泰证券股份有限公司南京中山东路第二证券营业部",
       "华泰证券股份有限公司南京分公司",
       "华泰证券股份有限公司南京大光路证券营业部",
+      "华泰证券股份有限公司南京文澜路证券营业部",
       "华泰证券股份有限公司南京止马营证券营业部",
       "华泰证券股份有限公司南京民智路证券营业部",
       "华泰证券股份有限公司南京江宁天元东路证券营业部",
@@ -41419,6 +43307,7 @@
       "华泰证券股份有限公司杭州解放东路证券营业部",
       "华泰证券股份有限公司武汉中北路证券营业部",
       "华泰证券股份有限公司武汉友谊大道证券营业部",
+      "华泰证券股份有限公司武汉新华路证券营业部",
       "华泰证券股份有限公司武汉江汉路证券营业部",
       "华泰证券股份有限公司江西分公司",
       "华泰证券股份有限公司江阴分公司",
@@ -41427,6 +43316,7 @@
       "华泰证券股份有限公司沈阳青年大街证券营业部",
       "华泰证券股份有限公司泰兴国庆西路证券营业部",
       "华泰证券股份有限公司泰州分公司",
+      "华泰证券股份有限公司浙江分公司",
       "华泰证券股份有限公司海口国兴大道证券营业部",
       "华泰证券股份有限公司淮安富誉路证券营业部",
       "华泰证券股份有限公司深圳分公司",
@@ -41528,6 +43418,7 @@
       "华鑫证券有限责任公司北京光华路证券营业部",
       "华鑫证券有限责任公司南京清凉门大街证券营业部",
       "华鑫证券有限责任公司山东分公司",
+      "华鑫证券有限责任公司常州劳动西路营业部",
       "华鑫证券有限责任公司成都交子大道证券营业部",
       "华鑫证券有限责任公司无锡人民中路证券营业部",
       "华鑫证券有限责任公司杭州分公司",
@@ -41558,6 +43449,7 @@
       "南京证券股份有限公司石嘴山大武口证券营业部",
       "南京证券股份有限公司福州华林路证券营业部",
       "南京证券股份有限公司绍兴新昌人民西路证券营业部",
+      "南京证券股份有限公司连云港通灌南路证券营业部",
       "南京证券股份有限公司靖江骥阳路证券营业部",
       "国信证券股份有限公司上海分公司",
       "国信证券股份有限公司上海浦东分公司",
@@ -41692,6 +43584,7 @@
       "国投证券股份有限公司绍兴延安东路证券营业部",
       "国投证券股份有限公司肇庆分公司",
       "国投证券股份有限公司苏州分公司",
+      "国投证券股份有限公司赤峰临潢大街证券营业部",
       "国投证券股份有限公司连云港郁州北路证券营业部",
       "国投证券股份有限公司郑州花园路证券营业部",
       "国投证券股份有限公司重庆江北嘴证券营业部",
@@ -41820,22 +43713,27 @@
       "国泰海通证券股份有限公司曲靖翠峰东路证券营业部",
       "国泰海通证券股份有限公司杭州市心北路证券营业部",
       "国泰海通证券股份有限公司杭州延安路证券营业部",
+      "国泰海通证券股份有限公司杭州文一西路证券营业部",
       "国泰海通证券股份有限公司杭州滨江科技馆街证券营业部",
       "国泰海通证券股份有限公司杭州萧山市心中路证券营业部",
       "国泰海通证券股份有限公司杭州解放东路证券营业部",
       "国泰海通证券股份有限公司杭州金华南路证券营业部",
+      "国泰海通证券股份有限公司武汉新华路证券营业部",
       "国泰海通证券股份有限公司汕头中山中路证券营业部",
       "国泰海通证券股份有限公司江苏南京金融城营业部",
       "国泰海通证券股份有限公司江苏徐州中山北路营业部",
+      "国泰海通证券股份有限公司江苏江阴朝阳路营业部",
       "国泰海通证券股份有限公司江苏连云港巨龙南路营业部",
       "国泰海通证券股份有限公司江苏连云港苍梧路营业部",
       "国泰海通证券股份有限公司沈阳青年大街证券营业部",
       "国泰海通证券股份有限公司沈阳黄河南大街证券营业部",
       "国泰海通证券股份有限公司河南洛阳长兴街营业部",
       "国泰海通证券股份有限公司泸州星光路证券营业部",
+      "国泰海通证券股份有限公司洛阳中州中路证券营业部",
       "国泰海通证券股份有限公司济南舜华路证券营业部",
       "国泰海通证券股份有限公司浙江上虞市民大道营业部",
       "国泰海通证券股份有限公司浙江余姚舜水南路营业部",
+      "国泰海通证券股份有限公司浙江衢州白云中大道营业部",
       "国泰海通证券股份有限公司海口国兴证券营业部",
       "国泰海通证券股份有限公司深圳人民南路证券营业部",
       "国泰海通证券股份有限公司深圳分公司",
@@ -41898,7 +43796,9 @@
       "国泰海通证券股份有限公司青岛福州南路证券营业部",
       "国泰海通证券股份有限公司黑龙江大庆昆仑大街营业部",
       "国海证券股份有限公司上海世纪大道证券营业部",
+      "国海证券股份有限公司上海黄浦区中山南路证券营业部",
       "国海证券股份有限公司南宁滨湖路证券营业部",
+      "国海证券股份有限公司南宁飞云路证券营业部",
       "国海证券股份有限公司山西分公司",
       "国海证券股份有限公司平南二环大道营业部",
       "国海证券股份有限公司机构席位",
@@ -41980,6 +43880,7 @@
       "天风证券股份有限公司上海浦东分公司",
       "天风证券股份有限公司杭州南都银座证券营业部",
       "天风证券股份有限公司江阴人民东路证券营业部",
+      "天风证券股份有限公司浙江分公司",
       "天风证券股份有限公司深圳分公司",
       "天风证券股份有限公司深圳福中三路证券营业部",
       "太平洋证券股份有限公司保山正阳北路证券营业部",
@@ -42036,6 +43937,7 @@
       "平安证券股份有限公司深圳香蜜湖证券营业部",
       "平安证券股份有限公司深圳龙华人民路证券营业部",
       "平安证券股份有限公司湖北分公司",
+      "平安证券股份有限公司湖南分公司",
       "平安证券股份有限公司湛江绿华路证券营业部",
       "平安证券股份有限公司珠海园林路证券营业部",
       "平安证券股份有限公司福州长乐北路证券营业部",
@@ -42093,6 +43995,7 @@
       "广发证券股份有限公司新余中山路营业部",
       "广发证券股份有限公司昆明东风东路营业部",
       "广发证券股份有限公司昆明东风东路证券营业部",
+      "广发证券股份有限公司昆明广福路证券营业部",
       "广发证券股份有限公司普宁流沙证券营业部",
       "广发证券股份有限公司杭州博亚时代中心证券营业部",
       "广发证券股份有限公司杭州博奥路证券营业部",
@@ -42205,6 +44108,7 @@
       "招商证券股份有限公司深圳建安路证券营业部",
       "招商证券股份有限公司深圳招商证券大厦证券营业部",
       "招商证券股份有限公司深圳水贝证券营业部",
+      "招商证券股份有限公司深圳海天一路证券营业部",
       "招商证券股份有限公司深圳深南东路证券营业部",
       "招商证券股份有限公司深圳深南中路证券营业部",
       "招商证券股份有限公司深圳深南大道车公庙证券营业部",
@@ -42240,6 +44144,7 @@
       "方正证券股份有限公司南京浦江路证券营业部",
       "方正证券股份有限公司台州黄岩洞天路证券营业部",
       "方正证券股份有限公司岳阳岳阳大道证券营业部",
+      "方正证券股份有限公司岳阳巴陵东路证券营业部",
       "方正证券股份有限公司常州兰陵北路证券营业部",
       "方正证券股份有限公司杭州平澜路证券营业部",
       "方正证券股份有限公司杭州新塘路证券营业部",
@@ -42282,6 +44187,7 @@
       "民生证券股份有限公司广西分公司",
       "民生证券股份有限公司慈溪影清路证券营业部",
       "民生证券股份有限公司新密青屏大街证券营业部",
+      "民生证券股份有限公司无锡中山路证券营业部",
       "民生证券股份有限公司无锡硕放镇通祥路证券营业部",
       "民生证券股份有限公司杭州东宁路证券营业部",
       "民生证券股份有限公司河南分公司",
@@ -42367,6 +44273,7 @@
       "申万宏源证券有限公司上海嘉定区塔城路证券营业部",
       "申万宏源证券有限公司上海崇明区川心街证券营业部",
       "申万宏源证券有限公司上海徐汇区上中西路证券营业部",
+      "申万宏源证券有限公司上海徐汇区凯旋路证券营业部",
       "申万宏源证券有限公司上海徐汇区肇嘉浜路证券营业部",
       "申万宏源证券有限公司上海杨浦区隆昌路证券营业部",
       "申万宏源证券有限公司上海杨浦区黄兴路证券营业部",
@@ -42392,6 +44299,7 @@
       "申万宏源证券有限公司北京东四环中路证券营业部",
       "申万宏源证券有限公司北京丽泽路证券营业部",
       "申万宏源证券有限公司北京南四环西路证券营业部",
+      "申万宏源证券有限公司北京安定路证券营业部",
       "申万宏源证券有限公司北京金融大街证券营业部",
       "申万宏源证券有限公司南昌南京东路证券营业部",
       "申万宏源证券有限公司南昌金融大街证券营业部",
@@ -42413,6 +44321,7 @@
       "申万宏源证券有限公司沈阳宁山中路证券营业部",
       "申万宏源证券有限公司深圳市深圳湾一号证券营业部",
       "申万宏源证券有限公司深圳彩田路证券营业部",
+      "申万宏源证券有限公司深圳金田路证券营业部",
       "申万宏源证券有限公司盐城世纪大道证券营业部",
       "申万宏源证券有限公司盐城东台金海东路证券营业部",
       "申万宏源证券有限公司盐城解放南路证券营业部",
@@ -42467,6 +44376,7 @@
       "英大证券有限责任公司上海陆家嘴证券营业部",
       "英大证券有限责任公司深圳华侨城证券营业部",
       "英大证券有限责任公司深圳新城广场证券营业部",
+      "西南证券股份有限公司上海分公司",
       "西南证券股份有限公司北京昌平证券营业部",
       "西南证券股份有限公司山东分公司",
       "西南证券股份有限公司江苏分公司",
@@ -42587,6 +44497,7 @@
       "长江证券股份有限公司天门接官路证券营业部",
       "长江证券股份有限公司宜昌沿江大道证券营业部",
       "长江证券股份有限公司广州林和西路证券营业部",
+      "长江证券股份有限公司成都人民南路证券营业部",
       "长江证券股份有限公司成都光华村街证券营业部",
       "长江证券股份有限公司昆明白龙路证券营业部",
       "长江证券股份有限公司杭州秋涛北路证券营业部",
@@ -42614,6 +44525,6 @@
       "麦高证券有限责任公司深圳分公司",
       "麦高证券有限责任公司深圳高新南一道证券营业部"
     ],
-    "unmatched_count": 2021
+    "unmatched_count": 2061
   }
 }
