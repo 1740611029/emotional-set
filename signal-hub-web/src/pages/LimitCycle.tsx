@@ -13,6 +13,8 @@
 import { useState, type MouseEvent } from 'react';
 import { CollapseChevron, EmptyState, Notice } from '../components/ui';
 import { useLimitCycle } from '../hooks/useLimitCycle';
+import { usePageMeta } from '../data/PageMetaProvider';
+import { LimitCycleIcon } from '../components/icons';
 import {
   BOARD_COLORS, LIMIT_CYCLE_STAGES,
   type LimitCycleCoverage, type LimitCycleMetrics, type LimitCyclePhase,
@@ -485,19 +487,17 @@ export function LimitCycle() {
   const { data, error, isLoading, refresh } = useLimitCycle();
   const ready = data?.data_state === 'ready';
 
+  // 页面描述/数据截止/刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染头部行
+  usePageMeta({
+    icon: LimitCycleIcon,
+    gradientClass: 'from-ocean-400 to-mint-400',
+    subtitle: '情绪周期 · 连板梯队 · 今日连板个股',
+    asOf: data?.as_of ? { text: data.as_of } : null,
+    refresh: { label: '刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
+  });
+
   return (
     <div className="p-6 fade-in">
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <p className="text-sm text-slate-500">情绪周期 · 连板梯队 · 今日连板个股</p>
-        <div className="flex items-center gap-3">
-          {data?.as_of && <span className="text-xs text-slate-400 tabular-nums">数据截至 {data.as_of}</span>}
-          {isLoading && <span className="text-xs text-slate-400">加载中…</span>}
-          <button type="button" onClick={refresh}
-            className="px-4 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-medium hover:bg-brand-100">
-            刷新
-          </button>
-        </div>
-      </div>
 
       {error && (
         <div className="mb-6">

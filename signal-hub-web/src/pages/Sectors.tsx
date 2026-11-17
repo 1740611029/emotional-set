@@ -12,8 +12,9 @@ import { SectorEvaluationPanel } from '../components/SectorEvaluationPanel';
 import { SectorTrendChart } from '../components/SectorTrendChart';
 import { SectorStocksDialog } from '../components/SectorStocksDialog';
 import { StrengthExplainer } from '../components/StrengthExplainer';
-import { IndicatorHeader, Notice } from '../components/ui';
+import { Notice } from '../components/ui';
 import { SectorIcon } from '../components/icons';
+import { usePageMeta } from '../data/PageMetaProvider';
 import {
   STATE_LABELS,
   STATE_ORDER,
@@ -119,6 +120,19 @@ export function Sectors() {
   const stocksCode = showStocks && active ? active.code : null;
   const stocksValue = useSectorStocks(stocksCode);
 
+  // 页面标题/描述/数据截止上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
+  usePageMeta({
+    icon: SectorIcon,
+    gradientClass: 'from-brand-400 to-ocean-400',
+    subtitle: `同花顺行业指数 ${sectors.length} 个行业，各自独立判定四态`,
+    asOf: block?.as_of
+      ? {
+          text: `${block.as_of}${lagDays > 0 ? `（滞后 ${lagDays} 个交易日）` : ''}`,
+          warn: lagDays > 0,
+        }
+      : null,
+  });
+
   const update = (key: SectorNavKey, value: string) => {
     setParams((prev) => nextSectorParams(prev, key, value), { replace: true });
   };
@@ -146,19 +160,6 @@ export function Sectors() {
 
   return (
     <div className="p-6">
-      <IndicatorHeader
-        icon={SectorIcon}
-        gradientClass="from-brand-400 to-ocean-400"
-        title="板块趋势"
-        subtitle={`同花顺行业指数 ${sectors.length} 个行业，各自独立判定四态`}
-        extra={block?.as_of ? (
-          <span className={`text-xs tabular-nums ${lagDays > 0 ? 'text-coral-600 font-medium' : 'text-slate-400'}`}>
-            数据截至 {block.as_of}
-            {lagDays > 0 && `（滞后 ${lagDays} 个交易日）`}
-          </span>
-        ) : undefined}
-      />
-
       {block?.as_of && lagDays > 0 && (
         <div className="mb-4">
           <Notice tone="warn">

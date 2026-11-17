@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
+import { EmptyState, Notice } from '../components/ui';
 import { VolumeIcon } from '../components/icons';
 import { EtfAmountLinesChart, TotalVolumeIndexChart } from '../components/EtfVolumeCharts';
 import { useEtfVolumeSeries } from '../hooks/useEtfVolumeSeries';
+import { usePageMeta } from '../data/PageMetaProvider';
 import { sliceEtfSeriesToView, ETF_VOLUME_THRESHOLD_YI } from '../lib/etfVolumeSeries';
 import {
   DEFAULT_INDEX_CHART_RANGE_KEY,
@@ -23,27 +24,18 @@ export function EtfVolume() {
   const hasData = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
   const rangeLabel = indexChartRangeOption(range).label;
 
+  // 页面标题/描述/数据截止/手动刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
+  usePageMeta({
+    icon: VolumeIcon,
+    gradientClass: 'from-brand-400 to-ocean-400',
+    subtitle: '核心 6 只宽基 ETF 单日成交额、合计规模与上证指数走势的同坐标系对照',
+    asOf: { text: data?.as_of ?? '—' },
+    stats: data?.generated_at ? [{ label: '最近更新', value: data.generated_at.replace('T', ' ') }] : undefined,
+    refresh: { label: '手动刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
+  });
+
   return (
     <div className="p-6">
-      <IndicatorHeader
-        icon={VolumeIcon}
-        gradientClass="from-brand-400 to-ocean-400"
-        title="ETF 放量"
-        subtitle="核心 6 只宽基 ETF 单日成交额、合计规模与上证指数走势的同坐标系对照"
-        extra={(
-          <div className="text-right text-xs text-slate-400">
-            <div>数据交易日：<span className="text-slate-600">{data?.as_of ?? '—'}</span></div>
-            <div className="mt-1">最近更新：<span className="text-slate-600">{data?.generated_at?.replace('T', ' ') ?? '—'}</span></div>
-            <button
-              type="button"
-              onClick={refresh}
-              className="mt-2 px-3 py-1 rounded-lg bg-brand-50 text-brand-700 font-medium hover:bg-brand-100 transition-colors"
-            >
-              手动刷新
-            </button>
-          </div>
-        )}
-      />
 
       <div className="mb-5">
         <Notice>

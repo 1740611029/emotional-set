@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import { CollapseChevron, EmptyState, IndicatorHeader, Notice } from '../components/ui';
+import { CollapseChevron, EmptyState, Notice } from '../components/ui';
 import { LhbIcon } from '../components/icons';
 import { useLhbOverview } from '../hooks/useLhbOverview';
+import { usePageMeta } from '../data/PageMetaProvider';
 import type { LhbDailyRow, LhbPosition, LhbRecord } from '../data/types';
 import { buildViewTraders as buildView, type ViewTrader } from '../lib/lhbExitVisibility';
 
@@ -589,21 +590,18 @@ export function LhbTraders() {
   const ready = !isLoading && !error && !preparing;
   const toggleBtn = (hiddenCount > 0 || showExpired) && ready;
 
+  // 页面标题/描述/数据截止/刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
+  usePageMeta({
+    icon: LhbIcon,
+    gradientClass: 'from-brand-400 to-mint-400',
+    subtitle: '26 位游资每日龙虎榜操作追踪 · 席位来自公开资料整理 · 数据每日晚间自动更新',
+    asOf: { text: data?.as_of ?? '—' },
+    refresh: { label: '刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
+  });
+
   return (
     <div className="flex flex-1 min-h-0 flex-col overflow-hidden p-6">
       {/* flex-1 min-h-0：分得滚动容器中 PageTaskBar 之下的全部剩余高度（h-full 会把 PageTaskBar 高度溢出视口） */}
-      <IndicatorHeader
-        icon={LhbIcon}
-        gradientClass="from-brand-400 to-mint-400"
-        title="龙虎榜知名游资"
-        subtitle="26 位游资每日龙虎榜操作追踪 · 席位来自公开资料整理 · 数据每日晚间自动更新"
-        extra={(
-          <div className="text-right">
-            <p className="text-xs text-slate-400">数据截至 {data?.as_of ?? '—'}</p>
-            <button type="button" onClick={refresh} className="text-xs text-brand-600 hover:text-brand-700">刷新</button>
-          </div>
-        )}
-      />
 
       <div className="mb-5">
         <button

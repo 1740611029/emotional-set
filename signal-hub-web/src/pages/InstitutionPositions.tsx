@@ -9,9 +9,10 @@ import {
   type InstitutionWindowStats,
 } from '../components/InstitutionSummaryTable';
 import { orderInstitutions, windowRelationStats } from '../lib/institutionView';
-import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
+import { EmptyState, Notice } from '../components/ui';
 import { InstitutionIcon } from '../components/icons';
 import { useInstitutionPositions } from '../hooks/useInstitutionPositions';
+import { usePageMeta } from '../data/PageMetaProvider';
 import {
   HISTORY_TABLE_HEIGHT_PX,
   hasMoreToLoad,
@@ -176,27 +177,18 @@ export function InstitutionPositions() {
   const selectedVariety = VARIETY_TABS.find((item) => item.value === variety) ?? VARIETY_TABS[0];
   const hasSeries = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
 
+  // 页面标题/描述/数据截止/手动刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
+  usePageMeta({
+    icon: InstitutionIcon,
+    gradientClass: 'from-brand-400 to-coral-400',
+    subtitle: '中金所前 20 会员持仓排名与沪深300 次日走势的事后对照',
+    asOf: { text: data?.as_of ?? '—' },
+    stats: data?.generated_at ? [{ label: '最近更新', value: data.generated_at.replace('T', ' ') }] : undefined,
+    refresh: { label: '手动刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
+  });
+
   return (
     <div className="p-6">
-      <IndicatorHeader
-        icon={InstitutionIcon}
-        gradientClass="from-brand-400 to-coral-400"
-        title="机构多空单"
-        subtitle="中金所前 20 会员持仓排名与沪深300 次日走势的事后对照"
-        extra={(
-          <div className="text-right text-xs text-slate-400">
-            <div>数据交易日：<span className="text-slate-600">{data?.as_of ?? '—'}</span></div>
-            <div className="mt-1">最近更新：<span className="text-slate-600">{data?.generated_at?.replace('T', ' ') ?? '—'}</span></div>
-            <button
-              type="button"
-              onClick={refresh}
-              className="mt-2 px-3 py-1 rounded-lg bg-brand-50 text-brand-700 font-medium hover:bg-brand-100 transition-colors"
-            >
-              手动刷新
-            </button>
-          </div>
-        )}
-      />
 
       <div className="mb-5">
         <Notice>

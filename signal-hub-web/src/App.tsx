@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { PageTaskBar } from './components/TaskButtons';
 import { TaskControlProvider } from './data/TaskControlProvider';
+import { PageMetaProvider } from './data/PageMetaProvider';
 import { MarketDataProvider } from './data/MarketDataProvider';
 import { BloggerNotificationProvider } from './data/BloggerNotificationProvider';
 import { Dashboard } from './pages/Dashboard';
@@ -19,8 +20,9 @@ const LimitCycle = lazy(() => import('./pages/LimitCycle').then((module) => ({ d
 export default function App() {
   return (
     <TaskControlProvider>
-      <BloggerNotificationProvider>
-        <MarketDataProvider>
+      <PageMetaProvider>
+        <BloggerNotificationProvider>
+          <MarketDataProvider>
           <BrowserRouter>
             <div className="flex h-screen overflow-hidden">
               <Sidebar />
@@ -49,7 +51,8 @@ export default function App() {
             </div>
           </BrowserRouter>
         </MarketDataProvider>
-      </BloggerNotificationProvider>
+        </BloggerNotificationProvider>
+      </PageMetaProvider>
     </TaskControlProvider>
   );
 }

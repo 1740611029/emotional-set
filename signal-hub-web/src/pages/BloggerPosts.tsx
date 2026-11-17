@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { EmptyState, IndicatorHeader, Notice } from '../components/ui';
+import { EmptyState, Notice } from '../components/ui';
 import { PostIcon } from '../components/icons';
 import { useBloggerPosts } from '../hooks/useBloggerPosts';
+import { usePageMeta } from '../data/PageMetaProvider';
 import type { BloggerPost } from '../data/types';
 
 type RangeKey = 'all' | 'today' | '3d' | '7d' | '14d' | '30d' | 'custom';
@@ -223,28 +224,18 @@ export function BloggerPosts() {
 
   const hasData = posts.length > 0;
 
+  // 页面标题/描述/记录更新/手动刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
+  usePageMeta({
+    icon: PostIcon,
+    gradientClass: 'from-brand-400 to-mint-400',
+    subtitle: '同花顺博主「全能的野人」动态自动采集，只收录最近一个月的公开发文',
+    asOf: data?.updated_at ? { text: data.updated_at } : null,
+    stats: data ? [{ label: '累计收录', value: `${data.total} 条` }] : undefined,
+    refresh: { label: '手动刷新', busyLabel: '采集中…', busy: isRefreshing, onRefresh: refresh },
+  });
+
   return (
     <div className="p-6">
-      <IndicatorHeader
-        icon={PostIcon}
-        gradientClass="from-brand-400 to-mint-400"
-        title="【全能的野人】发文"
-        subtitle="同花顺博主「全能的野人」动态自动采集，只收录最近一个月的公开发文"
-        extra={(
-          <div className="text-right text-xs text-slate-400">
-            <div>记录更新：<span className="text-slate-600 tabular-nums">{data?.updated_at ?? '—'}</span></div>
-            <div className="mt-1">累计收录：<span className="text-slate-600 tabular-nums">{data?.total ?? 0} 条</span></div>
-            <button
-              type="button"
-              onClick={refresh}
-              disabled={isRefreshing}
-              className="mt-2 rounded-lg bg-brand-50 px-3 py-1 font-medium text-brand-700 transition-colors hover:bg-brand-100 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isRefreshing ? '采集中…' : '手动刷新'}
-            </button>
-          </div>
-        )}
-      />
 
       <div className="mb-5">
         <Notice>

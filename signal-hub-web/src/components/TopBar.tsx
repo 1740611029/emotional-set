@@ -6,6 +6,7 @@ import { titleByPath } from './Sidebar';
 import { useMarketData } from '../data/MarketDataProvider';
 import { useBloggerNotifications } from '../data/BloggerNotificationProvider';
 import { useTaskControl } from '../data/TaskControlProvider';
+import { usePageMetaContext } from '../data/PageMetaProvider';
 
 function ModeBadge({ mode }: { mode: 'live' | 'close' | null }) {
   if (mode === 'live') {
@@ -42,7 +43,11 @@ export function TopBar() {
   const { snapshot, error, isLoading, lastSuccessAt, refresh } = useMarketData();
   const { permission, enabled, enable, test } = useBloggerNotifications();
   const { enabled: taskEnabled } = useTaskControl();
+  const { meta: pageMeta } = usePageMetaContext();
   const snapshotPollOn = taskEnabled.snapshot_poll;
+  // 页面级数据截止：页面注册了 asOf（如机构持仓交易日、博主记录更新时间）时优先展示，否则回退全局快照日期
+  const asOfText = pageMeta?.asOf ? pageMeta.asOf.text : snapshot?.as_of ?? '--';
+  const asOfWarn = pageMeta?.asOf?.warn ?? false;
 
   // 铃铛点击反馈：权限被拒、浏览器不支持、授权结果、测试通知都给出可见提示，避免"点了没反应"
   const [bellHint, setBellHint] = useState<string | null>(null);
@@ -81,18 +86,50 @@ export function TopBar() {
     ? 'text-brand-600'
     : permission === 'denied' ? 'text-coral-500' : 'text-slate-500';
 
+  const PageIcon = pageMeta?.icon;
+  const pageRefresh = pageMeta?.refresh;
+  const hasSecondRow = Boolean(pageMeta?.subtitle || pageMeta?.stats?.length);
+
   return (
-    <header className="sticky top-0 z-10 glass-card border-b border-slate-100 px-8 py-4 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <h2 className="text-xl font-bold text-slate-800">{title}</h2>
-        <span className="text-sm text-slate-300">|</span>
-        <span className="text-sm text-slate-500 tabular-nums">{snapshot?.as_of ?? '--'}</span>
-        <ModeBadge mode={snapshot?.mode ?? null} />
-        {snapshot?.stale && (
-          <span className="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600 font-medium">
-            数据陈旧
-          </span>
+    <header className="sticky top-0 z-10 glass-card border-b border-slate-100 px-8 py-4 flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3 min-w-0">
+        {PageIcon && pageMeta?.gradientClass && (
+          <div
+            className={`w-9 h-9 rounded-lg bg-gradient-to-br ${pageMeta.gradientClass} flex items-center justify-center text-white shrink-0`}
+          >
+            <PageIcon className="w-5 h-5" />
+          </div>
         )}
+        <div className="min-w-0">
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="text-xl font-bold text-slate-800">{title}</h2>
+            <span className="text-sm text-slate-300">|</span>
+            <span
+              className={`text-sm tabular-nums ${asOfWarn ? 'text-coral-600 font-medium' : 'text-slate-500'}`}
+            >
+              {asOfText}
+            </span>
+            <ModeBadge mode={snapshot?.mode ?? null} />
+            {snapshot?.stale && (
+              <span className="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600 font-medium">
+                数据陈旧
+              </span>
+            )}
+          </div>
+          {hasSecondRow && (
+            <div className="flex items-baseline gap-x-3 gap-y-0.5 mt-0.5 flex-wrap">
+              {pageMeta?.subtitle && (
+                <p className="text-xs text-slate-400 truncate max-w-full">{pageMeta.subtitle}</p>
+              )}
+              {pageMeta?.stats?.map((stat) => (
+                <span key={stat.label} className="text-xs text-slate-400 tabular-nums shrink-0">
+                  {stat.label}
+                  <span className="text-slate-500 ml-1">{stat.value}</span>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-1.5 border border-slate-200">
@@ -119,6 +156,16 @@ export function TopBar() {
         >
           {isLoading ? '刷新中' : '立即刷新'}
         </button>
+        {pageRefresh && (
+          <button
+            type="button"
+            onClick={() => void pageRefresh.onRefresh()}
+            disabled={pageRefresh.busy}
+            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-50 text-brand-700 hover:bg-brand-100 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {pageRefresh.busy ? pageRefresh.busyLabel : pageRefresh.label}
+          </button>
+        )}
         <GlobalTaskButton />
         <div className="relative">
           <button
