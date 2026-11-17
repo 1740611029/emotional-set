@@ -4,6 +4,7 @@ import { VolumeIcon } from '../components/icons';
 import { EtfAmountLinesChart, TotalVolumeIndexChart } from '../components/EtfVolumeCharts';
 import { useEtfVolumeSeries } from '../hooks/useEtfVolumeSeries';
 import { usePageMeta } from '../data/PageMetaProvider';
+import { formatTimestamp } from '../lib/formatTimestamp';
 import { sliceEtfSeriesToView, ETF_VOLUME_THRESHOLD_YI } from '../lib/etfVolumeSeries';
 import {
   DEFAULT_INDEX_CHART_RANGE_KEY,
@@ -30,7 +31,7 @@ export function EtfVolume() {
     gradientClass: 'from-brand-400 to-ocean-400',
     subtitle: '核心 6 只宽基 ETF 单日成交额、合计规模与上证指数走势的同坐标系对照',
     asOf: { text: data?.as_of ?? '—' },
-    stats: data?.generated_at ? [{ label: '最近更新', value: data.generated_at.replace('T', ' ') }] : undefined,
+    stats: data?.generated_at ? [{ label: '最近更新', value: formatTimestamp(data.generated_at) ?? '—' }] : undefined,
     refresh: { label: '手动刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
   });
 

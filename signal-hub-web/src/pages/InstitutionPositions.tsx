@@ -9,6 +9,7 @@ import {
   type InstitutionWindowStats,
 } from '../components/InstitutionSummaryTable';
 import { orderInstitutions, windowRelationStats } from '../lib/institutionView';
+import { formatTimestamp } from '../lib/formatTimestamp';
 import { EmptyState, Notice } from '../components/ui';
 import { InstitutionIcon } from '../components/icons';
 import { useInstitutionPositions } from '../hooks/useInstitutionPositions';
@@ -183,7 +184,7 @@ export function InstitutionPositions() {
     gradientClass: 'from-brand-400 to-coral-400',
     subtitle: '中金所前 20 会员持仓排名与沪深300 次日走势的事后对照',
     asOf: { text: data?.as_of ?? '—' },
-    stats: data?.generated_at ? [{ label: '最近更新', value: data.generated_at.replace('T', ' ') }] : undefined,
+    stats: data?.generated_at ? [{ label: '最近更新', value: formatTimestamp(data.generated_at) ?? '—' }] : undefined,
     refresh: { label: '手动刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
   });
 
