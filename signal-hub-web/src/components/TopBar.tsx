@@ -39,7 +39,7 @@ const BELL_TITLE: Record<string, string> = {
 
 export function TopBar() {
   const { pathname } = useLocation();
-  const title = titleByPath.get(pathname) ?? '指标总览';
+  const title = titleByPath.get(pathname) ?? '指数总览';
   const { snapshot, error, isLoading, lastSuccessAt, refresh } = useMarketData();
   const { permission, enabled, enable, test } = useBloggerNotifications();
   const { enabled: taskEnabled } = useTaskControl();

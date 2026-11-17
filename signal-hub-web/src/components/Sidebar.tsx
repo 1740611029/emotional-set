@@ -26,7 +26,7 @@ export interface NavGroup {
 export const navGroups: NavGroup[] = [
   {
     section: '概览',
-    items: [{ key: 'dashboard', label: '指标总览', to: '/', icon: DashboardIcon }],
+    items: [{ key: 'dashboard', label: '指数总览', to: '/', icon: DashboardIcon }],
   },
   {
     section: '板块',
