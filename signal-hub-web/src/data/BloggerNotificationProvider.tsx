@@ -7,8 +7,10 @@ import type { BloggerPost } from './types';
 /**
  * 【全能的野人】新发文的桌面通知（网页侧）。
  *
- * 与采集脚本侧 Windows Toast 互斥：网页在线且已授权通知时，本模块上报心跳，
- * 采集脚本跳过 Toast；网页关闭（pagehide 上报离线）或权限被拒时，由采集脚本兜底。
+ * 与采集脚本侧 Windows Toast 双通道并行（2026-11-17 起）：两侧各自弹出、互不依赖。
+ * 采集脚本始终发系统 Toast，本模块在页面在线且已授权时弹浏览器通知。
+ * 单侧让位架构已废弃：Windows 系统层可单独关闭 Chrome 应用通知而页面 JS 无法感知，
+ * 让位会造成双方都不发的通知黑洞。
  *
  * 本模块不参与任何信号计算，只读 /api/blogger/posts 落盘数据。
  * 轮询刻意不受页面可见性影响，保证网页最小化时仍能弹出系统通知。
@@ -81,8 +83,8 @@ export function BloggerNotificationProvider({ children }: { children: ReactNode 
         cache: 'no-store',
         keepalive: true,
       });
-      // 服务未重启时该端点尚不存在（404）：禁用网页侧通知，由采集脚本独占，
-      // 避免两侧同时弹；重启后心跳成功即自动切换为网页侧接管。
+      // 服务未重启时该端点尚不存在（404）：本次心跳记为失败；
+      // 心跳失败不影响浏览器通知弹出（采集侧 Toast 双通道并行，不互斥）。
       heartbeatOkRef.current = response.ok;
     } catch {
       heartbeatOkRef.current = false;

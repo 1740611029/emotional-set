@@ -25,11 +25,9 @@ const STATE_FILE = path.join(DATA_DIR, 'state.json');
 const LOG_DIR = path.join(SCRIPT_DIR, 'logs');
 const LOG_FILE = path.join(LOG_DIR, 'run.log');
 const LOCK_FILE = path.join(DATA_DIR, 'run.lock');
-// 网页在线标记：由服务端心跳写入、页面卸载时置 0；采集脚本据此避免与网页侧重复弹通知
-const PRESENCE_FILE = path.join(DATA_DIR, 'web-presence.json');
-/** 心跳有效期：网页每 30 秒上报一次，留足浏览器后台节流的余量 */
-const PRESENCE_TTL_MS = 90_000;
-/** Windows PowerShell 的 AppUserModelId，用于显示系统 Toast（无需安装第三方模块） */
+// 桌面通知为双通道策略（2026-11-17 起）：采集脚本始终发 Windows Toast，
+// 网页在线时网页侧同时弹浏览器通知。不再按 web-presence.json 心跳让位：
+// Windows 系统层可单独关闭 Chrome 应用通知而页面 JS 无法感知，单侧让位会造成通知黑洞。
 const TOAST_APP_ID = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\WindowsPowerShell\\v1.0\\powershell.exe';
 
 const AUTHOR = '全能的野人';
@@ -90,17 +88,6 @@ function writeJSON(file, data) {
 }
 
 // ---------- 桌面通知（Windows 系统 Toast） ----------
-/** 网页是否在线且已获浏览器通知授权：是则桌面通知交给网页侧，本脚本不重复弹 */
-function webCanNotify() {
-  try {
-    if (!fs.existsSync(PRESENCE_FILE)) return false;
-    const p = readJSON(PRESENCE_FILE, {});
-    const at = Number(p.at) || 0;
-    return p.notify === true && at > 0 && Date.now() - at <= PRESENCE_TTL_MS;
-  } catch (e) {
-    return false;
-  }
-}
 
 function escapeXml(s) {
   return String(s)
@@ -546,16 +533,12 @@ async function main() {
     state.seen_ids = Array.from(known);
     writeJSON(STATE_FILE, state);
 
-    // 桌面通知：网页在线且已授权时交给网页侧，否则由本脚本发 Windows Toast 兜底
+    // 桌面通知：双通道——本脚本始终发 Windows Toast，网页在线时网页侧同时弹浏览器通知
     if (freshKept.length) {
-      if (webCanNotify()) {
-        log(`新增 ${freshKept.length} 条：网页在线且已授权通知，桌面通知交由网页侧发出`);
-      } else {
-        const sent = sendDesktopToast(freshKept);
-        log(sent
-          ? `已发送桌面通知（${freshKept.length} 条）`
-          : '桌面通知发送失败（不影响数据落盘）');
-      }
+      const sent = sendDesktopToast(freshKept);
+      log(sent
+        ? `已发送桌面通知（${freshKept.length} 条，双通道：网页侧同时弹浏览器通知）`
+        : '桌面通知发送失败（不影响数据落盘，网页侧仍会弹浏览器通知）');
     }
 
     if (fresh.length) {
