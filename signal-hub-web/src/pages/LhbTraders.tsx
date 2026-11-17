@@ -203,11 +203,16 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
           </label>
         </div>
         <div className="overflow-auto rounded-lg border border-slate-100 flex-1 min-h-0 mx-6 mb-6">
-          <table className="w-full min-w-[860px]">
+          {/* 买入/卖出/净额/板块/置信 5 列各加宽 30px，总 min-width 同步 +150（需求 2026-11-17） */}
+          <table className="w-full min-w-[1010px]">
             <thead className="sticky top-0 bg-white z-10">
               <tr className="border-b border-slate-100">
-                {['日期', '股票', '涨跌幅', '买入', '卖出', '净额', '板块', '席位', '置信'].map((label) => (
-                  <th key={label} className="text-left text-xs font-semibold text-slate-400 py-2.5 px-3 whitespace-nowrap">{label}</th>
+                {([
+                  ['日期', ''], ['股票', ''], ['涨跌幅', ''],
+                  ['买入', 'min-w-[110px]'], ['卖出', 'min-w-[110px]'], ['净额', 'min-w-[110px]'],
+                  ['板块', 'min-w-[120px]'], ['席位', ''], ['置信', 'min-w-[90px]'],
+                ] as const).map(([label, minW]) => (
+                  <th key={label} className={`text-left text-xs font-semibold text-slate-400 py-2.5 px-3 whitespace-nowrap ${minW}`}>{label}</th>
                 ))}
               </tr>
             </thead>
@@ -224,12 +229,12 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
                   <td className={`py-2.5 px-3 tabular-nums whitespace-nowrap ${(record.pct_chg ?? 0) > 0 ? 'text-coral-500' : (record.pct_chg ?? 0) < 0 ? 'text-mint-600' : 'text-slate-400'}`}>
                     {record.pct_chg === null ? '—' : `${record.pct_chg > 0 ? '+' : ''}${record.pct_chg.toFixed(2)}%`}
                   </td>
-                  <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.buy)}亿</td>
-                  <td className="py-2.5 px-3 text-slate-600 tabular-nums">{yi(record.sell)}亿</td>
-                  <td className="py-2.5 px-3"><NetText value={record.net} className="font-medium" /></td>
-                  <td className="py-2.5 px-3 text-slate-500 text-xs">{record.board ?? '—'}</td>
+                  <td className="py-2.5 px-3 text-slate-600 tabular-nums min-w-[110px]">{yi(record.buy)}亿</td>
+                  <td className="py-2.5 px-3 text-slate-600 tabular-nums min-w-[110px]">{yi(record.sell)}亿</td>
+                  <td className="py-2.5 px-3 min-w-[110px]"><NetText value={record.net} className="font-medium" /></td>
+                  <td className="py-2.5 px-3 text-slate-500 text-xs min-w-[120px]">{record.board ?? '—'}</td>
                   <td className="py-2.5 px-3 text-xs text-slate-400 max-w-[220px] truncate" title={record.seat_hits.join('；')}>{record.seat_hits.join('；')}</td>
-                  <td className="py-2.5 px-3"><ConfidenceBadge value={record.confidence} /></td>
+                  <td className="py-2.5 px-3 min-w-[90px]"><ConfidenceBadge value={record.confidence} /></td>
                 </tr>
               ))}
               {records.length === 0 && (
