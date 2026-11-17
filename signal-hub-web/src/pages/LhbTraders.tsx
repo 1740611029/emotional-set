@@ -3,11 +3,7 @@ import { CollapseChevron, EmptyState, IndicatorHeader, Notice } from '../compone
 import { LhbIcon } from '../components/icons';
 import { useLhbOverview } from '../hooks/useLhbOverview';
 import type { LhbDailyRow, LhbPosition, LhbRecord } from '../data/types';
-import {
-  buildViewTraders as buildView,
-  DAILY_VIEW_MARK_DAYS,
-  type ViewTrader,
-} from '../lib/lhbExitVisibility';
+import { buildViewTraders as buildView, type ViewTrader } from '../lib/lhbExitVisibility';
 
 type ViewKey = 'overview' | 'daily' | 'stocks';
 type SortKey = 'net' | 'active' | 'records';
@@ -144,8 +140,9 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
       className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4"
       onClick={onClose}
     >
+      {/* max-w-7xl：详情表格字段多，加宽容器减少换行（需求 2026-11-17） */}
       <div
-        className="glass-card rounded-2xl w-full max-w-5xl max-h-[88vh] flex flex-col overflow-hidden"
+        className="glass-card rounded-2xl w-full max-w-7xl max-h-[88vh] flex flex-col overflow-hidden"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex flex-wrap items-center gap-3 mb-1 px-6 pt-6">
@@ -521,7 +518,7 @@ export function LhbTraders() {
   const [view, setView] = useState<ViewKey>('overview');
   const [sortKey, setSortKey] = useState<SortKey>('net');
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  // 页面级开关：是否显示 5 个交易日外已离场的个股配对（游资总览 + 个股游资总览共用）
+  // 页面级开关：回显「已离场超 5 个交易日」的个股配对（仅影响游资总览卡片与详情弹窗，需求 2026-11-17）
   const [showExpired, setShowExpired] = useState(false);
   // 统计口径默认收起，点击标题行展开（需求 2026-11-16）
   const [showNotice, setShowNotice] = useState(false);
@@ -530,22 +527,25 @@ export function LhbTraders() {
   const tradingDates = data?.trading_dates ?? [];
   const asOf = data?.as_of ?? null;
 
-  // 主视图：游资总览 + 个股游资总览 + 游资详情操作记录 — 已离场配对一律隐藏（含 5 日内带徽章的），
-  // 开关打开才回显；2026-11-16 用户确认口径（操作记录与按钮完全同步）
+  // 游资总览视图（含详情弹窗）：离场标签出现后 5 个交易日内始终显示带徽章，
+  // 超 5 个交易日默认隐藏、开关打开才回显；起算日为标签判定成立日 exit_date（需求 2026-11-17）
   const mainView = useMemo(
-    () => buildView(rawTraders, tradingDates, asOf, {
-      includeExpired: showExpired, hideAllExited: true,
-    }),
+    () => buildView(rawTraders, tradingDates, asOf, { includeExpired: showExpired }),
     [rawTraders, tradingDates, asOf, showExpired],
   );
   const { traders, hiddenCodes } = mainView;
   const hiddenCount = hiddenCodes.size;
 
-  // 每日动向视图：保持既有 3 个交易日口径，不受开关影响
+  // 每日动向视图：日期可切换的事件流，不做任何离场过滤、全量展示；
+  // 已离场配对通过 exits Map 全量带徽章（需求 2026-11-17）
   const dailyView = useMemo(
-    () => buildView(rawTraders, tradingDates, asOf, {
-      hideAfterDays: DAILY_VIEW_MARK_DAYS, includeExpired: false,
-    }),
+    () => buildView(rawTraders, tradingDates, asOf, { includeExpired: true }),
+    [rawTraders, tradingDates, asOf],
+  );
+
+  // 个股游资总览视图：同样不做离场过滤、全量展示（需求 2026-11-17）
+  const stocksView = useMemo(
+    () => buildView(rawTraders, tradingDates, asOf, { includeExpired: true }),
     [rawTraders, tradingDates, asOf],
   );
 
@@ -615,7 +615,7 @@ export function LhbTraders() {
               统计口径：仅计入单日榜金额（三日累计榜仅存记录不参与统计）；同股同席位跨上榜原因的重复披露已按当日去重。
               席位映射为公开资料交叉整理，<b>非官方认证</b>，低置信席位操作已标注「存疑」；数据仅供参考，不构成投资建议。
               在场判定：累计卖出覆盖买入、或大幅出货后该股再上榜未现身买方，标记「已清仓」；静默 4 个交易日且有观察窗口标记「疑似清仓」。
-              离场配对展示时效：游资总览、个股游资总览与游资详情操作记录默认隐藏全部已离场个股（含 5 日内离场、带徽章的记录），可点击下方按钮切换显示并带离场徽章；每日动向保持既有 3 个交易日口径。数据完整保留于产物，判定仅基于窗口内数据，非真实持仓。
+              离场配对展示时效（需求 2026-11-17）：仅游资总览（含详情弹窗）执行离场隐藏——离场标签出现后 5 个交易日内正常显示并带徽章，超过 5 个交易日默认隐藏，可点击下方开关回显并带离场徽章；每日动向与个股游资总览不做离场过滤、全量展示（已离场配对直接带徽章）。数据完整保留于产物，判定仅基于窗口内数据，非真实持仓。
             </Notice>
           </div>
         )}
@@ -655,21 +655,10 @@ export function LhbTraders() {
                   showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
                 }`}
               >
-                {showExpired ? '隐藏' : '显示'} 已离场个股
+                {showExpired ? '隐藏' : '显示'} 已离场超5日个股
               </button>
             )}
           </div>
-        )}
-        {view === 'stocks' && toggleBtn && (
-          <button
-            type="button"
-            onClick={() => setShowExpired((prev) => !prev)}
-            className={`ml-auto rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              showExpired ? 'bg-brand-50 text-brand-700' : 'bg-white/70 text-slate-600 hover:bg-brand-50'
-            }`}
-          >
-            {showExpired ? '隐藏' : '显示'} 已离场个股
-          </button>
         )}
       </div>
 
@@ -705,7 +694,7 @@ export function LhbTraders() {
       )}
       {ready && view === 'stocks' && (
         <div className="flex-1 min-h-0">
-          <StockOverviewView traders={traders} asOf={data?.as_of ?? null} />
+          <StockOverviewView traders={stocksView.traders} asOf={data?.as_of ?? null} />
         </div>
       )}
     </div>
