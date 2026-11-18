@@ -29,7 +29,7 @@ def sample_payload() -> dict:
         "signal_algorithm_version": "index-swing6-v2.0",
         "research_status": "post_hoc_exploratory_not_independent",
         "covered_universe": list(INDEXES),
-        "universe_size": 7,
+        "universe_size": len(INDEXES),
         "segments": research["segments"],
         "horizons": [5, 10, 20, 30],
         "criteria_note": "固定持有期方向正确 + 20 日盘中浮亏不超过 5%",
@@ -108,10 +108,32 @@ class TestRollbackCompatibility(unittest.TestCase):
     """任务 7.4：恢复上一版产物后仍须通过结构校验。"""
 
     def test_previous_version_without_precision_passes(self):
+        # 历史备份为收窄前的 7 指数产物；现行 schema 锁定 3 指数清单，
+        # 结构兼容性（无 precision 块可过校验）改在现行清单子集上验证。
         previous = json.loads(
             (ROOT / "data" / "research" / "precision-backup" / "index-signals.json")
             .read_text(encoding="utf-8"))
         self.assertNotIn("precision", previous)
+        previous["indices"] = [
+            item for item in previous["indices"] if item["code"] in INDEXES
+        ]
+        previous["recent_signals"] = [
+            row for row in previous.get("recent_signals", [])
+            if row.get("code") in INDEXES
+        ]
+        previous["candidates"] = [
+            row for row in previous.get("candidates", [])
+            if row.get("code") in INDEXES
+        ]
+        if "index_tails" in previous:
+            previous["index_tails"] = {
+                code: tail for code, tail in previous["index_tails"].items()
+                if code in INDEXES
+            }
+        if "lagging_indexes" in previous:
+            previous["lagging_indexes"] = [
+                code for code in previous["lagging_indexes"] if code in INDEXES
+            ]
         validate_payload("index-signals.json", previous)
 
     def test_partial_matrix_is_rejected(self):

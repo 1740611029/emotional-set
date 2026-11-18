@@ -1,0 +1,655 @@
+{
+  "input_hash": "103ce6b4de95adb016ed83ec0a3baf8284ce65d927cfd12b9fa7b21c55c0527c",
+  "data_end": "2026-11-17",
+  "spec_count": 2,
+  "configuration_count_per_index": 8,
+  "pair_evaluation_count": 64,
+  "cooldown": 20,
+  "confirm_grid": [
+    {
+      "volume_ratio": 1.2,
+      "breadth_improve": 0.05
+    },
+    {
+      "volume_ratio": 1.0,
+      "breadth_improve": 0.05
+    },
+    {
+      "volume_ratio": 1.2,
+      "breadth_improve": 0.03
+    },
+    {
+      "volume_ratio": 0.8,
+      "breadth_improve": 0.03
+    }
+  ],
+  "min_train_resolved": 20,
+  "risk_lines": {
+    "sh000001": 0.045,
+    "sz399001": 0.06,
+    "sz399006": 0.08,
+    "sh000688": 0.08,
+    "sh000300": 0.05,
+    "sh000905": 0.055,
+    "sh000852": 0.065
+  },
+  "risk_method": "active indices fixed at user 8%; others = 8% * train annualized volatility / mean(active train annualized volatility), rounded to nearest 0.5 percentage point",
+  "train_annualized_volatility": {
+    "sh000001": 0.16124856,
+    "sz399001": 0.22261399,
+    "sz399006": 0.29325295,
+    "sh000688": 0.29013572,
+    "sh000300": 0.18645889,
+    "sh000905": 0.20644088,
+    "sh000852": 0.24056803
+  },
+  "selection_rule": "train only: min(bottom/top Wilson95 lower), mean closed-loop rate, min resolved, total resolved; each direction resolved>=20 and active_years>=2",
+  "evaluation_rule": "next actual opposite confirmed signal exit vs strict adverse-risk breach; no fixed horizon or profit target; same-day ambiguity fails conservatively",
+  "protocol": {
+    "train": "2020-10-30~2024-11-19",
+    "embargo": "2024-11-20~2024-12-31",
+    "validation": "2025-01-01~2026-11-17"
+  },
+  "untested": [
+    {
+      "family": "ERP/PE/PB/股息率估值",
+      "reason": "缺少完整日频 point-in-time 指数估值与国债收益序列；已有ERP仅月频，禁止前向填充制造隐性未来信息。"
+    },
+    {
+      "family": "成分股ADL/McClellan/TRIN/新高新低/BPI",
+      "reason": "缺少历史时点成分股与退市股面板；现有90行业宽度不能冒充指数成分股宽度。"
+    },
+    {
+      "family": "期权PCR/隐含波动率",
+      "reason": "历史合约链与缺失率不满足本轮七指数统一回测；QVIX已按既有研究淘汰，不重复测试。"
+    },
+    {
+      "family": "基金发行/公募88仓位/私募仓位",
+      "reason": "公开资料没有完整日频历史时点口径；不构造伪精确信号。"
+    },
+    {
+      "family": "全A换手率/破净率/居民资金",
+      "reason": "自由流通股本、历史财报及宏观修订值不完整；破净率与融资数据已有增量检验记录，不重复测试。"
+    }
+  ],
+  "output_stem": "top-bottom-closed-loop-smoke",
+  "selections": {
+    "sh000001": {
+      "pair_choice": {
+        "evaluated": 64,
+        "eligible": 0,
+        "chosen": null,
+        "options": [],
+        "observation_options": [
+          {
+            "bottom_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "bottom_confirm": "{\"breadth_improve\": 0.03, \"volume_ratio\": 0.8}",
+            "top_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "top_confirm": "{\"breadth_improve\": 0.03, \"volume_ratio\": 0.8}",
+            "train_score": [
+              0.17309720397243744,
+              0.6764705882352942,
+              5,
+              -3
+            ],
+            "summary": {
+              "bottom": {
+                "train": {
+                  "total": 17,
+                  "resolved": 17,
+                  "successes": 6,
+                  "closed_successes": 6,
+                  "failures": 11,
+                  "risk_failures": 11,
+                  "pending": 0,
+                  "rate": 0.35294117647058826,
+                  "wilson95": [
+                    0.17309720397243744,
+                    0.5869963651478132
+                  ],
+                  "wilson_low": 0.17309720397243744,
+                  "wilson_high": 0.5869963651478132,
+                  "small_sample": true,
+                  "active_years": 5,
+                  "profitable_closed_exits": 5,
+                  "loss_making_closed_exits": 1,
+                  "profitable_exit_rate": 0.8333333333333334,
+                  "avg_closed_exit_return": 0.02878517114731773,
+                  "avg_outcome_return": -0.017396101136464386,
+                  "avg_mae": -0.0389439025549573,
+                  "max_mae": -0.05932943166465077,
+                  "avg_mfe": 0.0330392602605627,
+                  "max_mfe": 0.1510180693231522,
+                  "avg_mfe_mae_ratio": 1.3020157604489615,
+                  "avg_holding_days": 41.23529411764706,
+                  "max_holding_days": 209,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 4,
+                  "resolved": 4,
+                  "successes": 3,
+                  "closed_successes": 3,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.75,
+                  "wilson95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "wilson_low": 0.30064184258240184,
+                  "wilson_high": 0.9544127391902995,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 2,
+                  "profitable_exit_rate": 0.3333333333333333,
+                  "avg_closed_exit_return": 0.014665091573531094,
+                  "avg_outcome_return": -0.0020636647197388447,
+                  "avg_mae": -0.025695584797438553,
+                  "max_mae": -0.06059862403438154,
+                  "avg_mfe": 0.038119406671603295,
+                  "max_mfe": 0.07936849186698747,
+                  "avg_mfe_mae_ratio": 2.9685225232678656,
+                  "avg_holding_days": 24.0,
+                  "max_holding_days": 60,
+                  "ambiguous_same_day": 0
+                }
+              },
+              "top": {
+                "train": {
+                  "total": 6,
+                  "resolved": 5,
+                  "successes": 5,
+                  "closed_successes": 5,
+                  "failures": 0,
+                  "risk_failures": 0,
+                  "pending": 1,
+                  "rate": 1.0,
+                  "wilson95": [
+                    0.5655175352168251,
+                    1.0
+                  ],
+                  "wilson_low": 0.5655175352168251,
+                  "wilson_high": 1.0,
+                  "small_sample": true,
+                  "active_years": 3,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 3,
+                  "profitable_exit_rate": 0.4,
+                  "avg_closed_exit_return": -0.002499361961624569,
+                  "avg_outcome_return": -0.002499361961624569,
+                  "avg_mae": -0.022604862507459966,
+                  "max_mae": -0.04093809451559238,
+                  "avg_mfe": 0.03210410518398534,
+                  "max_mfe": 0.06615115261161364,
+                  "avg_mfe_mae_ratio": 3.0778924769524507,
+                  "avg_holding_days": 22.8,
+                  "max_holding_days": 35,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 5,
+                  "resolved": 5,
+                  "successes": 2,
+                  "closed_successes": 2,
+                  "failures": 3,
+                  "risk_failures": 3,
+                  "pending": 0,
+                  "rate": 0.4,
+                  "wilson95": [
+                    0.11762077423264783,
+                    0.769275718723987
+                  ],
+                  "wilson_low": 0.11762077423264783,
+                  "wilson_high": 0.769275718723987,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.020568032290520122,
+                  "avg_outcome_return": -0.018752359725988856,
+                  "avg_mae": -0.04353360305712308,
+                  "max_mae": -0.05224424374261205,
+                  "avg_mfe": 0.04938669171711616,
+                  "max_mfe": 0.09633113817603323,
+                  "avg_mfe_mae_ratio": 1.2580916296119289,
+                  "avg_holding_days": 46.4,
+                  "max_holding_days": 74,
+                  "ambiguous_same_day": 0
+                }
+              }
+            }
+          },
+          {
+            "bottom_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "bottom_confirm": "{\"breadth_improve\": 0.03, \"volume_ratio\": 0.8}",
+            "top_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "top_confirm": "{\"breadth_improve\": 0.05, \"volume_ratio\": 1.2}",
+            "train_score": [
+              0.1327998961029523,
+              0.6470588235294118,
+              4,
+              -3
+            ],
+            "summary": {
+              "bottom": {
+                "train": {
+                  "total": 17,
+                  "resolved": 17,
+                  "successes": 5,
+                  "closed_successes": 5,
+                  "failures": 12,
+                  "risk_failures": 12,
+                  "pending": 0,
+                  "rate": 0.29411764705882354,
+                  "wilson95": [
+                    0.1327998961029523,
+                    0.5313311006653985
+                  ],
+                  "wilson_low": 0.1327998961029523,
+                  "wilson_high": 0.5313311006653985,
+                  "small_sample": true,
+                  "active_years": 5,
+                  "profitable_closed_exits": 4,
+                  "loss_making_closed_exits": 1,
+                  "profitable_exit_rate": 0.8,
+                  "avg_closed_exit_return": 0.028268254878589104,
+                  "avg_outcome_return": -0.022144415844948105,
+                  "avg_mae": -0.041578211093534795,
+                  "max_mae": -0.05932943166465077,
+                  "avg_mfe": 0.0330392602605627,
+                  "max_mfe": 0.1510180693231522,
+                  "avg_mfe_mae_ratio": 1.0982421766080577,
+                  "avg_holding_days": 45.1764705882353,
+                  "max_holding_days": 209,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 4,
+                  "resolved": 4,
+                  "successes": 3,
+                  "closed_successes": 3,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.75,
+                  "wilson95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "wilson_low": 0.30064184258240184,
+                  "wilson_high": 0.9544127391902995,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 2,
+                  "profitable_exit_rate": 0.3333333333333333,
+                  "avg_closed_exit_return": 0.014665091573531094,
+                  "avg_outcome_return": -0.0020636647197388447,
+                  "avg_mae": -0.025695584797438553,
+                  "max_mae": -0.06059862403438154,
+                  "avg_mfe": 0.038119406671603295,
+                  "max_mfe": 0.07936849186698747,
+                  "avg_mfe_mae_ratio": 2.9685225232678656,
+                  "avg_holding_days": 24.0,
+                  "max_holding_days": 60,
+                  "ambiguous_same_day": 0
+                }
+              },
+              "top": {
+                "train": {
+                  "total": 5,
+                  "resolved": 4,
+                  "successes": 4,
+                  "closed_successes": 4,
+                  "failures": 0,
+                  "risk_failures": 0,
+                  "pending": 1,
+                  "rate": 1.0,
+                  "wilson95": [
+                    0.5101091635454027,
+                    1.0
+                  ],
+                  "wilson_low": 0.5101091635454027,
+                  "wilson_high": 1.0,
+                  "small_sample": true,
+                  "active_years": 3,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 3,
+                  "profitable_exit_rate": 0.25,
+                  "avg_closed_exit_return": -0.010910363256501993,
+                  "avg_outcome_return": -0.010910363256501993,
+                  "avg_mae": -0.027323864642578678,
+                  "max_mae": -0.04093809451559238,
+                  "avg_mfe": 0.0224291174268731,
+                  "max_mfe": 0.058554433948322715,
+                  "avg_mfe_mae_ratio": 1.1319641388904171,
+                  "avg_holding_days": 25.5,
+                  "max_holding_days": 35,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 5,
+                  "resolved": 5,
+                  "successes": 2,
+                  "closed_successes": 2,
+                  "failures": 3,
+                  "risk_failures": 3,
+                  "pending": 0,
+                  "rate": 0.4,
+                  "wilson95": [
+                    0.11762077423264783,
+                    0.769275718723987
+                  ],
+                  "wilson_low": 0.11762077423264783,
+                  "wilson_high": 0.769275718723987,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.020568032290520122,
+                  "avg_outcome_return": -0.018752359725988856,
+                  "avg_mae": -0.04353360305712308,
+                  "max_mae": -0.05224424374261205,
+                  "avg_mfe": 0.04938669171711616,
+                  "max_mfe": 0.09633113817603323,
+                  "avg_mfe_mae_ratio": 1.2580916296119289,
+                  "avg_holding_days": 46.4,
+                  "max_holding_days": 74,
+                  "ambiguous_same_day": 0
+                }
+              }
+            }
+          },
+          {
+            "bottom_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "bottom_confirm": "{\"breadth_improve\": 0.03, \"volume_ratio\": 0.8}",
+            "top_algorithm": "RSI退出极值[{\"lower\":30,\"period\":6,\"upper\":70}]",
+            "top_confirm": "{\"breadth_improve\": 0.05, \"volume_ratio\": 1.0}",
+            "train_score": [
+              0.1327998961029523,
+              0.6470588235294118,
+              4,
+              -3
+            ],
+            "summary": {
+              "bottom": {
+                "train": {
+                  "total": 17,
+                  "resolved": 17,
+                  "successes": 5,
+                  "closed_successes": 5,
+                  "failures": 12,
+                  "risk_failures": 12,
+                  "pending": 0,
+                  "rate": 0.29411764705882354,
+                  "wilson95": [
+                    0.1327998961029523,
+                    0.5313311006653985
+                  ],
+                  "wilson_low": 0.1327998961029523,
+                  "wilson_high": 0.5313311006653985,
+                  "small_sample": true,
+                  "active_years": 5,
+                  "profitable_closed_exits": 4,
+                  "loss_making_closed_exits": 1,
+                  "profitable_exit_rate": 0.8,
+                  "avg_closed_exit_return": 0.028268254878589104,
+                  "avg_outcome_return": -0.022144415844948105,
+                  "avg_mae": -0.041578211093534795,
+                  "max_mae": -0.05932943166465077,
+                  "avg_mfe": 0.0330392602605627,
+                  "max_mfe": 0.1510180693231522,
+                  "avg_mfe_mae_ratio": 1.0982421766080577,
+                  "avg_holding_days": 45.1764705882353,
+                  "max_holding_days": 209,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 4,
+                  "resolved": 4,
+                  "successes": 3,
+                  "closed_successes": 3,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.75,
+                  "wilson95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "wilson_low": 0.30064184258240184,
+                  "wilson_high": 0.9544127391902995,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 2,
+                  "profitable_exit_rate": 0.3333333333333333,
+                  "avg_closed_exit_return": 0.014665091573531094,
+                  "avg_outcome_return": -0.0020636647197388447,
+                  "avg_mae": -0.025695584797438553,
+                  "max_mae": -0.06059862403438154,
+                  "avg_mfe": 0.038119406671603295,
+                  "max_mfe": 0.07936849186698747,
+                  "avg_mfe_mae_ratio": 2.9685225232678656,
+                  "avg_holding_days": 24.0,
+                  "max_holding_days": 60,
+                  "ambiguous_same_day": 0
+                }
+              },
+              "top": {
+                "train": {
+                  "total": 5,
+                  "resolved": 4,
+                  "successes": 4,
+                  "closed_successes": 4,
+                  "failures": 0,
+                  "risk_failures": 0,
+                  "pending": 1,
+                  "rate": 1.0,
+                  "wilson95": [
+                    0.5101091635454027,
+                    1.0
+                  ],
+                  "wilson_low": 0.5101091635454027,
+                  "wilson_high": 1.0,
+                  "small_sample": true,
+                  "active_years": 3,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 3,
+                  "profitable_exit_rate": 0.25,
+                  "avg_closed_exit_return": -0.010910363256501993,
+                  "avg_outcome_return": -0.010910363256501993,
+                  "avg_mae": -0.027323864642578678,
+                  "max_mae": -0.04093809451559238,
+                  "avg_mfe": 0.0224291174268731,
+                  "max_mfe": 0.058554433948322715,
+                  "avg_mfe_mae_ratio": 1.1319641388904171,
+                  "avg_holding_days": 25.5,
+                  "max_holding_days": 35,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 5,
+                  "resolved": 5,
+                  "successes": 2,
+                  "closed_successes": 2,
+                  "failures": 3,
+                  "risk_failures": 3,
+                  "pending": 0,
+                  "rate": 0.4,
+                  "wilson95": [
+                    0.11762077423264783,
+                    0.769275718723987
+                  ],
+                  "wilson_low": 0.11762077423264783,
+                  "wilson_high": 0.769275718723987,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.020568032290520122,
+                  "avg_outcome_return": -0.018752359725988856,
+                  "avg_mae": -0.04353360305712308,
+                  "max_mae": -0.05224424374261205,
+                  "avg_mfe": 0.04938669171711616,
+                  "max_mfe": 0.09633113817603323,
+                  "avg_mfe_mae_ratio": 1.2580916296119289,
+                  "avg_holding_days": 46.4,
+                  "max_holding_days": 74,
+                  "ambiguous_same_day": 0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "comparisons": [
+        {
+          "label": "回滚swing6实际顶底",
+          "pair": {
+            "bottom_algorithm": "回滚swing6",
+            "bottom_confirm": "{}",
+            "top_algorithm": "回滚swing6",
+            "top_confirm": "{}",
+            "summary": {
+              "bottom": {
+                "train": {
+                  "total": 3,
+                  "resolved": 3,
+                  "successes": 0,
+                  "closed_successes": 0,
+                  "failures": 3,
+                  "risk_failures": 3,
+                  "pending": 0,
+                  "rate": 0.0,
+                  "wilson95": [
+                    5.551115123125783e-17,
+                    0.5614970317550454
+                  ],
+                  "wilson_low": 5.551115123125783e-17,
+                  "wilson_high": 0.5614970317550454,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 0,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": null,
+                  "avg_closed_exit_return": null,
+                  "avg_outcome_return": -0.04632328811983044,
+                  "avg_mae": -0.0504434002171796,
+                  "max_mae": -0.054227808099311936,
+                  "avg_mfe": 0.0041638430532444275,
+                  "max_mfe": 0.009941627274959286,
+                  "avg_mfe_mae_ratio": 0.0856652959258052,
+                  "avg_holding_days": 15.666666666666666,
+                  "max_holding_days": 27,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 3,
+                  "resolved": 3,
+                  "successes": 2,
+                  "closed_successes": 2,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.6666666666666666,
+                  "wilson95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "wilson_low": 0.2076596008020477,
+                  "wilson_high": 0.9385080552796037,
+                  "small_sample": true,
+                  "active_years": 2,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.03768401044050429,
+                  "avg_outcome_return": 0.009837133307048015,
+                  "avg_mae": -0.017712512005060854,
+                  "max_mae": -0.04618021036204634,
+                  "avg_mfe": 0.043334285103507154,
+                  "max_mfe": 0.07233063784787919,
+                  "avg_mfe_mae_ratio": 2.0985912681730974,
+                  "avg_holding_days": 24.333333333333332,
+                  "max_holding_days": 29,
+                  "ambiguous_same_day": 0
+                }
+              },
+              "top": {
+                "train": {
+                  "total": 3,
+                  "resolved": 3,
+                  "successes": 2,
+                  "closed_successes": 2,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.6666666666666666,
+                  "wilson95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "wilson_low": 0.2076596008020477,
+                  "wilson_high": 0.9385080552796037,
+                  "small_sample": true,
+                  "active_years": 3,
+                  "profitable_closed_exits": 2,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.049493767332366045,
+                  "avg_outcome_return": 0.01819132374398454,
+                  "avg_mae": -0.019601389743841107,
+                  "max_mae": -0.04528890161063459,
+                  "avg_mfe": 0.06174401120275693,
+                  "max_mfe": 0.09944083597753028,
+                  "avg_mfe_mae_ratio": 8.853010618032812,
+                  "avg_holding_days": 38.0,
+                  "max_holding_days": 42,
+                  "ambiguous_same_day": 0
+                },
+                "validation": {
+                  "total": 2,
+                  "resolved": 2,
+                  "successes": 1,
+                  "closed_successes": 1,
+                  "failures": 1,
+                  "risk_failures": 1,
+                  "pending": 0,
+                  "rate": 0.5,
+                  "wilson95": [
+                    0.09453120573423074,
+                    0.9054687942657693
+                  ],
+                  "wilson_low": 0.09453120573423074,
+                  "wilson_high": 0.9054687942657693,
+                  "small_sample": true,
+                  "active_years": 1,
+                  "profitable_closed_exits": 1,
+                  "loss_making_closed_exits": 0,
+                  "profitable_exit_rate": 1.0,
+                  "avg_closed_exit_return": 0.04037674158518012,
+                  "avg_outcome_return": -0.002076628436886274,
+                  "avg_mae": -0.0404137428652086,
+                  "max_mae": -0.045250049874984155,
+                  "avg_mfe": 0.04455959949437854,
+                  "max_mfe": 0.084375998412477,
+                  "avg_mfe_mae_ratio": 1.2382187495529653,
+                  "avg_holding_days": 29.0,
+                  "max_holding_days": 31,
+                  "ambiguous_same_day": 0
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

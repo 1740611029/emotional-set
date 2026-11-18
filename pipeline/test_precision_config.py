@@ -13,8 +13,9 @@ class TestUniverseManifest(unittest.TestCase):
         cls.frames = cfg.load_frames()
         cls.manifest = cfg.build_manifest(cls.frames)
 
-    def test_seven_fixed_indices(self):
-        self.assertEqual(self.manifest["universe_size"], 7)
+    def test_three_fixed_indices(self):
+        # 2026-11-18 指数范围收窄：固化清单为 3 只（上证/创业板指/科创50）
+        self.assertEqual(self.manifest["universe_size"], 3)
         self.assertEqual(
             [item["code"] for item in self.manifest["entries"]], list(cfg.INDEXES)
         )
@@ -43,12 +44,12 @@ class TestUniverseManifest(unittest.TestCase):
             self.assertTrue((cfg.ROOT / item["relative_path"]).exists())
 
     def test_insufficient_history_is_marked_not_dropped(self):
-        # 全部 7 个标的均满足 1250 日；不足时 MUST 显式标记而非静默丢弃。
+        # 全部 3 个标的均满足 1250 日；不足时 MUST 显式标记而非静默丢弃。
         for item in self.manifest["entries"]:
             self.assertIsInstance(item["history_sufficient"], bool)
             if not item["history_sufficient"]:
                 self.assertIsNotNone(item["insufficient_history_note"])
-        self.assertEqual(len(self.manifest["entries"]), 7)
+        self.assertEqual(len(self.manifest["entries"]), len(cfg.INDEXES))
 
 
 class TestSegments(unittest.TestCase):
@@ -86,9 +87,10 @@ class TestAmplitudeLines(unittest.TestCase):
         cls.frames = cfg.load_frames()
         cls.lines = cfg.freeze_amplitude_lines(cls.frames)
 
-    def test_28_lines(self):
-        self.assertEqual(self.lines["line_count"], 28)
-        self.assertEqual(len(self.lines["lines"]), 7)
+    def test_12_lines(self):
+        # 3 指数 × 4 个持有期 = 12 条幅度线（2026-11-18 清单收窄后口径）
+        self.assertEqual(self.lines["line_count"], 12)
+        self.assertEqual(len(self.lines["lines"]), len(cfg.INDEXES))
         for code in cfg.INDEXES:
             self.assertEqual(
                 set(self.lines["lines"][code]), {str(h) for h in cfg.HOLD_PERIODS}

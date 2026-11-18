@@ -14,8 +14,8 @@ import {
 function Loading() {
   return (
     <div className="p-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        {[0, 1, 2, 3].map((i) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {[0, 1, 2].map((i) => (
           <div key={i} className="glass-card rounded-2xl p-6 h-32 animate-pulse" />
         ))}
       </div>
@@ -158,9 +158,9 @@ export function Dashboard() {
       <section className="mb-8 fade-in" style={{ animationDelay: '0.2s' }}>
         <div className="glass-card rounded-2xl p-5 mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="text-lg font-bold text-slate-800">7 大宽基指数走势与信号（图示范围）</h3>
+            <h3 className="text-lg font-bold text-slate-800">3 大宽基指数走势与信号（图示范围）</h3>
             <p className="text-xs text-slate-400 mt-1">
-              下方 7 张图卡是展示范围；点击上方「多持有期准确率详情」查看完整矩阵，其统计覆盖同为这 7 个标的，二者一致但不等于样本条数
+              下方 3 张图卡是展示范围；点击上方「多持有期准确率详情」查看完整矩阵，其统计覆盖同为这 3 个标的，二者一致但不等于样本条数
             </p>
           </div>
           <label className="flex items-center gap-2 text-xs text-slate-500">

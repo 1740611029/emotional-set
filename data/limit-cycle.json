@@ -1,13 +1,13 @@
 {
   "data_state": "ready",
-  "as_of": "2026-11-17",
-  "generated_at": "2026-11-17T20:46:31",
+  "as_of": "2026-11-18",
+  "generated_at": "2026-11-18T17:52:05",
   "methodology": "数据源：akshare 东方财富涨停股池 stock_zt_pool_em / 昨日涨停池 stock_zt_pool_previous_em / 炸板股池 stock_zt_pool_zbgc_em。涨停认定以接口收录为准（收盘封板），含主板、创业板、科创板、北交所，不额外剔除 ST 与次新股；连板数直接采用接口「连板数」字段，不自行判定连续性。晋级率 = 昨日 2 板个股中今日仍在涨停池的家数 / 昨日 2 板总家数，样本量为累计分母，统计区间为有效交易日区间。情绪温度展示当日涨停家数及其在有效区间内的百分位排名，不含任何主观权重。五阶段色带仅作版式参考，不参与判定；页面不给出阶段归类结论。东财股池历史不可回溯，无长样本，本页仅作展示，不参与任何信号计算，数据不足以支撑阈值调参或统计推断。",
   "coverage": {
     "requested_days": 30,
     "valid_days": 15,
-    "start": "2026-10-28",
-    "end": "2026-11-17",
+    "start": "2026-10-29",
+    "end": "2026-11-18",
     "note": "东财股池历史不可回溯；无数据的交易日整日跳过，不补 0、不插值。"
   },
   "phase": {
@@ -22,10 +22,6 @@
     "curve_unit": "板",
     "curve_max": 10,
     "observed": [
-      {
-        "date": "2026-10-28",
-        "value": 5
-      },
       {
         "date": "2026-10-29",
         "value": 4
@@ -81,22 +77,26 @@
       {
         "date": "2026-11-17",
         "value": 3
+      },
+      {
+        "date": "2026-11-18",
+        "value": 4
       }
     ],
     "readouts": [
       {
         "label": "最高板",
-        "value": "3 板",
+        "value": "4 板",
         "sample": null
       },
       {
         "label": "连板家数",
-        "value": "6",
+        "value": "8",
         "sample": null
       },
       {
         "label": "涨停家数",
-        "value": "37",
+        "value": "41",
         "sample": null
       }
     ]
@@ -104,14 +104,10 @@
   "temperature": {
     "metric": "当日涨停家数",
     "unit": "家",
-    "value": 37,
-    "change": 5,
-    "percentile": 33,
+    "value": 41,
+    "change": 4,
+    "percentile": 47,
     "series": [
-      {
-        "date": "2026-10-28",
-        "value": 72
-      },
       {
         "date": "2026-10-29",
         "value": 39
@@ -167,32 +163,40 @@
       {
         "date": "2026-11-17",
         "value": 37
+      },
+      {
+        "date": "2026-11-18",
+        "value": 41
       }
     ],
     "formula": "当日涨停家数 = 东财涨停池行数；分位为该值在有效交易日区间内的百分位排名，无主观权重。"
   },
   "metrics": {
-    "max_board": 3,
+    "max_board": 4,
     "max_board_leader": "002685",
-    "continuous_count": 6,
-    "continuous_change": -5,
-    "limit_up_count": 37,
-    "broken_count": 20,
-    "promote_rate": 30.3,
-    "promote_sample": 122,
-    "promote_window": "2026-10-28 ~ 2026-11-17（15 个有效交易日累计）"
+    "continuous_count": 8,
+    "continuous_change": 2,
+    "limit_up_count": 41,
+    "broken_count": 24,
+    "promote_rate": 28.6,
+    "promote_sample": 119,
+    "promote_window": "2026-10-29 ~ 2026-11-18（15 个有效交易日累计）"
   },
   "ladder": [
     {
       "board": 1,
-      "count": 31
+      "count": 33
     },
     {
       "board": 2,
-      "count": 5
+      "count": 7
     },
     {
       "board": 3,
+      "count": 0
+    },
+    {
+      "board": 4,
       "count": 1
     }
   ],
@@ -200,335 +204,371 @@
     {
       "code": "002685",
       "name": "华东重机",
-      "boards": 3,
+      "boards": 4,
       "sector": "工程机械",
-      "seal_amount": 27133,
+      "seal_amount": 53215,
       "first_seal": "09:25",
       "status": "封住"
-    },
-    {
-      "code": "000521",
-      "name": "长虹美菱",
-      "boards": 2,
-      "sector": "白色家电",
-      "seal_amount": 9938,
-      "first_seal": "09:32",
-      "status": "封住"
-    },
-    {
-      "code": "000533",
-      "name": "顺钠股份",
-      "boards": 2,
-      "sector": "电网设备",
-      "seal_amount": 1852,
-      "first_seal": "09:30",
-      "status": "回封"
-    },
-    {
-      "code": "002861",
-      "name": "瀛通通讯",
-      "boards": 2,
-      "sector": "消费电子",
-      "seal_amount": 4031,
-      "first_seal": "09:38",
-      "status": "回封"
-    },
-    {
-      "code": "002959",
-      "name": "小熊电器",
-      "boards": 2,
-      "sector": "小家电",
-      "seal_amount": 3852,
-      "first_seal": "10:49",
-      "status": "封住"
-    },
-    {
-      "code": "600936",
-      "name": "北投科技",
-      "boards": 2,
-      "sector": "IT服务Ⅱ",
-      "seal_amount": 610,
-      "first_seal": "09:33",
-      "status": "回封"
     },
     {
       "code": "000707",
       "name": "双环科技",
-      "boards": 1,
+      "boards": 2,
       "sector": "化学原料",
-      "seal_amount": 4262,
-      "first_seal": "09:30",
-      "status": "回封"
-    },
-    {
-      "code": "002226",
-      "name": "江南化工",
-      "boards": 1,
-      "sector": "化学制品",
-      "seal_amount": 3443,
-      "first_seal": "13:13",
-      "status": "回封"
-    },
-    {
-      "code": "002242",
-      "name": "九阳股份",
-      "boards": 1,
-      "sector": "小家电",
-      "seal_amount": 22312,
-      "first_seal": "09:53",
-      "status": "回封"
-    },
-    {
-      "code": "002451",
-      "name": "摩恩电气",
-      "boards": 1,
-      "sector": "电网设备",
-      "seal_amount": 44503,
-      "first_seal": "09:25",
-      "status": "封住"
-    },
-    {
-      "code": "002535",
-      "name": "林州重机",
-      "boards": 1,
-      "sector": "专用设备",
-      "seal_amount": 1692,
-      "first_seal": "09:30",
-      "status": "回封"
-    },
-    {
-      "code": "002584",
-      "name": "西陇科学",
-      "boards": 1,
-      "sector": "电子化学",
-      "seal_amount": 8065,
-      "first_seal": "09:35",
-      "status": "回封"
-    },
-    {
-      "code": "002652",
-      "name": "扬子新材",
-      "boards": 1,
-      "sector": "装修建材",
-      "seal_amount": 1319,
-      "first_seal": "11:03",
+      "seal_amount": 1623,
+      "first_seal": "09:42",
       "status": "回封"
     },
     {
       "code": "002771",
       "name": "真视通",
-      "boards": 1,
+      "boards": 2,
       "sector": "IT服务Ⅱ",
-      "seal_amount": 6068,
-      "first_seal": "09:33",
+      "seal_amount": 10850,
+      "first_seal": "09:30",
       "status": "封住"
     },
     {
       "code": "002843",
       "name": "泰嘉股份",
-      "boards": 1,
+      "boards": 2,
       "sector": "通用设备",
-      "seal_amount": 2020,
-      "first_seal": "09:31",
-      "status": "回封"
-    },
-    {
-      "code": "002855",
-      "name": "捷荣技术",
-      "boards": 1,
-      "sector": "消费电子",
-      "seal_amount": 2892,
-      "first_seal": "11:07",
-      "status": "封住"
-    },
-    {
-      "code": "002889",
-      "name": "东方嘉盛",
-      "boards": 1,
-      "sector": "物流",
-      "seal_amount": 11183,
-      "first_seal": "11:00",
-      "status": "封住"
-    },
-    {
-      "code": "002912",
-      "name": "中新赛克",
-      "boards": 1,
-      "sector": "计算机设",
-      "seal_amount": 8921,
-      "first_seal": "09:36",
-      "status": "封住"
-    },
-    {
-      "code": "002983",
-      "name": "芯瑞达",
-      "boards": 1,
-      "sector": "光学光电",
-      "seal_amount": 2862,
-      "first_seal": "09:35",
-      "status": "回封"
-    },
-    {
-      "code": "300786",
-      "name": "国林科技",
-      "boards": 1,
-      "sector": "环保设备",
-      "seal_amount": 4914,
-      "first_seal": "09:34",
-      "status": "回封"
-    },
-    {
-      "code": "301209",
-      "name": "联合化学",
-      "boards": 1,
-      "sector": "化学制品",
-      "seal_amount": 5179,
-      "first_seal": "10:00",
-      "status": "回封"
-    },
-    {
-      "code": "301288",
-      "name": "清研环境",
-      "boards": 1,
-      "sector": "环保设备",
-      "seal_amount": 880,
-      "first_seal": "10:10",
+      "seal_amount": 5311,
+      "first_seal": "13:27",
       "status": "回封"
     },
     {
       "code": "301391",
       "name": "卡莱特",
-      "boards": 1,
+      "boards": 2,
       "sector": "计算机设",
-      "seal_amount": 2507,
-      "first_seal": "13:08",
-      "status": "封住"
-    },
-    {
-      "code": "600202",
-      "name": "哈空调",
-      "boards": 1,
-      "sector": "通用设备",
-      "seal_amount": 2760,
-      "first_seal": "09:45",
-      "status": "封住"
-    },
-    {
-      "code": "600206",
-      "name": "有研新材",
-      "boards": 1,
-      "sector": "半导体",
-      "seal_amount": 25599,
-      "first_seal": "09:52",
-      "status": "回封"
-    },
-    {
-      "code": "600261",
-      "name": "阳光照明",
-      "boards": 1,
-      "sector": "照明设备",
-      "seal_amount": 8499,
-      "first_seal": "10:38",
+      "seal_amount": 4568,
+      "first_seal": "10:15",
       "status": "封住"
     },
     {
       "code": "600410",
       "name": "华胜天成",
-      "boards": 1,
+      "boards": 2,
       "sector": "IT服务Ⅱ",
-      "seal_amount": 31052,
-      "first_seal": "09:30",
-      "status": "回封"
-    },
-    {
-      "code": "600467",
-      "name": "好当家",
-      "boards": 1,
-      "sector": "渔业",
-      "seal_amount": 4355,
-      "first_seal": "09:45",
-      "status": "回封"
-    },
-    {
-      "code": "600619",
-      "name": "海立股份",
-      "boards": 1,
-      "sector": "家电零部",
-      "seal_amount": 7987,
-      "first_seal": "10:23",
-      "status": "封住"
-    },
-    {
-      "code": "600881",
-      "name": "亚泰集团",
-      "boards": 1,
-      "sector": "综合Ⅱ",
-      "seal_amount": 4768,
-      "first_seal": "09:25",
+      "seal_amount": 28422,
+      "first_seal": "09:55",
       "status": "封住"
     },
     {
       "code": "603030",
       "name": "全筑股份",
-      "boards": 1,
+      "boards": 2,
       "sector": "装修装饰",
-      "seal_amount": 4564,
-      "first_seal": "13:26",
-      "status": "回封"
-    },
-    {
-      "code": "603078",
-      "name": "江化微",
-      "boards": 1,
-      "sector": "电子化学",
-      "seal_amount": 8700,
-      "first_seal": "10:28",
-      "status": "封住"
-    },
-    {
-      "code": "603206",
-      "name": "嘉环科技",
-      "boards": 1,
-      "sector": "通信服务",
-      "seal_amount": 2944,
-      "first_seal": "09:32",
-      "status": "回封"
-    },
-    {
-      "code": "603297",
-      "name": "永新光学",
-      "boards": 1,
-      "sector": "光学光电",
-      "seal_amount": 1988,
-      "first_seal": "11:03",
+      "seal_amount": 8633,
+      "first_seal": "09:25",
       "status": "封住"
     },
     {
       "code": "603324",
       "name": "盛剑科技",
-      "boards": 1,
+      "boards": 2,
       "sector": "环保设备",
-      "seal_amount": 5754,
+      "seal_amount": 5479,
+      "first_seal": "09:25",
+      "status": "封住"
+    },
+    {
+      "code": "000158",
+      "name": "常山北明",
+      "boards": 1,
+      "sector": "IT服务Ⅱ",
+      "seal_amount": 16350,
+      "first_seal": "10:02",
+      "status": "封住"
+    },
+    {
+      "code": "000410",
+      "name": "沈阳机床",
+      "boards": 1,
+      "sector": "通用设备",
+      "seal_amount": 3875,
+      "first_seal": "09:49",
+      "status": "回封"
+    },
+    {
+      "code": "000711",
+      "name": "京蓝科技",
+      "boards": 1,
+      "sector": "环境治理",
+      "seal_amount": 5189,
+      "first_seal": "09:51",
+      "status": "封住"
+    },
+    {
+      "code": "000815",
+      "name": "美利云",
+      "boards": 1,
+      "sector": "IT服务Ⅱ",
+      "seal_amount": 11258,
+      "first_seal": "10:05",
+      "status": "回封"
+    },
+    {
+      "code": "000889",
+      "name": "中嘉博创",
+      "boards": 1,
+      "sector": "通信服务",
+      "seal_amount": 7820,
+      "first_seal": "09:45",
+      "status": "封住"
+    },
+    {
+      "code": "000980",
+      "name": "众泰汽车",
+      "boards": 1,
+      "sector": "汽车零部",
+      "seal_amount": 5153,
+      "first_seal": "09:46",
+      "status": "封住"
+    },
+    {
+      "code": "002042",
+      "name": "华孚时尚",
+      "boards": 1,
+      "sector": "纺织制造",
+      "seal_amount": 3954,
+      "first_seal": "11:18",
+      "status": "回封"
+    },
+    {
+      "code": "002148",
+      "name": "北纬科技",
+      "boards": 1,
+      "sector": "通信服务",
+      "seal_amount": 7539,
+      "first_seal": "09:30",
+      "status": "回封"
+    },
+    {
+      "code": "002194",
+      "name": "武汉凡谷",
+      "boards": 1,
+      "sector": "通信设备",
+      "seal_amount": 12319,
+      "first_seal": "09:30",
+      "status": "封住"
+    },
+    {
+      "code": "002197",
+      "name": "证通电子",
+      "boards": 1,
+      "sector": "计算机设",
+      "seal_amount": 4257,
+      "first_seal": "10:12",
+      "status": "回封"
+    },
+    {
+      "code": "002272",
+      "name": "川润股份",
+      "boards": 1,
+      "sector": "通用设备",
+      "seal_amount": 6960,
+      "first_seal": "13:31",
+      "status": "封住"
+    },
+    {
+      "code": "002403",
+      "name": "爱仕达",
+      "boards": 1,
+      "sector": "小家电",
+      "seal_amount": 8870,
+      "first_seal": "09:31",
+      "status": "封住"
+    },
+    {
+      "code": "002463",
+      "name": "沪电股份",
+      "boards": 1,
+      "sector": "元件",
+      "seal_amount": 6260,
+      "first_seal": "13:30",
+      "status": "回封"
+    },
+    {
+      "code": "002916",
+      "name": "深南电路",
+      "boards": 1,
+      "sector": "元件",
+      "seal_amount": 18528,
+      "first_seal": "13:19",
+      "status": "封住"
+    },
+    {
+      "code": "002929",
+      "name": "润建股份",
+      "boards": 1,
+      "sector": "通信服务",
+      "seal_amount": 12989,
+      "first_seal": "11:14",
+      "status": "回封"
+    },
+    {
+      "code": "002955",
+      "name": "鸿合科技",
+      "boards": 1,
+      "sector": "光学光电",
+      "seal_amount": 3446,
+      "first_seal": "11:26",
+      "status": "封住"
+    },
+    {
+      "code": "300324",
+      "name": "旋极信息",
+      "boards": 1,
+      "sector": "计算机设",
+      "seal_amount": 5955,
+      "first_seal": "09:58",
+      "status": "回封"
+    },
+    {
+      "code": "300991",
+      "name": "创益通",
+      "boards": 1,
+      "sector": "其他电子",
+      "seal_amount": 2310,
+      "first_seal": "09:45",
+      "status": "封住"
+    },
+    {
+      "code": "301396",
+      "name": "宏景科技",
+      "boards": 1,
+      "sector": "IT服务Ⅱ",
+      "seal_amount": 11671,
+      "first_seal": "13:30",
+      "status": "封住"
+    },
+    {
+      "code": "600156",
+      "name": "华升股份",
+      "boards": 1,
+      "sector": "纺织制造",
+      "seal_amount": 4984,
+      "first_seal": "11:14",
+      "status": "封住"
+    },
+    {
+      "code": "600162",
+      "name": "香江控股",
+      "boards": 1,
+      "sector": "房地产开",
+      "seal_amount": 2110,
+      "first_seal": "10:55",
+      "status": "回封"
+    },
+    {
+      "code": "600186",
+      "name": "莲花控股",
+      "boards": 1,
+      "sector": "调味发酵",
+      "seal_amount": 10376,
+      "first_seal": "13:27",
+      "status": "回封"
+    },
+    {
+      "code": "600336",
+      "name": "澳柯玛",
+      "boards": 1,
+      "sector": "白色家电",
+      "seal_amount": 3247,
+      "first_seal": "09:30",
+      "status": "回封"
+    },
+    {
+      "code": "600405",
+      "name": "动力源",
+      "boards": 1,
+      "sector": "其他电源",
+      "seal_amount": 6443,
+      "first_seal": "09:30",
+      "status": "回封"
+    },
+    {
+      "code": "600839",
+      "name": "四川长虹",
+      "boards": 1,
+      "sector": "黑色家电",
+      "seal_amount": 21035,
       "first_seal": "09:35",
       "status": "封住"
     },
     {
-      "code": "603931",
-      "name": "格林达",
+      "code": "603220",
+      "name": "中贝通信",
       "boards": 1,
-      "sector": "电子化学",
-      "seal_amount": 3317,
-      "first_seal": "10:59",
+      "sector": "通信服务",
+      "seal_amount": 9980,
+      "first_seal": "11:14",
       "status": "回封"
     },
     {
-      "code": "920489",
-      "name": "佳先股份",
+      "code": "603629",
+      "name": "利通电子",
       "boards": 1,
-      "sector": "化学原料",
-      "seal_amount": 1559,
-      "first_seal": "11:01",
+      "sector": "消费电子",
+      "seal_amount": 23939,
+      "first_seal": "11:26",
       "status": "回封"
+    },
+    {
+      "code": "603657",
+      "name": "春光科技",
+      "boards": 1,
+      "sector": "家电零部",
+      "seal_amount": 4501,
+      "first_seal": "09:30",
+      "status": "回封"
+    },
+    {
+      "code": "603887",
+      "name": "城地香江",
+      "boards": 1,
+      "sector": "IT服务Ⅱ",
+      "seal_amount": 7553,
+      "first_seal": "10:14",
+      "status": "回封"
+    },
+    {
+      "code": "603985",
+      "name": "恒润股份",
+      "boards": 1,
+      "sector": "风电设备",
+      "seal_amount": 2533,
+      "first_seal": "13:21",
+      "status": "封住"
+    },
+    {
+      "code": "688316",
+      "name": "青云科技-U",
+      "boards": 1,
+      "sector": "IT服务Ⅱ",
+      "seal_amount": 3165,
+      "first_seal": "13:17",
+      "status": "封住"
+    },
+    {
+      "code": "688757",
+      "name": "胜科纳米",
+      "boards": 1,
+      "sector": "专业服务",
+      "seal_amount": 7879,
+      "first_seal": "13:19",
+      "status": "回封"
+    },
+    {
+      "code": "920924",
+      "name": "广脉科技",
+      "boards": 1,
+      "sector": "通信服务",
+      "seal_amount": 3834,
+      "first_seal": "13:18",
+      "status": "封住"
     }
   ]
 }

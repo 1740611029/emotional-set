@@ -47,7 +47,7 @@ function emptyCell(): MatrixCellView {
   };
 }
 
-/** 把 7 个指数的矩阵按段合并；无数据的格一律 available=false，页面显示 `--` 而非 0%。 */
+/** 把各指数的矩阵按段合并（2026-11-18 起清单收窄为 3 指数）；无数据的格一律 available=false，页面显示 `--` 而非 0%。 */
 export function precisionMatrix(
   snapshot: Snapshot | null,
   segment: PrecisionSegment,

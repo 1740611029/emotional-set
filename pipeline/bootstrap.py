@@ -26,9 +26,9 @@ from fetch_etf import ETF_DAILY_RAW, ETF_UNIVERSE  # noqa: E402
 from fetch_market import (  # noqa: E402
     THS_SECTOR_MANIFEST,
     THS_SECTOR_RAW,
+    ALL_FETCH_INDEXES,
     INDEX_RAW,
     INDEX_SOURCE,
-    INDEXES,
     MIN_SECTOR_ROWS,
     RAW,
     SECTOR_BATCH_PAUSE,
@@ -109,7 +109,8 @@ def update_indices(
         return []
     changed: list[str] = []
     lagged: list[str] = []
-    for code, name in INDEXES.items():
+    # 增量日更走全集（信号 3 指数 + 基准沪深300），基准数据不断供
+    for code, name in ALL_FETCH_INDEXES.items():
         path = INDEX_RAW / f"{code}.csv"
         try:
             fresh = _fetch_index_with_compensation(code, name)
@@ -181,7 +182,8 @@ class Progress:
 
 
 def _index_files() -> dict[str, Path]:
-    return {code: INDEX_RAW / f"{code}.csv" for code in INDEXES}
+    # 数据就绪/落后监控走全集：基准沪深300 缺失或落后同样触发补拉（机构持仓/ETF 放量依赖）
+    return {code: INDEX_RAW / f"{code}.csv" for code in ALL_FETCH_INDEXES}
 
 
 def raw_ready() -> bool:
@@ -200,7 +202,8 @@ def raw_ready() -> bool:
 
 def _write_index_manifest() -> None:
     rows = []
-    for code, name in INDEXES.items():
+    # manifest 走全集：基准沪深300 的行数/尾日一并留痕，便于监控其新鲜度
+    for code, name in ALL_FETCH_INDEXES.items():
         path = INDEX_RAW / f"{code}.csv"
         if not path.exists():
             continue
@@ -497,7 +500,8 @@ def _etf_ready_date() -> str | None:
 
 
 def latest_local_dates() -> dict[str, str | None]:
-    """各数据线本地最后日期：指数取最小（与 index-signals 口径一致）、板块取最大、
+    """各数据线本地最后日期：指数取最小（信号 3 指数 + 基准沪深300 全集口径；
+    index-signals 的 as_of 仍只按信号 3 指数计算，不受基准影响）、板块取最大、
     ETF 取 6 只尾日的最小齐备日（与 etf-volume-events 口径一致）。"""
     index_ends = [_tail_date(path, 0) for path in _index_files().values()]
     sector_ends = [_tail_date(path, 0) for path in sorted(THS_SECTOR_RAW.glob("*.csv"))]

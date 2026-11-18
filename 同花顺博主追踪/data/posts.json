@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-18 09:14:02",
+    "updated_at": "2026-11-18 20:30:06",
     "retention_days": 30,
-    "total": 76
+    "total": 79
   },
   "posts": [
     {
@@ -1008,6 +1008,49 @@
         "https://u.thsi.cn/imgsrc/sns/a0fbeeaa4a2053b78073e5bb2cc85894_1320_2868.jpg"
       ],
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f5skzox2hfth27710294d"
+    },
+    {
+      "id": "2424963594",
+      "ctime": 1794985449000,
+      "date": "2026-11-18",
+      "time": "15:04",
+      "text": "慌啥子哟，慢慢来。。。我的偶像是六一中路。野哥也是好起来了。昨天和今天都玩了创业板。。",
+      "stocks": [
+        {
+          "name": "汇添富上证科创板50成份ETF",
+          "code": "588870"
+        }
+      ],
+      "images": 4,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/8d4903a92c95b17f117ecdfdfd41a25e_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/642d3453edcaf96d11c3ffa87f367c7e_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/3d14535a12f8a99175f758fceb3b980e_1320_2868.jpg",
+        "https://u.thsi.cn/imgsrc/sns/9b524fc8a91707d2b622f9136270d336_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f6dg96k7dplva2325309d"
+    },
+    {
+      "id": "2424985663",
+      "ctime": 1794991338000,
+      "date": "2026-11-18",
+      "time": "16:42",
+      "text": "我本来今天不想实盘了。我发现这些事一个接一个，卖一96余哥，卖2小方神，还有个章盟主。我格局就格局。没有大小号。我没必要。",
+      "stocks": [],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f6e1zgo2h8ph23d9e5242"
+    },
+    {
+      "id": "2425008911",
+      "ctime": 1795004333000,
+      "date": "2026-11-18",
+      "time": "20:18",
+      "text": "好了，卖一正主已经解释了他卖出的逻辑了，昨天你要感谢余哥封板，今天人家离场很正常。在股吧造谣的我已经联系同花顺官方了。别急。已经报警了。正在通过官方调取你们的数据。",
+      "stocks": [],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f6eovjag0onaud8feefe6"
     }
   ]
 }

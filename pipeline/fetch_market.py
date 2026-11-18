@@ -32,15 +32,20 @@ from trading_calendar import last_completed_trading_day  # 全量拉取的收盘
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
+# 信号与【指数总览】展示清单（2026-11-18 用户决定收窄：只留 上证/科创50/创业板指，
+# 深证成指、沪深300、中证500、中证1000 不再参与信号计算与页面展示）。
 INDEXES = {
     "sh000001": "上证指数",
-    "sz399001": "深证成指",
     "sz399006": "创业板指",
     "sh000688": "科创50",
-    "sh000300": "沪深300",
-    "sh000905": "中证500",
-    "sh000852": "中证1000",
 }
+# 基准指数：不进信号与总览，仅供机构持仓页（大盘对照）、ETF 放量页（市场状态判定）
+# 做基准；数据继续随全量/增量管线日更，防止下游断供。
+BASELINE_INDEXES = {
+    "sh000300": "沪深300",
+}
+# 实际需要拉取/落盘/写 manifest 的全集 = 信号清单 + 基准清单。
+ALL_FETCH_INDEXES = {**INDEXES, **BASELINE_INDEXES}
 THS_CODES = {
     "sh000001": "zs_1A0001",
     "sz399001": "zs_399001",
@@ -255,15 +260,16 @@ def fetch_index_daily_sina(code: str) -> pd.DataFrame:
 
 
 def fetch_indexes() -> None:
-    """全量拉取 7 只指数新浪日线并写 manifest；单只失败告警继续，最后汇总报错。
+    """全量拉取信号 3 指数 + 基准沪深300 的新浪日线并写 manifest；单只失败告警继续，最后汇总报错。
 
     起点固定为研究段起点 2020-10-30（不随运行日期滚动——滚动窗口会让研究段
-    头部交易日随时间推移被悄悄砍掉）。
+    头部交易日随时间推移被悄悄砍掉）。清单为 ALL_FETCH_INDEXES（信号清单 +
+    基准清单，2026-11-18 起）。
     """
     start = "2020-10-30"
     summary = []
     failures = []
-    for code, name in INDEXES.items():
+    for code, name in ALL_FETCH_INDEXES.items():
         path = INDEX_RAW / f"{code}.csv"
         try:
             if path.exists():

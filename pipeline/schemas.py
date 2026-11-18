@@ -385,11 +385,12 @@ PRECISION_BLOCK = {
         "research_status": {"type": "string", "minLength": 1},
         "covered_universe": {
             "type": "array",
-            "minItems": 7,
-            "maxItems": 7,
+            # 2026-11-18 指数范围收窄：precision 块与主产物同为 3 指数
+            "minItems": 3,
+            "maxItems": 3,
             "items": {"type": "string"},
         },
-        "universe_size": {"const": 7},
+        "universe_size": {"const": 3},
         "segments": {"type": "object"},
         "horizons": {"type": "array", "minItems": 4, "maxItems": 4},
         "criteria_note": {"type": "string", "minLength": 1},
@@ -414,23 +415,29 @@ BOTTOM_ZONE = {
     "additionalProperties": False,
 }
 
+# 指数数量口径：2026-11-18 用户决定指数范围收窄为 上证/创业板指/科创50 共 3 只。
+# 本常量必须与 fetch_market.INDEXES / precision_config.INDEXES 保持一致，
+# 三处清单同改（fetch_market 为生产主清单，precision_config 为研究清单）。
+EXPECTED_INDEX_COUNT = 3
+
 INDEX_SCHEMA = {
     # precision 为可选顶层块：旧版产物（回滚目标）不带该字段时仍须通过校验；
-    # 一旦存在，7 个指数的矩阵与全部矩阵格字段 MUST 完整（见 validate_precision）。
+    # 一旦存在，3 个指数的矩阵与全部矩阵格字段 MUST 完整（见 validate_precision）。
     "type": "object",
     "required": ["as_of", "is_mock", "indices", "recent_signals"],
     "properties": {
         "precision": PRECISION_BLOCK,
         "as_of": DATE,
-        # as_of 聚合规则显式标注 + 短板标的可见（D5）：7 个指数各自尾日与落后标的
+        # as_of 聚合规则显式标注 + 短板标的可见（D5）：各指数尾日与落后标的
         "as_of_rule": {"type": "string", "minLength": 1},
         "index_tails": {"type": "object", "additionalProperties": DATE},
         "lagging_indexes": {"type": "array", "items": {"type": "string"}},
         "is_mock": {"type": "boolean"},
         "indices": {
             "type": "array",
-            "minItems": 7,
-            "maxItems": 7,
+            # 2026-11-18 指数范围收窄：只留 上证/科创50/创业板指（与 fetch_market.INDEXES 一致）
+            "minItems": 3,
+            "maxItems": 3,
             "items": {
                 "type": "object",
                 "required": [
@@ -1749,11 +1756,11 @@ def validate_precision(payload: dict) -> None:
             raise ValueError("旧版产物不带 precision 时，所有指数 MUST 同时不带矩阵")
         return
     if len(present) != len(payload["indices"]):
-        raise ValueError("带 precision 的产物 MUST 为全部 7 个指数提供矩阵")
+        raise ValueError("带 precision 的产物 MUST 为全部指数提供矩阵")
     if precision["covered_universe"] != codes:
-        raise ValueError("统计覆盖标的清单必须与 7 张指数图卡逐项一致")
-    if precision["universe_size"] != 7:
-        raise ValueError("统计覆盖标的数必须为 7")
+        raise ValueError("统计覆盖标的清单必须与指数图卡逐项一致")
+    if precision["universe_size"] != EXPECTED_INDEX_COUNT:
+        raise ValueError(f"统计覆盖标的数必须为 {EXPECTED_INDEX_COUNT}")
     if "历史基线" not in precision["legacy_rate_note"]:
         raise ValueError("旧聚合 rate 必须标注为历史基线")
     for item in payload["indices"]:
@@ -1806,13 +1813,13 @@ def validate_payload(name: str, payload: dict) -> None:
     Draft202012Validator(SCHEMAS[name]).validate(payload)
     if name == "index-signals.json":
         codes = {item["code"] for item in payload["indices"]}
-        if len(codes) != 7:
-            raise ValueError("7 个指数代码必须唯一")
+        if len(codes) != EXPECTED_INDEX_COUNT:
+            raise ValueError(f"指数数量必须为 {EXPECTED_INDEX_COUNT} 且代码唯一")
         index_tails = payload.get("index_tails")
         if index_tails is not None:
-            # D5 短板可见：尾日映射必须覆盖全部 7 个指数，且 as_of 与声明规则一致
+            # D5 短板可见：尾日映射必须覆盖全部指数，且 as_of 与声明规则一致
             if set(index_tails) != codes:
-                raise ValueError("index_tails 必须覆盖全部 7 个指数")
+                raise ValueError(f"index_tails 必须覆盖全部 {EXPECTED_INDEX_COUNT} 个指数")
             if payload.get("as_of_rule") != "min(index_tails)":
                 raise ValueError("as_of_rule 必须显式声明为 min(index_tails)")
             if payload["as_of"] != min(index_tails.values()):

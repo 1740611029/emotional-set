@@ -79,7 +79,8 @@ class EvaluationContractTest(unittest.TestCase):
     def setUpClass(cls):
         cls.payload = build_indices()
 
-    def test_real_seven_index_evaluation_is_valid(self):
+    def test_real_index_evaluation_is_valid(self):
+        # 2026-11-18 清单收窄后：真实产物指数数必须与现行 INDEXES 一致
         self.assertEqual(len(self.payload["indices"]), len(INDEXES))
         self.assertTrue(any(item["signals"] for item in self.payload["indices"]))
         self.assertTrue(all("evaluation" in item for item in self.payload["indices"]))

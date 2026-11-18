@@ -149,7 +149,7 @@ export function AccuracyMatrixPanel({ snapshot, bare = false, onClose }: {
           {segmentInfo?.start && segmentInfo?.end
             ? ` ${segmentInfo.start} ~ ${segmentInfo.end}`
             : ''}
-          {' · '}下图 7 张指数图卡是展示范围，与统计覆盖范围一致
+          {' · '}下图 {universe.length} 张指数图卡是展示范围，与统计覆盖范围一致
         </p>
       </div>
 

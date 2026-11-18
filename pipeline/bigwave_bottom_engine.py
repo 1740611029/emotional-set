@@ -25,19 +25,20 @@ from swing_signal_engine import layer_state, prepare
 ALGORITHM_VERSION = "index-bigwave-bottom-v1.0"
 KINDS = ("bottom", "top")
 
-# 指数按波动分 3 组；每组共用一套冻结参数（防逐指数过拟合，见设计说明）。
+# 指数按波动分组；每组共用一套冻结参数（防逐指数过拟合，见设计说明）。
+# 2026-11-18 生产范围收窄为上证/创业板指/科创50：mid 组（深证成指、中证500、
+# 中证1000）与 steady 组的沪深300 不再进入生产信号；保留指数的冻结参数不变。
 GROUPS = {
-    "steady": ("sh000001", "sh000300"),
-    "mid": ("sz399001", "sh000905", "sh000852"),
+    "steady": ("sh000001",),
     "active": ("sz399006", "sh000688"),
 }
 # 训练段冻结参数：幅度线 = k × 该指数训练段年化波动；min_gap 最小波段间隔；use_ma60 趋势结构确认。
 FROZEN = {
     "steady": {"k": 0.45, "min_gap": 30, "use_ma60": True},
-    "mid": {"k": 0.55, "min_gap": 30, "use_ma60": True},
     "active": {"k": 0.45, "min_gap": 20, "use_ma60": True},
 }
-FROZEN_NOTE = ("train 2020-10-30~2024-12-31, 7 indices grouped by vol; "
+FROZEN_NOTE = ("train 2020-10-30~2024-12-31, frozen on 7-index vol groups "
+               "(2026-11-18 production scope narrowed to 3 indices, params unchanged); "
                "objective = train direction+big-band hit under per-year<=2.5")
 
 CONFIRM_WINDOW = 3          # 三层确认窗口（自拐点自然确认日起 0~2 个交易日）
@@ -63,7 +64,7 @@ def annual_vol(frame: pd.DataFrame) -> float:
 
 
 def amplitude_for(code: str | None, frame: pd.DataFrame) -> float:
-    group = group_of(code) if code is not None else "mid"
+    group = group_of(code) if code is not None else "active"
     return float(FROZEN[group]["k"]) * annual_vol(frame)
 
 
@@ -185,9 +186,10 @@ def bottom_details(frame: pd.DataFrame, breadth: pd.DataFrame | None = None,
                    code: str | None = None) -> list[dict]:
     """产出底部信号明细（swing 兼容字段结构）：只为 bottom，顶部不产出。
 
-    code 缺省时按中波动组参数兜底（仅为兼容无指数上下文的公开调用）。
+    code 缺省时按 active 组参数兜底（仅为兼容无指数上下文的公开调用；
+    2026-11-18 起 mid 组已随指数范围收窄移除）。
     """
-    params = FROZEN[group_of(code) if code is not None else "mid"]
+    params = FROZEN[group_of(code) if code is not None else "active"]
     amplitude = amplitude_for(code, frame)
     state = prepare(frame, breadth, {"confirm_window": CONFIRM_WINDOW})
     factors, context, delta = state["factors"], state["context"], state["breadth_delta5"]
