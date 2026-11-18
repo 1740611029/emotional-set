@@ -34,7 +34,7 @@
   ],
   "universe_snapshot": {
     "接口校验": "通过",
-    "校验日期": "2026-11-16"
+    "校验日期": "2026-11-17"
   },
   "boards": [
     {
@@ -64,9 +64,9 @@
       "name": "沪深300ETF华泰柏瑞",
       "index": "沪深300",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 3516,
+      "rows": 3517,
       "start": "2012-05-28",
-      "end": "2026-11-16",
+      "end": "2026-11-17",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\510300.csv"
     },
@@ -86,9 +86,9 @@
       "name": "中证1000ETF南方",
       "index": "中证1000",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 2435,
+      "rows": 2436,
       "start": "2016-11-04",
-      "end": "2026-11-16",
+      "end": "2026-11-17",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\512100.csv"
     },
@@ -97,9 +97,9 @@
       "name": "中证500ETF南方",
       "index": "中证500",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 3319,
+      "rows": 3320,
       "start": "2013-03-15",
-      "end": "2026-11-16",
+      "end": "2026-11-17",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\510500.csv"
     }
