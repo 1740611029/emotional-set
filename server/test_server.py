@@ -17,7 +17,8 @@ from . import app as app_module
 from . import etf_volume as etf_volume_module
 from . import paths
 from . import snapshot as snapshot_module
-from .app import SECTOR_STORE, STORE, health, index_history, sector_history, snapshot
+from .app import STORE, health, snapshot
+from .etf_share_flow import EtfShareFlowStore
 from .etf_volume import EtfVolumeStore
 from .institutions import InstitutionStore, slice_payload, summary, validate_params
 from .realtime import CN, _build_quote, _normalize_volume
@@ -176,18 +177,6 @@ class ApiStateTest(unittest.TestCase):
         self.assertEqual(status["mode"], "close")
         self.assertIn("data_source", status)
 
-    def test_history_rejects_unknown_code(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload()))
-        with self.assertRaises(Exception):
-            index_history("sh999999")
-
-    def test_history_returns_series(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload()))
-        data = index_history("sh000001")
-        self.assertEqual(data["code"], "sh000001")
-        self.assertGreater(len(data["history"]), 1000)
-        dates = [row["date"] for row in data["history"]]
-        self.assertEqual(dates, sorted(dates))
 
 
 class EtfVolumeEventsTest(unittest.TestCase):
@@ -268,26 +257,6 @@ class EtfVolumeEventsTest(unittest.TestCase):
             data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload(),
                                        etf_volume_events=self.EVENTS)
         self.assertEqual(data["etf_volume_events"], self.EVENTS)
-
-    def test_snapshot_and_history_share_same_events(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload(), etf_volume_events=self.EVENTS))
-        body = snapshot()
-        data = index_history("sh000001")
-        self.assertEqual(data["etf_volume_events"], body["etf_volume_events"])
-        self.assertEqual([row["date"] for row in data["etf_volume_events"]],
-                         ["2024-09-30", "2026-11-03"])
-
-    def test_history_keeps_all_other_fields_unchanged(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload()))
-        before = index_history("sh000300")
-        self.assertEqual(before["etf_volume_events"], [])
-        STORE.set(build_close_snapshot(_payload(), _sector_payload(), etf_volume_events=self.EVENTS))
-        after = index_history("sh000300")
-        self.assertEqual(set(after), set(before))
-        for key in before:
-            if key == "etf_volume_events":
-                continue
-            self.assertEqual(after[key], before[key], f"{key} 被放量事件影响")
 
     def test_preparing_branch_returns_empty_events(self):
         STORE.set(None)
@@ -502,16 +471,6 @@ class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(scheduler._close_retry_at)
         self.assertEqual(scheduler._close_day, "2026-11-03")
 
-    async def test_refresh_still_runs_after_reset(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        scheduler._close_attempts = MAX_CLOSE_ATTEMPTS
-        scheduler._close_date = "2026-11-02"
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.refresh_daily", side_effect=RuntimeError("boom")) as refresh:
-            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
-        refresh.assert_called_once()
-        self.assertEqual(scheduler._close_attempts, 1)
-        self.assertIsNotNone(scheduler._close_retry_at)
 
 
 STALE_GAP = {
@@ -533,31 +492,6 @@ ETF_LAGGED_GAP = {
     "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1}, "stale": ["etf"],
 }
 ALL_SLOTS = {slot for slot, _ in EVENING_SLOTS}
-
-
-class CloseCompletionGateTest(unittest.IsolatedAsyncioTestCase):
-    """收盘刷新只有真补到最近交易日才算当天完成，否则留给晚间补齐时刻。"""
-
-    async def run_close(self, gap: dict, result: dict) -> MarketScheduler:
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.refresh_daily", return_value=result), \
-                mock.patch("bootstrap.data_gap", return_value=gap), \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("io_utils.protected_write"):
-            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
-        return scheduler
-
-    async def test_stale_source_does_not_mark_day_done(self):
-        scheduler = await self.run_close(STALE_GAP, {"indices": [], "sectors": 0, "institutions": {}})
-        self.assertIsNone(scheduler._close_date)
-        self.assertEqual(scheduler._close_attempts, 1)
-
-    async def test_fresh_source_marks_day_done(self):
-        scheduler = await self.run_close(FRESH_GAP, {"indices": ["sh000001"], "sectors": 3,
-                                                    "institutions": {}})
-        self.assertEqual(scheduler._close_date, "2026-11-03")
 
 
 class EveningBackfillTest(unittest.IsolatedAsyncioTestCase):
@@ -800,22 +734,6 @@ class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
         build_sectors.assert_not_called()
         self.assertEqual(list(_write_kwargs(write)), ["etf-volume-events.json"])
 
-    async def test_etf_only_lag_still_triggers_backfill(self):
-        """仅 ETF 线落后也触发补齐与事件重建，不因「其余已新鲜」而跳过（D4）。"""
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.refresh_daily",
-                           return_value={"indices": [], "sectors": 0, "institutions": {},
-                                         "etf": {"status": "ok", "updated": ["510300"],
-                                                 "skipped": 5, "failed": []}}), \
-                mock.patch("bootstrap.data_gap", return_value=ETF_LAGGED_GAP), \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
-        self.assertIn("etf-volume-events.json", _write_kwargs(write))
-
     def test_ensure_close_data_writes_in_build_format(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         with mock.patch.object(scheduler.payloads, "indices", return_value=None), \
@@ -830,19 +748,6 @@ class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
                 scheduler._ensure_close_data()
         self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
 
-    async def test_tick_close_writes_in_build_format(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.refresh_daily",
-                           return_value={"indices": ["sh000001"], "sectors": 3, "institutions": {},
-                                         "etf": {"status": "ok", "updated": ["510300"],
-                                                 "skipped": 5, "failed": []}}), \
-                mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            await scheduler._tick_close(datetime(2026, 11, 3, 17, 30, tzinfo=CN))
-        self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
 
 
 class StaleDetailTest(unittest.TestCase):
@@ -859,80 +764,6 @@ class StaleDetailTest(unittest.TestCase):
         text = _stale_detail(gap)
         self.assertIn("停在 —", text)
         self.assertIn("未知", text)
-
-
-class SectorHistoryApiTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.payload = _sector_payload()
-        cls.sectors = [item for rows in cls.payload["groups"].values() for item in rows]
-        cls.first = cls.sectors[0]
-        cls.other = next(item for item in cls.sectors if item["code"] != cls.first["code"])
-
-    def setUp(self):
-        STORE.set(build_close_snapshot(_payload(), self.payload))
-        SECTOR_STORE.invalidate()
-
-    def tearDown(self):
-        STORE.set(None)
-        SECTOR_STORE.invalidate()
-
-    def test_default_range_and_alignment(self):
-        data = sector_history(self.first["code"])
-        self.assertEqual(data["requested_days"], 120)
-        self.assertEqual(len(data["series"]), 120)
-        self.assertEqual(data["series"][-1]["date"], self.first["date"])
-        self.assertEqual(data["series"][-1]["state"], self.first["state"])
-        self.assertFalse(data["insufficient"])
-
-    def test_supported_ranges(self):
-        for days in (60, 120, 250):
-            with self.subTest(days=days):
-                data = sector_history(self.first["code"], days)
-                self.assertEqual(len(data["series"]), days)
-                self.assertEqual(data["coverage"]["points"], days)
-                dates = [row["date"] for row in data["series"]]
-                self.assertEqual(dates, sorted(dates))
-
-    def test_invalid_range_is_rejected(self):
-        for days in (0, 30, 999):
-            with self.subTest(days=days), self.assertRaises(HTTPException) as ctx:
-                sector_history(self.first["code"], days)
-            self.assertEqual(ctx.exception.status_code, 400)
-
-    def test_unknown_code_returns_404(self):
-        with self.assertRaises(HTTPException) as ctx:
-            sector_history("000000")
-        self.assertEqual(ctx.exception.status_code, 404)
-
-    def test_any_sector_is_located_by_code_alone(self):
-        """定位只依 code：响应无层级字段，且拿到的是该板块自身的序列。"""
-        data = sector_history(self.other["code"])
-        self.assertEqual(data["code"], self.other["code"])
-        self.assertEqual(data["name"], self.other["name"])
-        self.assertNotIn("level", data)
-        self.assertNotIn("parent", data)
-        self.assertEqual(data["series"][-1]["date"], self.other["date"])
-        first = sector_history(self.first["code"])
-        self.assertNotEqual([row["close"] for row in data["series"]],
-                            [row["close"] for row in first["series"]])
-
-    def test_all_sectors_are_queryable(self):
-        """分组里的每个板块都能单独拉到历史（90 个板块全量）。"""
-        self.assertEqual(len(self.sectors), 90)
-        for item in self.sectors:
-            with self.subTest(code=item["code"]):
-                data = sector_history(item["code"], 60)
-                self.assertEqual(data["name"], item["name"])
-                self.assertEqual(data["series"][-1]["date"], item["date"])
-
-    def test_stale_flag_follows_snapshot(self):
-        STORE.set(build_close_snapshot(_payload(), self.payload, stale=True,
-                                       stale_since="2026-10-30T15:00:00+08:00",
-                                       stale_reason="实时源超时"))
-        data = sector_history(self.first["code"], 60)
-        self.assertTrue(data["stale"])
-        self.assertEqual(data["stale_since"], "2026-10-30T15:00:00+08:00")
 
 
 class InstitutionEndpointTest(unittest.TestCase):
@@ -1404,6 +1235,78 @@ class EtfVolumeEndpointTest(unittest.TestCase):
         self.assertEqual(data["data_state"], "preparing")
         self.assertEqual(data["dates"], [])
         self.assertIsNotNone(data["stale_reason"])
+
+
+class EtfShareFlowEndpointTest(unittest.TestCase):
+    """GET /api/etf/share-flow：列式契约、缓存一致、只读与降级。"""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.product = Path(self.temp.name) / "etf-share-flow.json"
+        self.store = EtfShareFlowStore(path=self.product)
+        self.client = TestClient(app_module.app)
+        patcher = mock.patch.object(app_module, "ETF_SHARE_FLOW_STORE", self.store)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def _write_ready(self):
+        payload = {
+            "data_state": "ready", "as_of": "2026-11-19",
+            "generated_at": "2026-11-20T10:00:00+08:00", "stale": False,
+            "stale_reason": None,
+            "coverage": {"start": "2026-11-17", "end": "2026-11-19", "trading_days": 3,
+                         "etf_count": 2, "min_counted": 2, "max_counted": 2},
+            "dates": ["2026-11-17", "2026-11-18", "2026-11-19"],
+            "net_inflow_yi": [10.0, -5.0, 20.0],
+            "index_close": [3580.0, None, 3590.0],
+            "stats": {"last_day_yi": 20.0, "last_60d_yi": 25.0, "last_60d_days": 3},
+            "universe": [{"code": "510300", "name": "沪深300ETF", "index": "沪深300"}],
+            "sources": {"share": "sse+szse", "nav": "ths"},
+        }
+        self.product.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        return payload
+
+    def test_response_fields_and_array_alignment(self):
+        self._write_ready()
+        response = self.client.get("/api/etf/share-flow")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        for key in ("data_state", "as_of", "generated_at", "dates", "net_inflow_yi",
+                    "index_close", "universe", "coverage", "stats"):
+            self.assertIn(key, data)
+        for key in ("net_inflow_yi", "index_close"):
+            self.assertEqual(len(data[key]), len(data["dates"]), key)
+        self.assertIsNone(data["index_close"][1])  # 指数缺失不插值
+
+    def test_repeated_requests_are_byte_identical(self):
+        self._write_ready()
+        first = self.client.get("/api/etf/share-flow").content
+        second = self.client.get("/api/etf/share-flow").content
+        self.assertEqual(first, second)
+
+    def test_requests_do_not_touch_product(self):
+        self._write_ready()
+        before = (self.product.stat().st_mtime_ns, self.product.read_bytes())
+        self.client.get("/api/etf/share-flow")
+        self.client.get("/api/etf/share-flow")
+        self.assertEqual((self.product.stat().st_mtime_ns, self.product.read_bytes()), before)
+
+    def test_preparing_when_product_missing(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            response = self.client.get("/api/etf/share-flow")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["data_state"], "preparing")
+        self.assertEqual(data["dates"], [])
+        self.assertIsNotNone(data["stale_reason"])
+
+    def test_preparing_when_product_corrupt(self):
+        self.product.write_text("{not json", encoding="utf-8")
+        with contextlib.redirect_stdout(io.StringIO()):
+            response = self.client.get("/api/etf/share-flow")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["data_state"], "preparing")
 
 
 if __name__ == "__main__":

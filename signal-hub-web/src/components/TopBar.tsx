@@ -3,32 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { SearchIcon, BellIcon } from './icons';
 import { GlobalTaskButton } from './TaskButtons';
 import { titleByPath } from './Sidebar';
-import { useMarketData } from '../data/MarketDataProvider';
 import { useBloggerNotifications } from '../data/BloggerNotificationProvider';
-import { useTaskControl } from '../data/TaskControlProvider';
 import { usePageMetaContext } from '../data/PageMetaProvider';
-
-function ModeBadge({ mode }: { mode: 'live' | 'close' | null }) {
-  if (mode === 'live') {
-    return (
-      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-ocean-50 text-ocean-700">
-        <span className="signal-dot confirm"></span>盘中实时
-      </span>
-    );
-  }
-  if (mode === 'close') {
-    return (
-      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
-        <span className="signal-dot neutral"></span>收盘数据
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500">
-      数据准备中
-    </span>
-  );
-}
 
 const BELL_TITLE: Record<string, string> = {
   granted: '发文桌面提醒已开启，点击发送一条测试通知',
@@ -39,14 +15,11 @@ const BELL_TITLE: Record<string, string> = {
 
 export function TopBar() {
   const { pathname } = useLocation();
-  const title = titleByPath.get(pathname) ?? '指数总览';
-  const { snapshot, error, isLoading, lastSuccessAt, refresh } = useMarketData();
+  const title = titleByPath.get(pathname) ?? 'SignalHub';
   const { permission, enabled, enable, test } = useBloggerNotifications();
-  const { enabled: taskEnabled } = useTaskControl();
   const { meta: pageMeta } = usePageMetaContext();
-  const snapshotPollOn = taskEnabled.snapshot_poll;
-  // 页面级数据截止：页面注册了 asOf（如机构持仓交易日、博主记录更新时间）时优先展示，否则回退全局快照日期
-  const asOfText = pageMeta?.asOf ? pageMeta.asOf.text : snapshot?.as_of ?? '--';
+  // 各页面自行注册数据截止时间（机构持仓交易日、博主记录更新时间等），顶栏不再依赖统一快照
+  const asOfText = pageMeta?.asOf?.text ?? '--';
   const asOfWarn = pageMeta?.asOf?.warn ?? false;
 
   // 铃铛点击反馈：权限被拒、浏览器不支持、授权结果、测试通知都给出可见提示，避免"点了没反应"
@@ -109,12 +82,6 @@ export function TopBar() {
             >
               {asOfText}
             </span>
-            <ModeBadge mode={snapshot?.mode ?? null} />
-            {snapshot?.stale && (
-              <span className="text-xs px-2 py-1 rounded-full bg-coral-50 text-coral-600 font-medium">
-                数据陈旧
-              </span>
-            )}
           </div>
           {hasSecondRow && (
             <div className="flex items-baseline gap-x-3 gap-y-0.5 mt-0.5 flex-wrap">
@@ -140,22 +107,6 @@ export function TopBar() {
             className="bg-transparent text-sm outline-none w-32 text-slate-600 placeholder-slate-400"
           />
         </div>
-        <div className="text-right leading-tight">
-          <div className="text-xs text-slate-500 tabular-nums">
-            {error ? `更新失败：${error}` : lastSuccessAt ? `更新于 ${lastSuccessAt}` : '加载中…'}
-          </div>
-          <div className={`text-[11px] ${snapshotPollOn ? 'text-slate-400' : 'text-coral-500'}`}>
-            {snapshotPollOn ? '每 30 秒自动刷新' : '自动刷新已停止'}
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={refresh}
-          disabled={isLoading}
-          className="px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-50 text-brand-700 hover:bg-brand-100 transition-colors disabled:opacity-50"
-        >
-          {isLoading ? '刷新中' : '立即刷新'}
-        </button>
         {pageRefresh && (
           <button
             type="button"

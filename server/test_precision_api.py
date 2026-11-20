@@ -15,7 +15,7 @@ import unittest
 from fastapi.testclient import TestClient
 
 from . import paths
-from .app import STORE, app, index_history, snapshot
+from .app import STORE, app, snapshot
 from .snapshot import build_close_snapshot
 
 HORIZONS = ("5", "10", "20", "30")
@@ -70,26 +70,6 @@ class PrecisionApiTest(unittest.TestCase):
                         self.assertIn("start", cell["statistical_interval"])
                         self.assertIn("direction_correct_wilson95", cell)
                         self.assertIn("avg_max_adverse_excursion", cell["drawdown"])
-
-    def test_history_anchors_and_flags_when_precision_available(self):
-        data = index_history("sh000001")
-        self.assertEqual(data["code"], "sh000001")
-        if not data["precision_matrix"]:
-            self.assertEqual(data["sample_flags"], {})
-            self.assertEqual(data["pivot_anchors"], [])
-            self.assertIsNone(data["criteria_note"])
-            self.assertIsNone(data["legacy_rate_note"])
-            return
-        self.assertEqual(len(data["precision_matrix"]["train"]["horizons"]), 4)
-        self.assertIsInstance(data["pivot_anchors"], list)
-        self.assertIsNotNone(data["criteria_note"])
-        self.assertIn("历史基线", data["legacy_rate_note"])
-        flags = data["sample_flags"]
-        self.assertEqual(len(flags), 2 * 4 * 2)
-        for label, flag in flags.items():
-            self.assertIn("small_sample", flag)
-            self.assertEqual(flag["single_digit_resolved"], flag["resolved"] < 10)
-            self.assertEqual(flag["small_sample"], flag["resolved"] < 30, label)
 
     def test_pivot_anchors_carry_three_dates_and_layer_log(self):
         precision = snapshot()["precision"]
@@ -163,17 +143,6 @@ class PrecisionEndToEndTest(unittest.TestCase):
                         self.assertIn("direction_correct_wilson95", cell)
                         cell_count += 1
         self.assertEqual(cell_count, 7 * 2 * 4 * 2)
-
-    def test_http_history_has_anchors_and_flags(self):
-        response = self.client.get("/api/indices/sh000001/history")
-        self.assertEqual(response.status_code, 200)
-        body = response.json()
-        self.assertIn("precision_matrix", body)
-        self.assertIn("pivot_anchors", body)
-        if not body["precision_matrix"]:
-            self.assertEqual(body["sample_flags"], {})
-            return
-        self.assertEqual(len(body["sample_flags"]), 16)
 
     def test_static_index_page_is_served(self):
         response = self.client.get("/")

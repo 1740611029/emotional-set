@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import type { ComponentType, SVGProps } from 'react';
-import { DashboardIcon, SectorIcon, InstitutionIcon, VolumeIcon, PostIcon, LhbIcon, LimitCycleIcon } from './icons';
+import { InstitutionIcon, VolumeIcon, PostIcon, LhbIcon, LimitCycleIcon } from './icons';
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -19,19 +19,11 @@ export interface NavGroup {
 /**
  * 侧边导航分组。
  *
- * 只收录「有真实数据任务支撑」的页面：每个菜单都必须对应一条已落地的计算链路
- * （指数信号 → index-signals.json、板块趋势 → sector-trends.json）。
+ * 只收录「有真实数据任务支撑」的页面：每个菜单都必须对应一条已落地的计算链路。
  * 无独立计算逻辑的模板页不再占位，避免菜单里出现只有标题不同的重复页面。
+ * 指数总览 / 板块趋势已于 2026-11-20 下线，对应入口一并移除。
  */
 export const navGroups: NavGroup[] = [
-  {
-    section: '概览',
-    items: [{ key: 'dashboard', label: '指数总览', to: '/', icon: DashboardIcon }],
-  },
-  {
-    section: '板块',
-    items: [{ key: 'sectors', label: '板块趋势', to: '/sectors', icon: SectorIcon }],
-  },
   {
     section: '情绪',
     // 连板周期：页面已就绪，涨停/连板数据管道待口径确认（preparing），暂不参与任何信号计算

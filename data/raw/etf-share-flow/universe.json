@@ -1,0 +1,1063 @@
+{
+  "source": "上交所ETF份额(dated快照)+深交所ETF份额(日频区间); 同花顺ETF每日单位净值快照(fund_etf_spot_ths, date参数)",
+  "base_day": "2026-11-19",
+  "broad_keywords": [
+    "沪深300",
+    "中证300",
+    "300ETF",
+    "中证A500",
+    "A500",
+    "中证500",
+    "500ETF",
+    "中证1000",
+    "1000ETF",
+    "中证2000",
+    "2000ETF",
+    "上证50",
+    "50ETF",
+    "科创50",
+    "科创板50",
+    "科创100",
+    "创业板ETF",
+    "创业板指",
+    "创业板50",
+    "深证100",
+    "上证综指",
+    "上证180",
+    "中证A50",
+    "A50ETF",
+    "中小100",
+    "MSCI中国",
+    "富时A50"
+  ],
+  "exclude_keywords": [
+    "恒生",
+    "恒指",
+    "中概",
+    "港股",
+    "海外",
+    "纳斯达克",
+    "标普",
+    "日经",
+    "黄金",
+    "豆粕",
+    "有色",
+    "稀土",
+    "半导体",
+    "芯片",
+    "医药",
+    "军工",
+    "证券",
+    "券商",
+    "银行",
+    "地产",
+    "煤炭",
+    "食品",
+    "消费",
+    "新能源",
+    "光伏",
+    "酒",
+    "AI",
+    "通信",
+    "计算机",
+    "电子",
+    "债券",
+    "国债",
+    "可转债"
+  ],
+  "min_aum_yi": 5,
+  "universe": [
+    {
+      "code": "510300",
+      "name": "华泰柏瑞沪深300ETF",
+      "exchange": "sse",
+      "base_share": 51540787699.99999,
+      "base_nav": 4.0594,
+      "base_aum_yi": 2092.25
+    },
+    {
+      "code": "588000",
+      "name": "华夏上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 102434668200.0,
+      "base_nav": 1.344,
+      "base_aum_yi": 1376.72
+    },
+    {
+      "code": "159915",
+      "name": "易方达创业板ETF",
+      "exchange": "szse",
+      "base_share": 49907454936.0,
+      "base_nav": 2.3087,
+      "base_aum_yi": 1152.21
+    },
+    {
+      "code": "510310",
+      "name": "易方达沪深300ETF",
+      "exchange": "sse",
+      "base_share": 27355244000.0,
+      "base_nav": 3.9451,
+      "base_aum_yi": 1079.19
+    },
+    {
+      "code": "510330",
+      "name": "华夏沪深300ETF",
+      "exchange": "sse",
+      "base_share": 19748949800.0,
+      "base_nav": 4.2337,
+      "base_aum_yi": 836.11
+    },
+    {
+      "code": "159919",
+      "name": "嘉实沪深300ETF",
+      "exchange": "szse",
+      "base_share": 16186716676.0,
+      "base_nav": 4.2387,
+      "base_aum_yi": 686.11
+    },
+    {
+      "code": "510500",
+      "name": "南方中证500ETF",
+      "exchange": "sse",
+      "base_share": 10674168600.000002,
+      "base_nav": 6.2894,
+      "base_aum_yi": 671.34
+    },
+    {
+      "code": "588080",
+      "name": "易方达上证科创板50ETF",
+      "exchange": "sse",
+      "base_share": 43855628099.99999,
+      "base_nav": 1.3013,
+      "base_aum_yi": 570.69
+    },
+    {
+      "code": "512100",
+      "name": "南方中证1000ETF",
+      "exchange": "sse",
+      "base_share": 20575217600.0,
+      "base_nav": 2.4163,
+      "base_aum_yi": 497.16
+    },
+    {
+      "code": "510050",
+      "name": "华夏上证50ETF",
+      "exchange": "sse",
+      "base_share": 16660566800.0,
+      "base_nav": 2.8919,
+      "base_aum_yi": 481.81
+    },
+    {
+      "code": "563360",
+      "name": "华泰柏瑞中证A500ETF",
+      "exchange": "sse",
+      "base_share": 38605987400.0,
+      "base_nav": 1.0803,
+      "base_aum_yi": 417.06
+    },
+    {
+      "code": "159352",
+      "name": "南方中证A500ETF",
+      "exchange": "szse",
+      "base_share": 30690101746.0,
+      "base_nav": 1.0656,
+      "base_aum_yi": 327.03
+    },
+    {
+      "code": "159338",
+      "name": "国泰中证A500ETF",
+      "exchange": "szse",
+      "base_share": 28880086664.0,
+      "base_nav": 1.0222,
+      "base_aum_yi": 295.21
+    },
+    {
+      "code": "159361",
+      "name": "易方达中证A500ETF",
+      "exchange": "szse",
+      "base_share": 28199090279.0,
+      "base_nav": 1.0434,
+      "base_aum_yi": 294.23
+    },
+    {
+      "code": "159949",
+      "name": "华安创业板50ETF",
+      "exchange": "szse",
+      "base_share": 24185785113.0,
+      "base_nav": 1.0232,
+      "base_aum_yi": 247.47
+    },
+    {
+      "code": "159952",
+      "name": "广发创业板ETF",
+      "exchange": "szse",
+      "base_share": 14250584929.0,
+      "base_nav": 1.4022,
+      "base_aum_yi": 199.82
+    },
+    {
+      "code": "512050",
+      "name": "华夏中证A500ETF",
+      "exchange": "sse",
+      "base_share": 17854992200.0,
+      "base_nav": 1.019,
+      "base_aum_yi": 181.94
+    },
+    {
+      "code": "510210",
+      "name": "上证综指ETF",
+      "exchange": "sse",
+      "base_share": 19244192600.0,
+      "base_nav": 0.9312,
+      "base_aum_yi": 179.2
+    },
+    {
+      "code": "510180",
+      "name": "华安上证180ETF",
+      "exchange": "sse",
+      "base_share": 4462057700.0,
+      "base_nav": 3.6483,
+      "base_aum_yi": 162.79
+    },
+    {
+      "code": "159781",
+      "name": "易方达中证科创创业50ETF",
+      "exchange": "szse",
+      "base_share": 20509860533.0,
+      "base_nav": 0.7144,
+      "base_aum_yi": 146.52
+    },
+    {
+      "code": "512070",
+      "name": "易方达沪深300非银ETF",
+      "exchange": "sse",
+      "base_share": 18960479700.0,
+      "base_nav": 0.7566,
+      "base_aum_yi": 143.45
+    },
+    {
+      "code": "515330",
+      "name": "天弘沪深300ETF",
+      "exchange": "sse",
+      "base_share": 10286709500.0,
+      "base_nav": 1.1664,
+      "base_aum_yi": 119.98
+    },
+    {
+      "code": "563800",
+      "name": "广发中证A500ETF",
+      "exchange": "sse",
+      "base_share": 11698978100.0,
+      "base_nav": 1.0224,
+      "base_aum_yi": 119.61
+    },
+    {
+      "code": "159351",
+      "name": "嘉实中证A500ETF",
+      "exchange": "szse",
+      "base_share": 8846123357.0,
+      "base_nav": 1.015,
+      "base_aum_yi": 89.79
+    },
+    {
+      "code": "588050",
+      "name": "科创50ETF工银",
+      "exchange": "sse",
+      "base_share": 6790241300.0,
+      "base_nav": 1.3042,
+      "base_aum_yi": 88.56
+    },
+    {
+      "code": "588060",
+      "name": "广发科创50ETF",
+      "exchange": "sse",
+      "base_share": 10843140000.0,
+      "base_nav": 0.8068,
+      "base_aum_yi": 87.48
+    },
+    {
+      "code": "563220",
+      "name": "富国中证A500ETF",
+      "exchange": "sse",
+      "base_share": 8000013700.0,
+      "base_nav": 1.066,
+      "base_aum_yi": 85.28
+    },
+    {
+      "code": "159922",
+      "name": "嘉实中证500ETF",
+      "exchange": "szse",
+      "base_share": 3265676765.0,
+      "base_nav": 2.5495,
+      "base_aum_yi": 83.26
+    },
+    {
+      "code": "159977",
+      "name": "天弘创业板ETF",
+      "exchange": "szse",
+      "base_share": 6363872820.0,
+      "base_nav": 1.1981,
+      "base_aum_yi": 76.25
+    },
+    {
+      "code": "512500",
+      "name": "华夏中证500ETF",
+      "exchange": "sse",
+      "base_share": 1969608800.0,
+      "base_nav": 3.5564,
+      "base_aum_yi": 70.05
+    },
+    {
+      "code": "560010",
+      "name": "广发中证1000ETF",
+      "exchange": "sse",
+      "base_share": 2764621700.0,
+      "base_nav": 2.477,
+      "base_aum_yi": 68.48
+    },
+    {
+      "code": "588220",
+      "name": "科创100ETF基金",
+      "exchange": "sse",
+      "base_share": 4985697900.0,
+      "base_nav": 1.2341,
+      "base_aum_yi": 61.53
+    },
+    {
+      "code": "159845",
+      "name": "华夏中证1000ETF",
+      "exchange": "szse",
+      "base_share": 2475425606.0,
+      "base_nav": 2.4793,
+      "base_aum_yi": 61.37
+    },
+    {
+      "code": "560610",
+      "name": "招商中证A500ETF",
+      "exchange": "sse",
+      "base_share": 5374988400.0,
+      "base_nav": 0.9885,
+      "base_aum_yi": 53.13
+    },
+    {
+      "code": "563300",
+      "name": "华泰柏瑞中证2000ETF",
+      "exchange": "sse",
+      "base_share": 4626174000.0,
+      "base_nav": 1.1421,
+      "base_aum_yi": 52.84
+    },
+    {
+      "code": "510360",
+      "name": "广发沪深300ETF",
+      "exchange": "sse",
+      "base_share": 3086381200.0,
+      "base_nav": 1.5529,
+      "base_aum_yi": 47.93
+    },
+    {
+      "code": "159353",
+      "name": "景顺长城中证A500ETF",
+      "exchange": "szse",
+      "base_share": 4412161812.0,
+      "base_nav": 1.0409,
+      "base_aum_yi": 45.93
+    },
+    {
+      "code": "510580",
+      "name": "易方达中证500ETF",
+      "exchange": "sse",
+      "base_share": 1314968299.9999998,
+      "base_nav": 3.3088,
+      "base_aum_yi": 43.51
+    },
+    {
+      "code": "515300",
+      "name": "嘉实沪深300红利低波动ETF",
+      "exchange": "sse",
+      "base_share": 2954675200.0,
+      "base_nav": 1.425,
+      "base_aum_yi": 42.1
+    },
+    {
+      "code": "159783",
+      "name": "华夏中证科创创业50ETF",
+      "exchange": "szse",
+      "base_share": 5834059442.0,
+      "base_nav": 0.7207,
+      "base_aum_yi": 42.05
+    },
+    {
+      "code": "159682",
+      "name": "景顺长城创业板50ETF",
+      "exchange": "szse",
+      "base_share": 3863307670.0,
+      "base_nav": 0.9991,
+      "base_aum_yi": 38.6
+    },
+    {
+      "code": "510350",
+      "name": "沪深300ETF工银",
+      "exchange": "sse",
+      "base_share": 899214700.0,
+      "base_nav": 4.2756,
+      "base_aum_yi": 38.45
+    },
+    {
+      "code": "159948",
+      "name": "南方创业板ETF",
+      "exchange": "szse",
+      "base_share": 1464697720.0,
+      "base_nav": 2.5517,
+      "base_aum_yi": 37.37
+    },
+    {
+      "code": "588090",
+      "name": "华泰柏瑞上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 2721072800.0000005,
+      "base_nav": 1.3097,
+      "base_aum_yi": 35.64
+    },
+    {
+      "code": "560530",
+      "name": "摩根中证A500ETF",
+      "exchange": "sse",
+      "base_share": 3472623700.0,
+      "base_nav": 1.019,
+      "base_aum_yi": 35.39
+    },
+    {
+      "code": "159901",
+      "name": "易方达深证100ETF",
+      "exchange": "szse",
+      "base_share": 1281634930.0,
+      "base_nav": 2.7273,
+      "base_aum_yi": 34.95
+    },
+    {
+      "code": "515390",
+      "name": "华安沪深300ETF",
+      "exchange": "sse",
+      "base_share": 2922683000.0,
+      "base_nav": 1.1839,
+      "base_aum_yi": 34.6
+    },
+    {
+      "code": "159673",
+      "name": "鹏华沪深300ETF",
+      "exchange": "szse",
+      "base_share": 3025528385.0,
+      "base_nav": 1.1201,
+      "base_aum_yi": 33.89
+    },
+    {
+      "code": "159603",
+      "name": "天弘中证科创创业50ETF",
+      "exchange": "szse",
+      "base_share": 2914071922.0,
+      "base_nav": 1.1028,
+      "base_aum_yi": 32.14
+    },
+    {
+      "code": "159633",
+      "name": "易方达中证1000ETF",
+      "exchange": "szse",
+      "base_share": 1230162658.0,
+      "base_nav": 2.5491,
+      "base_aum_yi": 31.36
+    },
+    {
+      "code": "159957",
+      "name": "华夏创业板ETF",
+      "exchange": "szse",
+      "base_share": 2059784560.0,
+      "base_nav": 1.5142,
+      "base_aum_yi": 31.19
+    },
+    {
+      "code": "515660",
+      "name": "国联安沪深300ETF",
+      "exchange": "sse",
+      "base_share": 593794200.0,
+      "base_nav": 5.0866,
+      "base_aum_yi": 30.2
+    },
+    {
+      "code": "588380",
+      "name": "富国中证科创创业50ETF",
+      "exchange": "sse",
+      "base_share": 4103770000.0,
+      "base_nav": 0.7316,
+      "base_aum_yi": 30.02
+    },
+    {
+      "code": "159971",
+      "name": "富国创业板ETF",
+      "exchange": "szse",
+      "base_share": 3700020288.0,
+      "base_nav": 0.8038,
+      "base_aum_yi": 29.74
+    },
+    {
+      "code": "588030",
+      "name": "博时科创100ETF",
+      "exchange": "sse",
+      "base_share": 2276838100.0,
+      "base_nav": 1.2349,
+      "base_aum_yi": 28.12
+    },
+    {
+      "code": "159780",
+      "name": "南方中证科创创业50ETF",
+      "exchange": "szse",
+      "base_share": 3831848583.0,
+      "base_nav": 0.7164,
+      "base_aum_yi": 27.45
+    },
+    {
+      "code": "510100",
+      "name": "易方达上证50ETF",
+      "exchange": "sse",
+      "base_share": 962606799.9999999,
+      "base_nav": 2.8485,
+      "base_aum_yi": 27.42
+    },
+    {
+      "code": "159300",
+      "name": "富国沪深300ETF",
+      "exchange": "szse",
+      "base_share": 619258097.0,
+      "base_nav": 4.3533,
+      "base_aum_yi": 26.96
+    },
+    {
+      "code": "560510",
+      "name": "中证A500ETF泰康",
+      "exchange": "sse",
+      "base_share": 2657026900.0,
+      "base_nav": 0.9891,
+      "base_aum_yi": 26.28
+    },
+    {
+      "code": "588940",
+      "name": "富国上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 3878840000.0,
+      "base_nav": 0.6589,
+      "base_aum_yi": 25.56
+    },
+    {
+      "code": "159925",
+      "name": "南方沪深300ETF",
+      "exchange": "szse",
+      "base_share": 636620856.0,
+      "base_nav": 3.9847,
+      "base_aum_yi": 25.37
+    },
+    {
+      "code": "159205",
+      "name": "创业板ETF东财",
+      "exchange": "szse",
+      "base_share": 2219056064.0,
+      "base_nav": 1.1303,
+      "base_aum_yi": 25.08
+    },
+    {
+      "code": "159593",
+      "name": "平安中证A50ETF",
+      "exchange": "szse",
+      "base_share": 1829196040.0,
+      "base_nav": 1.2164,
+      "base_aum_yi": 22.25
+    },
+    {
+      "code": "588400",
+      "name": "嘉实中证科创创业50ETF",
+      "exchange": "sse",
+      "base_share": 2976600600.0,
+      "base_nav": 0.7304,
+      "base_aum_yi": 21.74
+    },
+    {
+      "code": "159362",
+      "name": "A500ETF工银",
+      "exchange": "szse",
+      "base_share": 1919180191.0,
+      "base_nav": 1.0996,
+      "base_aum_yi": 21.1
+    },
+    {
+      "code": "588870",
+      "name": "汇添富上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 1595552000.0,
+      "base_nav": 1.2946,
+      "base_aum_yi": 20.66
+    },
+    {
+      "code": "159629",
+      "name": "富国中证1000ETF",
+      "exchange": "szse",
+      "base_share": 815252663.0,
+      "base_nav": 2.4882,
+      "base_aum_yi": 20.29
+    },
+    {
+      "code": "560050",
+      "name": "汇添富MSCI中国A50互联互通ETF",
+      "exchange": "sse",
+      "base_share": 2127434400.0,
+      "base_nav": 0.921,
+      "base_aum_yi": 19.59
+    },
+    {
+      "code": "589850",
+      "name": "科创50ETF东财",
+      "exchange": "sse",
+      "base_share": 1594057000.0,
+      "base_nav": 1.2209,
+      "base_aum_yi": 19.46
+    },
+    {
+      "code": "159339",
+      "name": "A500ETF",
+      "exchange": "szse",
+      "base_share": 1844086841.0,
+      "base_nav": 1.034,
+      "base_aum_yi": 19.07
+    },
+    {
+      "code": "510510",
+      "name": "广发中证500ETF",
+      "exchange": "sse",
+      "base_share": 909038300.0,
+      "base_nav": 2.0431,
+      "base_aum_yi": 18.57
+    },
+    {
+      "code": "159680",
+      "name": "招商中证1000增强策略ETF",
+      "exchange": "szse",
+      "base_share": 1389438087.0,
+      "base_nav": 1.3226,
+      "base_aum_yi": 18.38
+    },
+    {
+      "code": "589360",
+      "name": "国泰上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 2717174000.0,
+      "base_nav": 0.6566,
+      "base_aum_yi": 17.84
+    },
+    {
+      "code": "588190",
+      "name": "科创100",
+      "exchange": "sse",
+      "base_share": 1414618299.9999998,
+      "base_nav": 1.2342,
+      "base_aum_yi": 17.46
+    },
+    {
+      "code": "563880",
+      "name": "汇添富中证A500ETF",
+      "exchange": "sse",
+      "base_share": 1648996400.0000002,
+      "base_nav": 1.0585,
+      "base_aum_yi": 17.45
+    },
+    {
+      "code": "561550",
+      "name": "华泰柏瑞中证500增强策略ETF",
+      "exchange": "sse",
+      "base_share": 1544989600.0,
+      "base_nav": 1.095,
+      "base_aum_yi": 16.92
+    },
+    {
+      "code": "159681",
+      "name": "创50ETF",
+      "exchange": "szse",
+      "base_share": 1591772337.0,
+      "base_nav": 1.0119,
+      "base_aum_yi": 16.11
+    },
+    {
+      "code": "159820",
+      "name": "天弘中证500ETF",
+      "exchange": "szse",
+      "base_share": 1428908470.0,
+      "base_nav": 1.0937,
+      "base_aum_yi": 15.63
+    },
+    {
+      "code": "510380",
+      "name": "国寿安保沪深300ETF",
+      "exchange": "sse",
+      "base_share": 1251802400.0,
+      "base_nav": 1.2116,
+      "base_aum_yi": 15.17
+    },
+    {
+      "code": "159552",
+      "name": "招商中证2000增强策略ETF",
+      "exchange": "szse",
+      "base_share": 856790319.0,
+      "base_nav": 1.7605,
+      "base_aum_yi": 15.08
+    },
+    {
+      "code": "588300",
+      "name": "招商中证科创创业50ETF",
+      "exchange": "sse",
+      "base_share": 1924210500.0,
+      "base_nav": 0.7473,
+      "base_aum_yi": 14.38
+    },
+    {
+      "code": "563080",
+      "name": "易方达中证A50ETF",
+      "exchange": "sse",
+      "base_share": 1154588400.0,
+      "base_nav": 1.2313,
+      "base_aum_yi": 14.22
+    },
+    {
+      "code": "159360",
+      "name": "天弘中证A500ETF",
+      "exchange": "szse",
+      "base_share": 1274184526.0,
+      "base_nav": 1.1076,
+      "base_aum_yi": 14.11
+    },
+    {
+      "code": "159247",
+      "name": "汇添富创业板ETF",
+      "exchange": "szse",
+      "base_share": 2023984966.0,
+      "base_nav": 0.6946,
+      "base_aum_yi": 14.06
+    },
+    {
+      "code": "159601",
+      "name": "华夏MSCI中国A50互联互通ETF",
+      "exchange": "szse",
+      "base_share": 1445388073.0,
+      "base_nav": 0.9427,
+      "base_aum_yi": 13.63
+    },
+    {
+      "code": "563000",
+      "name": "易方达MSCI中国A50互联互通ETF",
+      "exchange": "sse",
+      "base_share": 1413451099.9999998,
+      "base_nav": 0.9464,
+      "base_aum_yi": 13.38
+    },
+    {
+      "code": "159357",
+      "name": "博时中证A500ETF",
+      "exchange": "szse",
+      "base_share": 1222833841.0,
+      "base_nav": 1.085,
+      "base_aum_yi": 13.27
+    },
+    {
+      "code": "588950",
+      "name": "景顺长城上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 968729700.0,
+      "base_nav": 1.3348,
+      "base_aum_yi": 12.93
+    },
+    {
+      "code": "159531",
+      "name": "南方中证2000ETF",
+      "exchange": "szse",
+      "base_share": 1088608406.0,
+      "base_nav": 1.1878,
+      "base_aum_yi": 12.93
+    },
+    {
+      "code": "530000",
+      "name": "天弘上证50ETF",
+      "exchange": "sse",
+      "base_share": 938029400.0,
+      "base_nav": 1.3257,
+      "base_aum_yi": 12.44
+    },
+    {
+      "code": "512020",
+      "name": "鹏华中证A500ETF",
+      "exchange": "sse",
+      "base_share": 1136012700.0,
+      "base_nav": 1.0901,
+      "base_aum_yi": 12.38
+    },
+    {
+      "code": "159595",
+      "name": "大成中证A50ETF",
+      "exchange": "szse",
+      "base_share": 1003113255.0,
+      "base_nav": 1.2228,
+      "base_aum_yi": 12.27
+    },
+    {
+      "code": "588460",
+      "name": "科创50增强ETF",
+      "exchange": "sse",
+      "base_share": 789014000.0,
+      "base_nav": 1.5424,
+      "base_aum_yi": 12.17
+    },
+    {
+      "code": "560570",
+      "name": "国联安中证A500红利低波ETF",
+      "exchange": "sse",
+      "base_share": 1065541200.0,
+      "base_nav": 1.078,
+      "base_aum_yi": 11.49
+    },
+    {
+      "code": "159215",
+      "name": "平安中证A500ETF",
+      "exchange": "szse",
+      "base_share": 964582803.0,
+      "base_nav": 1.101,
+      "base_aum_yi": 10.62
+    },
+    {
+      "code": "159908",
+      "name": "博时创业板ETF",
+      "exchange": "szse",
+      "base_share": 488229029.0,
+      "base_nav": 2.1703,
+      "base_aum_yi": 10.6
+    },
+    {
+      "code": "561420",
+      "name": "汇添富沪深300自由现金流ETF",
+      "exchange": "sse",
+      "base_share": 958237000.0,
+      "base_nav": 1.101,
+      "base_aum_yi": 10.55
+    },
+    {
+      "code": "159330",
+      "name": "沪深300ETF基金",
+      "exchange": "szse",
+      "base_share": 788801009.0,
+      "base_nav": 1.2564,
+      "base_aum_yi": 9.91
+    },
+    {
+      "code": "510320",
+      "name": "中金沪深300ETF",
+      "exchange": "sse",
+      "base_share": 898068500.0,
+      "base_nav": 1.0937,
+      "base_aum_yi": 9.82
+    },
+    {
+      "code": "589150",
+      "name": "平安上证科创板50成份ETF",
+      "exchange": "sse",
+      "base_share": 997437200.0,
+      "base_nav": 0.9207,
+      "base_aum_yi": 9.18
+    },
+    {
+      "code": "159358",
+      "name": "大成中证A500ETF",
+      "exchange": "szse",
+      "base_share": 827106420.0,
+      "base_nav": 1.1098,
+      "base_aum_yi": 9.18
+    },
+    {
+      "code": "561300",
+      "name": "国泰沪深300增强策略ETF",
+      "exchange": "sse",
+      "base_share": 967965000.0,
+      "base_nav": 0.9473,
+      "base_aum_yi": 9.17
+    },
+    {
+      "code": "560350",
+      "name": "摩根中证A50ETF",
+      "exchange": "sse",
+      "base_share": 785532100.0000001,
+      "base_nav": 1.1236,
+      "base_aum_yi": 8.83
+    },
+    {
+      "code": "512510",
+      "name": "华泰柏瑞中证500ETF",
+      "exchange": "sse",
+      "base_share": 463429800.00000006,
+      "base_nav": 1.8933,
+      "base_aum_yi": 8.77
+    },
+    {
+      "code": "510590",
+      "name": "平安中证500ETF",
+      "exchange": "sse",
+      "base_share": 123586100.0,
+      "base_nav": 6.8445,
+      "base_aum_yi": 8.46
+    },
+    {
+      "code": "159369",
+      "name": "易方达创业板50ETF",
+      "exchange": "szse",
+      "base_share": 943753492.0,
+      "base_nav": 0.879,
+      "base_aum_yi": 8.3
+    },
+    {
+      "code": "512080",
+      "name": "中金中证A500ETF",
+      "exchange": "sse",
+      "base_share": 752186100.0,
+      "base_nav": 1.0962,
+      "base_aum_yi": 8.25
+    },
+    {
+      "code": "588350",
+      "name": "鹏扬中证科创创业50ETF",
+      "exchange": "sse",
+      "base_share": 694546000.0,
+      "base_nav": 1.1227,
+      "base_aum_yi": 7.8
+    },
+    {
+      "code": "562660",
+      "name": "华夏中证2000ETF",
+      "exchange": "sse",
+      "base_share": 498874000.0,
+      "base_nav": 1.5549,
+      "base_aum_yi": 7.76
+    },
+    {
+      "code": "510230",
+      "name": "国泰上证180金融ETF",
+      "exchange": "sse",
+      "base_share": 553808000.0,
+      "base_nav": 1.3906,
+      "base_aum_yi": 7.7
+    },
+    {
+      "code": "517300",
+      "name": "国寿安保中证沪港深300ETF",
+      "exchange": "sse",
+      "base_share": 897434500.0,
+      "base_nav": 0.8378,
+      "base_aum_yi": 7.52
+    },
+    {
+      "code": "159359",
+      "name": "华安中证A500ETF",
+      "exchange": "szse",
+      "base_share": 659140424.0,
+      "base_nav": 1.0737,
+      "base_aum_yi": 7.08
+    },
+    {
+      "code": "159807",
+      "name": "易方达中证科技50ETF",
+      "exchange": "szse",
+      "base_share": 979051428.0,
+      "base_nav": 0.7102,
+      "base_aum_yi": 6.95
+    },
+    {
+      "code": "159356",
+      "name": "万家中证A500ETF",
+      "exchange": "szse",
+      "base_share": 635120647.0,
+      "base_nav": 1.0906,
+      "base_aum_yi": 6.93
+    },
+    {
+      "code": "510390",
+      "name": "平安沪深300ETF",
+      "exchange": "sse",
+      "base_share": 150050000.0,
+      "base_nav": 4.6116,
+      "base_aum_yi": 6.92
+    },
+    {
+      "code": "159592",
+      "name": "A50ETF基金",
+      "exchange": "szse",
+      "base_share": 558310460.0,
+      "base_nav": 1.2055,
+      "base_aum_yi": 6.73
+    },
+    {
+      "code": "560120",
+      "name": "华夏中证500自由现金流ETF",
+      "exchange": "sse",
+      "base_share": 552689000.0,
+      "base_nav": 1.1802,
+      "base_aum_yi": 6.52
+    },
+    {
+      "code": "563520",
+      "name": "沪深300ETF永赢",
+      "exchange": "sse",
+      "base_share": 544065000.0,
+      "base_nav": 1.0436,
+      "base_aum_yi": 5.68
+    },
+    {
+      "code": "512090",
+      "name": "易方达MSCI中国A股国际通ETF",
+      "exchange": "sse",
+      "base_share": 325592300.0,
+      "base_nav": 1.7022,
+      "base_aum_yi": 5.54
+    },
+    {
+      "code": "562070",
+      "name": "华宝沪深300增强策略ETF",
+      "exchange": "sse",
+      "base_share": 582542000.0,
+      "base_nav": 0.9232,
+      "base_aum_yi": 5.38
+    },
+    {
+      "code": "159968",
+      "name": "博时中证500ETF",
+      "exchange": "szse",
+      "base_share": 64895098.0,
+      "base_nav": 8.2704,
+      "base_aum_yi": 5.37
+    },
+    {
+      "code": "561230",
+      "name": "中证A50ETF工银",
+      "exchange": "sse",
+      "base_share": 442477800.0,
+      "base_nav": 1.185,
+      "base_aum_yi": 5.24
+    },
+    {
+      "code": "515310",
+      "name": "添富沪深300ETF",
+      "exchange": "sse",
+      "base_share": 419611200.0,
+      "base_nav": 1.2091,
+      "base_aum_yi": 5.07
+    },
+    {
+      "code": "512330",
+      "name": "南方中证500信息技术ETF",
+      "exchange": "sse",
+      "base_share": 367188000.0,
+      "base_nav": 1.3761,
+      "base_aum_yi": 5.05
+    }
+  ]
+}

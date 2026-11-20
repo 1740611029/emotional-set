@@ -14,18 +14,6 @@ function Svg({ children, ...props }: P & { children: React.ReactNode }) {
   );
 }
 
-export const DashboardIcon = (p: P) => (
-  <Svg {...p}>
-    <path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-  </Svg>
-);
-
-export const MaCrossIcon = (p: P) => (
-  <Svg {...p}>
-    <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-  </Svg>
-);
-
 export const MomentumIcon = (p: P) => (
   <Svg {...p}>
     <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m14 0v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
@@ -59,12 +47,6 @@ export const CompositeIcon = (p: P) => (
 export const IndicesIcon = (p: P) => (
   <Svg {...p}>
     <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 00110.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-  </Svg>
-);
-
-export const SectorIcon = (p: P) => (
-  <Svg {...p}>
-    <path d="M4 20V10m5 10V4m5 16v-7m5 7V8" />
   </Svg>
 );
 

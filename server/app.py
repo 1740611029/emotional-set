@@ -13,6 +13,7 @@ from . import paths
 from .blogger import load_posts as blogger_posts
 from .blogger import mark_presence as blogger_presence
 from .blogger import trigger_refresh as blogger_trigger_refresh
+from .etf_share_flow import EtfShareFlowStore
 from .etf_volume import EtfVolumeStore
 from .institutions import (
     DEFAULT_LIMIT,
@@ -33,25 +34,19 @@ from .lhb import (
 )
 from .limit_cycle import load_payload as limit_cycle_payload
 from .scheduler import MarketScheduler
-from .sector_stocks import LimitCycleStore, SectorStocksStore
-from .snapshot import PayloadStore, SnapshotStore, now_iso
-from confirmed_sector_trends import STATE_NAMES  # noqa: E402  # paths 已配置 sys.path
+from .snapshot import SnapshotStore, now_iso
 
 STORE = SnapshotStore()
-SECTOR_STORE = PayloadStore()
 INSTITUTION_STORE = InstitutionStore()
 # ETF 成交额序列：只读展示层，与快照轮询解耦，不参与任何信号计算
 ETF_VOLUME_STORE = EtfVolumeStore()
+# 宽基 ETF 申购净流入：只读展示层，不参与任何信号计算
+ETF_SHARE_FLOW_STORE = EtfShareFlowStore()
 # 龙虎榜知名游资：只读展示层，不参与任何信号计算
 LHB_STORE = LhbStore()
-# 板块成分股快照（【板块趋势】页个股弹窗）：只读展示层，不参与任何信号计算
-SECTOR_STOCKS_STORE = SectorStocksStore()
-# 连板周期涨停池索引（成分股 limit 字段 join 用）：只读展示层，不参与信号计算
-LIMIT_CYCLE_STORE = LimitCycleStore()
 SCHEDULER = MarketScheduler(
     STORE, interval=int(os.environ.get("REFRESH_SECONDS", "30"))
 )
-HISTORY_DAYS = (60, 120, 250)
 
 
 @asynccontextmanager
@@ -102,8 +97,8 @@ def task_switch(payload: dict = Body(default={})):
     return {"tasks": states}
 
 
-@app.get("/api/snapshot")
-def snapshot():
+def snapshot() -> dict:
+    """内部快照读取（供服务健康检查与遗留调用方使用；不再注册为 HTTP 路由）。"""
     data = STORE.get()
     if data is None:
         return JSONResponse(
@@ -181,6 +176,12 @@ def etf_volume_series():
     return ETF_VOLUME_STORE.series()
 
 
+@app.get("/api/etf/share-flow")
+def etf_share_flow():
+    """宽基 ETF 申购净流入（列式）：只读落盘产物，未就绪返回 preparing 不返回 5xx。"""
+    return ETF_SHARE_FLOW_STORE.series()
+
+
 @app.get("/api/blogger/posts")
 def blogger_post_list():
     """同花顺博主【全能的野人】发文列表（只读落盘数据，保留近一个月）。"""
@@ -232,171 +233,6 @@ def lhb_daily_api(date: str):
 def limit_cycle_api():
     """连板周期只读数据：产物未落地时返回 preparing 空结构，不返回演示数值。"""
     return limit_cycle_payload()
-
-
-@app.get("/api/indices/{code}/history")
-def index_history(code: str) -> dict:
-    data = STORE.get()
-    if not data:
-        raise HTTPException(status_code=503, detail="数据准备中")
-    for item in data["indices"]:
-        if item["code"] == code:
-            precision = data.get("precision") or {}
-            matrix = item.get("precision_matrix") or {}
-            # 个位数样本与不足 30 的标记如实反映，不隐藏、不替读者下结论。
-            sample_flags = {}
-            for segment in ("train", "validation"):
-                horizons = (matrix.get(segment) or {}).get("horizons", {})
-                for horizon in ("5", "10", "20", "30"):
-                    for kind in ("bottom", "top"):
-                        cell = (horizons.get(horizon) or {}).get(kind)
-                        if not cell:
-                            continue
-                        sample_flags[f"{segment}/{horizon}/{kind}"] = {
-                            "resolved": cell["resolved"],
-                            "small_sample": cell["small_sample"],
-                            "single_digit_resolved": cell["resolved"] < 10,
-                        }
-            return {
-                "code": item["code"],
-                "name": item["name"],
-                "as_of": data["as_of"],
-                "mode": data["mode"],
-                "history": item["history"],
-                "signals": item["signals"],
-                "current_signal": item["current_signal"],
-                "accuracy": item["accuracy"],
-                "candidates": item.get("candidates", []),
-                # 多持有期矩阵、拐点三日期与三层确认逐层日志
-                "precision_matrix": matrix,
-                "precision": precision,
-                "pivot_anchors": (precision.get("pivot_anchors") or {}).get(code, []),
-                "criteria_note": precision.get("criteria_note"),
-                "legacy_rate_note": precision.get("legacy_rate_note"),
-                "sample_flags": sample_flags,
-                # 与 /api/snapshot 同一份事件：单独查历史时也能复现同样的标记
-                "etf_volume_events": data.get("etf_volume_events") or [],
-            }
-    raise HTTPException(status_code=404, detail=f"未知指数代码：{code}")
-
-
-def _find_sector(payload: dict, code: str) -> dict | None:
-    """单层板块：直接在分组内按代码定位，不依赖层级或父级名称。"""
-    for rows in payload.get("groups", {}).values():
-        for item in rows:
-            if item.get("code") == code:
-                return item
-    return None
-
-
-@app.get("/api/sectors/{code}/history")
-def sector_history(code: str, days: int = 120) -> dict:
-    if days not in HISTORY_DAYS:
-        raise HTTPException(status_code=400, detail="days 只支持 60 / 120 / 250")
-    payload = SECTOR_STORE.sectors()
-    if not payload:
-        raise HTTPException(status_code=503, detail="数据准备中")
-    item = _find_sector(payload, code)
-    if item is None:
-        raise HTTPException(status_code=404, detail=f"未知板块代码：{code}")
-    dates = payload.get("dates", [])
-    close = item.get("series", {}).get("close", [])
-    states = item.get("series", {}).get("state", [])
-    total = min(len(dates), len(close), len(states))
-    take = min(days, total)
-    start = total - take
-    series = [
-        {
-            "date": dates[index],
-            "close": close[index],
-            "state": STATE_NAMES.get(states[index]) if states[index] else None,
-        }
-        for index in range(start, total)
-    ]
-    snapshot = STORE.get() or {}
-    return {
-        "code": item.get("code"),
-        "name": item.get("name"),
-        "as_of": payload.get("as_of"),
-        "date": item.get("date"),
-        "requested_days": days,
-        "state": item.get("state"),
-        "strength": item.get("strength"),
-        "strength_parts": item.get("strength_parts"),
-        "strength_basis": item.get("strength_basis"),
-        "days": item.get("days"),
-        "data_anomaly": item.get("data_anomaly"),
-        "data_lag": item.get("data_lag"),
-        "series": series,
-        "insufficient": take < days,
-        "coverage": {
-            "start": series[0]["date"] if series else None,
-            "end": series[-1]["date"] if series else None,
-            "points": len(series),
-        },
-        "stale": bool(snapshot.get("stale")),
-        "stale_since": snapshot.get("stale_since"),
-    }
-
-
-def _find_sector_stocks(payload: dict, code: str) -> dict | None:
-    """单层板块成分股：按代码直接定位，不依赖层级。"""
-    for board in payload.get("boards") or []:
-        if board.get("code") == code:
-            return board
-    return None
-
-
-@app.get("/api/sectors/{code}/stocks")
-def sector_stocks(code: str) -> dict:
-    """板块成分股快照（【板块趋势】页个股弹窗，只读展示层）。
-
-    产物未落地 / 读盘异常 → 202 preparing（不返回 5xx，参照 institutions 降级）；
-    未知板块代码 → 404。每只个股按 6 位代码 join 涨停池（data/limit-cycle.json）：
-    涨停股附加 limit（first_seal/boards/seal_amount/status），非涨停股 limit 为 null；
-    排序由前端按列头切换（涨停时间/连板数/封单金额/成交额/涨幅）。
-    """
-    payload = SECTOR_STOCKS_STORE.load()
-    if not payload:
-        return JSONResponse(
-            status_code=202,
-            content={
-                "data_state": "preparing",
-                "stale": True,
-                "as_of": None,
-                "generated_at": None,
-                "stale_since": None,
-                "stale_reason": "板块成分股快照尚未生成（请先运行 pipeline/fetch_sector_stocks.py）",
-                "code": code,
-                "name": None,
-                "page_count": 0,
-                "total": 0,
-                "stocks": [],
-            },
-        )
-    board = _find_sector_stocks(payload, code)
-    if board is None:
-        raise HTTPException(status_code=404, detail=f"未知板块代码：{code}")
-    limit_index = LIMIT_CYCLE_STORE.load() or {}
-    stocks = []
-    for stock in board.get("stocks") or []:
-        item = dict(stock)
-        item["limit"] = limit_index.get(str(item.get("code") or ""))
-        stocks.append(item)
-    return {
-        "data_state": "ready",
-        "as_of": payload.get("as_of"),
-        "generated_at": payload.get("generated_at"),
-        "source": payload.get("source"),
-        "heat_algorithm": payload.get("heat_algorithm"),
-        "code": board.get("code"),
-        "name": board.get("name"),
-        "page_count": board.get("page_count"),
-        "total": board.get("total"),
-        "stocks": stocks,
-        # 涨停池数据日期（东财股池，与成分股快照可能不同日，前端如实展示）
-        "limit_as_of": LIMIT_CYCLE_STORE.as_of(),
-    }
 
 
 @app.get("/{full_path:path}")

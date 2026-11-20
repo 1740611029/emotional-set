@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-20 11:13:01",
+    "updated_at": "2026-11-20 16:00:05",
     "retention_days": 30,
-    "total": 95
+    "total": 100
   },
   "posts": [
     {
@@ -1269,6 +1269,81 @@
       "images": 0,
       "image_urls": [],
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f722u1wkbzfg6ed50c75d"
+    },
+    {
+      "id": "2425914566",
+      "ctime": 1795144433000,
+      "date": "2026-11-20",
+      "time": "11:13",
+      "text": "3500.88是什么意思？",
+      "stocks": [],
+      "images": 1,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/b96ba4c5ab5fbcbe22b9cd60402438c8_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f73gmbqs0roc62e693b04"
+    },
+    {
+      "id": "2425970226",
+      "ctime": 1795151326000,
+      "date": "2026-11-20",
+      "time": "13:08",
+      "text": "$科创50ETF汇添富(588870)$ 不是3500.88吗？不是22222.77吗？怎么还能套我？？？？",
+      "stocks": [
+        {
+          "name": "汇添富上证科创板50成份ETF",
+          "code": "588870"
+        }
+      ],
+      "images": 1,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/e0a3232c797ede72362c80b9fb379655_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f74zfb3vmwo3ab047e295"
+    },
+    {
+      "id": "2425992889",
+      "ctime": 1795152162000,
+      "date": "2026-11-20",
+      "time": "13:22",
+      "text": "$中京电子(002579)$ 曾经爱过他。。。",
+      "stocks": [
+        {
+          "name": "中京电子",
+          "code": "002579"
+        }
+      ],
+      "images": 1,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/3f0c862adbf4ce92c03ac3e0b4ac5a89_1280_2782.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f75lqn7q4rx128ac607d1"
+    },
+    {
+      "id": "2426049405",
+      "ctime": 1795154439000,
+      "date": "2026-11-20",
+      "time": "14:00",
+      "text": "其实就是险资在抄底。我也抄底了科创18，目前被套一个手里壳。",
+      "stocks": [],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f775dywx8sctyb324fb33"
+    },
+    {
+      "id": "2426160912",
+      "ctime": 1795158123000,
+      "date": "2026-11-20",
+      "time": "15:02",
+      "text": "周末愉快。同样的人，做不同的东西。结局不一样。别每天都问。自己做自己看的懂的。",
+      "stocks": [],
+      "images": 3,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/e2638b7c2126df761e71a3482da550c5_864_1098.jpg",
+        "https://u.thsi.cn/imgsrc/sns/ed12428f7ec54a9aa997aa213baec9c9_1297_545.jpg",
+        "https://u.thsi.cn/imgsrc/sns/e5131daa239e209811844b3b05e5e863_1320_2868.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f7a76k9sa8u0m5f4fadac"
     }
   ]
 }

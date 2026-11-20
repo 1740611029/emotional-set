@@ -5,12 +5,9 @@ import { TopBar } from './components/TopBar';
 import { PageTaskBar } from './components/TaskButtons';
 import { TaskControlProvider } from './data/TaskControlProvider';
 import { PageMetaProvider } from './data/PageMetaProvider';
-import { MarketDataProvider } from './data/MarketDataProvider';
 import { BloggerNotificationProvider } from './data/BloggerNotificationProvider';
-import { Dashboard } from './pages/Dashboard';
 
-/** 板块页含图表库，按路由懒加载以控制首屏体积 */
-const Sectors = lazy(() => import('./pages/Sectors').then((module) => ({ default: module.Sectors })));
+/** 图表页按路由懒加载以控制首屏体积 */
 const InstitutionPositions = lazy(() => import('./pages/InstitutionPositions').then((module) => ({ default: module.InstitutionPositions })));
 const EtfVolume = lazy(() => import('./pages/EtfVolume').then((module) => ({ default: module.EtfVolume })));
 const BloggerPosts = lazy(() => import('./pages/BloggerPosts').then((module) => ({ default: module.BloggerPosts })));
@@ -22,7 +19,6 @@ export default function App() {
     <TaskControlProvider>
       <PageMetaProvider>
         <BloggerNotificationProvider>
-          <MarketDataProvider>
           <BrowserRouter>
             <div className="flex h-screen overflow-hidden">
               <Sidebar />
@@ -34,23 +30,22 @@ export default function App() {
                   <PageTaskBar />
                   <Suspense fallback={<div className="p-6 text-sm text-slate-500">加载中…</div>}>
                     <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/sectors" element={<Sectors />} />
+                      {/* 指数总览 / 板块趋势已下线：根路径指向发文页，旧书签回落到首页避免空白 */}
+                      <Route path="/" element={<Navigate to="/blogger" replace />} />
+                      <Route path="/sectors" element={<Navigate to="/blogger" replace />} />
                       <Route path="/limit-cycle" element={<LimitCycle />} />
                       <Route path="/institutions" element={<InstitutionPositions />} />
                       <Route path="/etf-volume" element={<EtfVolume />} />
                       <Route path="/blogger" element={<BloggerPosts />} />
                       <Route path="/lhb" element={<LhbTraders />} />
                       <Route path="/institution" element={<Navigate to="/institutions" replace />} />
-                      {/* 已下线的指标页地址回落到总览，避免旧书签打开空白页 */}
-                      <Route path="*" element={<Navigate to="/" replace />} />
+                      <Route path="*" element={<Navigate to="/blogger" replace />} />
                     </Routes>
                   </Suspense>
                 </div>
               </main>
             </div>
           </BrowserRouter>
-        </MarketDataProvider>
         </BloggerNotificationProvider>
       </PageMetaProvider>
     </TaskControlProvider>

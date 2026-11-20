@@ -28,7 +28,8 @@ COOLDOWN_SECONDS = 30 * 60
 # 发行方标识：冷却按发行方隔离（东财限流不影响新浪/腾讯/同花顺线，反之亦然）。
 # 2026-11-14 换源后：指数与 ETF 日线走新浪、ETF 清单走腾讯、板块线走同花顺；
 # 东财仅剩回滚通道（push2 曾被 IP 限流，保留 eastmoney 是为了给回滚路径复权冷却治理）。
-ISSUERS = ("eastmoney", "sina", "tencent", "ths")
+# sse/szse：宽基 ETF 申购净流入数据线走交易所官方份额接口，与行情线冷却隔离。
+ISSUERS = ("eastmoney", "sina", "tencent", "ths", "sse", "szse")
 
 
 class RateLimiter:

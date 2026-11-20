@@ -1,13 +1,10 @@
-/** 快照接口客户端：超时、结构校验与错误归一化。 */
+/** 各页数据接口客户端：超时、结构校验与错误归一化。 */
 import type {
-  BloggerPosts, EtfVolumeSeries, InstitutionPositions, InstitutionPositionsParams,
-  LhbDaily, LhbOverview, LhbTraderDetail, SectorHistory, SectorStocks, Snapshot,
+  BloggerPosts, EtfShareFlow, EtfVolumeSeries, InstitutionPositions,
+  InstitutionPositionsParams, LhbDaily, LhbOverview, LhbTraderDetail,
 } from './types';
 
-const ENDPOINT = '/api/snapshot';
 const TIMEOUT_MS = 10_000;
-export const SECTOR_HISTORY_RANGES = [60, 120, 250] as const;
-export type SectorHistoryRange = (typeof SECTOR_HISTORY_RANGES)[number];
 
 export class ApiError extends Error {
   readonly status?: number;
@@ -21,56 +18,6 @@ export class ApiError extends Error {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
-}
-
-function normalize(payload: unknown): Snapshot {
-  if (!isRecord(payload)) {
-    throw new ApiError('响应不是合法对象');
-  }
-  const mode = payload.mode;
-  if (mode !== 'live' && mode !== 'close' && mode !== null) {
-    throw new ApiError(`未知运行模式：${String(mode)}`);
-  }
-  if (!Array.isArray(payload.indices) || !Array.isArray(payload.recent_signals)) {
-    throw new ApiError('响应缺少 indices / recent_signals');
-  }
-  if (!isRecord(payload.sectors)) {
-    throw new ApiError('响应缺少 sectors');
-  }
-  return {
-    ...(payload as unknown as Snapshot),
-    candidates: Array.isArray(payload.candidates) ? (payload.candidates as Snapshot['candidates']) : [],
-  };
-}
-
-export async function fetchSnapshot(signal?: AbortSignal): Promise<Snapshot> {
-  const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
-  const forwardAbort = () => controller.abort();
-  signal?.addEventListener('abort', forwardAbort);
-  try {
-    const response = await fetch(ENDPOINT, {
-      cache: 'no-store',
-      headers: { Accept: 'application/json' },
-      signal: controller.signal,
-    });
-    if (response.status === 202) {
-      return normalize(await response.json());
-    }
-    if (!response.ok) {
-      throw new ApiError(`数据服务返回 ${response.status}`, response.status);
-    }
-    return normalize(await response.json());
-  } catch (error) {
-    if (error instanceof ApiError) throw error;
-    if ((error as Error)?.name === 'AbortError') {
-      throw new ApiError('请求超时或已取消');
-    }
-    throw new ApiError((error as Error)?.message || '网络请求失败');
-  } finally {
-    window.clearTimeout(timer);
-    signal?.removeEventListener('abort', forwardAbort);
-  }
 }
 
 /** ETF 成交额序列结构校验：缺字段即报错；202 准备中同样返回完整结构，不伪造数值。 */
@@ -123,86 +70,37 @@ export async function fetchEtfVolumeSeries(signal?: AbortSignal): Promise<EtfVol
   }
 }
 
-function normalizeSectorHistory(payload: unknown): SectorHistory {
+/** 宽基 ETF 申购净流入结构校验：缺字段即报错；202 准备中同样返回完整结构，不伪造数值。 */
+export function normalizeEtfShareFlow(payload: unknown): EtfShareFlow {
   if (!isRecord(payload)) {
-    throw new ApiError('板块历史响应不是合法对象');
-  }
-  if (!Array.isArray(payload.series)) {
-    throw new ApiError('板块历史响应缺少 series');
-  }
-  return payload as unknown as SectorHistory;
-}
-
-/** 单板块历史序列；服务端未就绪时抛错，由调用方决定降级。 */
-export async function fetchSectorHistory(
-  code: string,
-  days: SectorHistoryRange,
-  signal?: AbortSignal,
-): Promise<SectorHistory> {
-  const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
-  const forwardAbort = () => controller.abort();
-  signal?.addEventListener('abort', forwardAbort);
-  try {
-    const response = await fetch(`/api/sectors/${encodeURIComponent(code)}/history?days=${days}`, {
-      cache: 'no-store',
-      headers: { Accept: 'application/json' },
-      signal: controller.signal,
-    });
-    if (!response.ok) {
-      let detail = `板块历史接口返回 ${response.status}`;
-      try {
-        const body = await response.json();
-        if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
-      } catch {
-        /* 响应体非 JSON 时保留状态码文案 */
-      }
-      throw new ApiError(detail, response.status);
-    }
-    return normalizeSectorHistory(await response.json());
-  } catch (error) {
-    if (error instanceof ApiError) throw error;
-    if ((error as Error)?.name === 'AbortError') {
-      throw new ApiError('板块历史请求超时或已取消');
-    }
-    throw new ApiError((error as Error)?.message || '板块历史请求失败');
-  } finally {
-    window.clearTimeout(timer);
-    signal?.removeEventListener('abort', forwardAbort);
-  }
-}
-
-function normalizeSectorStocks(payload: unknown): SectorStocks {
-  if (!isRecord(payload)) {
-    throw new ApiError('板块成分股响应不是合法对象');
+    throw new ApiError('宽基 ETF 申购净流入响应不是合法对象');
   }
   const state = payload.data_state;
   if (state !== 'ready' && state !== 'preparing' && state !== 'degraded') {
-    throw new ApiError('板块成分股响应状态非法');
+    throw new ApiError('宽基 ETF 申购净流入响应状态非法');
   }
-  if (!Array.isArray(payload.stocks)) {
-    throw new ApiError('板块成分股响应缺少 stocks');
+  if (!Array.isArray(payload.dates) || !Array.isArray(payload.net_inflow_yi)
+    || !Array.isArray(payload.index_close) || !Array.isArray(payload.universe)
+    || !isRecord(payload.coverage) || !isRecord(payload.stats)) {
+    throw new ApiError('宽基 ETF 申购净流入响应缺少 dates/net_inflow_yi/index_close/universe/coverage/stats');
   }
-  return payload as unknown as SectorStocks;
+  return payload as unknown as EtfShareFlow;
 }
 
-/** 板块成分股快照：服务端 202 准备中同样解析为结构（data_state=preparing），不由客户端伪造数值。 */
-export async function fetchSectorStocks(
-  code: string,
-  signal?: AbortSignal,
-): Promise<SectorStocks> {
+/** 宽基 ETF 申购净流入：只读落盘产物，202 准备中同样解析为结构，不由客户端伪造数值。 */
+export async function fetchEtfShareFlow(signal?: AbortSignal): Promise<EtfShareFlow> {
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
   const forwardAbort = () => controller.abort();
   signal?.addEventListener('abort', forwardAbort);
   try {
-    const response = await fetch(`/api/sectors/${encodeURIComponent(code)}/stocks`, {
+    const response = await fetch('/api/etf/share-flow', {
       cache: 'no-store',
       headers: { Accept: 'application/json' },
       signal: controller.signal,
     });
     if (!response.ok && response.status !== 202) {
-      let detail = `板块成分股接口返回 ${response.status}`;
+      let detail = `宽基 ETF 申购净流入接口返回 ${response.status}`;
       try {
         const body = await response.json();
         if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
@@ -211,13 +109,11 @@ export async function fetchSectorStocks(
       }
       throw new ApiError(detail, response.status);
     }
-    return normalizeSectorStocks(await response.json());
+    return normalizeEtfShareFlow(await response.json());
   } catch (error) {
     if (error instanceof ApiError) throw error;
-    if ((error as Error)?.name === 'AbortError') {
-      throw new ApiError('板块成分股请求超时或已取消');
-    }
-    throw new ApiError((error as Error)?.message || '板块成分股请求失败');
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('宽基 ETF 申购净流入请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '宽基 ETF 申购净流入请求失败');
   } finally {
     window.clearTimeout(timer);
     signal?.removeEventListener('abort', forwardAbort);

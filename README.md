@@ -139,11 +139,21 @@ signal-hub-web/      前端（React + Vite + Tailwind）
 
 | 路径 | 说明 |
 | --- | --- |
-| `GET /api/snapshot` | 统一快照：`mode`/`as_of`/`generated_at`/`stale`/`indices`/`sectors`/`recent_signals`/`candidates` |
 | `GET /api/health` | 存活、最近刷新时间、模式、数据源、算法版本 |
-| `GET /api/indices/{code}/history` | 单指数历史与信号 |
 | `GET /api/institutions/positions` | 机构多空单：`institution`（`all`/`guotai`/`citic`/`others`）、`variety`（`all`/`IF`/`IC`/`IH`/`IM`）、`from`/`to`、`limit`（默认 60） |
-| `GET /api/sectors/{code}/history?days=60\|120\|250` | 单板块历史序列（同花顺 90 个细分行业之一，凭 code 定位），默认 120 |
+| `GET /api/etf/volume-series` | ETF 放量成交额序列（只读展示层） |
+| `GET /api/etf/share-flow` | 宽基 ETF 申购净流入（只读展示层） |
+| `GET /api/blogger/posts` | 【全能的野人】发文列表 |
+| `GET /api/lhb/overview` 等 | 龙虎榜知名游资总览/详情 |
+| `GET /api/limit-cycle` | 连板周期只读数据 |
+
+> 2026-11-20 下线「指数总览」与「板块趋势」两页，及其专用的
+> `/api/snapshot`、`/api/indices/{code}/history`、`/api/sectors/{code}/history`、
+> `/api/sectors/{code}/stocks` 接口。根路径 `/` 现重定向至发文页。
+> 同批移除三项已无消费页面的定时任务：**刷新快照 / 盘中实时快照 / 晚间补齐**；
+> **收盘任务**改为只刷新机构、ETF、连板等仍在服役页面的数据，不再自动重算指数/板块信号产物
+> （如需重建走「重建信号数据.bat」手动触发）。龙虎榜日更、发文提醒保留。
+> 下方「板块数据计算口径」为数据管线说明，非页面文档。
 
 `data_state` 取值：`ready` / `preparing`（首次拉取数据中，返回 202）/ `degraded`（数据源异常，`stale=true`）。
 
@@ -170,7 +180,7 @@ bigwave 算法）起不再输出旧 swing 口径的 precision 矩阵块，服务
 python pipeline/compare_snapshot.py --baseline <旧 index-signals.json> --current data/index-signals.json
 ```
 
-## 板块趋势口径（/sectors）
+## 板块数据计算口径（原「板块趋势」页，页面已于 2026-11-20 下线；数据仍供快照与信号使用）
 
 - **清单与数据源**：90 个同花顺细分行业指数（881xxx），清单由 akshare
   `stock_board_industry_name_ths` 动态返回并固化进 `data/raw/sectors-ths-industry-manifest.json`

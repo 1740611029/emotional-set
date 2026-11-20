@@ -2,10 +2,13 @@ import { useMemo, useState } from 'react';
 import { EmptyState, Notice } from '../components/ui';
 import { VolumeIcon } from '../components/icons';
 import { EtfAmountLinesChart, TotalVolumeIndexChart } from '../components/EtfVolumeCharts';
+import { EtfShareFlowChart } from '../components/EtfShareFlowChart';
 import { useEtfVolumeSeries } from '../hooks/useEtfVolumeSeries';
+import { useEtfShareFlow } from '../hooks/useEtfShareFlow';
 import { usePageMeta } from '../data/PageMetaProvider';
 import { formatTimestamp } from '../lib/formatTimestamp';
 import { sliceEtfSeriesToView, ETF_VOLUME_THRESHOLD_YI } from '../lib/etfVolumeSeries';
+import { buildShareFlowView, formatSignedYi } from '../lib/etfShareFlow';
 import {
   DEFAULT_INDEX_CHART_RANGE_KEY,
   INDEX_CHART_RANGES,
@@ -15,14 +18,22 @@ import {
 
 export function EtfVolume() {
   const { data, error, isLoading, refresh } = useEtfVolumeSeries();
+  const {
+    data: flow, error: flowError, isLoading: flowLoading, refresh: refreshFlow,
+  } = useEtfShareFlow();
   const [range, setRange] = useState<IndexChartRangeKey>(DEFAULT_INDEX_CHART_RANGE_KEY);
 
   const view = useMemo(
     () => (data && data.data_state !== 'preparing' ? sliceEtfSeriesToView(data, range) : null),
     [data, range],
   );
+  const flowView = useMemo(
+    () => (flow && flow.data_state !== 'preparing' ? buildShareFlowView(flow) : null),
+    [flow],
+  );
 
   const hasData = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
+  const hasFlow = Boolean(flowView && flowView.dates.length > 0);
   const rangeLabel = indexChartRangeOption(range).label;
 
   // 页面标题/描述/数据截止/手动刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
@@ -31,8 +42,14 @@ export function EtfVolume() {
     gradientClass: 'from-brand-400 to-ocean-400',
     subtitle: '核心 6 只宽基 ETF 单日成交额、合计规模与上证指数走势的同坐标系对照',
     asOf: { text: data?.as_of ?? '—' },
-    stats: data?.generated_at ? [{ label: '最近更新', value: formatTimestamp(data.generated_at) ?? '—' }] : undefined,
-    refresh: { label: '手动刷新', busyLabel: '刷新中', busy: isLoading, onRefresh: refresh },
+    stats: [
+      ...(data?.generated_at ? [{ label: '成交额更新', value: formatTimestamp(data.generated_at) ?? '—' }] : []),
+      ...(flow?.generated_at ? [{ label: '净流入更新', value: formatTimestamp(flow.generated_at) ?? '—' }] : []),
+    ],
+    refresh: {
+      label: '手动刷新', busyLabel: '刷新中', busy: isLoading || flowLoading,
+      onRefresh: () => { refresh(); refreshFlow(); },
+    },
   });
 
   return (
@@ -47,18 +64,37 @@ export function EtfVolume() {
         </Notice>
       </div>
 
+      <div className="mb-5">
+        <Notice>
+          宽基 ETF 申购净流入 = Σ(当日份额 − 前一日份额) × 当日单位净值，覆盖全市场主流宽基 ETF
+          {flow?.coverage.etf_count ? `共 ${flow.coverage.etf_count} 只` : ''}。该口径为一级市场净申购估算，
+          与下方二级市场「成交额」不是同一指标；数据取自交易所官方份额与单位净值，为已发生数据的事后描述。
+          同花顺内部名单与折算时点不同，本口径不保证与其数值逐分一致。
+        </Notice>
+      </div>
+
       {error && (
         <div className="mb-5">
-          <Notice tone="warn">刷新失败：{error}。{data ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
+          <Notice tone="warn">成交额刷新失败：{error}。{data ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
+        </div>
+      )}
+      {flowError && (
+        <div className="mb-5">
+          <Notice tone="warn">净流入刷新失败：{flowError}。{flow ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
         </div>
       )}
       {data?.stale && data.data_state !== 'preparing' && (
         <div className="mb-5">
-          <Notice tone="warn">数据陈旧：{data.stale_reason ?? 'ETF 日线尚未更新到最近交易日'}，当前仍展示已落盘数据。</Notice>
+          <Notice tone="warn">成交额数据陈旧：{data.stale_reason ?? 'ETF 日线尚未更新到最近交易日'}，当前仍展示已落盘数据。</Notice>
+        </div>
+      )}
+      {flow?.stale && flow.data_state !== 'preparing' && (
+        <div className="mb-5">
+          <Notice tone="warn">净流入数据陈旧：{flow.stale_reason ?? '份额/净值尚未更新到最近交易日'}，当前仍展示已落盘数据。</Notice>
         </div>
       )}
 
-      {/* 页面级时间范围下拉：两图共用，切换只裁切片段，不重新请求、不改变数值 */}
+      {/* 页面级时间范围下拉：仅作用于下方两张成交额图；净流入图自带横向滑块，不受此下拉影响 */}
       {hasData && (
         <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
           <label className="flex items-center gap-2 text-sm text-slate-600">
@@ -75,7 +111,7 @@ export function EtfVolume() {
             </select>
           </label>
           <span className="text-xs text-slate-400">
-            当前 {rangeLabel}：{view?.dates.length ?? 0} 个交易日，两图同步裁切
+            当前 {rangeLabel}：{view?.dates.length ?? 0} 个交易日，下方两张成交额图同步裁切（净流入图用自身滑块）
           </span>
         </div>
       )}
@@ -97,6 +133,44 @@ export function EtfVolume() {
       {data && data.data_state !== 'preparing' && hasData && view && view.dates.length === 0 && (
         <div className="glass-card rounded-2xl p-6">
           <EmptyState text={`「${rangeLabel}」区间无齐备数据`} hint="该时间范围末端早于序列起点，请切换更长的时间范围" />
+        </div>
+      )}
+
+      {/* 第一张图：宽基 ETF 申购净流入（红绿柱 + 上证指数 + 横向时间滑块），独立于成交额两图 */}
+      {flow?.data_state === 'preparing' && (
+        <div className="glass-card rounded-2xl p-6 mb-8">
+          <EmptyState text="宽基 ETF 申购净流入数据准备中" hint={flow.stale_reason ?? '份额与单位净值落盘完成后将在此展示，页面不会以占位数值替代'} />
+        </div>
+      )}
+      {hasFlow && flow && flowView && (
+        <div className="glass-card rounded-2xl p-6 mb-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-4">
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-1">宽基 ETF 申购净流入</h3>
+              <p className="text-xs text-slate-400">
+                左轴净流入（亿元，红=净流入/绿=净流出），右轴上证指数点位；拖动图表下方横向滑块筛选时间范围
+              </p>
+            </div>
+            <div className="flex gap-6">
+              <div className="text-right">
+                <div className="text-xs text-slate-400">昨日净流入</div>
+                <div className={`text-lg font-bold ${(flow.stats.last_day_yi ?? 0) >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                  {flow.stats.last_day_yi === null ? '—' : formatSignedYi(flow.stats.last_day_yi)} 亿
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-slate-400">近{flow.stats.last_60d_days}日净流入</div>
+                <div className={`text-lg font-bold ${flow.stats.last_60d_yi >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                  {formatSignedYi(flow.stats.last_60d_yi)} 亿
+                </div>
+              </div>
+            </div>
+          </div>
+          <EtfShareFlowChart view={flowView} loading={flowLoading && !flow} />
+          <p className="text-xs text-slate-400 mt-2">
+            口径：Σ(份额变化×单位净值)，覆盖 {flow.coverage.etf_count} 只宽基 ETF（沪深300/中证A500/中证500/中证1000/上证50/科创50/创业板等）；
+            唯一统计区间 {flow.coverage.start} ~ {flow.coverage.end}（{flow.coverage.trading_days} 个交易日）。
+          </p>
         </div>
       )}
 

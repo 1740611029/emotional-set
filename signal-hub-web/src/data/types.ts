@@ -136,6 +136,33 @@ export interface EtfVolumeSeries {
   l3_dates: string[];
 }
 
+/** 宽基 ETF 申购净流入条目：净流入 = Σ(份额变化×单位净值)，只读展示层。 */
+export interface EtfShareFlowUniverseEntry {
+  code: string;
+  name: string;
+  /** 跟踪指数名（展示用，可能为空） */
+  index: string;
+}
+
+/** 【宽基 ETF 申购净流入】列式序列：净流入单位亿元，指数缺失为 null。 */
+export interface EtfShareFlow {
+  data_state: DataState;
+  as_of: string | null;
+  generated_at: string | null;
+  stale: boolean;
+  stale_reason: string | null;
+  coverage: {
+    start: string | null; end: string | null; trading_days: number;
+    etf_count: number; min_counted: number; max_counted: number;
+  };
+  dates: string[];
+  net_inflow_yi: number[];
+  index_close: (number | null)[];
+  stats: { last_day_yi: number | null; last_60d_yi: number; last_60d_days: number };
+  universe: EtfShareFlowUniverseEntry[];
+  sources: { share: string; nav: string };
+}
+
 /** 情绪底背景带：超卖 + 宽度冰点的连续区间（浅色底纹，非信号点） */
 export interface BottomZone {
   start_date: string;
@@ -239,32 +266,6 @@ export interface SectorBlock {
   groups: Partial<Record<SectorGroupKey, SectorItem[]>>;
   /** 板块级四态方向评估；未生成时为 null */
   evaluation?: SectorEvaluation | null;
-}
-
-export interface SectorHistoryPoint {
-  date: string;
-  close: number | null;
-  state: SectorState | null;
-}
-
-export interface SectorHistory {
-  code: string;
-  name: string;
-  as_of: string | null;
-  date: string | null;
-  requested_days: number;
-  state: SectorState | null;
-  strength: number | null;
-  strength_parts: SectorStrengthParts | null;
-  strength_basis: SectorStateBasis | null;
-  days: number | null;
-  data_anomaly: boolean;
-  data_lag: boolean;
-  series: SectorHistoryPoint[];
-  insufficient: boolean;
-  coverage: { start: string | null; end: string | null; points: number };
-  stale: boolean;
-  stale_since: string | null;
 }
 
 /** 多持有期准确率矩阵（index-precision-pivot-signals）。 */
@@ -604,60 +605,3 @@ export interface LhbDaily {
   trading_dates: string[];
 }
 
-/** 涨停池 join 信息（data/limit-cycle.json，东财股池，只读展示层；非涨停股为 null） */
-export interface SectorStockLimit {
-  /** 首次封板时间 "HH:MM"；越早封板越强（09:25 一字板最强） */
-  first_seal: string | null;
-  /** 连板数（1 = 首板） */
-  boards: number | null;
-  /** 封单金额，单位万元 */
-  seal_amount: number | null;
-  /** 封板状态（封住 / 回封 等） */
-  status: string | null;
-}
-
-/** 【板块趋势】页个股弹窗：单只成分股快照（只读展示层，不参与信号计算） */
-export interface SectorStock {
-  code: string;
-  name: string;
-  price: number | null;
-  /** 涨跌幅 %，排序维度「涨幅」 */
-  change_pct: number | null;
-  change: number | null;
-  /** 涨速 % */
-  speed_pct: number | null;
-  turnover_pct: number | null;
-  volume_ratio: number | null;
-  amplitude_pct: number | null;
-  /** 成交额（元），排序维度「成交额」；原文保留在 amount_text 供展示 */
-  amount: number | null;
-  amount_text: string;
-  float_shares: number | null;
-  float_shares_text: string;
-  float_mv: number | null;
-  float_mv_text: string;
-  pe: number | null;
-  /** 热度 0-100；换手率/量比/成交额全缺失（停牌）时为 null，排序置尾 */
-  heat: number | null;
-  /** 涨停池 join 信息；非涨停股为 null（排序/展示按非涨停处理，恒置尾） */
-  limit: SectorStockLimit | null;
-}
-
-/** 板块成分股快照响应：202 准备中时 stocks 为空、data_state=preparing */
-export interface SectorStocks {
-  data_state: DataState;
-  stale: boolean;
-  as_of: string | null;
-  generated_at: string | null;
-  stale_since: string | null;
-  stale_reason: string | null;
-  code: string;
-  name: string | null;
-  page_count: number;
-  total: number;
-  stocks: SectorStock[];
-  source?: string;
-  heat_algorithm?: string;
-  /** 涨停池数据日期（东财股池），可能与成分股快照 as_of 不同日 */
-  limit_as_of?: string | null;
-}

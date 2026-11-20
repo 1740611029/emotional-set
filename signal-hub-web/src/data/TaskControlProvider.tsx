@@ -2,9 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
-export type TaskId =
-  | 'snapshot_poll' | 'blogger_notify'
-  | 'live_quote' | 'close_rebuild' | 'evening_backfill' | 'lhb_daily';
+export type TaskId = 'blogger_notify' | 'close_rebuild' | 'lhb_daily';
 
 export interface TaskDef {
   id: TaskId;
@@ -17,24 +15,12 @@ export interface TaskDef {
 
 export const TASKS: TaskDef[] = [
   {
-    id: 'snapshot_poll', name: '刷新行情快照', scope: 'web', cadence: '每 30 秒',
-    detail: '浏览器轮询 /api/snapshot，更新顶部时间与总览、板块数据',
-  },
-  {
     id: 'blogger_notify', name: '新发文提醒', scope: 'web', cadence: '每 30 秒',
     detail: '浏览器轮询博主发文并上报在线心跳；停止后桌面提醒由采集脚本 Toast 兜底',
   },
   {
-    id: 'live_quote', name: '盘中实时快照', scope: 'server', cadence: '交易时段每 30 秒',
-    detail: '服务端拉取实时行情并生成盘中快照',
-  },
-  {
-    id: 'close_rebuild', name: '收盘日线重算', scope: 'server', cadence: '每交易日 17:00',
-    detail: '刷新指数与板块日线并重算信号产物',
-  },
-  {
-    id: 'evening_backfill', name: '晚间数据补齐', scope: 'server', cadence: '17:30 / 20:00 / 22:00',
-    detail: '补齐发布较晚的同花顺行业指数日线',
+    id: 'close_rebuild', name: '收盘数据刷新', scope: 'server', cadence: '每交易日 17:00',
+    detail: '刷新机构持仓、ETF、连板等日线数据（已不再重算指数/板块信号产物）',
   },
   {
     id: 'lhb_daily', name: '龙虎榜游资日更', scope: 'server', cadence: '20:00 / 22:00',
@@ -50,15 +36,15 @@ export const TASK_IDS: TaskId[] = TASKS.map((task) => task.id);
 export const WEB_TASK_IDS: TaskId[] = TASKS.filter((task) => task.scope === 'web').map((task) => task.id);
 export const SERVER_TASK_IDS: TaskId[] = TASKS.filter((task) => task.scope === 'server').map((task) => task.id);
 
-/** 每个页面关联的定时任务：任务多为全局常驻，这里列出本页数据链路上会跑到的分支。 */
+/** 每个页面关联的定时任务：任务多为全局常驻，这里列出本页数据链路上会跑到的分支。
+ *  2026-11-20 下线：刷新快照 / 盘中实时快照 / 晚间补齐三项任务已从前后端彻底移除；
+ *  指数总览、板块趋势页及其 '/'、'/sectors' 映射同步移除。 */
 export const PAGE_TASKS: Record<string, TaskId[]> = {
-  '/': ['snapshot_poll', 'live_quote', 'close_rebuild'],
-  '/sectors': ['snapshot_poll', 'close_rebuild', 'evening_backfill'],
-  '/institutions': ['snapshot_poll'],
-  '/etf-volume': ['snapshot_poll'],
-  '/blogger': ['snapshot_poll', 'blogger_notify'],
-  '/lhb': ['snapshot_poll', 'lhb_daily'],
-  '/limit-cycle': ['snapshot_poll'],
+  '/institutions': ['close_rebuild'],
+  '/etf-volume': ['close_rebuild'],
+  '/blogger': ['blogger_notify'],
+  '/lhb': ['lhb_daily'],
+  '/limit-cycle': ['close_rebuild'],
 };
 
 interface TaskControlValue {
@@ -196,7 +182,7 @@ export function TaskControlProvider({ children }: { children: ReactNode }) {
     });
 
     void (async () => {
-      // 服务端 4 个调度分支必须真的切换；任一步失败都整体回滚，绝不虚报"已开启/已关闭"
+      // 服务端调度分支必须真的切换；任一步失败都整体回滚，绝不虚报"已开启/已关闭"
       let applied = false;
       try {
         if (await ensureServerOnline()) {
