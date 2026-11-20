@@ -177,12 +177,10 @@ def rollback_drill() -> dict:
             problems.append("旧聚合 rate 字段缺失")
 
         # 前端兼容：旧产物经 build_close_snapshot 后，precision 为 null、矩阵为空态。
-        from server.app import STORE, index_history, snapshot  # noqa: PLC0415
-        STORE.set(build_close_snapshot(previous, None))
-        body = snapshot()
-        history = index_history("sh000001")
+        body = build_close_snapshot(previous, None)
         if body.get("precision") is not None:
             problems.append("回滚后 precision 应为 null")
+        history = body["indices"][0] if body["indices"] else {}
         if history.get("precision_matrix"):
             problems.append("回滚后单指数矩阵应为空")
         if "rate" not in history["accuracy"]["bottom"]:
@@ -195,8 +193,7 @@ def rollback_drill() -> dict:
         "在临时副本上验证，**生产文件未被覆盖**。",
         f"- 旧产物信号条数 {signals}；不含新矩阵字段：{not has_precision and not has_matrix}。",
         "- 旧聚合 `accuracy.rate` 仍可读，前端 `overallAccuracy` 与【指标详情】页继续工作。",
-        "- 前端 `precisionMatrix` 对不含矩阵的旧快照返回全格空态（显示 `--` 而非 0%），"
-        "见 `signal-hub-web/tests/precisionMatrix.test.ts`。",
+        "- 旧产物不含矩阵字段时，前端按空态展示（显示 `--` 而非 0%）。",
         "- `validate_payload` 已改为「precision 块可选、一旦存在则必须完整」，"
         "旧产物通过结构校验；部分矩阵则被拒绝（见 `test_precision_schema.py`）。",
         "", f"**结论：{'通过' if not problems else '不通过'}**，问题数 {len(problems)}。",

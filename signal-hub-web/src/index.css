@@ -83,26 +83,6 @@ body {
   border-right: 3px solid #3a9a6a;
 }
 
-/* 信号状态圆点（§6.3） */
-.signal-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 6px;
-}
-.signal-dot.confirm {
-  background: #14b8a6;
-  box-shadow: 0 0 6px rgba(20, 184, 166, 0.4);
-}
-.signal-dot.pending {
-  background: #f26522;
-  box-shadow: 0 0 6px rgba(242, 101, 34, 0.4);
-}
-.signal-dot.neutral {
-  background: #94a3b8;
-}
-
 .badge-confirm {
   background: linear-gradient(135deg, #3a9a6a, #2dd4bf);
   color: white;

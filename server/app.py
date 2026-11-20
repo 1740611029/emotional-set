@@ -19,7 +19,6 @@ from .institutions import (
     DEFAULT_LIMIT,
     InstitutionStore,
     slice_payload,
-    summary as institution_summary,
     validate_params,
 )
 from .lhb import (
@@ -74,13 +73,13 @@ def health() -> dict:
 
 @app.get("/api/tasks")
 def task_list() -> dict:
-    """服务端 4 个定时调度分支的开关状态；网页侧轮询开关由前端自行管理。"""
+    """服务端 2 个定时调度分支的开关状态；网页侧轮询开关由前端自行管理。"""
     return {"tasks": SCHEDULER.task_states()}
 
 
 @app.post("/api/tasks")
 def task_switch(payload: dict = Body(default={})):
-    """启停单个或全部定时任务：{"task": "live_quote" | "all", "enabled": bool}。
+    """启停单个或全部定时任务：{"task": "close_rebuild" | "lhb_daily" | "all", "enabled": bool}。
 
     只切换调度分支的开关，不触发任何抓取、重算或信号计算。
     """
@@ -95,42 +94,6 @@ def task_switch(payload: dict = Body(default={})):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return {"tasks": states}
-
-
-def snapshot() -> dict:
-    """内部快照读取（供服务健康检查与遗留调用方使用；不再注册为 HTTP 路由）。"""
-    data = STORE.get()
-    if data is None:
-        return JSONResponse(
-            status_code=202,
-            content={
-                "data_state": "preparing",
-                "mode": None,
-                "as_of": None,
-                "generated_at": None,
-                "stale": True,
-                "stale_since": None,
-                "stale_reason": "数据准备中",
-                "progress": SCHEDULER.progress.as_dict(),
-                "indices": [],
-                "sectors": {
-                    "as_of": None,
-                    "is_mock": True,
-                    "groups": {},
-                    "evaluation": None,
-                    "algorithm_version": None,
-                    "expected_as_of": None,
-                    "expected_basis": None,
-                    "lag_days": None,
-                },
-                "recent_signals": [],
-                "candidates": [],
-                "etf_volume_events": [],
-                "algorithm_version": None,
-                "precision": None,
-            },
-        )
-    return {**data, "institutions": institution_summary(INSTITUTION_STORE.load())}
 
 
 @app.get("/api/institutions/positions")

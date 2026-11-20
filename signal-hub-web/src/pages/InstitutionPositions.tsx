@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { InstitutionPositionChart, CHART_RANGES, type ChartRange } from '../components/InstitutionPositionChart';
+import { InstitutionPositionChart } from '../components/InstitutionPositionChart';
 import {
   InstitutionSummaryTable,
   RelationBadge,
@@ -128,7 +128,6 @@ function InstitutionHistoryTable({ name, note, rows, varietyLabel, filterKey }: 
 export function InstitutionPositions() {
   const [variety, setVariety] = useState<InstitutionVariety>('all');
   const [chartInstitution, setChartInstitution] = useState<InstitutionId | 'all'>('all');
-  const [range, setRange] = useState<ChartRange>(60);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const { data, error, isLoading, refresh } = useInstitutionPositions({ variety, limit: 120 });
@@ -266,7 +265,7 @@ export function InstitutionPositions() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
               <div>
                 <h3 className="text-lg font-bold text-slate-800">净持仓与大盘 走势对照</h3>
-                <p className="text-xs text-slate-400 mt-1">左轴净持仓（手），右轴上证指数与沪深300 收盘价点位；图例可切换序列，缺失日期保持断点不插值</p>
+                <p className="text-xs text-slate-400 mt-1">左轴净持仓（手），右轴上证指数与沪深300 收盘价点位；拖动图表下方横向滑块筛选时间范围，图例可切换序列，缺失日期保持断点不插值</p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <select
@@ -278,18 +277,6 @@ export function InstitutionPositions() {
                   <option value="all">全部机构</option>
                   {displayInstitutions.map((meta) => <option key={meta.id} value={meta.id}>{meta.name}</option>)}
                 </select>
-                <div className="flex gap-1">
-                  {CHART_RANGES.map((days) => (
-                    <button
-                      key={days}
-                      type="button"
-                      onClick={() => setRange(days)}
-                      className={`px-3 py-1.5 text-xs rounded-lg font-medium ${range === days ? 'bg-brand-50 text-brand-700' : 'text-slate-500 hover:bg-slate-100'}`}
-                    >
-                      近{days}日
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
             <InstitutionPositionChart
@@ -300,7 +287,6 @@ export function InstitutionPositions() {
               series={data.series}
               variety={variety}
               institution={chartInstitution}
-              range={range}
               loading={isLoading}
             />
           </div>

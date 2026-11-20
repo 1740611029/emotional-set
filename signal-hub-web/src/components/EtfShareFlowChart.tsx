@@ -11,6 +11,7 @@ import {
   buildShareFlowOption,
   type ShareFlowView,
 } from '../lib/etfShareFlow.ts';
+import { useTimeAxisLabels, TimeAxisLabelRow } from './chartTimeAxis';
 
 echarts.use([
   BarChart, LineChart, GridComponent, TooltipComponent, LegendComponent,
@@ -59,9 +60,12 @@ export function EtfShareFlowChart({ view, loading = false }: Props) {
     chartRef.current?.setOption(option as unknown as EChartsCoreOption, { notMerge: true });
   }, [option]);
 
+  const [timeStart, timeEnd] = useTimeAxisLabels(chartRef, option);
+
   return (
     <div className="relative">
       <div ref={containerRef} className="w-full h-96" />
+      <TimeAxisLabelRow start={timeStart} end={timeEnd} />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl">
           <span className="text-sm text-slate-500">加载中…</span>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { EmptyState, Notice } from '../components/ui';
 import { VolumeIcon } from '../components/icons';
 import { EtfAmountLinesChart, TotalVolumeIndexChart } from '../components/EtfVolumeCharts';
@@ -9,23 +9,16 @@ import { usePageMeta } from '../data/PageMetaProvider';
 import { formatTimestamp } from '../lib/formatTimestamp';
 import { sliceEtfSeriesToView, ETF_VOLUME_THRESHOLD_YI } from '../lib/etfVolumeSeries';
 import { buildShareFlowView, formatSignedYi } from '../lib/etfShareFlow';
-import {
-  DEFAULT_INDEX_CHART_RANGE_KEY,
-  INDEX_CHART_RANGES,
-  indexChartRangeOption,
-  type IndexChartRangeKey,
-} from '../lib/indexSignalCharts';
 
 export function EtfVolume() {
   const { data, error, isLoading, refresh } = useEtfVolumeSeries();
   const {
     data: flow, error: flowError, isLoading: flowLoading, refresh: refreshFlow,
   } = useEtfShareFlow();
-  const [range, setRange] = useState<IndexChartRangeKey>(DEFAULT_INDEX_CHART_RANGE_KEY);
-
+  // 时间范围统一交给各图自带的 dataZoom 横向滑块在前端裁切，页面不再保留下拉筛选（需求 2026-11-20）
   const view = useMemo(
-    () => (data && data.data_state !== 'preparing' ? sliceEtfSeriesToView(data, range) : null),
-    [data, range],
+    () => (data && data.data_state !== 'preparing' ? sliceEtfSeriesToView(data, 'all') : null),
+    [data],
   );
   const flowView = useMemo(
     () => (flow && flow.data_state !== 'preparing' ? buildShareFlowView(flow) : null),
@@ -34,7 +27,6 @@ export function EtfVolume() {
 
   const hasData = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
   const hasFlow = Boolean(flowView && flowView.dates.length > 0);
-  const rangeLabel = indexChartRangeOption(range).label;
 
   // 页面标题/描述/数据截止/手动刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染 IndicatorHeader
   usePageMeta({
@@ -94,28 +86,6 @@ export function EtfVolume() {
         </div>
       )}
 
-      {/* 页面级时间范围下拉：仅作用于下方两张成交额图；净流入图自带横向滑块，不受此下拉影响 */}
-      {hasData && (
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
-          <label className="flex items-center gap-2 text-sm text-slate-600">
-            时间范围
-            <select
-              aria-label="时间范围"
-              value={range}
-              onChange={(event) => setRange(event.target.value as IndexChartRangeKey)}
-              className="px-3 py-1.5 text-sm rounded-lg bg-slate-50 text-slate-600 border border-slate-100"
-            >
-              {INDEX_CHART_RANGES.map((option) => (
-                <option key={option.key} value={option.key}>{option.label}</option>
-              ))}
-            </select>
-          </label>
-          <span className="text-xs text-slate-400">
-            当前 {rangeLabel}：{view?.dates.length ?? 0} 个交易日，下方两张成交额图同步裁切（净流入图用自身滑块）
-          </span>
-        </div>
-      )}
-
       {!data && isLoading && (
         <div className="glass-card rounded-2xl p-12 text-center text-sm text-slate-500">ETF 成交额序列加载中…</div>
       )}
@@ -127,12 +97,6 @@ export function EtfVolume() {
       {data?.data_state === 'preparing' && (
         <div className="glass-card rounded-2xl p-6">
           <EmptyState text="ETF 成交额数据准备中" hint={data.stale_reason ?? '日线落盘完成后将在此展示，页面不会以占位数值替代'} />
-        </div>
-      )}
-
-      {data && data.data_state !== 'preparing' && hasData && view && view.dates.length === 0 && (
-        <div className="glass-card rounded-2xl p-6">
-          <EmptyState text={`「${rangeLabel}」区间无齐备数据`} hint="该时间范围末端早于序列起点，请切换更长的时间范围" />
         </div>
       )}
 
@@ -178,12 +142,12 @@ export function EtfVolume() {
         <>
           <div className="glass-card rounded-2xl p-6 mb-8">
             <h3 className="text-lg font-bold text-slate-800 mb-1">合计成交额与上证指数</h3>
-            <p className="text-xs text-slate-400 mb-4">左轴合计成交额（亿元），右轴上证指数点位；标记为全池爆量日（L3），缺失指数日保持断点不插值</p>
+            <p className="text-xs text-slate-400 mb-4">左轴合计成交额（亿元），右轴上证指数点位；拖动图表下方横向滑块筛选时间范围，标记为全池爆量日（L3），缺失指数日保持断点不插值</p>
             <TotalVolumeIndexChart view={view} loading={isLoading} />
           </div>
           <div className="glass-card rounded-2xl p-6">
             <h3 className="text-lg font-bold text-slate-800 mb-1">6 只 ETF 单只成交额</h3>
-            <p className="text-xs text-slate-400 mb-4">共用同一亿元纵轴，体量按真实金额呈现；点击图例可隐藏单只，需要单看某只时隐藏其余</p>
+            <p className="text-xs text-slate-400 mb-4">共用同一亿元纵轴，体量按真实金额呈现；拖动图表下方横向滑块筛选时间范围，点击图例可隐藏单只，需要单看某只时隐藏其余</p>
             <EtfAmountLinesChart view={view} loading={isLoading} />
           </div>
         </>

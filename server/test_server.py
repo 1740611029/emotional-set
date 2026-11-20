@@ -1,4 +1,8 @@
-"""服务层测试：快照契约、盘中合成、实时源归一化、接口状态。"""
+"""服务层测试：收盘快照契约、健康状态、接口契约与降级行为。
+
+2026-11-20：指数总览/板块趋势页与盘中实时快照下线，盘中合成、实时源归一化、
+晚间补齐等测试随实现一并移除。
+"""
 from __future__ import annotations
 
 import contextlib
@@ -14,22 +18,17 @@ from unittest import mock
 import pandas as pd
 
 from . import app as app_module
-from . import etf_volume as etf_volume_module
 from . import paths
 from . import snapshot as snapshot_module
-from .app import STORE, health, snapshot
+from .app import STORE, health
 from .etf_share_flow import EtfShareFlowStore
 from .etf_volume import EtfVolumeStore
 from .institutions import InstitutionStore, slice_payload, summary, validate_params
-from .realtime import CN, _build_quote, _normalize_volume
-from .scheduler import (
-    EVENING_SLOTS, MAX_CLOSE_ATTEMPTS, MarketScheduler, SCHEDULER_VERSION, _stale_detail,
-)
+from .realtime import CN
+from .scheduler import MAX_CLOSE_ATTEMPTS, MarketScheduler, SCHEDULER_VERSION
 from .snapshot import (
-    PayloadStore, SnapshotStore, _sector_block, breadth_frame, build_close_snapshot, build_live_index,
-    _merged_frame,
+    PayloadStore, SnapshotStore, _sector_block, build_close_snapshot,
 )
-from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 
@@ -41,26 +40,6 @@ def _sector_payload() -> dict:
     return json.loads(paths.SECTOR_TRENDS.read_text(encoding="utf-8"))
 
 
-def _frame(periods: int = 80) -> pd.DataFrame:
-    close = [100.0 + (index % 5) for index in range(periods)]
-    return pd.DataFrame({
-        "date": pd.bdate_range("2026-01-05", periods=periods),
-        "open": [value - 0.5 for value in close],
-        "high": [value + 1 for value in close],
-        "low": [value - 1 for value in close],
-        "close": close,
-        "volume": [1_000_000.0] * periods,
-        "amount": [1_000_000_000.0] * periods,
-    })
-
-
-QUOTE = {
-    "code": "sh000001", "name": "上证指数",
-    "open": 101.0, "high": 103.0, "low": 99.0, "close": 102.0, "volume": 1_200_000.0,
-    "ts": "2026-10-30T10:00:00+08:00",
-}
-
-
 class CloseSnapshotTest(unittest.TestCase):
     def test_snapshot_contract_fields(self):
         data = build_close_snapshot(_payload(), _sector_payload())
@@ -69,7 +48,8 @@ class CloseSnapshotTest(unittest.TestCase):
             self.assertIn(key, data)
         self.assertEqual(data["mode"], "close")
         self.assertFalse(data["provisional"])
-        self.assertEqual(len(data["indices"]), 7)
+        # 指数数量以落盘产物为准（换源/换全集后不再硬编码个数）
+        self.assertEqual(len(data["indices"]), len(_payload()["indices"]))
         item = data["indices"][0]
         for key in ("code", "name", "latest", "change_pct", "current_signal",
                     "history", "signals", "accuracy", "candidates", "provisional"):
@@ -88,87 +68,9 @@ class CloseSnapshotTest(unittest.TestCase):
                 self.assertIn("rate", accuracy[kind])
 
 
-class MergedFrameTest(unittest.TestCase):
-    def test_appends_when_last_date_is_older(self):
-        frame = _frame()
-        merged = _merged_frame(frame, QUOTE)
-        self.assertEqual(len(merged), len(frame) + 1)
-        self.assertEqual(merged["date"].is_monotonic_increasing, True)
-        self.assertEqual(merged["date"].is_unique, True)
-        self.assertAlmostEqual(float(merged["close"].iat[-1]), QUOTE["close"])
-
-    def test_replaces_when_today_already_exists(self):
-        frame = _frame()
-        today = pd.Timestamp.now(tz="Asia/Shanghai").normalize().tz_localize(None)
-        frame.loc[frame.index[-1], "date"] = today
-        merged = _merged_frame(frame, QUOTE)
-        self.assertEqual(len(merged), len(frame))
-        self.assertAlmostEqual(float(merged["close"].iat[-1]), QUOTE["close"])
-
-    def test_input_frame_is_not_mutated(self):
-        frame = _frame()
-        before = frame.copy(deep=True)
-        _merged_frame(frame, QUOTE)
-        pd.testing.assert_frame_equal(frame, before)
-
-
-class LiveIndexTest(unittest.TestCase):
-    def test_live_index_is_provisional_and_has_candidates(self):
-        frame = _frame()
-        item = build_live_index(frame, QUOTE, "上证指数")
-        self.assertTrue(item["provisional"])
-        self.assertIn("candidates", item)
-        self.assertEqual(item["history"][-1]["date"],
-                         pd.Timestamp.now(tz="Asia/Shanghai").strftime("%Y-%m-%d"))
-        self.assertAlmostEqual(item["latest"], QUOTE["close"])
-
-    def test_live_index_does_not_touch_disk(self):
-        before = paths.INDEX_SIGNALS.stat().st_mtime
-        build_live_index(_frame(), QUOTE, "上证指数")
-        self.assertEqual(paths.INDEX_SIGNALS.stat().st_mtime, before)
-
-    def test_live_accuracy_ignores_provisional_bar(self):
-        from confirmed_index_signals import build_index_result  # noqa: PLC0415
-
-        frame = _frame()
-        item = build_live_index(frame, QUOTE, "上证指数")
-        self.assertEqual(item["accuracy"], build_index_result(frame)["accuracy"])
-
-
-class RealtimeNormalizeTest(unittest.TestCase):
-    def test_volume_scaled_when_history_is_hundred_times_larger(self):
-        self.assertAlmostEqual(_normalize_volume(1_000.0, [100_000.0] * 20), 100_000.0)
-
-    def test_volume_kept_when_already_comparable(self):
-        self.assertAlmostEqual(_normalize_volume(100_000.0, [100_000.0] * 20), 100_000.0)
-
-    def test_invalid_ohlc_is_rejected(self):
-        self.assertIsNone(_build_quote("sh000001", "上证指数", 100.0, 100.0, 99.0, 98.0, 1000.0, None))
-        self.assertIsNone(_build_quote("sh000001", "上证指数", 0.0, 100.0, 101.0, 99.0, 1000.0, None))
-
-    def test_valid_quote_is_returned(self):
-        quote = _build_quote("sh000001", "上证指数", 102.0, 100.0, 103.0, 99.0, 1000.0, None)
-        self.assertIsNotNone(quote)
-        self.assertEqual(quote["code"], "sh000001")
-
-
-class ApiStateTest(unittest.TestCase):
+class HealthEndpointTest(unittest.TestCase):
     def tearDown(self):
         STORE.set(None)
-
-    def test_preparing_state_when_store_empty(self):
-        STORE.set(None)
-        response = snapshot()
-        self.assertEqual(response.status_code, 202)
-        body = json.loads(response.body)
-        self.assertEqual(body["data_state"], "preparing")
-        self.assertEqual(body["indices"], [])
-
-    def test_ready_state_after_store_filled(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload()))
-        data = snapshot()
-        self.assertEqual(data["data_state"], "ready")
-        self.assertEqual(len(data["indices"]), 7)
 
     def test_health_reports_mode_and_source(self):
         STORE.set(build_close_snapshot(_payload(), _sector_payload()))
@@ -176,7 +78,6 @@ class ApiStateTest(unittest.TestCase):
         self.assertTrue(status["alive"])
         self.assertEqual(status["mode"], "close")
         self.assertIn("data_source", status)
-
 
 
 class EtfVolumeEventsTest(unittest.TestCase):
@@ -248,22 +149,6 @@ class EtfVolumeEventsTest(unittest.TestCase):
                 continue
             self.assertEqual(with_events[key], without[key], f"{key} 被放量事件影响")
 
-    def test_live_snapshot_carries_events(self):
-        from .snapshot import build_live_snapshot  # noqa: PLC0415
-
-        history = mock.Mock()
-        history.get.return_value = _frame()
-        with mock.patch.object(snapshot_module, "breadth_frame", return_value=None):
-            data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload(),
-                                       etf_volume_events=self.EVENTS)
-        self.assertEqual(data["etf_volume_events"], self.EVENTS)
-
-    def test_preparing_branch_returns_empty_events(self):
-        STORE.set(None)
-        response = snapshot()
-        self.assertEqual(response.status_code, 202)
-        self.assertEqual(json.loads(response.body)["etf_volume_events"], [])
-
     def test_scheduler_rebuild_injects_events(self):
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         with mock.patch.object(scheduler.payloads, "etf_volume_events",
@@ -273,7 +158,7 @@ class EtfVolumeEventsTest(unittest.TestCase):
 
 
 class AsOfConsistencyTest(unittest.TestCase):
-    """收盘与盘中 as_of 由同一规则导出；短板标的随日期一起返回（D5）。"""
+    """短板标的随日期一起返回（D5）。"""
 
     def _tailed_payload(self) -> dict:
         payload = _payload()
@@ -289,34 +174,8 @@ class AsOfConsistencyTest(unittest.TestCase):
         payload = self._tailed_payload()
         data = build_close_snapshot(payload, _sector_payload())
         self.assertEqual(data["as_of_rule"], "min(index_tails)")
-        self.assertEqual(len(data["index_tails"]), 7)
+        self.assertEqual(len(data["index_tails"]), len(payload["index_tails"]))
         self.assertIn(payload["lagging_indexes"][0], data["lagging_indexes"])
-
-    def test_live_snapshot_uses_same_rule_as_close(self):
-        from .snapshot import build_live_snapshot  # noqa: PLC0415
-
-        payload = self._tailed_payload()
-        history = mock.Mock()
-        history.get.return_value = _frame()
-        with mock.patch.object(snapshot_module, "breadth_frame", return_value=None):
-            close_data = build_close_snapshot(payload, _sector_payload())
-            live_data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload(),
-                                            indices_payload=payload)
-        # 同一批原始日线：收盘/盘中 as_of 必须一致，不差一个交易日
-        self.assertEqual(live_data["as_of"], close_data["as_of"])
-        self.assertEqual(live_data["as_of_rule"], close_data["as_of_rule"])
-        self.assertEqual(live_data["lagging_indexes"], close_data["lagging_indexes"])
-
-    def test_live_snapshot_fallback_marks_rule(self):
-        """收盘产物缺失时退回盘中兜底口径并显式标注，不冒充 min(index_tails)。"""
-        from .snapshot import build_live_snapshot  # noqa: PLC0415
-
-        history = mock.Mock()
-        history.get.return_value = _frame()
-        with mock.patch.object(snapshot_module, "breadth_frame", return_value=None):
-            data = build_live_snapshot({"sh000001": QUOTE}, history, _sector_payload())
-        self.assertNotEqual(data["as_of_rule"], "min(index_tails)")
-        self.assertIn("兜底", data["as_of_rule"])
 
 
 class SectorSnapshotTest(unittest.TestCase):
@@ -410,53 +269,6 @@ class SectorFreshnessTest(unittest.TestCase):
         self.assertIsNone(block["lag_days"])
 
 
-class BreadthSourceTest(unittest.TestCase):
-    """盘中宽度必须与收盘同源：读同花顺行业指数目录，不足 20 个只降级为 None。"""
-
-    def _make_directory(self, temp: str, count: int) -> Path:
-        directory = Path(temp)
-        for index in range(count):
-            (directory / f"8811{index:02d}.csv").write_text(
-                "date,open,close,high,low,volume,amount\n2026-11-03,1,1,1,1,1,1\n", encoding="utf-8")
-        return directory
-
-    def _patched(self, directory: Path, table=None):
-        patches = [
-            mock.patch.object(paths, "SECTOR_THS_RAW", directory),
-            mock.patch.object(snapshot_module, "_BREADTH_CACHE", {"mtime": None, "frame": None}),
-        ]
-        if table is not None:
-            patches.append(mock.patch.object(snapshot_module, "breadth_table", table))
-        return patches
-
-    def test_directory_matches_production_sector_raw(self):
-        """防路径漂移：盘中宽度与 build_dashboard.load_breadth 读同一个目录。"""
-        from fetch_market import THS_SECTOR_RAW  # noqa: PLC0415  # 只在测试里引入，不影响服务启动链路
-
-        self.assertEqual(paths.SECTOR_THS_RAW, THS_SECTOR_RAW)
-
-    def test_insufficient_sectors_degrade_to_none(self):
-        with tempfile.TemporaryDirectory() as temp:
-            patches = self._patched(self._make_directory(temp, 19))
-            with patches[0], patches[1]:
-                self.assertIsNone(breadth_frame())
-
-    def test_enough_sectors_build_frame_from_em_directory(self):
-        seen: dict = {}
-
-        def fake_table(data):
-            seen.update(data)
-            return pd.DataFrame({"breadth20": [0.5]})
-
-        with tempfile.TemporaryDirectory() as temp:
-            patches = self._patched(self._make_directory(temp, 21), fake_table)
-            with patches[0], patches[1], patches[2]:
-                frame = breadth_frame()
-        self.assertIsNotNone(frame)
-        self.assertEqual(len(seen), 21)
-        self.assertEqual(sorted(seen)[:2], ["881100", "881101"])
-
-
 class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
     """收盘重算尝试次数按日重置：长期运行的服务不能因累计失败而永不刷新。"""
 
@@ -472,13 +284,46 @@ class CloseAttemptBudgetTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(scheduler._close_day, "2026-11-03")
 
 
+class CloseRefreshTest(unittest.IsolatedAsyncioTestCase):
+    """收盘任务链（sched-v4.1）：指数日线增量 + ETF 放量事件重建均在链上。"""
 
-STALE_GAP = {
-    "expected": "2026-11-03", "basis": "calendar",
-    "local": {"indices": "2026-11-03", "sectors": "2026-10-30", "institutions": "2026-11-03",
-              "etf": "2026-11-03"},
-    "lag": {"indices": 0, "sectors": 2, "institutions": 0, "etf": 0}, "stale": ["sectors"],
-}
+    NOW = datetime(2026, 11, 20, 17, 5, tzinfo=CN)  # 周五 17:05，触发收盘链
+
+    async def run_close(self, events_result) -> tuple[MarketScheduler, dict]:
+        """把收盘链跑一遍：pipeline 函数全部打桩，to_thread 改为同步直调。
+
+        events_result 为 Exception 时模拟事件重建失败，否则为事件产物返回值。
+        """
+        scheduler = MarketScheduler(SnapshotStore(), interval=30)
+        with mock.patch("asyncio.to_thread", side_effect=lambda func, *a, **k: func(*a, **k)), \
+                mock.patch("bootstrap.ensure_raw_data"), \
+                mock.patch("bootstrap.update_indices") as indices, \
+                mock.patch("bootstrap.update_institutions"), \
+                mock.patch("bootstrap.update_etf"), \
+                mock.patch("bootstrap.update_display_snapshots"), \
+                mock.patch("build_dashboard.build_etf_volume_events",
+                           return_value={},
+                           side_effect=events_result
+                           if isinstance(events_result, Exception) else None), \
+                mock.patch("io_utils.protected_write") as write:
+            await scheduler._tick_close(self.NOW)
+        return scheduler, {"indices": indices, "write": write}
+
+    async def test_close_chain_updates_indices_and_rebuilds_events(self):
+        scheduler, stubs = await self.run_close({})
+        self.assertEqual(stubs["indices"].call_count, 1, "指数日线增量必须在收盘链上")
+        self.assertEqual(scheduler._close_date, "2026-11-20")
+        self.assertIsNone(scheduler.last_error)
+        # 事件产物按既定文件名落盘并压缩数组
+        self.assertEqual(stubs["write"].call_args.args[0], "etf-volume-events.json")
+        self.assertTrue(stubs["write"].call_args.kwargs.get("compact_arrays"))
+
+    async def test_events_failure_warns_but_close_still_done(self):
+        scheduler, _stubs = await self.run_close(RuntimeError("ETF 行情文件缺失"))
+        self.assertEqual(scheduler._close_date, "2026-11-20", "展示层失败不得阻断收盘主链")
+        self.assertIn("ETF 放量事件重建失败", scheduler.last_error or "")
+
+
 FRESH_GAP = {
     "expected": "2026-11-03", "basis": "calendar",
     "local": {"indices": "2026-11-03", "sectors": "2026-11-03", "institutions": "2026-11-03",
@@ -491,58 +336,6 @@ ETF_LAGGED_GAP = {
               "etf": "2026-10-31"},
     "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1}, "stale": ["etf"],
 }
-ALL_SLOTS = {slot for slot, _ in EVENING_SLOTS}
-
-
-class EveningBackfillTest(unittest.IsolatedAsyncioTestCase):
-    """同花顺行业指数日线通常在收盘当晚即可取得：17:30/20:00/22:00 按需各补试一次。"""
-
-    async def test_no_backfill_before_first_slot(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.data_gap") as gap, \
-                mock.patch("bootstrap.ensure_fresh_data") as fresh:
-            await scheduler._tick_evening(datetime(2026, 11, 3, 17, 0, tzinfo=CN))
-        gap.assert_not_called()
-        fresh.assert_not_called()
-        self.assertEqual(scheduler._evening_done, set())
-
-    async def test_stale_data_triggers_backfill_and_rebuild(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.data_gap", return_value=STALE_GAP), \
-                mock.patch("bootstrap.ensure_fresh_data",
-                           return_value={"refreshed": {"sectors": 155}, "after": FRESH_GAP}) as fresh, \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            await scheduler._tick_evening(datetime(2026, 11, 3, 17, 35, tzinfo=CN))
-        fresh.assert_called_once()
-        self.assertEqual(write.call_count, 2)
-        self.assertEqual(scheduler._close_date, "2026-11-03")
-        self.assertEqual(scheduler._evening_done, ALL_SLOTS)
-        self.assertEqual(scheduler.status()["backfill"]["evening_slots_done"], sorted(ALL_SLOTS))
-
-    async def test_only_latest_pending_slot_runs(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler, "_rebuild_close"), \
-                mock.patch("bootstrap.data_gap", return_value=STALE_GAP), \
-                mock.patch("bootstrap.ensure_fresh_data",
-                           return_value={"refreshed": {"sectors": 0}, "after": STALE_GAP}) as fresh, \
-                mock.patch("io_utils.protected_write") as write:
-            await scheduler._tick_evening(datetime(2026, 11, 3, 21, 0, tzinfo=CN))
-        fresh.assert_called_once()   # 积压的两个时刻只跑一轮，不形成重试风暴
-        write.assert_not_called()
-        self.assertEqual(scheduler._evening_done, {"17:30", "20:00"})
-        self.assertIsNone(scheduler._close_date)   # 仍未补到，不把当天标记完成
-
-    async def test_up_to_date_data_skips_fetch(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
-                mock.patch("bootstrap.ensure_fresh_data") as fresh:
-            await scheduler._tick_evening(datetime(2026, 11, 3, 20, 5, tzinfo=CN))
-        fresh.assert_not_called()
-        self.assertEqual(scheduler._close_date, "2026-11-03")
-        self.assertEqual(scheduler._evening_done, ALL_SLOTS)
 
 
 class HealthStatusTest(unittest.TestCase):
@@ -551,12 +344,6 @@ class HealthStatusTest(unittest.TestCase):
     def make_scheduler(self) -> MarketScheduler:
         scheduler = MarketScheduler(SnapshotStore(), interval=30)
         return scheduler
-
-    def base_patches(self, scheduler: MarketScheduler, gap: dict):
-        return [
-            mock.patch("bootstrap.data_gap", return_value=gap),
-            mock.patch.object(scheduler.payloads, "indices", return_value=None),
-        ]
 
     def test_status_exposes_version_and_source(self):
         scheduler = self.make_scheduler()
@@ -592,8 +379,9 @@ class HealthStatusTest(unittest.TestCase):
         lines = status["freshness"]["lines"]
         self.assertFalse(lines["etf"]["covered"])
         self.assertTrue(lines["indices"]["covered"])
-        self.assertTrue(lines["sectors"]["covered"])
         self.assertTrue(lines["institutions"]["covered"])
+        # 板块日线已无页面消费，不再纳入逐线监控（即使 data_gap 报其落后）
+        self.assertNotIn("sectors", lines)
         self.assertEqual(status["freshness"]["stale"], ["etf"])
 
     def test_status_separates_live_snapshot_and_daily_freshness(self):
@@ -611,159 +399,6 @@ class HealthStatusTest(unittest.TestCase):
                 mock.patch.object(scheduler.payloads, "indices", return_value=None):
             status = scheduler.status()
         self.assertEqual(status["backfill"]["close_time_declared"], "17:00")
-        self.assertIn("20:00", status["backfill"]["evening_slots_declared"])
-
-    async def test_slots_reset_on_new_day(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        scheduler._evening_day = "2026-11-03"
-        scheduler._evening_done = set(ALL_SLOTS)
-        with mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
-                mock.patch("bootstrap.ensure_fresh_data") as fresh:
-            await scheduler._tick_evening(datetime(2026, 11, 4, 17, 35, tzinfo=CN))
-        fresh.assert_not_called()
-        self.assertEqual(scheduler._evening_day, "2026-11-04")
-        self.assertEqual(scheduler._close_date, "2026-11-04")
-
-
-class StartupBuildTest(unittest.TestCase):
-    """启动只用本地数据出首屏：原始数据缺失才全量拉取，增量补齐交给收盘/晚间/手动脚本。"""
-
-    def test_startup_order_is_raw_then_close_then_snapshot(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        calls = []
-
-        def note(name):
-            def inner(*_args, **_kwargs):
-                calls.append(name)
-            return inner
-
-        with mock.patch("bootstrap.ensure_raw_data", side_effect=note("raw")), \
-                mock.patch("bootstrap.ensure_fresh_data") as fresh, \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("io_utils.protected_write"), \
-                mock.patch.object(scheduler, "_ensure_close_data", side_effect=note("ensure")), \
-                mock.patch.object(scheduler, "_rebuild_close", side_effect=note("snapshot")):
-            with contextlib.redirect_stdout(io.StringIO()):
-                scheduler._bootstrap()
-        self.assertEqual(calls, ["raw", "ensure", "snapshot"])
-        # 启动不做增量补齐：源接口慢/未发布/空响应会长时间阻塞首屏
-        fresh.assert_not_called()
-
-    def test_raw_data_failure_still_builds_first_screen(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.ensure_raw_data", side_effect=RuntimeError("无网络")), \
-                mock.patch.object(scheduler, "_ensure_close_data") as ensure, \
-                mock.patch.object(scheduler, "_rebuild_close") as rebuild:
-            with contextlib.redirect_stdout(io.StringIO()):
-                scheduler._bootstrap()
-        ensure.assert_called_once()    # 拉取失败也照常启动，先用本地数据出首屏
-        rebuild.assert_called_once()
-        self.assertIn("原始数据准备失败", scheduler.last_error)
-
-    def test_first_screen_failure_is_reported_and_not_swallowed(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.ensure_raw_data"), \
-                mock.patch.object(scheduler, "_ensure_close_data",
-                                  side_effect=RuntimeError("产物校验失败")), \
-                mock.patch.object(scheduler, "_rebuild_close") as rebuild:
-            with contextlib.redirect_stdout(io.StringIO()):
-                scheduler._bootstrap()
-        rebuild.assert_not_called()
-        self.assertIn("首屏数据构建失败", scheduler.last_error)
-
-    def test_backfill_blocking_failure_keeps_old_products_and_returns_false(self):
-        """增量补齐失败不抛出也不落盘：先用现有数据继续服务，下一个补齐时刻再试。"""
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.ensure_fresh_data", side_effect=RuntimeError("网络断开")), \
-                mock.patch("io_utils.protected_write") as write:
-            with contextlib.redirect_stdout(io.StringIO()):
-                filled = scheduler._backfill_blocking()
-        self.assertFalse(filled)
-        write.assert_not_called()
-        self.assertIn("数据补齐失败", scheduler.last_error)
-
-
-def _write_kwargs(write: mock.MagicMock) -> dict:
-    """按产物名收集 protected_write 的关键字参数，用于断言落盘格式。"""
-    return {call.args[0]: dict(call.kwargs) for call in write.call_args_list}
-
-
-BUILD_FORMAT = {"index-signals.json": {}, "sector-trends.json": {"compact_arrays": True},
-                "etf-volume-events.json": {"compact_arrays": True}}
-
-
-class ProductWriteFormatTest(unittest.IsolatedAsyncioTestCase):
-    """服务自己落盘时必须沿用 build_dashboard 的格式：板块产物标量数组压行，
-    指数产物保持缩进，否则同一份数据经不同路径写回会出现十几倍体积差。"""
-
-    def test_backfill_blocking_writes_in_build_format(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.ensure_fresh_data",
-                        return_value={"refreshed": {"sectors": 155,
-                                                    "etf": {"status": "ok",
-                                                            "updated": ["510300"],
-                                                            "skipped": 5, "failed": []}},
-                                      "after": FRESH_GAP}), \
-                mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            with contextlib.redirect_stdout(io.StringIO()):
-                self.assertTrue(scheduler._backfill_blocking())
-        self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
-
-    def test_etf_only_update_rebuilds_events_only(self):
-        """仅 ETF 有更新：不重算指数/板块信号，只重建放量事件产物（D4）。"""
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch("bootstrap.ensure_fresh_data",
-                        return_value={"refreshed": {"indices": [], "sectors": 0,
-                                                    "etf": {"status": "ok",
-                                                            "updated": ["510300"],
-                                                            "skipped": 5, "failed": []}},
-                                      "after": FRESH_GAP}), \
-                mock.patch("bootstrap.data_gap", return_value=FRESH_GAP), \
-                mock.patch("build_dashboard.build_indices") as build_indices, \
-                mock.patch("build_dashboard.build_sectors") as build_sectors, \
-                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            with contextlib.redirect_stdout(io.StringIO()):
-                self.assertTrue(scheduler._backfill_blocking())
-        build_indices.assert_not_called()
-        build_sectors.assert_not_called()
-        self.assertEqual(list(_write_kwargs(write)), ["etf-volume-events.json"])
-
-    def test_ensure_close_data_writes_in_build_format(self):
-        scheduler = MarketScheduler(SnapshotStore(), interval=30)
-        with mock.patch.object(scheduler.payloads, "indices", return_value=None), \
-                mock.patch.object(scheduler.payloads, "sectors", return_value=None), \
-                mock.patch.object(scheduler.payloads, "load", return_value=None), \
-                mock.patch.object(scheduler.payloads, "invalidate"), \
-                mock.patch("build_dashboard.build_indices", return_value={}), \
-                mock.patch("build_dashboard.build_sectors", return_value={}), \
-                mock.patch("build_dashboard.build_etf_volume_events", return_value={}), \
-                mock.patch("io_utils.protected_write") as write:
-            with contextlib.redirect_stdout(io.StringIO()):
-                scheduler._ensure_close_data()
-        self.assertEqual(_write_kwargs(write), BUILD_FORMAT)
-
-
-
-class StaleDetailTest(unittest.TestCase):
-    def test_detail_reports_local_expected_and_lag(self):
-        text = _stale_detail(STALE_GAP)
-        self.assertIn("sectors 停在 2026-10-30", text)
-        self.assertIn("应为 2026-11-03", text)
-        self.assertIn("差 2 个交易日", text)
-
-    def test_missing_line_is_reported_as_unknown(self):
-        gap = {**STALE_GAP,
-               "local": {**STALE_GAP["local"], "sectors": None},
-               "lag": {**STALE_GAP["lag"], "sectors": None}}
-        text = _stale_detail(gap)
-        self.assertIn("停在 —", text)
-        self.assertIn("未知", text)
 
 
 class InstitutionEndpointTest(unittest.TestCase):
@@ -910,14 +545,6 @@ class InstitutionEndpointTest(unittest.TestCase):
         self.assertTrue(data["stale"])
         self.assertEqual(data["summary"]["date"], payload["as_of"])
         self.assertIsNotNone(data["summary"]["institutions"][0]["net"])
-
-    def test_snapshot_carries_summary_without_series(self):
-        STORE.set(build_close_snapshot(_payload(), _sector_payload()))
-        with mock.patch.object(app_module, "INSTITUTION_STORE", InstitutionStore(paths.INSTITUTION_POSITIONS)):
-            data = app_module.snapshot()
-        self.assertIn("institutions", data)
-        self.assertNotIn("series", data["institutions"])
-        self.assertEqual(len(data["institutions"]["institutions"]), 3)
 
 
 ETF_CODES = ["588000", "159915", "510300", "510050", "512100", "510500"]

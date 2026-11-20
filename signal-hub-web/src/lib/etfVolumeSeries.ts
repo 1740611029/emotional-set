@@ -109,7 +109,7 @@ export function buildTotalIndexOption(view: EtfSeriesView, palette: TotalIndexPa
   const markData = buildL3MarkPoints(view, palette.l3);
   return {
     animation: false,
-    grid: { left: 12, right: 16, top: 44, bottom: 12, containLabel: true },
+    grid: { left: 12, right: 16, top: 44, bottom: 66, containLabel: true },
     legend: { top: 4, textStyle: { color: palette.text, fontSize: 11 } },
     tooltip: {
       trigger: 'axis',
@@ -150,7 +150,27 @@ export function buildTotalIndexOption(view: EtfSeriesView, palette: TotalIndexPa
         splitLine: { show: false },
       },
     ],
-    dataZoom: [{ type: 'inside', throttle: 60 }],
+    dataZoom: [
+      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+      {
+        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+        borderColor: palette.grid,
+        fillerColor: 'rgba(58,154,106,0.18)',
+        handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },
+        moveHandleStyle: { color: '#3a9a6a' },
+        dataBackground: {
+          // 未选中区间背景加深，浅灰底太浅看不清（2026-11-20 反馈，二次加深）
+          lineStyle: { color: 'rgba(51,65,85,0.95)' },
+          areaStyle: { color: 'rgba(71,85,105,0.8)' },
+        },
+        selectedDataBackground: {
+          lineStyle: { color: '#3a9a6a' },
+          areaStyle: { color: 'rgba(58,154,106,0.18)' },
+        },
+        textStyle: { color: palette.text, fontSize: 10 },
+        filterMode: 'none',
+      },
+    ],
     series: [
       {
         name: '合计成交额',
@@ -188,7 +208,7 @@ export interface EtfLinesPalette {
 export function buildEtfLinesOption(view: EtfSeriesView, palette: EtfLinesPalette) {
   return {
     animation: false,
-    grid: { left: 12, right: 16, top: 44, bottom: 12, containLabel: true },
+    grid: { left: 12, right: 16, top: 44, bottom: 66, containLabel: true },
     legend: {
       top: 4,
       type: 'scroll',
@@ -225,7 +245,27 @@ export function buildEtfLinesOption(view: EtfSeriesView, palette: EtfLinesPalett
       axisLabel: { color: palette.text, fontSize: 11 },
       splitLine: { lineStyle: { color: palette.grid } },
     },
-    dataZoom: [{ type: 'inside', throttle: 60 }],
+    dataZoom: [
+      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+      {
+        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+        borderColor: palette.grid,
+        fillerColor: 'rgba(58,154,106,0.18)',
+        handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },
+        moveHandleStyle: { color: '#3a9a6a' },
+        dataBackground: {
+          // 未选中区间背景加深，浅灰底太浅看不清（2026-11-20 反馈，二次加深）
+          lineStyle: { color: 'rgba(51,65,85,0.95)' },
+          areaStyle: { color: 'rgba(71,85,105,0.8)' },
+        },
+        selectedDataBackground: {
+          lineStyle: { color: '#3a9a6a' },
+          areaStyle: { color: 'rgba(58,154,106,0.18)' },
+        },
+        textStyle: { color: palette.text, fontSize: 10 },
+        filterMode: 'none',
+      },
+    ],
     series: view.etfs.map((etf, position) => {
       const color = palette.lines[position % palette.lines.length];
       return {

@@ -1,7 +1,7 @@
 {
   "data_state": "ready",
   "as_of": "2026-11-20",
-  "generated_at": "2026-11-20T14:55:40",
+  "generated_at": "2026-11-20T17:14:29",
   "methodology": "数据源：akshare 东方财富涨停股池 stock_zt_pool_em / 昨日涨停池 stock_zt_pool_previous_em / 炸板股池 stock_zt_pool_zbgc_em。涨停认定以接口收录为准（收盘封板），含主板、创业板、科创板、北交所，不额外剔除 ST 与次新股；连板数直接采用接口「连板数」字段，不自行判定连续性。晋级率 = 昨日 2 板个股中今日仍在涨停池的家数 / 昨日 2 板总家数，样本量为累计分母，统计区间为有效交易日区间。情绪温度展示当日涨停家数及其在有效区间内的百分位排名，不含任何主观权重。五阶段色带仅作版式参考，不参与判定；页面不给出阶段归类结论。东财股池历史不可回溯，无长样本，本页仅作展示，不参与任何信号计算，数据不足以支撑阈值调参或统计推断。",
   "coverage": {
     "requested_days": 30,
@@ -206,7 +206,7 @@
       "name": "真视通",
       "boards": 4,
       "sector": "IT服务Ⅱ",
-      "seal_amount": 19267,
+      "seal_amount": 15920,
       "first_seal": "09:30",
       "status": "封住"
     },
@@ -215,7 +215,7 @@
       "name": "盛剑科技",
       "boards": 4,
       "sector": "环保设备",
-      "seal_amount": 4554,
+      "seal_amount": 4340,
       "first_seal": "09:25",
       "status": "回封"
     },
@@ -224,7 +224,7 @@
       "name": "中京电子",
       "boards": 2,
       "sector": "元件",
-      "seal_amount": 27074,
+      "seal_amount": 20420,
       "first_seal": "09:36",
       "status": "封住"
     },
@@ -233,7 +233,7 @@
       "name": "冰山冷热",
       "boards": 1,
       "sector": "通用设备",
-      "seal_amount": 15498,
+      "seal_amount": 13487,
       "first_seal": "10:00",
       "status": "回封"
     },
@@ -242,7 +242,7 @@
       "name": "德龙汇能",
       "boards": 1,
       "sector": "燃气Ⅱ",
-      "seal_amount": 7971,
+      "seal_amount": 5355,
       "first_seal": "13:00",
       "status": "封住"
     },
@@ -251,7 +251,7 @@
       "name": "华媒控股",
       "boards": 1,
       "sector": "广告营销",
-      "seal_amount": 3480,
+      "seal_amount": 3389,
       "first_seal": "11:17",
       "status": "封住"
     },
@@ -260,7 +260,7 @@
       "name": "超声电子",
       "boards": 1,
       "sector": "元件",
-      "seal_amount": 28939,
+      "seal_amount": 16728,
       "first_seal": "10:00",
       "status": "封住"
     },
@@ -269,7 +269,7 @@
       "name": "东方海洋",
       "boards": 1,
       "sector": "农产品加",
-      "seal_amount": 24924,
+      "seal_amount": 20204,
       "first_seal": "09:42",
       "status": "封住"
     },
@@ -278,7 +278,7 @@
       "name": "东晶电子",
       "boards": 1,
       "sector": "元件",
-      "seal_amount": 3423,
+      "seal_amount": 2895,
       "first_seal": "09:40",
       "status": "封住"
     },
@@ -287,7 +287,7 @@
       "name": "金新农",
       "boards": 1,
       "sector": "饲料",
-      "seal_amount": 1710,
+      "seal_amount": 957,
       "first_seal": "10:47",
       "status": "封住"
     },
@@ -296,7 +296,7 @@
       "name": "荣联科技",
       "boards": 1,
       "sector": "IT服务Ⅱ",
-      "seal_amount": 14400,
+      "seal_amount": 9422,
       "first_seal": "09:31",
       "status": "封住"
     },
@@ -305,7 +305,7 @@
       "name": "光华科技",
       "boards": 1,
       "sector": "电子化学",
-      "seal_amount": 9350,
+      "seal_amount": 4925,
       "first_seal": "09:36",
       "status": "封住"
     },
@@ -314,7 +314,7 @@
       "name": "国光股份",
       "boards": 1,
       "sector": "农化制品",
-      "seal_amount": 4769,
+      "seal_amount": 3495,
       "first_seal": "10:09",
       "status": "封住"
     },
@@ -323,7 +323,7 @@
       "name": "易天股份",
       "boards": 1,
       "sector": "消费电子",
-      "seal_amount": 3264,
+      "seal_amount": 1233,
       "first_seal": "09:42",
       "status": "回封"
     },
@@ -332,7 +332,7 @@
       "name": "满坤科技",
       "boards": 1,
       "sector": "元件",
-      "seal_amount": 18009,
+      "seal_amount": 12061,
       "first_seal": "11:20",
       "status": "封住"
     },
@@ -341,7 +341,7 @@
       "name": "凡拓数创",
       "boards": 1,
       "sector": "数字媒体",
-      "seal_amount": 11150,
+      "seal_amount": 9036,
       "first_seal": "10:44",
       "status": "回封"
     },
@@ -350,7 +350,7 @@
       "name": "大东方",
       "boards": 1,
       "sector": "一般零售",
-      "seal_amount": 1609,
+      "seal_amount": 1566,
       "first_seal": "11:12",
       "status": "回封"
     },
@@ -359,7 +359,7 @@
       "name": "华微电子",
       "boards": 1,
       "sector": "半导体",
-      "seal_amount": 5279,
+      "seal_amount": 6332,
       "first_seal": "09:32",
       "status": "回封"
     },
@@ -368,7 +368,7 @@
       "name": "万向德农",
       "boards": 1,
       "sector": "种植业",
-      "seal_amount": 6525,
+      "seal_amount": 5464,
       "first_seal": "10:17",
       "status": "封住"
     },
@@ -377,7 +377,7 @@
       "name": "好当家",
       "boards": 1,
       "sector": "渔业",
-      "seal_amount": 3611,
+      "seal_amount": 3208,
       "first_seal": "11:26",
       "status": "回封"
     },
@@ -386,7 +386,7 @@
       "name": "鼎龙科技",
       "boards": 1,
       "sector": "化学制品",
-      "seal_amount": 2794,
+      "seal_amount": 2642,
       "first_seal": "10:30",
       "status": "封住"
     },
@@ -395,7 +395,7 @@
       "name": "骏亚科技",
       "boards": 1,
       "sector": "元件",
-      "seal_amount": 6705,
+      "seal_amount": 6256,
       "first_seal": "10:51",
       "status": "回封"
     },
@@ -404,7 +404,7 @@
       "name": "风语筑",
       "boards": 1,
       "sector": "数字媒体",
-      "seal_amount": 5801,
+      "seal_amount": 5240,
       "first_seal": "10:44",
       "status": "回封"
     },
@@ -413,7 +413,7 @@
       "name": "建业股份",
       "boards": 1,
       "sector": "化学制品",
-      "seal_amount": 897,
+      "seal_amount": 836,
       "first_seal": "09:37",
       "status": "回封"
     },
@@ -422,7 +422,7 @@
       "name": "克来机电",
       "boards": 1,
       "sector": "汽车零部",
-      "seal_amount": 5998,
+      "seal_amount": 5277,
       "first_seal": "10:34",
       "status": "封住"
     },
@@ -431,7 +431,7 @@
       "name": "长华集团",
       "boards": 1,
       "sector": "汽车零部",
-      "seal_amount": 4280,
+      "seal_amount": 3452,
       "first_seal": "10:14",
       "status": "封住"
     },
@@ -440,7 +440,7 @@
       "name": "澳弘电子",
       "boards": 1,
       "sector": "元件",
-      "seal_amount": 10664,
+      "seal_amount": 8581,
       "first_seal": "10:04",
       "status": "封住"
     },
@@ -449,7 +449,7 @@
       "name": "龙版传媒",
       "boards": 1,
       "sector": "出版",
-      "seal_amount": 7088,
+      "seal_amount": 5746,
       "first_seal": "09:47",
       "status": "回封"
     }

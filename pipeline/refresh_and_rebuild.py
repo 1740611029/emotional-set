@@ -98,11 +98,10 @@ def main(*, force: bool = False) -> int:
 
     # 无论是否拉取到新行情都重建：本开关的语义是"补数据 + 重建"
     build_dashboard.main()
-    # 手动重建入口顺带刷新两块展示产物（板块成分股 / 东财涨停池），
-    # 失败只告警不阻断重建主流程（update_display_snapshots 内部已兜底）
+    # 手动重建入口顺带刷新展示产物（东财涨停池），失败只告警不阻断重建主流程
+    #（update_display_snapshots 内部已兜底；板块成分股快照的消费页面已下线，不再刷新）
     display = update_display_snapshots()
-    for name in ("fetch_sector_stocks", "limit_cycle"):
-        item = display.get(name) or {"status": "failed", "error": "未执行"}
+    for name, item in display.items():
         state = "成功" if item.get("status") == "ok" else "失败"
         as_of = item.get("as_of") or "—"
         detail = f"（{item.get('error')}）" if state == "失败" else ""

@@ -402,12 +402,12 @@ def update_institutions(progress: Progress | None = None) -> dict:
 
 
 def update_display_snapshots(progress: Progress | None = None) -> dict:
-    """盘后展示产物刷新：板块成分股快照 + 东财涨停池（个股弹窗数据）。
+    """盘后展示产物刷新：东财涨停池（个股弹窗数据）。
 
     只读展示层，不参与任何信号计算（AGENTS 第 1 条）；任一条失败只告警，
     不阻断指数/板块/机构/ETF 主线（与机构数据线同策略）。
-    板块成分股全量 90 板块翻页抓取耗时较长（分钟级），刷新节奏由调用方决定
-    （收盘链每日一次、手动重建入口每次执行），不在本函数内做节流。
+    板块成分股快照（sector-stocks.json）的消费页面已于 2026-11-20 下线，
+    不再随收盘链每日刷新；手动重建入口如需可单独执行 fetch_sector_stocks。
     """
     progress = progress or Progress()
     from io_utils import protected_write  # noqa: PLC0415
@@ -426,7 +426,6 @@ def update_display_snapshots(progress: Progress | None = None) -> dict:
             print(f"[bootstrap] {name} 刷新失败（已跳过）：{detail}", flush=True)
             results[module_name] = {"status": "failed", "error": detail}
 
-    refresh_one("sector-stocks.json", "fetch_sector_stocks")
     refresh_one("limit-cycle.json", "limit_cycle")
     return results
 

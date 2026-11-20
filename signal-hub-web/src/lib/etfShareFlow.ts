@@ -103,7 +103,15 @@ export function buildShareFlowOption(view: ShareFlowView, palette: ShareFlowPale
         fillerColor: 'rgba(58,154,106,0.18)',
         handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },
         moveHandleStyle: { color: '#3a9a6a' },
-        dataBackground: { lineStyle: { color: palette.grid }, areaStyle: { color: palette.grid } },
+        dataBackground: {
+          // 未选中区间背景加深，浅灰底太浅看不清（2026-11-20 反馈，二次加深）
+          lineStyle: { color: 'rgba(51,65,85,0.95)' },
+          areaStyle: { color: 'rgba(71,85,105,0.8)' },
+        },
+        selectedDataBackground: {
+          lineStyle: { color: '#3a9a6a' },
+          areaStyle: { color: 'rgba(58,154,106,0.18)' },
+        },
         textStyle: { color: palette.text, fontSize: 10 },
         filterMode: 'none',
       },

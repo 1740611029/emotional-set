@@ -1,9 +1,7 @@
-"""刷新调度：盘中 30 秒实时快照，收盘后重算日线。
+"""调度：收盘后刷新数据，龙虎榜游资日更。
 
-单飞设计：同一时刻只有一个刷新任务；并发请求直接读内存快照。
-启动直接出首屏，不做联网增量补齐（避免源接口慢/失败导致长时间不就绪）；
-数据更新统一交给收盘后重算、晚间固定补齐时刻与手动脚本。
-同花顺行业指数日线通常在收盘当晚即可取得，所以收盘后保留几个固定的补齐时刻。
+2026-11-20：指数总览/板块趋势页下线，盘中实时快照与晚间补齐任务一并移除。
+启动直接用本地已有数据组装健康状态；数据更新由收盘任务与手动脚本负责。
 """
 
 from __future__ import annotations
@@ -13,47 +11,32 @@ import json
 from datetime import datetime, timedelta
 
 from . import paths  # noqa: F401  # 配置 sys.path
-from .realtime import CN, fetch_spot, trading_session
+from .realtime import CN, trading_session
 from .snapshot import (
-    HistoryStore,
     PayloadStore,
     SnapshotStore,
     build_close_snapshot,
-    build_live_snapshot,
 )
 
 DEFAULT_INTERVAL = 30
 # 调度版本：随调度逻辑/时刻口径变更而升版，供多机经 /api/health 比对是否同步
 # sched-v4.0：2026-11-20 移除盘中快照/晚间补齐任务与快照接口，收盘任务不再重算信号产物
-SCHEDULER_VERSION = "sched-v4.0-no-index-signal"
-# 收盘重算与晚间补齐时刻的校准声明：指数/ETF 已换新浪（全量 1 请求，定稿较早）；
-# 板块线 2026-11-14 起为同花顺行业指数日线（90 个细分行业，通常当晚即可取得），17:00 首试并保留
-# 17:30/20:00/22:00 三个补齐时刻。校准口径见 data/research/source-eval/source-migration-20261114.md。
+# sched-v4.1：2026-11-20 收盘任务补回指数日线增量与 ETF 放量事件重建（机构页/ETF 页依赖）
+SCHEDULER_VERSION = "sched-v4.1"
+# 收盘重算时刻声明：指数/ETF 源为新浪（全量 1 请求，定稿较早）。
+# 17:00 首试，失败按 CLOSE_RETRY_MINUTES 间隔当日最多重试 MAX_CLOSE_ATTEMPTS 次。
+# 校准口径见 data/research/source-eval/source-migration-20261114.md。
 CLOSE_HOUR_MINUTE = (
     17 * 60
 )  # 收盘重算首试：17:00（板块/指数 15:30 后陆续定稿，避开收盘高峰）
 MAX_CLOSE_ATTEMPTS = 3
 CLOSE_RETRY_MINUTES = 10
-# 晚间补齐时刻常量：补齐任务已于 2026-11-20 下线，保留供健康状态声明与测试参考
-EVENING_SLOTS = (("17:30", 17 * 60 + 30), ("20:00", 20 * 60), ("22:00", 22 * 60))
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
 LHB_SLOTS = (("20:00", 20 * 60), ("22:00", 22 * 60))
 # 可由页面单独启停的服务端调度分支；网页侧轮询开关由前端自行管理，不在此登记。
 # 2026-11-20：指数总览/板块趋势页下线后，live_quote（盘中快照）与 evening_backfill
 # （板块日线补齐→信号）已无消费页面，连同快照接口一并移除；仅保留收盘数据刷新与龙虎榜日更。
 SERVER_TASKS = ("close_rebuild", "lhb_daily")
-
-
-def _stale_detail(gap: dict) -> str:
-    """把落后的数据类拼成一句日志可读的说明。"""
-    parts = []
-    for key in gap["stale"]:
-        lag = gap["lag"].get(key)
-        parts.append(
-            f"{key} 停在 {gap['local'].get(key) or '—'}"
-            f"（应为 {gap['expected']}，差 {lag if lag is not None else '未知'} 个交易日）"
-        )
-    return "、".join(parts)
 
 
 def _limiter_snapshot() -> dict:
@@ -70,7 +53,6 @@ class MarketScheduler:
     def __init__(self, store: SnapshotStore, interval: int = DEFAULT_INTERVAL) -> None:
         self.store = store
         self.interval = max(5, int(interval))
-        self.history = HistoryStore()
         self.payloads = PayloadStore()
         self.progress = _Progress()
         self._lock = asyncio.Lock()
@@ -81,9 +63,6 @@ class MarketScheduler:
         self._close_version: tuple[float, float, float] | None = None
         self._close_attempts = 0
         self._close_retry_at: datetime | None = None
-        # 晚间补齐状态字段（任务已下线，保留供健康状态兼容读取）
-        self._evening_day: str | None = None
-        self._evening_done: set[str] = set()
         # 龙虎榜知名游资日更状态（展示层数据，失败不影响信号链路）
         self._lhb_day: str | None = None
         self._lhb_done_slots: set[str] = set()
@@ -130,78 +109,20 @@ class MarketScheduler:
 
     # ---------- 收盘数据 ----------
 
-    def _backfill_blocking(self) -> bool:
-        """补齐落后日线并重建三份产物（同步，耗时可达十分钟级）。
+    def _rebuild_etf_volume_events(self) -> None:
+        """重建 ETF 放量事件产物（ETF 放量页 L3 标记的数据源，纯展示层）。
 
-        该内部方法已不再由调度主循环自动触发（晚间补齐任务于 2026-11-20 下线），
-        保留供手动/测试调用；自动重建请走 pipeline 的重建脚本。
+        依赖刚由 update_etf / update_indices 刷新的 ETF 日线与沪深300，
+        失败（如个别 CSV 缺失）向上抛出，由调用方告警，不静默吞掉。
         """
-        from bootstrap import data_gap, ensure_fresh_data  # noqa: PLC0415
-        from build_dashboard import (
-            build_etf_volume_events,
-            build_indices,
-            build_sectors,
-        )  # noqa: PLC0415
+        from build_dashboard import build_etf_volume_events  # noqa: PLC0415
         from io_utils import protected_write  # noqa: PLC0415
 
-        try:
-            result = ensure_fresh_data(self.progress)
-        except Exception as exc:
-            self.last_error = f"数据补齐失败：{type(exc).__name__}: {exc}"
-            print(f"[scheduler] {self.last_error}（先用现有数据启动）", flush=True)
-            return False
-        changed = result.get("refreshed") or {}
-        etf_changed = bool((changed.get("etf") or {}).get("updated"))
-        if changed.get("indices") or changed.get("sectors"):
-            self.progress.update("build", "增量补齐后重算")
-            protected_write("index-signals.json", build_indices())
-            protected_write("sector-trends.json", build_sectors(), compact_arrays=True)
-        if etf_changed:
-            self.progress.update("build", "增量补齐后重建 ETF 放量事件")
-            protected_write(
-                "etf-volume-events.json", build_etf_volume_events(), compact_arrays=True
-            )
-        self.history.invalidate()
-        self.payloads.invalidate()
-        after = result.get("after") or data_gap()
-        if after["stale"]:
-            print(
-                f"[scheduler] 补齐后仍落后：{_stale_detail(after)}"
-                f"（源尚未发布或拉取失败，下次启动或下一个补齐时刻再试）",
-                flush=True,
-            )
-            return False
-        if changed:
-            print(
-                f"[scheduler] 补齐完成并已重算落盘：指数 {after['local'].get('indices')}、"
-                f"板块 {after['local'].get('sectors')}（应为 {after['expected']}）",
-                flush=True,
-            )
-        return True
-
-    def _ensure_close_data(self) -> None:
-        """产物缺失时的首屏兜底构建（不再由启动自动调用，保留供手动/测试使用）。"""
-        from build_dashboard import (
-            build_etf_volume_events,
-            build_indices,
-            build_sectors,
-        )  # noqa: PLC0415
-        from io_utils import protected_write  # noqa: PLC0415
-
-        if self.payloads.indices() is None:
-            self.progress.update("build", "构建指数信号数据")
-            protected_write("index-signals.json", build_indices())
-            self.payloads.invalidate()
-        if self.payloads.sectors() is None:
-            self.progress.update("build", "构建板块趋势数据")
-            protected_write("sector-trends.json", build_sectors(), compact_arrays=True)
-            self.payloads.invalidate()
-        if self.payloads.load("etf-volume-events.json", paths.ETF_VOLUME_EVENTS) is None:
-            self.progress.update("build", "构建 ETF 放量事件数据")
-            protected_write(
-                "etf-volume-events.json", build_etf_volume_events(), compact_arrays=True
-            )
-            self.payloads.invalidate()
+        protected_write(
+            "etf-volume-events.json",
+            build_etf_volume_events(),
+            compact_arrays=True,
+        )
 
     def _rebuild_close(self, *, stale: bool = False, reason: str | None = None) -> None:
         indices = self.payloads.indices()
@@ -290,25 +211,28 @@ class MarketScheduler:
         if self._close_retry_at is not None and now < self._close_retry_at:
             return
 
-        # 2026-11-20：指数总览/板块趋势页下线，指数/板块日线与三份信号产物
-        # （index-signals / sector-trends / etf-volume-events）不再自动重算。
-        # 收盘任务仅刷新仍在服役页面所需的数据：机构持仓、ETF 日线、连板/成分股展示产物。
+        # 2026-11-20：指数总览/板块趋势页下线，指数/板块信号产物
+        # （index-signals / sector-trends）不再自动重算。
+        # 收盘任务刷新仍在服役页面所需的数据：指数日线（机构页基准沪深300 与
+        # ETF 页上证指数对照线依赖，单只失败自带补偿重试且不影响其余指数）、
+        # 机构持仓、ETF 日线、ETF 放量事件（L3 标记）、连板/涨停池展示产物。
         # 信号产物如需重建，仍可用「重建信号数据.bat / pipeline 手动脚本」显式触发。
         from bootstrap import (
             ensure_raw_data,
             update_display_snapshots,
             update_etf,
             update_institutions,
+            update_indices,
         )  # noqa: PLC0415
 
         async with self._refresh_lock:
             self._close_attempts += 1
             try:
                 await asyncio.to_thread(ensure_raw_data, self.progress)
+                await asyncio.to_thread(update_indices, self.progress)
                 await asyncio.to_thread(update_institutions, self.progress)
                 await asyncio.to_thread(update_etf, self.progress)
                 await asyncio.to_thread(update_display_snapshots, self.progress)
-                self.history.invalidate()
                 self.payloads.invalidate()
                 self.last_error = None
                 self._close_date = today
@@ -316,42 +240,13 @@ class MarketScheduler:
                 self._close_retry_at = now + timedelta(minutes=CLOSE_RETRY_MINUTES)
                 self.last_error = f"收盘数据刷新失败：{type(exc).__name__}: {exc}"
                 print(f"[scheduler] {self.last_error}", flush=True)
-
-    async def _tick_evening(self, now: datetime) -> None:
-        """晚间补齐：已不再由调度主循环触发（任务 2026-11-20 下线），保留供测试/手动调用。"""
-        from bootstrap import data_gap  # noqa: PLC0415
-
-        today = now.strftime("%Y-%m-%d")
-        if self._evening_day != today:
-            self._evening_day = today
-            self._evening_done = set()
-        minutes = now.hour * 60 + now.minute
-        pending = [
-            slot for slot, at in EVENING_SLOTS
-            if minutes >= at and slot not in self._evening_done
-        ]
-        if not pending:
-            return
-
-        gap = await asyncio.to_thread(data_gap)
-        if not gap["stale"]:
-            self._evening_done.update(slot for slot, _ in EVENING_SLOTS)
-            self._close_date = today
-            return
-
-        slot = pending[-1]
-        self._evening_done.update(pending)
-        print(f"[scheduler] 晚间补齐 {slot}：{_stale_detail(gap)}", flush=True)
-        async with self._refresh_lock:
-            filled = await asyncio.to_thread(self._backfill_blocking)
-            if filled:
-                self._rebuild_close()
-                self._close_version = self.payloads.version()
-        if not filled:
-            return
-        self._close_date = today
-        self._evening_done.update(item for item, _ in EVENING_SLOTS)
-        print(f"[scheduler] 晚间补齐 {slot} 成功：已覆盖最近交易日", flush=True)
+                return
+            # ETF 放量事件是展示层产物：失败只告警，不阻断收盘主链（次日收盘自动再试）
+            try:
+                await asyncio.to_thread(self._rebuild_etf_volume_events)
+            except Exception as exc:
+                self.last_error = f"ETF 放量事件重建失败：{type(exc).__name__}: {exc}"
+                print(f"[scheduler] {self.last_error}", flush=True)
 
     async def _tick_lhb(self, now: datetime) -> None:
         """龙虎榜知名游资日更：只影响 lhb-traders.json 展示产物，失败不影响信号链路。
@@ -410,12 +305,16 @@ class MarketScheduler:
         }
 
     def _freshness(self) -> dict:
-        """各数据线新鲜度：as_of / 最近已完成交易日 / 落后交易日数，逐线给出。"""
+        """各数据线新鲜度：as_of / 最近已完成交易日 / 落后交易日数，逐线给出。
+
+        板块日线（sectors）2026-11-20 起无任何页面消费，不再纳入监控，
+        以免 health 永远显示「落后」；其本地原始数据保留，仅供研究脚本使用。
+        """
         from bootstrap import data_gap  # noqa: PLC0415
 
         gap = data_gap()
         lines = {}
-        for key in ("indices", "sectors", "institutions", "etf"):
+        for key in ("indices", "institutions", "etf"):
             lag = gap["lag"].get(key)
             lines[key] = {
                 "as_of": gap["local"].get(key),
@@ -426,7 +325,7 @@ class MarketScheduler:
         return {
             "expected": gap["expected"],
             "basis": gap["basis"],
-            "stale": list(gap["stale"]),
+            "stale": [key for key in gap["stale"] if key != "sectors"],
             "lines": lines,
         }
 
@@ -445,7 +344,7 @@ class MarketScheduler:
             "algorithm_version": snapshot.get("algorithm_version")
             if snapshot
             else None,
-            "data_source": "同花顺公开日线（收盘）/ 新浪指数快照（盘中）",
+            "data_source": "盘后产物（新浪指数日线 / 东财机构持仓与 ETF 日线）",
             # 多机版本比对（D6）：调度版本与在用主源标识随 health 暴露
             "scheduler_version": SCHEDULER_VERSION,
             "primary_source": self._primary_source(),
@@ -465,9 +364,7 @@ class MarketScheduler:
             "backfill": {
                 "close_attempts": self._close_attempts,
                 "close_done_on": self._close_date,
-                "evening_slots_done": sorted(self._evening_done),
                 "close_time_declared": "17:00",
-                "evening_slots_declared": [slot for slot, _ in EVENING_SLOTS],
             },
             "last_error": self.last_error,
             "interval_seconds": self.interval,

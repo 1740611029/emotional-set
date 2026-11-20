@@ -16,6 +16,7 @@ import {
   buildTotalIndexOption,
   type EtfSeriesView,
 } from '../lib/etfVolumeSeries.ts';
+import { useTimeAxisLabels, TimeAxisLabelRow } from './chartTimeAxis';
 
 echarts.use([
   LineChart, GridComponent, TooltipComponent, LegendComponent,
@@ -50,9 +51,12 @@ function useChart(option: object, loading: boolean, empty: boolean, emptyText: s
     chartRef.current?.setOption(option as unknown as EChartsCoreOption, { notMerge: true });
   }, [option]);
 
+  const [timeStart, timeEnd] = useTimeAxisLabels(chartRef, option);
+
   return (
     <div className="relative">
       <div ref={containerRef} className="w-full h-80" />
+      <TimeAxisLabelRow start={timeStart} end={timeEnd} />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl">
           <span className="text-sm text-slate-500">加载中…</span>

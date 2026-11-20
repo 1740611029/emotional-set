@@ -16,11 +16,9 @@ import type {
   InstitutionSeriesView,
   InstitutionVariety,
 } from '../data/types';
+import { useTimeAxisLabels, TimeAxisLabelRow } from './chartTimeAxis';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, DataZoomComponent, CanvasRenderer]);
-
-export const CHART_RANGES = [20, 60, 120] as const;
-export type ChartRange = (typeof CHART_RANGES)[number];
 
 function cssVar(name: string, fallback: string): string {
   const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -43,7 +41,6 @@ interface Props {
   series: Partial<Record<InstitutionId, Partial<Record<InstitutionVariety, InstitutionSeriesView>>>>;
   variety: InstitutionVariety;
   institution: InstitutionId | 'all';
-  range: ChartRange;
   loading?: boolean;
 }
 
@@ -55,15 +52,12 @@ export function InstitutionPositionChart({
   series,
   variety,
   institution,
-  range,
   loading = false,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<EChartsType | null>(null);
 
   const option = useMemo(() => {
-    const start = Math.max(0, dates.length - range);
-    const viewDates = dates.slice(start);
     const textColor = cssVar('--color-slate-500', '#64748b');
     const gridColor = cssVar('--color-slate-100', '#f1f5f9');
     const colors: Record<InstitutionId, string> = {
@@ -76,7 +70,7 @@ export function InstitutionPositionChart({
       name: `${meta.name}净持仓`,
       type: 'line' as const,
       yAxisIndex: 0,
-      data: (series[meta.id]?.[variety]?.net ?? []).slice(start),
+      data: series[meta.id]?.[variety]?.net ?? [],
       showSymbol: false,
       connectNulls: false,
       lineStyle: { width: 1.8, color: colors[meta.id] },
@@ -96,7 +90,7 @@ export function InstitutionPositionChart({
       name: line.name,
       type: 'line' as const,
       yAxisIndex: 1,
-      data: line.close.slice(start),
+      data: line.close,
       showSymbol: false,
       connectNulls: false,
       lineStyle: { width: 1.4, color: indexColors[line.code] ?? fallbackIndexColor },
@@ -105,7 +99,7 @@ export function InstitutionPositionChart({
 
     return {
       animation: false,
-      grid: { left: 12, right: 16, top: 44, bottom: 12, containLabel: true },
+      grid: { left: 12, right: 16, top: 44, bottom: 66, containLabel: true },
       legend: { top: 4, textStyle: { color: textColor, fontSize: 11 } },
       tooltip: {
         trigger: 'axis',
@@ -121,12 +115,12 @@ export function InstitutionPositionChart({
               : `${item.value.toLocaleString(undefined, { maximumFractionDigits: 2 })}${suffix}`;
             return `${item.marker}${item.seriesName}：${value}`;
           });
-          return [viewDates[params[0]?.dataIndex ?? 0], ...items].join('<br/>');
-        },
-      },
-      xAxis: {
-        type: 'category',
-        data: viewDates,
+          return [dates[params[0]?.dataIndex ?? 0], ...items].join('<br/>');
+          },
+          },
+          xAxis: {
+          type: 'category',
+          data: dates,
         boundaryGap: false,
         axisLine: { lineStyle: { color: gridColor } },
         axisLabel: { color: textColor, fontSize: 11, hideOverlap: true },
@@ -146,13 +140,34 @@ export function InstitutionPositionChart({
           splitLine: { show: false },
         },
       ],
-      dataZoom: [{ type: 'inside', throttle: 60 }],
+      // 截图式横向滑块：两端手柄可拖拽筛时间范围，与主图联动
+      dataZoom: [
+        { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+        {
+          type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+          borderColor: gridColor,
+          fillerColor: 'rgba(58,154,106,0.18)',
+          handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },
+          moveHandleStyle: { color: '#3a9a6a' },
+          dataBackground: {
+            // 未选中区间背景加深，浅灰底太浅看不清（2026-11-20 反馈，二次加深）
+            lineStyle: { color: 'rgba(51,65,85,0.95)' },
+            areaStyle: { color: 'rgba(71,85,105,0.8)' },
+          },
+          selectedDataBackground: {
+            lineStyle: { color: '#3a9a6a' },
+            areaStyle: { color: 'rgba(58,154,106,0.18)' },
+          },
+          textStyle: { color: textColor, fontSize: 10 },
+          filterMode: 'none',
+        },
+      ],
       series: [
         ...positionSeries,
         ...indexSeries,
       ],
     };
-  }, [dates, closes, marketLines, institutions, series, variety, institution, range]);
+  }, [dates, closes, marketLines, institutions, series, variety, institution]);
 
   useEffect(() => {
     const element = containerRef.current;
@@ -172,9 +187,12 @@ export function InstitutionPositionChart({
     chartRef.current?.setOption(option, { notMerge: true });
   }, [option]);
 
+  const [timeStart, timeEnd] = useTimeAxisLabels(chartRef, option);
+
   return (
     <div className="relative">
       <div ref={containerRef} className="w-full h-80" />
+      <TimeAxisLabelRow start={timeStart} end={timeEnd} />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl">
           <span className="text-sm text-slate-500">机构持仓加载中…</span>

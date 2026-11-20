@@ -66,7 +66,7 @@ def main() -> int:
     print("=" * 58)
     print(f"  SignalHub 数据服务  http://{host}:{port}")
     print(f"  解释器 Python {sys.version.split()[0]}（{sys.executable}）")
-    print("  盘中每 30 秒刷新实时快照；收盘后自动重算日线信号")
+    print("  收盘后自动刷新数据；各页数据均为盘后产物")
     print("  首次启动若缺少原始数据，会先拉取指数与板块日线")
     print("=" * 58)
 
