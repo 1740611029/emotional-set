@@ -1,10 +1,10 @@
 {
-  "as_of": "2026-11-18",
+  "as_of": "2026-11-20",
   "as_of_rule": "min(index_tails)",
   "index_tails": {
-    "sh000001": "2026-11-18",
-    "sz399006": "2026-11-18",
-    "sh000688": "2026-11-18"
+    "sh000001": "2026-11-20",
+    "sz399006": "2026-11-20",
+    "sh000688": "2026-11-20"
   },
   "lagging_indexes": [],
   "is_mock": false,
@@ -12,8 +12,8 @@
     {
       "code": "sh000001",
       "name": "上证指数",
-      "latest": 3587.832,
-      "change_pct": 0.0907,
+      "latest": 3533.793,
+      "change_pct": -1.2249,
       "current_signal": {
         "type": "none",
         "date": null
@@ -35082,6 +35082,14 @@
         {
           "date": "2026-11-18",
           "close": 3587.832
+        },
+        {
+          "date": "2026-11-19",
+          "close": 3577.617
+        },
+        {
+          "date": "2026-11-20",
+          "close": 3533.793
         }
       ],
       "signals": [
@@ -35198,7 +35206,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-18",
+            "end": "2026-11-20",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -35261,7 +35269,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-18",
+        "end": "2026-11-20",
         "bottom": {
           "triggers": 0,
           "successes": 0,
@@ -35669,8 +35677,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-18",
-          "days": 2,
+          "end_date": "2026-11-19",
+          "days": 3,
           "has_divergence": true
         }
       ]
@@ -35678,8 +35686,8 @@
     {
       "code": "sz399006",
       "name": "创业板指",
-      "latest": 2311.621,
-      "change_pct": 0.8471,
+      "latest": 2212.127,
+      "change_pct": -3.5413,
       "current_signal": {
         "type": "none",
         "date": null
@@ -51676,6 +51684,14 @@
         {
           "date": "2026-11-18",
           "close": 2311.621
+        },
+        {
+          "date": "2026-11-19",
+          "close": 2293.342
+        },
+        {
+          "date": "2026-11-20",
+          "close": 2212.127
         }
       ],
       "signals": [
@@ -51897,7 +51913,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-18",
+            "end": "2026-11-20",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -51960,7 +51976,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-18",
+        "end": "2026-11-20",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -52278,8 +52294,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-18",
-          "days": 2,
+          "end_date": "2026-11-19",
+          "days": 3,
           "has_divergence": false
         }
       ]
@@ -52287,8 +52303,8 @@
     {
       "code": "sh000688",
       "name": "科创50",
-      "latest": 1247.991,
-      "change_pct": 2.195,
+      "latest": 1231.089,
+      "change_pct": -3.1236,
       "current_signal": {
         "type": "none",
         "date": null
@@ -58957,6 +58973,14 @@
         {
           "date": "2026-11-18",
           "close": 1247.991
+        },
+        {
+          "date": "2026-11-19",
+          "close": 1270.783
+        },
+        {
+          "date": "2026-11-20",
+          "close": 1231.089
         }
       ],
       "signals": [
@@ -59299,7 +59323,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-18",
+            "end": "2026-11-20",
             "summary": {
               "bottom": {
                 "total": 2,
@@ -59395,7 +59419,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-18",
+        "end": "2026-11-20",
         "bottom": {
           "triggers": 4,
           "successes": 4,
@@ -59759,7 +59783,7 @@
       "price": 1422.228,
       "grade": "A",
       "max_drawdown_20": 0.0007896061672250099,
-      "change_since": -12.251
+      "change_since": -13.4394
     },
     {
       "date": "2026-01-08",
@@ -59769,7 +59793,7 @@
       "price": 1455.173,
       "grade": "B",
       "max_drawdown_20": -0.015565846809966977,
-      "change_since": -14.2376
+      "change_since": -15.3991
     },
     {
       "date": "2024-09-27",
@@ -59779,7 +59803,7 @@
       "price": 1885.489,
       "grade": "B",
       "max_drawdown_20": 0.07849157433429732,
-      "change_since": 22.6006
+      "change_since": 17.3238
     },
     {
       "date": "2024-09-27",
@@ -59789,7 +59813,7 @@
       "price": 740.016,
       "grade": "B",
       "max_drawdown_20": 0.1788461330565827,
-      "change_since": 68.6438
+      "change_since": 66.3598
     },
     {
       "date": "2023-01-16",
@@ -59799,7 +59823,7 @@
       "price": 2539.521,
       "grade": "B",
       "max_drawdown_20": -0.03550669594777911,
-      "change_since": -8.9741
+      "change_since": -12.892
     },
     {
       "date": "2021-05-27",
@@ -59809,7 +59833,7 @@
       "price": 1397.769,
       "grade": "B",
       "max_drawdown_20": -0.008391944591702893,
-      "change_since": -10.7155
+      "change_since": -11.9247
     },
     {
       "date": "2020-10-09",
@@ -59819,7 +59843,7 @@
       "price": 1465.959,
       "grade": "B",
       "max_drawdown_20": null,
-      "change_since": -14.8686
+      "change_since": -16.0216
     },
     {
       "date": "2020-05-06",
@@ -59829,7 +59853,7 @@
       "price": 1247.513,
       "grade": "B",
       "max_drawdown_20": null,
-      "change_since": 0.0383
+      "change_since": -1.3165
     },
     {
       "date": "2014-01-08",
@@ -59839,7 +59863,7 @@
       "price": 1405.023,
       "grade": "B",
       "max_drawdown_20": null,
-      "change_since": 64.5255
+      "change_since": 57.4442
     },
     {
       "date": "2005-12-29",
@@ -59849,7 +59873,7 @@
       "price": 1169.862,
       "grade": "B",
       "max_drawdown_20": null,
-      "change_since": 206.6885
+      "change_since": 202.0692
     }
   ],
   "candidates": []

@@ -200,7 +200,12 @@ def write_cached_day(day: str, frame: pd.DataFrame) -> None:
 def default_fetcher(day: str):
     import akshare as ak
 
-    return ak.get_cffex_rank_table(date=day.replace("-", ""), vars_list=list(VARIETIES))
+    # akshare 1.20+ 将 get_cffex_rank_table 重命名为 futures_rank_table_cffex，
+    # 返回格式不变（dict[合约 → DataFrame]）。优先用新名，旧版环境回退旧名。
+    fetch = getattr(ak, "futures_rank_table_cffex", None) or getattr(ak, "get_cffex_rank_table", None)
+    if fetch is None:
+        raise RuntimeError("akshare 中未找到中金所持仓排名接口（futures_rank_table_cffex / get_cffex_rank_table）")
+    return fetch(date=day.replace("-", ""), vars_list=list(VARIETIES))
 
 
 def fetch_with_retry(day: str, fetcher, *, attempts: int = RETRY_ATTEMPTS, sleep=time.sleep):

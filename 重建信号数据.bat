@@ -7,8 +7,8 @@ REM Every run first refreshes the daily bars that lag the last completed trading
 REM day (no-op when already fresh), then rebuilds the front-end JSON files.
 REM
 REM Usage:
-REM   é‡å»ºä¿¡å·æ•°æ®.bat            refresh missing bars, then rebuild (default)
-REM   é‡å»ºä¿¡å·æ•°æ®.bat --force    ignore the "already backfilled today" mark
+REM   ÖØ½¨ĞÅºÅÊı¾İ.bat            refresh missing bars, then rebuild (default)
+REM   ÖØ½¨ĞÅºÅÊı¾İ.bat --force    ignore the "already backfilled today" mark
 REM
 REM Requires Python 3.10+; the "python" on PATH may be Python 2.
 set "PY="
@@ -66,8 +66,8 @@ echo.
 echo [OK] Data refreshed and rebuilt: data\index-signals.json + data\sector-trends.json + data\etf-volume-events.json
 echo A running service picks up the new files within 30 seconds; no restart needed.
 echo.
-REM è¾“å‡ºä¸‰ä»½äº§ç‰©å„è‡ªçš„ as_of ä¸ç›¸å¯¹æœ€è¿‘å·²å®Œæˆäº¤æ˜“æ—¥çš„è½åäº¤æ˜“æ—¥æ•°ï¼ˆä¸è”ç½‘ï¼‰ã€‚
-REM as_of åªç”±åŸå§‹ CSV å°¾æ—¥å†³å®šï¼Œä¸å› ç”Ÿæˆæ—¶é—´æ›´æ–°è€Œæ˜¾ç¤ºä¸ºæœ€æ–°ã€‚
+REM Êä³öÈı·İ²úÎï¸÷×ÔµÄ as_of ÓëÏà¶Ô×î½üÒÑÍê³É½»Ò×ÈÕµÄÂäºó½»Ò×ÈÕÊı£¨²»ÁªÍø£©¡£
+REM as_of Ö»ÓÉÔ­Ê¼ CSV Î²ÈÕ¾ö¶¨£¬²»ÒòÉú³ÉÊ±¼ä¸üĞÂ¶øÏÔÊ¾Îª×îĞÂ¡£
 %PY% pipeline\report_asof.py
 goto :end
 
