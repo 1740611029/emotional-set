@@ -25,25 +25,25 @@ export interface NavGroup {
  */
 export const navGroups: NavGroup[] = [
   {
+    section: '博主动态',
+    items: [{ key: 'blogger', label: '【全能的野人】发文', to: '/blogger', icon: PostIcon }],
+  },
+  {
     section: '情绪',
     // 连板周期：页面已就绪，涨停/连板数据管道待口径确认（preparing），暂不参与任何信号计算
     items: [{ key: 'limit-cycle', label: '连板周期', to: '/limit-cycle', icon: LimitCycleIcon }],
   },
   {
-    section: '机构持仓',
-    items: [{ key: 'institution', label: '机构多空单', to: '/institutions', icon: InstitutionIcon }],
+    section: '龙虎榜',
+    items: [{ key: 'lhb', label: '龙虎榜知名游资', to: '/lhb', icon: LhbIcon }],
   },
   {
     section: '量能',
     items: [{ key: 'etf-volume', label: 'ETF 放量', to: '/etf-volume', icon: VolumeIcon }],
   },
   {
-    section: '博主动态',
-    items: [{ key: 'blogger', label: '【全能的野人】发文', to: '/blogger', icon: PostIcon }],
-  },
-  {
-    section: '龙虎榜',
-    items: [{ key: 'lhb', label: '龙虎榜知名游资', to: '/lhb', icon: LhbIcon }],
+    section: '机构持仓',
+    items: [{ key: 'institution', label: '机构多空单', to: '/institutions', icon: InstitutionIcon }],
   },
 ];
 
