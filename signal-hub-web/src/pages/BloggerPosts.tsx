@@ -323,7 +323,7 @@ export function BloggerPosts() {
         <div className="glass-card rounded-2xl p-6">
           <EmptyState
             text="暂无采集到的发文"
-            hint="点击右上角「手动刷新」立即触发一次采集，采集中请稍候数秒"
+            hint="数据由本机计划任务自动采集，采集中请稍候数秒"
           />
         </div>
       )}

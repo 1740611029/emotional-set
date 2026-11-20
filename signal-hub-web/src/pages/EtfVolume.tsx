@@ -7,8 +7,8 @@ import { useEtfVolumeSeries } from '../hooks/useEtfVolumeSeries';
 import { useEtfShareFlow } from '../hooks/useEtfShareFlow';
 import { usePageMeta } from '../data/PageMetaProvider';
 import { formatTimestamp } from '../lib/formatTimestamp';
-import { sliceEtfSeriesToView, ETF_VOLUME_THRESHOLD_YI } from '../lib/etfVolumeSeries';
-import { buildShareFlowView, formatSignedYi } from '../lib/etfShareFlow';
+import { sliceEtfSeriesToView } from '../lib/etfVolumeSeries';
+import { buildShareFlowView, formatSignedYi, sumRecent } from '../lib/etfShareFlow';
 
 export function EtfVolume() {
   const { data, error, isLoading, refresh } = useEtfVolumeSeries();
@@ -47,24 +47,6 @@ export function EtfVolume() {
   return (
     <div className="p-6">
 
-      <div className="mb-5">
-        <Notice>
-          合计成交额、单只成交额与爆量日标记均为已发生数据的事后描述，不构成预测或买卖信号。
-          全池爆量（L3）口径：核心池 6 只当日单日成交额均 ≥ {ETF_VOLUME_THRESHOLD_YI} 亿元人民币。
-          序列起点 {data?.coverage.start ?? '—'}（共 {data?.coverage.trading_days ?? '—'} 个齐备交易日），
-          由核心池中上市最晚的标的决定——起点之前尚无齐备日线，故不画线、不补零、不以部分标的之和冒充合计。
-        </Notice>
-      </div>
-
-      <div className="mb-5">
-        <Notice>
-          宽基 ETF 申购净流入 = Σ(当日份额 − 前一日份额) × 当日单位净值，覆盖全市场主流宽基 ETF
-          {flow?.coverage.etf_count ? `共 ${flow.coverage.etf_count} 只` : ''}。该口径为一级市场净申购估算，
-          与下方二级市场「成交额」不是同一指标；数据取自交易所官方份额与单位净值，为已发生数据的事后描述。
-          同花顺内部名单与折算时点不同，本口径不保证与其数值逐分一致。
-        </Notice>
-      </div>
-
       {error && (
         <div className="mb-5">
           <Notice tone="warn">成交额刷新失败：{error}。{data ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
@@ -91,7 +73,7 @@ export function EtfVolume() {
       )}
       {!data && !isLoading && (
         <div className="glass-card rounded-2xl p-6">
-          <EmptyState text="ETF 成交额数据暂不可用" hint="请检查数据服务后点击“手动刷新”重试；页面不会以 0 或空数组绘制占位折线" />
+          <EmptyState text="ETF 成交额数据暂不可用" hint="请检查数据服务与落盘产物；页面不会以 0 或空数组绘制占位折线" />
         </div>
       )}
       {data?.data_state === 'preparing' && (
@@ -115,13 +97,24 @@ export function EtfVolume() {
                 左轴净流入（亿元，红=净流入/绿=净流出），右轴上证指数点位；拖动图表下方横向滑块筛选时间范围
               </p>
             </div>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap justify-end gap-x-6 gap-y-2">
               <div className="text-right">
                 <div className="text-xs text-slate-400">昨日净流入</div>
                 <div className={`text-lg font-bold ${(flow.stats.last_day_yi ?? 0) >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
                   {flow.stats.last_day_yi === null ? '—' : formatSignedYi(flow.stats.last_day_yi)} 亿
                 </div>
               </div>
+              {([10, 20, 30] as const).map((days) => {
+                const value = sumRecent(flowView.inflowYi, days);
+                return (
+                  <div className="text-right" key={days}>
+                    <div className="text-xs text-slate-400">近{days}日净流入</div>
+                    <div className={`text-lg font-bold ${value >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                      {formatSignedYi(value)} 亿
+                    </div>
+                  </div>
+                );
+              })}
               <div className="text-right">
                 <div className="text-xs text-slate-400">近{flow.stats.last_60d_days}日净流入</div>
                 <div className={`text-lg font-bold ${flow.stats.last_60d_yi >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>

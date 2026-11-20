@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
-import { PageTaskBar } from './components/TaskButtons';
 import { TaskControlProvider } from './data/TaskControlProvider';
 import { PageMetaProvider } from './data/PageMetaProvider';
 import { BloggerNotificationProvider } from './data/BloggerNotificationProvider';
@@ -26,8 +25,6 @@ export default function App() {
                 <TopBar />
                 {/* flex flex-col：长内容页（/lhb）以 flex-1 锁定视口剩余高度；块级页面行为不变 */}
                 <div className="flex-1 min-h-0 overflow-y-auto flex flex-col">
-                  {/* 按路由渲染本页关联的定时任务开关，新增页面只需在 PAGE_TASKS 登记 */}
-                  <PageTaskBar />
                   <Suspense fallback={<div className="p-6 text-sm text-slate-500">加载中…</div>}>
                     <Routes>
                       {/* 指数总览 / 板块趋势已下线：根路径指向发文页，旧书签回落到首页避免空白 */}

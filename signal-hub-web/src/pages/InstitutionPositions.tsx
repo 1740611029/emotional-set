@@ -190,12 +190,6 @@ export function InstitutionPositions() {
   return (
     <div className="p-6">
 
-      <div className="mb-5">
-        <Notice>
-          次日走势仅为事后统计对照，不构成预测或交易信号。数据为中金所前 20 会员持仓排名，非全市场持仓；
-          多单/空单均为单边持仓量，单位为手。四品种汇总为手数直接相加，未按合约乘数折算，不可用于跨品种规模比较。
-        </Notice>
-      </div>
       {error && (
         <div className="mb-5">
           <Notice tone="warn">刷新失败：{error}。{data ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
@@ -212,7 +206,7 @@ export function InstitutionPositions() {
       )}
       {!data && !isLoading && (
         <div className="glass-card rounded-2xl p-6">
-          <EmptyState text="机构持仓数据暂不可用" hint="请检查数据服务后点击“手动刷新”重试" />
+          <EmptyState text="机构持仓数据暂不可用" hint="请检查数据服务与落盘产物" />
         </div>
       )}
       {data?.data_state === 'preparing' && (

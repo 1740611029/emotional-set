@@ -3,6 +3,7 @@
  * 全部只读、确定性；时间范围由 ECharts dataZoom slider 在前端裁切，不改变任何原始数值。
  */
 import type { EtfShareFlow } from '../data/types';
+import { thisYearStartPercent } from './chartTimeRange.ts';
 
 export interface ShareFlowView {
   dates: string[];
@@ -47,6 +48,7 @@ export interface ShareFlowPalette {
  * 柱色按每根自身正负逐点着色（红正绿负），指数缺失保持 null 断点。
  */
 export function buildShareFlowOption(view: ShareFlowView, palette: ShareFlowPalette) {
+  const zoomStart = thisYearStartPercent(view.dates);
   const bars = view.inflowYi.map((value) => ({
     value,
     itemStyle: { color: value >= 0 ? palette.inflow : palette.outflow },
@@ -96,9 +98,9 @@ export function buildShareFlowOption(view: ShareFlowView, palette: ShareFlowPale
     ],
     // 截图式横向滑块：两端手柄可拖拽筛时间范围，与主图联动
     dataZoom: [
-      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none', start: zoomStart },
       {
-        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26, start: zoomStart,
         borderColor: palette.grid,
         fillerColor: 'rgba(58,154,106,0.18)',
         handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },

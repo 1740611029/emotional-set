@@ -6,6 +6,7 @@
  */
 import type { EtfVolumeSeries } from '../data/types';
 import { indexChartRangeOption, type IndexChartRangeKey } from './indexSignalCharts.ts';
+import { thisYearStartPercent } from './chartTimeRange.ts';
 
 /** 亿元换算：元 → 亿元，保留一位小数（数值型，供坐标与文本共用）。 */
 export function toYi(amountYuan: number): number {
@@ -106,6 +107,7 @@ export interface TotalIndexPalette {
 
 /** 第一张图：合计成交额（左轴亿元）+ 上证指数（右轴点位）双轴 + L3 markPoint。 */
 export function buildTotalIndexOption(view: EtfSeriesView, palette: TotalIndexPalette) {
+  const zoomStart = thisYearStartPercent(view.dates);
   const markData = buildL3MarkPoints(view, palette.l3);
   return {
     animation: false,
@@ -151,9 +153,9 @@ export function buildTotalIndexOption(view: EtfSeriesView, palette: TotalIndexPa
       },
     ],
     dataZoom: [
-      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none', start: zoomStart },
       {
-        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26, start: zoomStart,
         borderColor: palette.grid,
         fillerColor: 'rgba(58,154,106,0.18)',
         handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },
@@ -206,6 +208,7 @@ export interface EtfLinesPalette {
 
 /** 第二张图：6 只 ETF 单只成交额同轴多线，图例可点击隐藏。 */
 export function buildEtfLinesOption(view: EtfSeriesView, palette: EtfLinesPalette) {
+  const zoomStart = thisYearStartPercent(view.dates);
   return {
     animation: false,
     grid: { left: 12, right: 16, top: 44, bottom: 66, containLabel: true },
@@ -246,9 +249,9 @@ export function buildEtfLinesOption(view: EtfSeriesView, palette: EtfLinesPalett
       splitLine: { lineStyle: { color: palette.grid } },
     },
     dataZoom: [
-      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+      { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none', start: zoomStart },
       {
-        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+        type: 'slider', xAxisIndex: 0, bottom: 8, height: 26, start: zoomStart,
         borderColor: palette.grid,
         fillerColor: 'rgba(58,154,106,0.18)',
         handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },

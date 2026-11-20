@@ -17,6 +17,7 @@ import type {
   InstitutionVariety,
 } from '../data/types';
 import { useTimeAxisLabels, TimeAxisLabelRow } from './chartTimeAxis';
+import { thisYearStartPercent } from '../lib/chartTimeRange';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, DataZoomComponent, CanvasRenderer]);
 
@@ -58,6 +59,7 @@ export function InstitutionPositionChart({
   const chartRef = useRef<EChartsType | null>(null);
 
   const option = useMemo(() => {
+    const zoomStart = thisYearStartPercent(dates);
     const textColor = cssVar('--color-slate-500', '#64748b');
     const gridColor = cssVar('--color-slate-100', '#f1f5f9');
     const colors: Record<InstitutionId, string> = {
@@ -142,9 +144,9 @@ export function InstitutionPositionChart({
       ],
       // 截图式横向滑块：两端手柄可拖拽筛时间范围，与主图联动
       dataZoom: [
-        { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none' },
+        { type: 'inside', xAxisIndex: 0, throttle: 60, filterMode: 'none', start: zoomStart },
         {
-          type: 'slider', xAxisIndex: 0, bottom: 8, height: 26,
+          type: 'slider', xAxisIndex: 0, bottom: 8, height: 26, start: zoomStart,
           borderColor: gridColor,
           fillerColor: 'rgba(58,154,106,0.18)',
           handleStyle: { color: '#3a9a6a', borderColor: '#2b6b49' },

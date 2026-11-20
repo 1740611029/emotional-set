@@ -675,7 +675,7 @@ export function LhbTraders() {
 
   return (
     <div className="flex flex-1 min-h-0 flex-col overflow-hidden p-6">
-      {/* flex-1 min-h-0：分得滚动容器中 PageTaskBar 之下的全部剩余高度（h-full 会把 PageTaskBar 高度溢出视口） */}
+      {/* flex-1 min-h-0：分得滚动容器中的全部剩余高度，避免内容溢出视口 */}
 
       <div className="mb-5">
         <button
