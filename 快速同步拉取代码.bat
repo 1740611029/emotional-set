@@ -1,63 +1,84 @@
 @echo off
 setlocal
-chcp 65001 >nul
 cd /d "%~dp0"
 
 echo ============================================
-echo   emotional-set  ä»£ç å¿«é€ŸåŒæ­¥ï¼ˆgh-proxy åŠ é€Ÿæ‹‰å–ï¼‰
-echo   èµ° gh-proxy.com é•œåƒé€šé“ï¼Œå›½å†…æ‹‰å–æ›´å¿«
+echo   emotional-set  ´úÂë¿ìËÙÍ¬²½£¨gh-proxy ¼ÓËÙÀ­È¡£©
+echo   ×ß gh-proxy.com ¾µÏñÍ¨µÀ£¬¹úÄÚÀ­È¡¸ü¿ì
 echo ============================================
 echo.
 
-REM å‰ç½®è‡ªæ£€ï¼šå·¥ä½œåŒºæœ‰æœªæäº¤æ”¹åŠ¨æ—¶ --ff-only å¿…å¤±è´¥ï¼Œå…ˆä¸­æ­¢å¹¶ç»™å‡ºæ˜ç¡®æç¤º
+REM ==========================================================================
+REM Ç°ÖÃ×Ô¼ì£º¹¤×÷ÇøÓĞÎ´Ìá½»¸Ä¶¯Ê±£¬git merge --ff-only ±ØÊ§°Ü£¬ÏÈÖĞÖ¹²¢ÌáÊ¾¡£
+REM
+REM ±¾ÎÄ¼şÓĞÈı¸öÓ²Ô¼Êø£¬¸Ä¶¯Ê±Îñ±Ø×ñÊØ£º
+REM
+REM Ô¼ÊøÒ»£ºÎÄ¼ş±ØĞë´æÎª GBK ±àÂë£¨´úÂëÒ³ 936£©£¬ÇÒ²»Òª¼Ó chcp 65001¡£
+REM         UTF-8 ¼Ó chcp 65001 »áÈÃ cmd ¶ÁÎÄ¼şÊ±×Ö½ÚÆ«ÒÆ´íÎ»£¬
+REM         ±íÏÖÎª²¿·ÖÖĞÎÄĞĞ±»½Ø¶Ïºóµ±³ÉÃüÁîÖ´ĞĞ£¬±¨ is not recognized¡£
+REM         ±¾²Ö¿âÆäËü bat ÎÄ¼şÍ¬ÑùÓÃ GBK¡£
+REM
+REM Ô¼Êø¶ş£º×Ô¼ìÌáÊ¾²»Òª·Å½ø if À¨ºÅ¿é£¬¿éÄÚÈ«½ÇÀ¨ºÅ»á´íÇĞ´úÂë¿é¡£
+REM         Ò»ÂÉÓÃ goto Ìø×ª¡£
+REM
+REM Ô¼ÊøÈı£º²»ÒªÓÃ find /c /v ¿ÕÄ£Ê½ ¼ÆÊı£¬ÎŞ¿ØÖÆÌ¨Ê±»á¹ÒËÀµÈ´ı¿ØÖÆÌ¨ÊäÈë¡£
+REM         ÓÃ for /f ÖğĞĞÀÛ¼Ó¡£
+REM ==========================================================================
+
+set "DIRTY=0"
 git status --porcelain > "%TEMP%\emotional-set-status.txt" 2>nul
-for /f %%C in ('type "%TEMP%\emotional-set-status.txt" ^| find /c /v ""') do set "DIRTY=%%C"
+for /f %%A in ('type "%TEMP%\emotional-set-status.txt"') do set /a DIRTY+=1
 del "%TEMP%\emotional-set-status.txt" >nul 2>&1
-if not "%DIRTY%"=="0" (
-    echo [ä¸­æ­¢] å·¥ä½œåŒºå­˜åœ¨ %DIRTY% ä¸ªæœªæäº¤æ”¹åŠ¨ï¼ˆä¾‹å¦‚ data\etf-volume-events.json è¢«è¿è¡Œæ—¶åˆ·æ–°ï¼‰ã€‚
-    echo        å…ˆæäº¤æˆ–æš‚å­˜åå†åŒæ­¥ï¼š
-    echo          git stash          ï¼ˆæš‚å­˜ï¼Œç¨å git stash pop æ¢å¤ï¼‰
-    echo          git add -A ^&^& git commit -m "..."   ï¼ˆæäº¤ï¼‰
-    echo        å¦åˆ™ git merge --ff-only ä¼šç›´æ¥å¤±è´¥ã€‚
-    pause
-    exit /b 1
-)
-echo [0/3] å‰ç½®è‡ªæ£€é€šè¿‡ï¼šå·¥ä½œåŒºå¹²å‡€ã€‚
+
+if "%DIRTY%"=="0" goto CLEAN
+
+echo [ÖĞÖ¹] ¹¤×÷Çø´æÔÚ %DIRTY% ¸öÎ´Ìá½»¸Ä¶¯£¬ÀıÈç data\etf-volume-events.json ±»ÔËĞĞÊ±Ë¢ĞÂ¡£
+echo        ÏÈÌá½»»òÔİ´æºóÔÙÍ¬²½£º
+echo          git stash
+echo          git add -A ^&^& git commit -m "..."
+echo        ·ñÔò git merge --ff-only »áÖ±½ÓÊ§°Ü¡£
+echo.
+echo        ²é¿´Ã÷Ï¸£ºgit status --porcelain
+pause
+exit /b 1
+
+:CLEAN
+echo [0/3] Ç°ÖÃ×Ô¼ìÍ¨¹ı£º¹¤×÷Çø¸É¾»¡£
 
 git remote get-url fast >nul 2>&1
 if errorlevel 1 (
     git remote add fast https://gh-proxy.com/https://github.com/1740611029/emotional-set.git
-    echo [init] å·²æ·»åŠ åŠ é€Ÿè¿œç«¯ fast
+    echo [init] ÒÑÌí¼Ó¼ÓËÙÔ¶¶Ë fast
 )
 
 echo.
-echo [1/3] ä»åŠ é€Ÿé€šé“æ‹‰å– main ...
+echo [1/3] ´Ó¼ÓËÙÍ¨µÀÀ­È¡ main ...
 git fetch fast main --progress
 if errorlevel 1 (
     echo.
-    echo [å¤±è´¥] åŠ é€Ÿé€šé“æ³¢åŠ¨æˆ–ä¸å¯è¾¾ï¼Œå¯æ”¹ç”¨ git pull origin main ç›´è¿ï¼Œæˆ–é‡è·‘æœ¬è„šæœ¬ã€‚
+    echo [Ê§°Ü] ¼ÓËÙÍ¨µÀ²¨¶¯»ò²»¿É´ï£¬¿É¸ÄÓÃ git pull origin main Ö±Á¬£¬»òÖØÅÜ±¾½Å±¾¡£
     pause
     exit /b 1
 )
 
 echo.
-echo [2/3] å¿«è¿›åˆå¹¶åˆ°æœ¬åœ° main ...
+echo [2/3] ¿ì½øºÏ²¢µ½±¾µØ main ...
 git merge --ff-only fast/main
 if errorlevel 1 (
     echo.
-    echo [å¤±è´¥] æœ¬åœ°æœ‰æœªæäº¤æ”¹åŠ¨ï¼Œæ— æ³•å¿«è¿›åˆå¹¶ã€‚
-    echo        è¯·å…ˆ git stash æˆ– git commitï¼Œå†é‡æ–°è¿è¡Œæœ¬è„šæœ¬ã€‚
+    echo [Ê§°Ü] ±¾µØÓĞÎ´Ìá½»¸Ä¶¯£¬ÎŞ·¨¿ì½øºÏ²¢¡£
+    echo        ÇëÏÈ git stash »ò git commit£¬ÔÙÖØĞÂÔËĞĞ±¾½Å±¾¡£
     pause
     exit /b 1
 )
 
 echo.
-echo [3/3] åŒæ­¥ origin/main æŒ‡é’ˆ ...
+echo [3/3] Í¬²½ origin/main Ö¸Õë ...
 for /f %%i in ('git rev-parse fast/main') do git update-ref refs/remotes/origin/main %%i
 
 echo.
-echo ----- å½“å‰æœ€è¿‘ 3 æ¬¡æäº¤ -----
+echo ----- µ±Ç°×î½ü 3 ´ÎÌá½» -----
 git log --oneline -3
 echo.
-echo åŒæ­¥å®Œæˆï¼
+echo Í¬²½Íê³É£¡
 pause
