@@ -1,14 +1,12 @@
 {
-  "as_of": "2026-11-17",
+  "as_of": "2026-11-18",
   "as_of_rule": "min(index_tails)",
   "index_tails": {
     "sh000001": "2026-11-18",
-    "sz399006": "2026-11-17",
+    "sz399006": "2026-11-18",
     "sh000688": "2026-11-18"
   },
-  "lagging_indexes": [
-    "sz399006"
-  ],
+  "lagging_indexes": [],
   "is_mock": false,
   "indices": [
     {
@@ -35671,8 +35669,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-17",
-          "days": 1,
+          "end_date": "2026-11-18",
+          "days": 2,
           "has_divergence": true
         }
       ]
@@ -35680,8 +35678,8 @@
     {
       "code": "sz399006",
       "name": "创业板指",
-      "latest": 2292.204,
-      "change_pct": -1.199,
+      "latest": 2311.621,
+      "change_pct": 0.8471,
       "current_signal": {
         "type": "none",
         "date": null
@@ -51674,6 +51672,10 @@
         {
           "date": "2026-11-17",
           "close": 2292.204
+        },
+        {
+          "date": "2026-11-18",
+          "close": 2311.621
         }
       ],
       "signals": [
@@ -51895,7 +51897,7 @@
             "segment": "exploratory_validation",
             "independent": false,
             "start": "2025-01-02",
-            "end": "2026-11-17",
+            "end": "2026-11-18",
             "summary": {
               "bottom": {
                 "total": 0,
@@ -51958,7 +51960,7 @@
       },
       "accuracy": {
         "start": "2020-10-30",
-        "end": "2026-11-17",
+        "end": "2026-11-18",
         "bottom": {
           "triggers": 2,
           "successes": 2,
@@ -52276,8 +52278,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-17",
-          "days": 1,
+          "end_date": "2026-11-18",
+          "days": 2,
           "has_divergence": false
         }
       ]
@@ -59777,7 +59779,7 @@
       "price": 1885.489,
       "grade": "B",
       "max_drawdown_20": 0.07849157433429732,
-      "change_since": 21.5708
+      "change_since": 22.6006
     },
     {
       "date": "2024-09-27",
@@ -59797,7 +59799,7 @@
       "price": 2539.521,
       "grade": "B",
       "max_drawdown_20": -0.03550669594777911,
-      "change_since": -9.7387
+      "change_since": -8.9741
     },
     {
       "date": "2021-05-27",
@@ -59837,7 +59839,7 @@
       "price": 1405.023,
       "grade": "B",
       "max_drawdown_20": null,
-      "change_since": 63.1435
+      "change_since": 64.5255
     },
     {
       "date": "2005-12-29",

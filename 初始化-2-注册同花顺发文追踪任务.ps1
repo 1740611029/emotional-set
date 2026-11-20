@@ -8,7 +8,11 @@
 $ErrorActionPreference = 'Stop'
 
 $TaskName = '同花顺发文追踪-全能的野人'
-$VbsPath  = 'D:\情绪集合\同花顺博主追踪\run-hidden.vbs'
+# 本脚本在仓库根目录，vbs 在「同花顺博主追踪」子目录；基于脚本自身位置推导，换电脑 / 换目录无需改脚本
+$VbsPath = Join-Path $PSScriptRoot '同花顺博主追踪\run-hidden.vbs'
+if (-not (Test-Path -LiteralPath $VbsPath)) {
+    throw "找不到启动脚本：$VbsPath"
+}
 
 $Action = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument ('"' + $VbsPath + '"')
 

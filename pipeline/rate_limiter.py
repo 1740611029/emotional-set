@@ -17,7 +17,10 @@ import time
 
 # ---- 统一分批参数（原 fetch_market 的 SECTOR_* 经验值收敛而来，运行前声明）----
 BATCH_SIZE = 6  # 每批标的数
-BATCH_PAUSE = 20.0  # 批间休息（秒）
+# 2026-11-19 由 20s 下调至 5s：20s 是东财 push2 限流时期的经验值；换源同花顺后
+# 实测约 2.3s/行业、无公开限流（见 data/research/source-eval/probe-sectors-conclusion-20261114.md），
+# 保留约 1.5 倍单请求耗时的缓冲即可。对应 design.md Open Question「批间间隔随实测校准」。
+BATCH_PAUSE = 5.0  # 批间休息（秒）
 REQUEST_GAP = 1.0  # 单请求间隔（秒）
 # 触发限流后的全局冷却时长（沿用"停高频、30 分钟低频重试"口径）
 COOLDOWN_SECONDS = 30 * 60

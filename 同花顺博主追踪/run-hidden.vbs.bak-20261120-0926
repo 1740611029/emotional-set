@@ -1,0 +1,62 @@
+' 静默启动【全能的野人】同花顺发文采集脚本（0 = 不显示窗口）
+' 路径全部动态推导：项目路径基于脚本自身位置；node 从 PATH / NVM / 默认安装位置自动探测。
+' 克隆仓库到任意电脑后，运行仓库根目录的「初始化-2-注册同花顺发文追踪任务.ps1」注册计划任务即可。
+' 运行环境要求：Node.js 21+（collect.js 使用全局 WebSocket 连接 Chrome CDP）。
+Set sh = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+scriptDir = Left(WScript.ScriptFullName, InStrRev(WScript.ScriptFullName, "\") - 1)
+sh.CurrentDirectory = scriptDir
+
+nodeExe = FindNode()
+If nodeExe = "" Then
+  EnsureLogDir()
+  fso.OpenTextFile(scriptDir & "\logs\run.log", 8, True).WriteLine "[" & Now & "] 未找到 Node.js 21+，本轮采集未执行（请安装 Node.js 22 或更高版本）"
+  WScript.Quit 1
+End If
+
+sh.Run """" & nodeExe & """ """ & scriptDir & "\collect.js""", 0, False
+
+' 按优先级探测：PATH → NVM shim → 官网默认安装位置 → NVM installs 下最高版本
+Function FindNode()
+  Dim p, installs, folder, subF, sp, best, bestMajor, m
+  If NodeMajor("node") >= 21 Then FindNode = "node" : Exit Function
+  p = sh.ExpandEnvironmentStrings("%LOCALAPPDATA%\Author Software\nvm\.nodejs\node.exe")
+  If NodeMajor(p) >= 21 Then FindNode = p : Exit Function
+  p = sh.ExpandEnvironmentStrings("%ProgramFiles%\nodejs\node.exe")
+  If NodeMajor(p) >= 21 Then FindNode = p : Exit Function
+  installs = sh.ExpandEnvironmentStrings("%LOCALAPPDATA%\Author Software\nvm\installs")
+  best = "" : bestMajor = 0
+  If fso.FolderExists(installs) Then
+    Set folder = fso.GetFolder(installs)
+    For Each subF In folder.SubFolders
+      sp = subF.Path & "\node.exe"
+      If fso.FileExists(sp) Then
+        m = NodeMajor(sp)
+        If m >= 21 And m > bestMajor Then bestMajor = m : best = sp
+      End If
+    Next
+  End If
+  FindNode = best
+End Function
+
+' 返回 node 主版本号；不满足或不存在返回 0。用 Exec 直接读 stdout，不依赖 cmd 重定向。
+Function NodeMajor(exe)
+  Dim oExec, s, parts
+  NodeMajor = 0
+  On Error Resume Next
+  Set oExec = sh.Exec("""" & exe & """ -p process.versions.node")
+  If Err.Number <> 0 Then Exit Function
+  Do While oExec.Status = 0
+    WScript.Sleep 50
+  Loop
+  s = Trim(oExec.StdOut.ReadAll())
+  If Len(s) > 0 Then
+    parts = Split(s, ".")
+    If IsNumeric(parts(0)) Then NodeMajor = CInt(parts(0))
+  End If
+  On Error GoTo 0
+End Function
+
+Sub EnsureLogDir()
+  If Not fso.FolderExists(scriptDir & "\logs") Then fso.CreateFolder scriptDir & "\logs"
+End Sub

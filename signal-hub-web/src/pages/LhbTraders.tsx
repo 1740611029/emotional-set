@@ -124,6 +124,10 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
   const [showMultiDay, setShowMultiDay] = useState(false);
   // 收录席位默认收起，点击标题行展开（需求 2026-11-16）
   const [showSeats, setShowSeats] = useState(false);
+  // 操作记录默认收起，与收录席位保持一致的折叠交互（需求 2026-11-20）
+  const [showRecords, setShowRecords] = useState(false);
+  // 当前持仓默认展开，点击标题行收起（需求 2026-11-20）
+  const [showHoldings, setShowHoldings] = useState(true);
   // ESC 关闭
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -136,6 +140,23 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
     () => trader.records.filter((record) => showMultiDay || !record.is_multi_day),
     [trader.records, showMultiDay],
   );
+  // 当前持仓：只保留在场（active）配对，直接过滤已清仓/疑似清仓/已离场（需求 2026-11-20）
+  // 净额 = 买入累计 − 卖出累计（龙虎榜上榜日金额累计，非真实持仓市值）
+  // 占比 = 该股净额 / 在场个股净额合计；合计 ≤ 0 时占比记 0，避免除零放大
+  const holdings = useMemo(() => {
+    const active = (trader.positions ?? [])
+      .filter((position) => position.status === 'active')
+      .map((position) => ({ ...position, net: position.buy_total - position.sell_total }))
+      .sort((a, b) => Math.abs(b.net) - Math.abs(a.net));
+    const netTotal = active.reduce((sum, item) => sum + item.net, 0);
+    return {
+      items: active.map((item) => ({
+        ...item,
+        share: netTotal > 0 ? (item.net / netTotal) * 100 : 0,
+      })),
+      netTotal,
+    };
+  }, [trader.positions]);
   return (
     <div
       className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4"
@@ -175,6 +196,50 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
           ))}
         </div>
 
+        {/* 当前持仓：仅在场个股，净额+占比口径（需求 2026-11-20）。默认展开，限高滚动避免撑爆详情弹层 */}
+        <div className="mb-5 px-6">
+          <button
+            type="button"
+            onClick={() => setShowHoldings((prev) => !prev)}
+            className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-700 transition-colors"
+          >
+            <CollapseChevron open={showHoldings} />
+            当前持仓（{holdings.items.length}）
+          </button>
+          <p className="text-xs text-slate-400 mt-1 ml-[22px]">
+            净额 = 买入累计 − 卖出累计 · 占比 = 该股净额 / 在场个股净额合计 · 均为窗口内龙虎榜披露金额，非真实持仓市值
+          </p>
+          {showHoldings && (
+            <div className="overflow-auto max-h-48 rounded-lg border border-slate-100 mt-2">
+              <table className="w-full min-w-[420px]">
+                <thead className="sticky top-0 bg-white z-10">
+                  <tr className="border-b border-slate-100">
+                    {['股票', '净额', '占比', '最近现身'].map((label) => (
+                      <th key={label} className="text-left text-xs font-semibold text-slate-400 py-2 px-3 whitespace-nowrap">{label}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  {holdings.items.map((position) => (
+                    <tr key={position.code} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                      <td className="py-2 px-3 whitespace-nowrap">
+                        <span className="font-medium text-slate-700">{position.name}</span>
+                        <span className="text-xs text-slate-400 ml-1">{position.code}</span>
+                      </td>
+                      <td className="py-2 px-3"><NetText value={position.net} className="font-medium" /></td>
+                      <td className="py-2 px-3 text-slate-600 tabular-nums">{position.share.toFixed(1)}%</td>
+                      <td className="py-2 px-3 text-slate-500 tabular-nums whitespace-nowrap">{position.last_seen}</td>
+                    </tr>
+                  ))}
+                  {holdings.items.length === 0 && (
+                    <tr><td colSpan={4}><EmptyState text="当前无在场持仓" /></td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
         <div className="mb-5 px-6">
           <button
             type="button"
@@ -197,12 +262,20 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
         </div>
 
         <div className="flex items-center gap-3 mb-2 px-6">
-          <h4 className="text-sm font-bold text-slate-700">操作记录（{records.length}）</h4>
+          <button
+            type="button"
+            onClick={() => setShowRecords((prev) => !prev)}
+            className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-700 transition-colors"
+          >
+            <CollapseChevron open={showRecords} />
+            操作记录（{records.length}）
+          </button>
           <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
             <input type="checkbox" checked={showMultiDay} onChange={(event) => setShowMultiDay(event.target.checked)} className="accent-brand-500" />
             显示多日累计榜（不计入统计）
           </label>
         </div>
+        {showRecords && (
         <div className="overflow-auto rounded-lg border border-slate-100 flex-1 min-h-0 mx-6 mb-6">
           {/* 买入/卖出/净额/板块/置信 5 列各加宽 30px，总 min-width 同步 +150（需求 2026-11-17） */}
           <table className="w-full min-w-[1010px]">
@@ -244,6 +317,7 @@ function TraderDetailModal({ trader, onClose }: { trader: ViewTrader; onClose: (
             </tbody>
           </table>
         </div>
+        )}
       </div>
     </div>
   );
