@@ -33,6 +33,7 @@ from .lhb import (
 )
 from .limit_cycle import load_payload as limit_cycle_payload
 from .scheduler import MarketScheduler
+from .stock_daily import load_daily as stock_daily_load
 from .snapshot import SnapshotStore, now_iso
 
 STORE = SnapshotStore()
@@ -196,6 +197,12 @@ def lhb_daily_api(date: str):
 def limit_cycle_api():
     """连板周期只读数据：产物未落地时返回 preparing 空结构，不返回演示数值。"""
     return limit_cycle_payload()
+
+
+@app.get("/api/stock/daily/{code}")
+def stock_daily_api(code: str):
+    """个股日线（连板个股弹窗展示用）：东财不复权近 60 交易日；失败返回 error 结构。"""
+    return stock_daily_load(code)
 
 
 @app.get("/{full_path:path}")

@@ -15,6 +15,7 @@ import { CollapseChevron, EmptyState, Notice } from '../components/ui';
 import { useLimitCycle } from '../hooks/useLimitCycle';
 import { usePageMeta } from '../data/PageMetaProvider';
 import { LimitCycleIcon } from '../components/icons';
+import { StockDailyDialog } from '../components/StockDailyDialog';
 import {
   BOARD_COLORS, LIMIT_CYCLE_STAGES,
   type LimitCycleCoverage, type LimitCycleMetrics, type LimitCyclePhase,
@@ -387,12 +388,15 @@ function LadderCard({ ladder }: { ladder: LimitCycleLadderRow[] }) {
   );
 }
 
-function StocksCard({ stocks }: { stocks: LimitCycleStock[] }) {
+function StocksCard({ stocks, onSelect }: {
+  stocks: LimitCycleStock[];
+  onSelect: (stock: LimitCycleStock) => void;
+}) {
   return (
     <section className="glass-card rounded-2xl p-6 fade-in">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold text-slate-800">今日连板个股</h3>
-        <span className="text-xs text-slate-400">按连板高度排序 · 共 {stocks.length} 家</span>
+        <span className="text-xs text-slate-400">按连板高度排序 · 共 {stocks.length} 家 · 点击行查看日线</span>
       </div>
       <div className="overflow-auto" style={{ height: 300 }}>
         <table className="w-full text-sm">
@@ -409,7 +413,12 @@ function StocksCard({ stocks }: { stocks: LimitCycleStock[] }) {
           </thead>
           <tbody>
             {stocks.length ? stocks.map((stock, index) => (
-              <tr key={`${stock.code}-${index}`} className="border-b border-slate-50 hover:bg-slate-50/50">
+              <tr
+                key={`${stock.code}-${index}`}
+                onClick={() => onSelect(stock)}
+                title={`查看 ${stock.name}（${stock.code}）日 K 线`}
+                className="cursor-pointer border-b border-slate-50 hover:bg-brand-50/60"
+              >
                 <td className="py-2.5 tabular-nums text-slate-600">{stock.code}</td>
                 <td className="py-2.5 text-slate-700">{stock.name}</td>
                 <td className="py-2.5 font-medium" style={{ color: stock.boards >= 5 ? '#c0392b' : '#334155' }}>
@@ -486,6 +495,7 @@ function CoverageDetails({ methodology, coverage, metrics, asOf }: {
 export function LimitCycle() {
   const { data, error, isLoading, refresh } = useLimitCycle();
   const ready = data?.data_state === 'ready';
+  const [selected, setSelected] = useState<LimitCycleStock | null>(null);
 
   // 页面描述/数据截止/刷新上移到 TopBar（需求 2026-11-17），内容区不再渲染头部行
   usePageMeta({
@@ -528,7 +538,15 @@ export function LimitCycle() {
         <TemperatureCard temperature={data?.temperature ?? null} />
         <LadderCard ladder={data?.ladder ?? []} />
       </div>
-      <StocksCard stocks={data?.stocks ?? []} />
+      <StocksCard stocks={data?.stocks ?? []} onSelect={setSelected} />
+      {selected && (
+        <StockDailyDialog
+          code={selected.code}
+          name={selected.name}
+          boards={selected.boards}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   );
 }
