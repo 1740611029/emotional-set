@@ -407,9 +407,14 @@ function aggregateStocks(traders: ViewTrader[], asOf: string | null): StockAgg[]
   for (const stock of byCode.values()) {
     stock.traders.sort((a, b) => Math.abs(b.net) - Math.abs(a.net));
   }
-  // 排序：在场游资数量倒序 → 当天有操作排前 → 最近操作日期倒序 → 合计净额绝对值倒序
+  // 排序：持有（在场）游资数量倒序 → 当天有操作排前 → 最近操作日期倒序 → 合计净额绝对值倒序
+  // 「持有」只数未打离场标签的游资（已清仓/疑似清仓/已离场不计入排序数量），
+  // 但离场游资本身仍保留在 traders 中、标签继续显示（需求 2026-11-20）
+  const heldCount = (stock: StockAgg) => stock.traders.filter((item) => item.exitStatus === null).length;
   return [...byCode.values()].sort((a, b) => {
-    if (a.traders.length !== b.traders.length) return b.traders.length - a.traders.length;
+    const aHeld = heldCount(a);
+    const bHeld = heldCount(b);
+    if (aHeld !== bHeld) return bHeld - aHeld;
     if (a.hasToday !== b.hasToday) return a.hasToday ? -1 : 1;
     if (a.lastDate !== b.lastDate) return a.lastDate > b.lastDate ? -1 : 1;
     return Math.abs(b.netTotal) - Math.abs(a.netTotal);
