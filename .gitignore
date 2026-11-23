@@ -26,3 +26,8 @@ python-installer.exe
 
 # ===== 本机补齐台账（仅本机状态：记录当日补齐尝试次数与完成标记，多机 pull 会互相覆盖）=====
 data/raw/refresh-state.json
+
+# ===== 同花顺发文追踪：采集产出的运行时活数据，不入库 =====
+# posts.json / state.json 的忽略规则见「同花顺博主追踪/.gitignore」。
+# 这里的 md 与之同源，同样是每分钟滚动更新，纳入 git 会被 reset --hard 打回旧版。
+【全能的野人】同花顺发文.md

@@ -3,3 +3,9 @@ data/state.json
 data/run.lock
 data/web-presence.json
 logs/
+
+# 采集产出：每分钟滚动更新的活数据，不入库。
+# 原因：纳入 git 后「快速同步拉取代码.bat」的 git reset --hard 会把它打回旧版本，
+# 而 state.json 不在跟踪内仍记着新 ID，导致采集误判「无新发文」、数据永久卡住。
+# 移出跟踪后 reset --hard 不再触碰，数据连续性由本机采集脚本自行维护。
+data/posts.json
