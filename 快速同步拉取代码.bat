@@ -1,4 +1,5 @@
 @echo off
+chcp 936 >nul
 setlocal
 cd /d "%~dp0"
 
@@ -9,7 +10,7 @@ echo ============================================
 echo.
 
 REM ==========================================================================
-REM 前置自检：工作区有未提交改动时，git merge --ff-only 必失败，先中止并提示。
+REM 前置处理：工作区有未提交改动时，先全部撤销本地改动，再拉取最新代码。
 REM
 REM 本文件有三个硬约束，改动时务必遵守：
 REM
@@ -31,19 +32,13 @@ for /f %%A in ('type "%TEMP%\emotional-set-status.txt"') do set /a DIRTY+=1
 del "%TEMP%\emotional-set-status.txt" >nul 2>&1
 
 if "%DIRTY%"=="0" goto CLEAN
-
-echo [中止] 工作区存在 %DIRTY% 个未提交改动，例如 data\etf-volume-events.json 被运行时刷新。
-echo        先提交或暂存后再同步：
-echo          git stash
-echo          git add -A ^&^& git commit -m "..."
-echo        否则 git merge --ff-only 会直接失败。
-echo.
-echo        查看明细：git status --porcelain
-pause
-exit /b 1
+echo [清理] 工作区存在 %DIRTY% 个未提交改动，将全部撤销后拉取最新代码 ...
+git reset --hard HEAD -- . ":(exclude)*.bat"
+git clean -fd -e *.bat
+echo [清理] 本地改动已撤销。
 
 :CLEAN
-echo [0/3] 前置自检通过：工作区干净。
+echo [0/3] 工作区已就绪（本地改动已按需撤销）。
 
 git remote get-url fast >nul 2>&1
 if errorlevel 1 (
