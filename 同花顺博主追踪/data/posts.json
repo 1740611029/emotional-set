@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-11-23 09:06:01",
+    "updated_at": "2026-11-23 09:13:01",
     "retention_days": 30,
-    "total": 100
+    "total": 103
   },
   "posts": [
     {
@@ -1344,6 +1344,46 @@
         "https://u.thsi.cn/imgsrc/sns/e5131daa239e209811844b3b05e5e863_1320_2868.jpg"
       ],
       "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f7a76k9sa8u0m5f4fadac"
+    },
+    {
+      "id": "2426311132",
+      "ctime": 1795321905000,
+      "date": "2026-11-22",
+      "time": "12:31",
+      "text": "$九阳股份(002242)$ 老美大盘大跌-5% 英伟达大跌 -14%明天我们大盘估计要承压，如果大盘开的很低。就不要乱割肉了。容易割在最低点。至于短线这里我就锁仓了。为国护盘。分歧切核心，弱势切抱团。",
+      "stocks": [
+        {
+          "name": "九阳股份",
+          "code": "002242"
+        }
+      ],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f7eb3f1bdp62e13abce6c"
+    },
+    {
+      "id": "2426339194",
+      "ctime": 1795393860000,
+      "date": "2026-11-23",
+      "time": "08:31",
+      "text": "炒股真是造孽啊！每天都战战兢兢的，如履薄冰。开盘还有一个小时。这次我们会不会不一样啊！我真希望他可以走出独立行情。哎！！！",
+      "stocks": [],
+      "images": 0,
+      "image_urls": [],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f7f2q4rsrrfue857d5740"
+    },
+    {
+      "id": "2426339544",
+      "ctime": 1795394089000,
+      "date": "2026-11-23",
+      "time": "08:34",
+      "text": "你们觉得今天会开在多少。会不会低开高走？？？元芳你怎么看……",
+      "stocks": [],
+      "images": 1,
+      "image_urls": [
+        "https://u.thsi.cn/imgsrc/sns/e2638b7c2126df761e71a3482da550c5_864_1098.jpg"
+      ],
+      "url": "https://t.10jqka.com.cn/pc/newgroup/discussdetail/contentId_1f7f32jeks37cm0cb00066"
     }
   ]
 }
