@@ -37,6 +37,8 @@ INDEX_CSV = RAW / "indices-ths" / "sh000001.csv"
 
 SHARE_SOURCE = "上交所ETF份额(dated快照)+深交所ETF份额(日频区间)"
 NAV_SOURCE = "同花顺ETF每日单位净值快照(fund_etf_spot_ths, date参数)"
+# 建库历史起点，与 main 的 --start 默认值一致；增量刷新只读此口径，不随交易日漂移
+HISTORY_START = "2025-01-01"
 
 # 宽基白名单 / 排除名单（与 spec 一致）。名称匹配用「包含」语义。
 BROAD_KEYWORDS = (
@@ -339,11 +341,77 @@ def failed(reason: str) -> dict:
     }
 
 
+def _share_cache_ready(exchange: str, day: str) -> bool:
+    """份额缓存是否存在且有内容（只有表头的空文件不算齐备）。"""
+    path = _share_cache_path(exchange, day)
+    return path.exists() and path.stat().st_size > len("code,share\n") + 1
+
+
+def update_share_flow() -> dict:
+    """展示层增量刷新入口，供 bootstrap / 调度调用。
+
+    与 `build` 子命令的关键区别：只读已固化的 universe，绝不重建宽基池
+    （重建会换基准日 = 换一套历史，口径必须固定）；只把「沪深两市份额都齐备」
+    的交易日交给 compute，缺任一侧就不推进 as_of，避免份额缺口被写成假的 0 净流入。
+    未初始化 / 限流 / 源未发布一律返回状态，不抛给调用方，由调度层告警。
+    """
+    if not MANIFEST.exists() or not OUTPUT.exists():
+        return {"status": "uninitialized", "as_of": None, "error": None,
+                "reason": "宽基池清单或净流入产物缺失，需先显式建库"}
+    try:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        previous = json.loads(OUTPUT.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return {"status": "failed", "as_of": None, "error": f"产物读取失败：{exc}"}
+
+    previous_as_of = str(previous.get("as_of") or "")
+    start = str((previous.get("coverage") or {}).get("start") or HISTORY_START)
+    try:
+        end = last_completed_trading_day()[0]
+        calendar = [d for d in _read_index_calendar() if start <= d <= end]
+    except Exception as exc:  # noqa: BLE001  # 展示层，失败只告警
+        return {"status": "failed", "as_of": previous_as_of or None,
+                "error": f"交易日判定失败：{exc}"}
+    if previous_as_of and end <= previous_as_of:
+        return {"status": "skipped", "as_of": previous_as_of, "error": None}
+
+    # 已落盘的交易日自动跳过；限流时 collect_shares 内部止损，不抛异常
+    try:
+        collected = collect_shares(start, end, manifest)
+    except Exception as exc:  # noqa: BLE001
+        return {"status": "failed", "as_of": previous_as_of or None,
+                "error": f"份额采集失败：{exc}"}
+
+    ready = [d for d in calendar
+             if _share_cache_ready("sse", d) and _share_cache_ready("szse", d)]
+    if not ready:
+        return {"status": "no_share_data", "as_of": previous_as_of or None,
+                "fetched": collected["fetched"], "error": None}
+    ready_end = ready[-1]
+    if previous_as_of and ready_end <= previous_as_of:
+        return {"status": "waiting_source", "as_of": previous_as_of,
+                "fetched": collected["fetched"], "error": None,
+                "reason": f"份额仅齐备至 {ready_end}，源尚未发布"}
+
+    try:
+        payload = compute(start, ready_end)
+    except EmRateLimitedError as exc:
+        return {"status": "rate_limited", "as_of": previous_as_of or None,
+                "fetched": collected["fetched"], "error": str(exc)}
+    except Exception as exc:  # noqa: BLE001
+        return {"status": "failed", "as_of": previous_as_of or None,
+                "fetched": collected["fetched"], "error": f"净流入重算失败：{exc}"}
+    return {"status": "updated", "as_of": payload["as_of"],
+            "previous_as_of": previous_as_of or None,
+            "fetched": collected["fetched"],
+            "last_day_yi": payload["stats"]["last_day_yi"], "error": None}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("target", nargs="?", default="build",
                         choices=["build", "universe", "shares", "compute"])
-    parser.add_argument("--start", default="2025-01-01")
+    parser.add_argument("--start", default=HISTORY_START)
     parser.add_argument("--end", default=None)
     parser.add_argument("--base-day", default=None)
     args = parser.parse_args()

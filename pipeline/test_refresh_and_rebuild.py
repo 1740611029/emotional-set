@@ -11,23 +11,28 @@ from unittest import mock
 
 import refresh_and_rebuild as module
 
+SHARE_FLOW_SKIPPED = {"status": "skipped", "as_of": "2026-11-02"}
+
 GAP_FRESH = {
     "expected": "2026-11-02", "basis": "calendar",
     "local": {"indices": "2026-11-02", "sectors": "2026-11-02", "institutions": "2026-11-02",
-              "etf": "2026-11-02"},
-    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 0}, "stale": [],
+              "etf": "2026-11-02", "etf_share_flow": "2026-11-02"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 0,
+            "etf_share_flow": 0}, "stale": [],
 }
 GAP_LAGGED = {
     "expected": "2026-11-02", "basis": "calendar",
     "local": {"indices": "2026-11-02", "sectors": "2026-10-30", "institutions": "2026-11-02",
-              "etf": "2026-11-02"},
-    "lag": {"indices": 0, "sectors": 1, "institutions": 0, "etf": 0}, "stale": ["sectors"],
+              "etf": "2026-11-02", "etf_share_flow": "2026-11-02"},
+    "lag": {"indices": 0, "sectors": 1, "institutions": 0, "etf": 0,
+            "etf_share_flow": 0}, "stale": ["sectors"],
 }
 GAP_ETF_ONLY_LAGGED = {
     "expected": "2026-11-02", "basis": "calendar",
     "local": {"indices": "2026-11-02", "sectors": "2026-11-02", "institutions": "2026-11-02",
-              "etf": "2026-10-31"},
-    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1}, "stale": ["etf"],
+              "etf": "2026-10-31", "etf_share_flow": "2026-11-02"},
+    "lag": {"indices": 0, "sectors": 0, "institutions": 0, "etf": 1,
+            "etf_share_flow": 0}, "stale": ["etf"],
 }
 
 
@@ -39,6 +44,9 @@ class MainTest(unittest.TestCase):
         with mock.patch.object(module, "data_gap", return_value=gap), \
                 mock.patch.object(module, "ensure_fresh_data", return_value=result), \
                 mock.patch.object(module, "update_etf", return_value=etf_result), \
+                mock.patch.object(
+                    module, "update_etf_share_flow", return_value=SHARE_FLOW_SKIPPED
+                ), \
                 mock.patch.object(module.build_dashboard, "main") as rebuild, \
                 redirect_stdout(buffer):
             code = module.main()
@@ -174,10 +182,39 @@ class EtfFreshnessTest(unittest.TestCase):
                 mock.patch.object(module, "update_etf",
                                   return_value={"status": "skipped", "updated": [],
                                                 "skipped": 6, "failed": []}), \
+                mock.patch.object(
+                    module, "update_etf_share_flow", return_value=SHARE_FLOW_SKIPPED
+                ), \
                 mock.patch.object(module.build_dashboard, "main") as rebuild, \
                 redirect_stdout(buffer):
             code = module.main()
         return code, f"{buffer.getvalue()}\nrebuild_called={rebuild.called}"
+
+
+class ShareFlowRebuildTest(unittest.TestCase):
+    """净流入数据线在手动重建入口中的可见性与降级提示。"""
+
+    def test_share_flow_line_always_reported(self):
+        code, output = MainTest().run_main(
+            {"refreshed": {}, "gap": GAP_FRESH, "after": GAP_FRESH}
+        )
+        self.assertEqual(code, 0)
+        self.assertIn("ETF 净流入：已覆盖 2026-11-02，跳过", output)
+
+    def test_share_flow_update_is_reported(self):
+        result = {"refreshed": {
+            "etf_share_flow": {"status": "updated", "as_of": "2026-11-23",
+                               "last_day_yi": 12.34}
+        }, "gap": GAP_FRESH, "after": GAP_FRESH}
+        _, output = MainTest().run_main(result)
+        self.assertIn("ETF 净流入：更新至 2026-11-23（昨日 12.34 亿元）", output)
+
+    def test_share_flow_waiting_source_is_reported_without_faking(self):
+        result = {"refreshed": {
+            "etf_share_flow": {"status": "waiting_source", "as_of": "2026-11-20"}
+        }, "gap": GAP_FRESH, "after": GAP_FRESH}
+        _, output = MainTest().run_main(result)
+        self.assertIn("份额仅齐备至 2026-11-20，源尚未发布", output)
 
 
 if __name__ == "__main__":

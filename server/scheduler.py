@@ -2,6 +2,7 @@
 
 2026-11-20：指数总览/板块趋势页下线，盘中实时快照任务移除。
 2026-11-24：启动即补齐（不再等 17:00）；盘中不再跳过调度；收盘任务按实际缺口判完成。
+2026-11-24：宽基 ETF 申购净流入纳入四条数据线，与其他页面同机制刷新（只读展示层）。
 """
 
 from __future__ import annotations
@@ -25,7 +26,8 @@ DEFAULT_INTERVAL = 30
 # sched-v4.0：2026-11-20 移除盘中快照/晚间补齐任务与快照接口，收盘任务不再重算信号产物
 # sched-v4.1：2026-11-20 收盘任务补回指数日线增量与 ETF 放量事件重建（机构页/ETF 页依赖）
 # sched-v5.0：2026-11-24 启动即补齐落后数据；盘中不再跳过调度；收盘任务按实际缺口判完成
-SCHEDULER_VERSION = "sched-v5.0"
+# sched-v5.1：2026-11-24 宽基 ETF 申购净流入纳入与其他页面一致的数据线刷新（只读展示层）
+SCHEDULER_VERSION = "sched-v5.1"
 # 收盘重算时刻声明：指数/ETF 源为新浪（全量 1 请求，定稿较早）。
 # 17:00 首试；未真的覆盖到最近已完成交易日（源未发布）不算完成，
 # 按 CLOSE_RETRY_MINUTES 间隔持续重试，直到补齐或进入下一个交易日。
@@ -37,8 +39,9 @@ MAX_CLOSE_ATTEMPTS = 3  # 保留供 health 观测/兼容，不再作为停止条
 CLOSE_RETRY_MINUTES = 10
 # 数据缺口检查节流：盘中与盘后一致，落后时每 N 分钟重试一次，已覆盖时零请求
 FRESH_CHECK_MINUTES = 10
-# 页面消费的数据线：启动与盘中补齐只跑这三条，单线失败不影响其余线
-CORE_LINES = ("indices", "institutions", "etf")
+# 页面消费的数据线：启动与盘中补齐跑这四条，单线失败不影响其余线
+# etf_share_flow 为宽基 ETF 申购净流入（只读展示层），与 etf（6 只成交额日线）并列独立
+CORE_LINES = ("indices", "institutions", "etf", "etf_share_flow")
 # 板块日线无页面消费且全量补齐慢（10-30 分钟），只在启动后由后台线程补齐
 SECTOR_LINES = ("sectors",)
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
@@ -314,13 +317,15 @@ class MarketScheduler:
         # （index-signals / sector-trends）不再自动重算。
         # 收盘任务刷新仍在服役页面所需的数据：指数日线（机构页基准沪深300 与
         # ETF 页上证指数对照线依赖，单只失败自带补偿重试且不影响其余指数）、
-        # 机构持仓、ETF 日线、ETF 放量事件（L3 标记）、连板/涨停池展示产物。
+        # 机构持仓、ETF 日线、宽基 ETF 申购净流入（只读展示层）、ETF 放量事件
+        # （L3 标记）、连板/涨停池展示产物。
         # 信号产物如需重建，仍可用「重建信号数据.bat / pipeline 手动脚本」显式触发。
         from bootstrap import (
             data_gap,
             ensure_raw_data,
             update_display_snapshots,
             update_etf,
+            update_etf_share_flow,
             update_institutions,
             update_indices,
         )  # noqa: PLC0415
@@ -332,6 +337,7 @@ class MarketScheduler:
                 await asyncio.to_thread(update_indices, self.progress)
                 await asyncio.to_thread(update_institutions, self.progress)
                 await asyncio.to_thread(update_etf, self.progress)
+                await asyncio.to_thread(update_etf_share_flow, self.progress)
                 await asyncio.to_thread(update_display_snapshots, self.progress)
                 self.payloads.invalidate()
             except Exception as exc:
@@ -420,6 +426,10 @@ class MarketScheduler:
             "etf": manifest_source(
                 "etf-daily-manifest.json", "东财 ETF 历史日线（不复权）"
             ),
+            "etf_share_flow": manifest_source(
+                "etf-share-flow/universe.json",
+                "上交所/深交所 ETF 份额 + 同花顺单位净值",
+            ),
         }
 
     def _freshness(self) -> dict:
@@ -432,7 +442,7 @@ class MarketScheduler:
 
         gap = data_gap()
         lines = {}
-        for key in ("indices", "institutions", "etf"):
+        for key in ("indices", "institutions", "etf", "etf_share_flow"):
             lag = gap["lag"].get(key)
             lines[key] = {
                 "as_of": gap["local"].get(key),

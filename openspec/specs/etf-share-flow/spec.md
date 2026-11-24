@@ -64,12 +64,19 @@
 - **WHEN** 页面展示净流入图
 - **THEN** MUST 同时展示"昨日净流入"与"近60日净流入"两个统计值；近60日 MUST 为最近 60 个交易日净流入之和，区间不足 60 日时按实际天数求和并注明天数
 
-### Requirement: 数据线更新方式（独立命令，不进信号刷新链）
+### Requirement: 数据线更新方式（纳入常规刷新链，只读展示层）
 
-数据线 MUST 通过独立命令更新，MUST NOT 改动 `pipeline/bootstrap.py` 的 `refresh_daily`（该链同时驱动信号，新增步骤需用户单独确认）：
+2026-11-24 变更：用户确认需要与其余页面一致的数据更新机制。数据线从"手动独立命令"改为纳入 `bootstrap.py` 数据线与 `server/scheduler.py` 的常规刷新链（启动补齐、盘中每 10 分钟缺口检查、17:00 收盘任务、手动重建入口四条路径），但 MUST 保持只读展示层定位：
 
-- 首次建库：`python -m pipeline.fetch_etf_share_flow build --start 2025-01-01`
-- 日常增量（已有份额/净值缓存命中，仅新增交易日发请求）：再次执行 `build --start 2025-01-01`
+- MUST NOT import 任何信号模块，MUST NOT 读写任何信号产物（不改变指数/板块信号的 as_of 与数值）
+- 日常增量刷新 MUST 调用 `fetch_etf_share_flow.update_share_flow()`：只读已固化的 `universe.json`，**MUST NOT 调用 `build_universe`**（`build` 子命令会按最新交易日重建宽基池 = 换一套历史，仅限首次建库或用户明确确认换池时使用）
+- 沪深两市份额必须都齐备才推进 `as_of`；缺任一侧不重算、不写入该日，避免份额缺口被写成假的 0 净流入
+- 未初始化 / 限流 / 源未发布一律返回状态并由调度层告警，不得阻断其余数据线，也不得伪造数值
+
+命令入口：
+
+- 首次建库（仅一次）：`python -m pipeline.fetch_etf_share_flow build --start 2025-01-01`
+- 日常刷新：服务调度自动执行；手动触发可运行 `python -m pipeline.refresh_and_rebuild`（与"重建信号数据.bat"同一入口）
 - 仅重算产物：`python -m pipeline.fetch_etf_share_flow compute --start 2025-01-01`
 
 份额与单位净值按交易日落 CSV 缓存，重建不重复请求，支持断点续传。宽基池在首次 `universe` 步骤固化到 `data/raw/etf-share-flow/universe.json`，之后不再变动；换池/换源等于换一套历史，须先经用户确认并在此留痕。

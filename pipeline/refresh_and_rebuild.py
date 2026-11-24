@@ -22,9 +22,16 @@ from bootstrap import (  # noqa: E402
     ensure_fresh_data,
     update_display_snapshots,
     update_etf,
+    update_etf_share_flow,
 )
 
-LABELS = {"indices": "指数", "sectors": "板块", "institutions": "机构", "etf": "ETF"}
+LABELS = {
+    "indices": "指数",
+    "sectors": "板块",
+    "institutions": "机构",
+    "etf": "ETF",
+    "etf_share_flow": "ETF净流入",
+}
 
 
 def describe(gap: dict) -> str:
@@ -65,6 +72,24 @@ def describe_etf(etf: dict) -> str:
     return "、".join(parts)
 
 
+def describe_share_flow(flow: dict) -> str:
+    """净流入是只读展示层，单行说明状态；不伪造数值，源未发布如实标注。"""
+    status = flow.get("status")
+    if status == "updated":
+        return f"更新至 {flow.get('as_of')}（昨日 {flow.get('last_day_yi')} 亿元）"
+    if status == "skipped":
+        return f"已覆盖 {flow.get('as_of')}，跳过"
+    if status == "waiting_source":
+        return f"份额仅齐备至 {flow.get('as_of')}，源尚未发布，下次再试"
+    if status == "uninitialized":
+        return "尚未初始化，需先显式建库"
+    if status == "rate_limited":
+        return f"限流跳过（{flow.get('error') or '未知'}）"
+    if status == "failed":
+        return f"失败（{flow.get('error') or '未知错误'})"
+    return f"无新数据（{status or 'unknown'}）"
+
+
 def main(*, force: bool = False) -> int:
     progress = Progress()
     print(f"[rebuild] {describe(data_gap())}")
@@ -72,7 +97,12 @@ def main(*, force: bool = False) -> int:
     refreshed = result.get("refreshed") or {}
     # ETF 单独一行，三条主线的文案与分支保持原样
     etf = refreshed.get("etf") or update_etf(progress)
-    core = {key: value for key, value in refreshed.items() if key != "etf"}
+    share_flow = refreshed.get("etf_share_flow") or update_etf_share_flow(progress)
+    core = {
+        key: value
+        for key, value in refreshed.items()
+        if key not in ("etf", "etf_share_flow")
+    }
     if core:
         parts = []
         if "indices" in core:
@@ -95,6 +125,7 @@ def main(*, force: bool = False) -> int:
     # ensure_fresh_data 只在 ETF 真有更新/失败时并入 refreshed（保证其返回值语义不变），
     # 其余情况这里补一次台账核对（无待更新标的时不会触网），日志始终有 ETF 一行
     print(f"[rebuild] ETF 日线：{describe_etf(etf)}")
+    print(f"[rebuild] ETF 净流入：{describe_share_flow(share_flow)}")
 
     # 无论是否拉取到新行情都重建：本开关的语义是"补数据 + 重建"
     build_dashboard.main()

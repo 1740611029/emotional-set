@@ -54,6 +54,8 @@ from trading_calendar import (  # noqa: E402
 INDEX_MANIFEST = RAW / "indices-ths-manifest.json"
 CFFEX_RAW = RAW / "cffex"
 REFRESH_STATE = RAW / "refresh-state.json"
+# 宽基 ETF 申购净流入：纯展示层产物，与 ETF 日线（6 只成交额）是两条独立数据线
+ETF_SHARE_FLOW_OUTPUT = ROOT / "data" / "etf-share-flow.json"
 MIN_INDEX_ROWS = 1250
 STALE_SECTOR_LAG_DAYS = 60  # 板块本地尾部落后超过该交易天数视为已停更，不再请求
 CN = ZoneInfo("Asia/Shanghai")
@@ -444,9 +446,10 @@ def update_display_snapshots(progress: Progress | None = None) -> dict:
 def refresh_daily(progress: Progress | None = None) -> dict:
     """收盘后刷新：先补原始日线，再由调用方重建 JSON。
 
-    四条数据线彼此解耦：板块（同花顺行业指数）失败只影响自身，ETF 失败只告警，
+    各数据线彼此解耦：板块（同花顺行业指数）失败只影响自身，ETF 失败只告警，
     均不中断其余线。ETF 也在 refreshed 中返回，供调度层判断是否需要
     重建 etf-volume-events.json（D4：ETF 数据线参与自动重建）。
+    宽基 ETF 申购净流入是只读展示层，跟随同一条链刷新但不参与任何信号计算。
     收盘链每日一次顺带刷新两块侧展示产物（板块成分股 / 东财涨停池），
     失败只告警不阻塞主链。
     """
@@ -460,6 +463,7 @@ def refresh_daily(progress: Progress | None = None) -> dict:
         print(f"[bootstrap] 板块增量失败（不影响指数与机构数据线）：{exc}", flush=True)
     institutions = update_institutions(progress)
     etf = update_etf(progress)
+    share_flow = update_etf_share_flow(progress)
     display = update_display_snapshots(progress)
     progress.update("ready", f"指数 {len(indices)} 个、板块 {sectors} 个有更新")
     return {
@@ -467,6 +471,7 @@ def refresh_daily(progress: Progress | None = None) -> dict:
         "sectors": sectors,
         "institutions": institutions,
         "etf": etf,
+        "etf_share_flow": share_flow,
         "display": display,
     }
 
@@ -509,10 +514,23 @@ def _etf_ready_date() -> str | None:
     return min(tails) if tails else None
 
 
+def _etf_share_flow_date() -> str | None:
+    """宽基 ETF 净流入产物的 as_of；产物缺失或损坏返回 None 触发补齐。"""
+    if not ETF_SHARE_FLOW_OUTPUT.exists():
+        return None
+    try:
+        payload = json.loads(ETF_SHARE_FLOW_OUTPUT.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    value = payload.get("as_of")
+    return str(value) if value else None
+
+
 def latest_local_dates() -> dict[str, str | None]:
     """各数据线本地最后日期：指数取最小（信号 3 指数 + 基准沪深300 全集口径；
     index-signals 的 as_of 仍只按信号 3 指数计算，不受基准影响）、板块取最大、
-    ETF 取 6 只尾日的最小齐备日（与 etf-volume-events 口径一致）。"""
+    ETF 取 6 只尾日的最小齐备日（与 etf-volume-events 口径一致）、
+    净流入取展示产物的 as_of。"""
     index_ends = [_tail_date(path, 0) for path in _index_files().values()]
     sector_ends = [_tail_date(path, 0) for path in sorted(THS_SECTOR_RAW.glob("*.csv"))]
     cffex = sorted(CFFEX_RAW.glob("*.csv"))
@@ -521,6 +539,7 @@ def latest_local_dates() -> dict[str, str | None]:
         "sectors": max(sector_ends) if sector_ends else None,
         "institutions": cffex[-1].stem if cffex else None,
         "etf": _etf_ready_date(),
+        "etf_share_flow": _etf_share_flow_date(),
     }
 
 
@@ -600,6 +619,28 @@ def update_etf(progress: Progress | None = None) -> dict:
         return {"status": "failed", "error": detail}
     if result.get("updated"):
         progress.update("etf", f"ETF {len(result['updated'])} 只有更新")
+    return result
+
+
+def update_etf_share_flow(progress: Progress | None = None) -> dict:
+    """宽基 ETF 申购净流入增量刷新（只读展示层，不参与任何信号计算）。
+
+    刷新入口只读已固化宽基池，不重建 universe；沪深份额未齐备时不推进 as_of，
+    避免把份额缺口写成假的 0 净流入。失败只告警，不阻断其余数据线。
+    """
+    progress = progress or Progress()
+    try:
+        from fetch_etf_share_flow import update_share_flow  # noqa: PLC0415
+
+        result = update_share_flow()
+    except Exception as exc:  # noqa: BLE001  # 展示层失败不得阻断主链
+        detail = f"{type(exc).__name__}: {exc}"
+        print(f"[bootstrap] ETF 净流入更新失败（已跳过）：{detail}", flush=True)
+        return {"status": "failed", "error": detail}
+    if result.get("status") == "updated":
+        progress.update("etf_share_flow", f"净流入更新至 {result['as_of']}")
+    elif result.get("error"):
+        print(f"[bootstrap] ETF 净流入更新告警：{result['error']}", flush=True)
     return result
 
 
@@ -685,6 +726,9 @@ def _ensure_fresh_data_core(
     if "etf" in targets:
         refreshed["etf"] = update_etf(progress)
         _record_attempt(state, day, "etf")
+    if "etf_share_flow" in targets:
+        refreshed["etf_share_flow"] = update_etf_share_flow(progress)
+        _record_attempt(state, day, "etf_share_flow")
 
     after = data_gap()
     still = [key for key in stale if key in after["stale"]]
