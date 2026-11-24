@@ -29,7 +29,7 @@ if not defined PY (
 if not defined PY goto :no_python
 
 echo Interpreter: %PY%
-%PY% start.py
+%PY% start.py %*
 goto :end
 
 :no_python

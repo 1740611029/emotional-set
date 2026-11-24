@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T15:00:47+08:00",
+  "generated_at": "2026-11-24T10:41:12+08:00",
   "preregistered": {
     "correlation_threshold": 0.6,
     "correlation_min_samples": 30,
@@ -620,7 +620,7 @@
         "qvix_50": {
           "correlation": 0.46929,
           "correlation_dim": "volatility_bottom_bottom",
-          "coverage": 2801,
+          "coverage": 2803,
           "validation": {
             "0.1": {
               "total": 6,
@@ -660,7 +660,7 @@
         "below_net_asset_ratio": {
           "correlation": 0.42085,
           "correlation_dim": "trend_top_top",
-          "coverage": 5252,
+          "coverage": 5254,
           "validation": {
             "0.1": {
               "total": 8,
@@ -700,7 +700,7 @@
         "margin_balance": {
           "correlation": 0.525811,
           "correlation_dim": "trend_top_top",
-          "coverage": 3977,
+          "coverage": 3979,
           "validation": {
             "0.1": {
               "total": 6,
@@ -740,7 +740,7 @@
         "margin_turnover": {
           "correlation": 0.533461,
           "correlation_dim": "position_bottom_bottom",
-          "coverage": 3977,
+          "coverage": 3979,
           "validation": {
             "0.1": {
               "total": 6,
@@ -1340,7 +1340,7 @@
         "qvix_50": {
           "correlation": 0.252312,
           "correlation_dim": "volatility_bottom_bottom",
-          "coverage": 2801,
+          "coverage": 2803,
           "validation": {
             "0.1": {
               "total": 8,
@@ -1380,7 +1380,7 @@
         "below_net_asset_ratio": {
           "correlation": -0.211019,
           "correlation_dim": "position_top_top",
-          "coverage": 3939,
+          "coverage": 3941,
           "validation": {
             "0.1": {
               "total": 8,
@@ -1420,7 +1420,7 @@
         "margin_balance": {
           "correlation": 0.557966,
           "correlation_dim": "trend_top_top",
-          "coverage": 3939,
+          "coverage": 3941,
           "validation": {
             "0.1": {
               "total": 10,
@@ -1460,7 +1460,7 @@
         "margin_turnover": {
           "correlation": 0.471607,
           "correlation_dim": "position_bottom_bottom",
-          "coverage": 3939,
+          "coverage": 3941,
           "validation": {
             "0.1": {
               "total": 10,
@@ -1652,7 +1652,7 @@
         "qvix_50": {
           "correlation": -0.107989,
           "correlation_dim": "trend_top_top",
-          "coverage": 1607,
+          "coverage": 1609,
           "validation": {
             "0.1": {
               "total": 5,
@@ -1692,7 +1692,7 @@
         "below_net_asset_ratio": {
           "correlation": -0.222982,
           "correlation_dim": "position_top_top",
-          "coverage": 1607,
+          "coverage": 1609,
           "validation": {
             "0.1": {
               "total": 4,
@@ -1732,7 +1732,7 @@
         "margin_balance": {
           "correlation": 0.504606,
           "correlation_dim": "trend_top_top",
-          "coverage": 1607,
+          "coverage": 1609,
           "validation": {
             "0.1": {
               "total": 5,
@@ -1772,7 +1772,7 @@
         "margin_turnover": {
           "correlation": 0.552801,
           "correlation_dim": "position_bottom_bottom",
-          "coverage": 1607,
+          "coverage": 1609,
           "validation": {
             "0.1": {
               "total": 7,
@@ -1900,7 +1900,7 @@
         "qvix_50": {
           "correlation": 0.496336,
           "correlation_dim": "volatility_bottom_bottom",
-          "coverage": 2801,
+          "coverage": 2803,
           "validation": {
             "0.1": {
               "total": 4,
@@ -1940,7 +1940,7 @@
         "below_net_asset_ratio": {
           "correlation": 0.191947,
           "correlation_dim": "trend_top_top",
-          "coverage": 5252,
+          "coverage": 5254,
           "validation": {
             "0.1": {
               "total": 4,
@@ -1980,7 +1980,7 @@
         "margin_balance": {
           "correlation": 0.409575,
           "correlation_dim": "trend_top_top",
-          "coverage": 3977,
+          "coverage": 3979,
           "validation": {
             "0.1": {
               "total": 6,
@@ -2020,7 +2020,7 @@
         "margin_turnover": {
           "correlation": 0.414895,
           "correlation_dim": "position_bottom_bottom",
-          "coverage": 3977,
+          "coverage": 3979,
           "validation": {
             "0.1": {
               "total": 10,

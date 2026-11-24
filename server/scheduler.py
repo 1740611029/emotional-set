@@ -1,17 +1,19 @@
-"""调度：收盘后刷新数据，龙虎榜游资日更。
+"""调度：启动/盘中/收盘都检查数据缺口并补齐，龙虎榜游资日更。
 
-2026-11-20：指数总览/板块趋势页下线，盘中实时快照与晚间补齐任务一并移除。
-启动直接用本地已有数据组装健康状态；数据更新由收盘任务与手动脚本负责。
+2026-11-20：指数总览/板块趋势页下线，盘中实时快照任务移除。
+2026-11-24：启动即补齐（不再等 17:00）；盘中不再跳过调度；收盘任务按实际缺口判完成。
 """
 
 from __future__ import annotations
 
 import asyncio
 import json
+import threading
 from datetime import datetime, timedelta
+from functools import partial
 
 from . import paths  # noqa: F401  # 配置 sys.path
-from .realtime import CN, trading_session
+from .realtime import CN
 from .snapshot import (
     PayloadStore,
     SnapshotStore,
@@ -22,15 +24,23 @@ DEFAULT_INTERVAL = 30
 # 调度版本：随调度逻辑/时刻口径变更而升版，供多机经 /api/health 比对是否同步
 # sched-v4.0：2026-11-20 移除盘中快照/晚间补齐任务与快照接口，收盘任务不再重算信号产物
 # sched-v4.1：2026-11-20 收盘任务补回指数日线增量与 ETF 放量事件重建（机构页/ETF 页依赖）
-SCHEDULER_VERSION = "sched-v4.1"
+# sched-v5.0：2026-11-24 启动即补齐落后数据；盘中不再跳过调度；收盘任务按实际缺口判完成
+SCHEDULER_VERSION = "sched-v5.0"
 # 收盘重算时刻声明：指数/ETF 源为新浪（全量 1 请求，定稿较早）。
-# 17:00 首试，失败按 CLOSE_RETRY_MINUTES 间隔当日最多重试 MAX_CLOSE_ATTEMPTS 次。
+# 17:00 首试；未真的覆盖到最近已完成交易日（源未发布）不算完成，
+# 按 CLOSE_RETRY_MINUTES 间隔持续重试，直到补齐或进入下一个交易日。
 # 校准口径见 data/research/source-eval/source-migration-20261114.md。
 CLOSE_HOUR_MINUTE = (
     17 * 60
 )  # 收盘重算首试：17:00（板块/指数 15:30 后陆续定稿，避开收盘高峰）
-MAX_CLOSE_ATTEMPTS = 3
+MAX_CLOSE_ATTEMPTS = 3  # 保留供 health 观测/兼容，不再作为停止条件
 CLOSE_RETRY_MINUTES = 10
+# 数据缺口检查节流：盘中与盘后一致，落后时每 N 分钟重试一次，已覆盖时零请求
+FRESH_CHECK_MINUTES = 10
+# 页面消费的数据线：启动与盘中补齐只跑这三条，单线失败不影响其余线
+CORE_LINES = ("indices", "institutions", "etf")
+# 板块日线无页面消费且全量补齐慢（10-30 分钟），只在启动后由后台线程补齐
+SECTOR_LINES = ("sectors",)
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
 LHB_SLOTS = (("20:00", 20 * 60), ("22:00", 22 * 60))
 # 可由页面单独启停的服务端调度分支；网页侧轮询开关由前端自行管理，不在此登记。
@@ -58,6 +68,8 @@ class MarketScheduler:
         self._lock = asyncio.Lock()
         # 原始日线增量刷新单飞：启动补齐与收盘刷新共用，避免并发写同一批文件
         self._refresh_lock = asyncio.Lock()
+        # 启动/盘中缺口检查节流：避免每 30 秒 tick 都打源站请求
+        self._fresh_checked_at: datetime | None = None
         self._close_date: str | None = None
         self._close_day: str | None = None
         self._close_version: tuple[float, float, float] | None = None
@@ -88,23 +100,49 @@ class MarketScheduler:
             self._task = None
 
     def _bootstrap(self) -> None:
-        """启动顺序：原始数据 → 内部收盘快照（供 /api/health 读取状态）。
+        """启动即判定并补齐：每次启动都检查缺口，落后就补，不再等 17:00。
 
-        2026-11-20：指数/板块信号产物不再自动构建或重算（无页面消费）。
-        首屏只用本地已有数据组装健康状态；如需重建信号产物，走手动重建脚本。
-        启动时数据落后不阻断，前一步失败也不阻断。
+        页面消费的三条线（指数/机构/ETF）阻塞补齐后才出首屏；板块日线无页面消费
+        且全量补齐要 10-30 分钟，交给后台线程，避免拖住启动。
+        任一步失败都不阻断启动，用现有数据照常出图，失败原因留痕到 /api/health。
         """
-        from bootstrap import ensure_raw_data  # noqa: PLC0415
+        from bootstrap import data_gap, ensure_fresh_data  # noqa: PLC0415
 
         try:
-            ensure_raw_data(self.progress)
-        except Exception as exc:  # 启动失败要可观测，不吞异常
-            self.last_error = f"原始数据准备失败：{type(exc).__name__}: {exc}"
+            result = ensure_fresh_data(self.progress, lines=CORE_LINES)
+            if result.get("refreshed"):
+                self.payloads.invalidate()
+        except Exception as exc:  # 启动补齐失败要可观测，不吞异常
+            self.last_error = f"启动补齐失败：{type(exc).__name__}: {exc}"
             print(f"[scheduler] {self.last_error}", flush=True)
+        self._fresh_checked_at = datetime.now(CN)
         try:
             self._rebuild_close()
         except Exception as exc:
             self.last_error = f"首屏数据构建失败：{type(exc).__name__}: {exc}"
+            print(f"[scheduler] {self.last_error}", flush=True)
+        try:
+            if "sectors" in data_gap()["stale"]:
+                threading.Thread(
+                    target=self._backfill_sectors,
+                    name="sector-backfill",
+                    daemon=True,
+                ).start()
+        except Exception as exc:
+            print(
+                f"[scheduler] 板块后台补齐启动失败：{type(exc).__name__}: {exc}",
+                flush=True,
+            )
+
+    def _backfill_sectors(self) -> None:
+        """板块日线后台补齐：无页面消费，失败只告警，不污染启动结果。"""
+        from bootstrap import ensure_fresh_data  # noqa: PLC0415
+
+        try:
+            result = ensure_fresh_data(self.progress, lines=SECTOR_LINES)
+            print(f"[scheduler] 板块后台补齐完成：{result.get('after')}", flush=True)
+        except Exception as exc:
+            self.last_error = f"板块后台补齐失败：{type(exc).__name__}: {exc}"
             print(f"[scheduler] {self.last_error}", flush=True)
 
     # ---------- 收盘数据 ----------
@@ -175,12 +213,74 @@ class MarketScheduler:
 
     async def tick(self) -> None:
         now = datetime.now(CN)
-        # 2026-11-20：盘中实时快照已下线，剩余页面数据均为盘后产物；盘中不再有调度动作。
-        if trading_session(now):
-            return
+        # 2026-11-24：盘中不再跳过——每个节流窗口都检查缺口，落后就补。
+        # 已覆盖最近交易日时 ensure_fresh_data 直接返回，不产生任何远端请求。
+        await self._tick_fresh(now)
         await self._tick_close(now)
         if self.task_enabled["lhb_daily"]:
             await self._tick_lhb(now)
+
+    async def _tick_fresh(self, now: datetime) -> None:
+        """盘中与盘后一律检查数据缺口，落后就增量补齐。
+
+        收盘任务 17:00 触发时，新浪指数日线/中金所持仓往往尚未定稿；旧实现把
+        「没抛异常」当成「已补到」，当日不再重试，数据会长期停在上一个交易日。
+        这里按实际缺口判定：源未发布就留到下一轮（每 FRESH_CHECK_MINUTES 一次），
+        补齐后收盘快照与 ETF 放量事件同步重建。
+        """
+        if not self.task_enabled["close_rebuild"]:
+            return
+        if (
+            self._fresh_checked_at is not None
+            and now - self._fresh_checked_at < timedelta(minutes=FRESH_CHECK_MINUTES)
+        ):
+            return
+        self._fresh_checked_at = now
+
+        from bootstrap import data_gap, ensure_fresh_data  # noqa: PLC0415
+
+        try:
+            gap = await asyncio.to_thread(data_gap)
+        except Exception as exc:
+            self.last_error = f"数据缺口判定失败：{type(exc).__name__}: {exc}"
+            print(f"[scheduler] {self.last_error}", flush=True)
+            return
+        lagging = [key for key in gap["stale"] if key in CORE_LINES]
+        if not lagging:
+            return
+        detail = "、".join(
+            f"{key} 停在 {gap['local'].get(key) or '—'}" for key in lagging
+        )
+        print(
+            f"[scheduler] 数据落后（应为 {gap['expected']}）：{detail}，开始增量补齐",
+            flush=True,
+        )
+        async with self._refresh_lock:
+            try:
+                result = await asyncio.to_thread(
+                    partial(ensure_fresh_data, self.progress, lines=CORE_LINES)
+                )
+            except Exception as exc:
+                self.last_error = f"增量补齐失败：{type(exc).__name__}: {exc}"
+                print(f"[scheduler] {self.last_error}", flush=True)
+                return
+        if not (result.get("refreshed") or {}):
+            return
+        self.payloads.invalidate()
+        # ETF 放量事件是展示层产物，失败只告警，不阻断补齐主链
+        try:
+            await asyncio.to_thread(self._rebuild_etf_volume_events)
+        except Exception as exc:
+            self.last_error = f"ETF 放量事件重建失败：{type(exc).__name__}: {exc}"
+            print(f"[scheduler] {self.last_error}", flush=True)
+        self._rebuild_close()
+        after = result.get("after") or {}
+        still = [key for key in (after.get("stale") or []) if key in CORE_LINES]
+        if still:
+            print(
+                f"[scheduler] 补齐后仍落后：{'、'.join(still)}（源尚未发布，下一轮再试）",
+                flush=True,
+            )
 
     async def _tick_close(self, now: datetime) -> None:
         async with self._lock:
@@ -205,9 +305,8 @@ class MarketScheduler:
         # 周末不会有新的收盘数据，避免无谓的全量拉取
         if now.weekday() >= 5:
             return
-        # 失败后按间隔重试，且每日最多尝试固定次数，避免形成重试风暴
-        if self._close_attempts >= MAX_CLOSE_ATTEMPTS:
-            return
+        # 失败或源未发布都按间隔重试，直到真的覆盖最近交易日：
+        # 不再用"当日尝试次数"兜底——17:00 一次假成功比多几次请求更糟。
         if self._close_retry_at is not None and now < self._close_retry_at:
             return
 
@@ -218,6 +317,7 @@ class MarketScheduler:
         # 机构持仓、ETF 日线、ETF 放量事件（L3 标记）、连板/涨停池展示产物。
         # 信号产物如需重建，仍可用「重建信号数据.bat / pipeline 手动脚本」显式触发。
         from bootstrap import (
+            data_gap,
             ensure_raw_data,
             update_display_snapshots,
             update_etf,
@@ -234,13 +334,31 @@ class MarketScheduler:
                 await asyncio.to_thread(update_etf, self.progress)
                 await asyncio.to_thread(update_display_snapshots, self.progress)
                 self.payloads.invalidate()
-                self.last_error = None
-                self._close_date = today
             except Exception as exc:
                 self._close_retry_at = now + timedelta(minutes=CLOSE_RETRY_MINUTES)
                 self.last_error = f"收盘数据刷新失败：{type(exc).__name__}: {exc}"
                 print(f"[scheduler] {self.last_error}", flush=True)
                 return
+            # 完成判定只认「真的覆盖到最近已完成交易日」：源未发布不算完成，
+            # 否则 17:00 一次假成功就会让当天不再重试（2026-11-23 停更的根因）。
+            try:
+                gap = await asyncio.to_thread(data_gap)
+            except Exception as exc:
+                gap = {}
+                print(
+                    f"[scheduler] 收盘完成判定失败：{type(exc).__name__}: {exc}",
+                    flush=True,
+                )
+            still = [key for key in (gap.get("stale") or []) if key != "sectors"]
+            if still:
+                self._close_retry_at = now + timedelta(minutes=CLOSE_RETRY_MINUTES)
+                self.last_error = (
+                    f"收盘数据未覆盖 {gap.get('expected')}：{'、'.join(still)} 仍落后"
+                )
+                print(f"[scheduler] {self.last_error}", flush=True)
+                return
+            self.last_error = None
+            self._close_date = today
             # ETF 放量事件是展示层产物：失败只告警，不阻断收盘主链（次日收盘自动再试）
             try:
                 await asyncio.to_thread(self._rebuild_etf_volume_events)
@@ -361,6 +479,14 @@ class MarketScheduler:
             "live_snapshot_available": snapshot is not None,
             "daily_up_to_date": not freshness["stale"],
             "progress": self.progress.as_dict(),
+            # 缺口检查节流与覆盖范围：盘中也会检查，便于判断"没更新"是源未发布还是调度没跑
+            "fresh_check": {
+                "interval_minutes": FRESH_CHECK_MINUTES,
+                "checked_at": self._fresh_checked_at.isoformat(timespec="seconds")
+                if self._fresh_checked_at
+                else None,
+                "lines": list(CORE_LINES),
+            },
             "backfill": {
                 "close_attempts": self._close_attempts,
                 "close_done_on": self._close_date,

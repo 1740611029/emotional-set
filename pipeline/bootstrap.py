@@ -109,6 +109,7 @@ def update_indices(
         return []
     changed: list[str] = []
     lagged: list[str] = []
+    expected, _basis = last_completed_trading_day()
     # 增量日更走全集（信号 3 指数 + 基准沪深300），基准数据不断供
     for code, name in ALL_FETCH_INDEXES.items():
         path = INDEX_RAW / f"{code}.csv"
@@ -121,9 +122,19 @@ def update_indices(
                 flush=True,
             )
             continue
+        fresh["date"] = pd.to_datetime(fresh["date"])
+        # 盘中/当日未收盘：接口可能带回当日未完成 K 线，裁到最近已完成交易日，
+        # 避免半成品 bar 被当成收盘价落盘（口径与 ETF 增量一致）。
+        fresh = fresh[fresh["date"] <= pd.Timestamp(expected)].reset_index(drop=True)
+        if fresh.empty:
+            lagged.append(code)
+            print(
+                f"[bootstrap] {code} {name} 无 {expected} 及以前日线，保留旧尾日",
+                flush=True,
+            )
+            continue
         if path.exists():
             cached = read_index_csv(path)
-            fresh["date"] = pd.to_datetime(fresh["date"])
             merged = (
                 pd.concat([cached, fresh], ignore_index=True)
                 .sort_values("date")
@@ -592,14 +603,21 @@ def update_etf(progress: Progress | None = None) -> dict:
     return result
 
 
-def ensure_fresh_data(progress: Progress | None = None, *, force: bool = False) -> dict:
-    """启动时判断数据是否覆盖最近已完成交易日，落后就当场增量刷新。
+def ensure_fresh_data(
+    progress: Progress | None = None,
+    *,
+    force: bool = False,
+    lines: tuple[str, ...] | None = None,
+) -> dict:
+    """判定数据是否覆盖最近已完成交易日，落后就当场增量刷新。
 
-    失败不计入当日次数：只要还没补到，下次调用（下次启动）仍会再试。
-    三条主线的判定逻辑一行不改，全部保留在 `_ensure_fresh_data_core()`；ETF 日线作为
-    并列的第四条线在其后 best-effort 增量（失败只告警，不参与新鲜度判定）。
+    `lines` 限定参与判定的数据线（默认全部）。启动链只补页面消费的三条线，
+    板块日线由后台补齐：90 个行业换源全量拉取要 10-30 分钟，不能拖住首屏。
+    失败不计入当日次数：只要还没补到，下次调用（下次启动/下一轮调度）仍会再试。
     """
-    result = _ensure_fresh_data_core(progress, force=force)
+    result = _ensure_fresh_data_core(progress, force=force, lines=lines)
+    if lines is not None and "etf" not in lines:
+        return result
     etf = update_etf(progress)
     # 只在 ETF 真有更新/失败时并入，未初始化或全量跳过时不污染既有返回值
     if etf.get("updated") or etf.get("failed") or etf.get("status") == "failed":
@@ -608,7 +626,10 @@ def ensure_fresh_data(progress: Progress | None = None, *, force: bool = False) 
 
 
 def _ensure_fresh_data_core(
-    progress: Progress | None = None, *, force: bool = False
+    progress: Progress | None = None,
+    *,
+    force: bool = False,
+    lines: tuple[str, ...] | None = None,
 ) -> dict:
     """启动时判断数据是否覆盖最近已完成交易日，落后就当场增量刷新。
 
@@ -619,22 +640,23 @@ def _ensure_fresh_data_core(
     if ensure_raw_data(progress):  # 首次全量拉取刚完成，不再重复判定
         return {"bootstrap": True, "gap": data_gap(), "refreshed": {}}
     gap = data_gap()
-    if not gap["stale"]:
+    stale = [key for key in gap["stale"] if lines is None or key in lines]
+    if not stale:
         progress.update("ready", f"数据已覆盖最近交易日 {gap['expected']}")
         return {"bootstrap": False, "gap": gap, "refreshed": {}}
 
     day = datetime.now(CN).strftime("%Y-%m-%d")
     state = _load_state()
     done = _done_marks(state, day)
-    targets = [key for key in gap["stale"] if force or done.get(key) != gap["expected"]]
+    targets = [key for key in stale if force or done.get(key) != gap["expected"]]
     if not targets:
-        detail = "、".join(f"{key} 已补到 {gap['expected']}" for key in gap["stale"])
+        detail = "、".join(f"{key} 已补到 {gap['expected']}" for key in stale)
         progress.update("ready", f"{detail}，本地数据与源发布进度一致（{day}）")
         return {
             "bootstrap": False,
             "gap": gap,
             "refreshed": {},
-            "skipped": gap["stale"],
+            "skipped": stale,
         }
 
     detail = "、".join(
@@ -665,7 +687,8 @@ def _ensure_fresh_data_core(
         _record_attempt(state, day, "etf")
 
     after = data_gap()
-    if not after["stale"]:
+    still = [key for key in stale if key in after["stale"]]
+    if not still:
         for key in targets:
             _mark_done(state, day, key, gap["expected"])
     _save_state({day: state.get(day, {})})

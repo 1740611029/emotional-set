@@ -31,3 +31,6 @@ data/raw/refresh-state.json
 # posts.json / state.json 的忽略规则见「同花顺博主追踪/.gitignore」。
 # 这里的 md 与之同源，同样是每分钟滚动更新，纳入 git 会被 reset --hard 打回旧版。
 【全能的野人】同花顺发文.md
+
+# ===== 启动器运行时状态（同端口互斥的锁文件，进程退出即释放，不入库）=====
+data/runtime/

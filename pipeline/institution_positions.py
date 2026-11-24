@@ -11,9 +11,11 @@
 - 大盘对照：`market_lines` 里的上证指数收盘价**只用于图表展示叠加**，
   统计基准（交易日历、次日涨跌、同向率）始终只有沪深300。
 """
+
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import re
 import time
@@ -60,17 +62,31 @@ AGGREGATION_NOTE = (
     "四品种汇总为 IF/IC/IH/IM 各合约持仓手数直接相加，未按合约乘数折算为名义金额"
     "（IF/IH 300 元/点、IC/IM 200 元/点），不可用于跨品种规模比较。"
 )
-SCOPE_NOTE = (
-    "数据为中金所每日前 20 会员持仓排名，非全市场持仓；多单/空单均为单边持仓量，单位为手。"
-)
+SCOPE_NOTE = "数据为中金所每日前 20 会员持仓排名，非全市场持仓；多单/空单均为单边持仓量，单位为手。"
 BENCHMARK = {"code": "sh000300", "name": "沪深300"}
 # 展示用叠加指数：不参与任何统计口径
 MARKET_INDEX = {"code": "sh000001", "name": "上证指数"}
 
-COLUMNS = ["date", "variety", "contract", "rank",
-           "long_party_name", "long_oi", "short_party_name", "short_oi"]
+COLUMNS = [
+    "date",
+    "variety",
+    "contract",
+    "rank",
+    "long_party_name",
+    "long_oi",
+    "short_party_name",
+    "short_oi",
+]
 # 旧缓存格式（party_name 单列，多空混在同一人）已废弃，read_cached_day 检测到旧格式会触发重抓
-LEGACY_COLUMNS = ["date", "variety", "contract", "rank", "party_name", "long_oi", "short_oi"]
+LEGACY_COLUMNS = [
+    "date",
+    "variety",
+    "contract",
+    "rank",
+    "party_name",
+    "long_oi",
+    "short_oi",
+]
 
 
 def normalize_name(name) -> str:
@@ -135,28 +151,23 @@ def empty_frame() -> pd.DataFrame:
 
 
 def normalize_table(day: str, table) -> pd.DataFrame:
-    """把 akshare 返回的 {合约: DataFrame} 合并为统一列；非交易日空返回得到空表。
+    """把 akshare 返回的持仓排名合并为统一列；非交易日空返回得到空表。
 
+    兼容两种返回：旧版 `{合约: DataFrame}`；新版 1.20.44+ 单张 DataFrame
+    （`symbol` 列即合约，2026-11-24 实测 1.20.65 返回单表）。
     重要：akshare 返回的 long_party_name 和 short_party_name 是 **不同的排名**，
     同一 rank 号对应的多头会员和空头会员可能完全不同。
     必须分别保留两个 party_name 列，聚合时各归各。
     """
     rows: list[pd.DataFrame] = []
-    if isinstance(table, dict):
+    if isinstance(table, pd.DataFrame):
+        if not table.empty:
+            rows.append(_normalize_block(day, table, contract_column="symbol"))
+    elif isinstance(table, dict):
         for contract, frame in table.items():
             if not isinstance(frame, pd.DataFrame) or frame.empty:
                 continue
-            block = pd.DataFrame({
-                "date": day,
-                "variety": frame.get("variety", pd.Series(dtype=object)).astype(str),
-                "contract": str(contract),
-                "rank": pd.to_numeric(frame.get("rank"), errors="coerce"),
-                "long_party_name": frame.get("long_party_name"),
-                "long_oi": pd.to_numeric(frame.get("long_open_interest"), errors="coerce"),
-                "short_party_name": frame.get("short_party_name"),
-                "short_oi": pd.to_numeric(frame.get("short_open_interest"), errors="coerce"),
-            })
-            rows.append(block)
+            rows.append(_normalize_block(day, frame, contract=str(contract)))
     if not rows:
         return empty_frame()
     merged = pd.concat(rows, ignore_index=True)
@@ -166,6 +177,32 @@ def normalize_table(day: str, table) -> pd.DataFrame:
     merged["long_oi"] = merged["long_oi"].astype(int)
     merged["short_oi"] = merged["short_oi"].astype(int)
     return merged[COLUMNS].reset_index(drop=True)
+
+
+def _normalize_block(
+    day: str,
+    frame: pd.DataFrame,
+    *,
+    contract=None,
+    contract_column: str | None = None,
+) -> pd.DataFrame:
+    """单块持仓排名 → 统一列：contract 显式给出（旧版按合约分表）或取表中的合约列。"""
+    if contract is None:
+        contract = frame.get(contract_column, pd.Series(dtype=object)).astype(str)
+    return pd.DataFrame(
+        {
+            "date": day,
+            "variety": frame.get("variety", pd.Series(dtype=object)).astype(str),
+            "contract": contract,
+            "rank": pd.to_numeric(frame.get("rank"), errors="coerce"),
+            "long_party_name": frame.get("long_party_name"),
+            "long_oi": pd.to_numeric(frame.get("long_open_interest"), errors="coerce"),
+            "short_party_name": frame.get("short_party_name"),
+            "short_oi": pd.to_numeric(
+                frame.get("short_open_interest"), errors="coerce"
+            ),
+        }
+    )
 
 
 def cache_path(day: str) -> Path:
@@ -200,15 +237,24 @@ def write_cached_day(day: str, frame: pd.DataFrame) -> None:
 def default_fetcher(day: str):
     import akshare as ak
 
-    # akshare 1.20+ 将 get_cffex_rank_table 重命名为 futures_rank_table_cffex，
-    # 返回格式不变（dict[合约 → DataFrame]）。优先用新名，旧版环境回退旧名。
-    fetch = getattr(ak, "futures_rank_table_cffex", None) or getattr(ak, "get_cffex_rank_table", None)
-    if fetch is None:
-        raise RuntimeError("akshare 中未找到中金所持仓排名接口（futures_rank_table_cffex / get_cffex_rank_table）")
-    return fetch(date=day.replace("-", ""), vars_list=list(VARIETIES))
+    # akshare 1.20.44+ 接口名与参数都变了：futures_rank_table_cffex(date, symbols)
+    # 返回单张表（symbol 列即合约）；旧版 get_cffex_rank_table(date, vars_list)
+    # 返回 {合约: DataFrame}。按签名择优，两种返回都由 normalize_table 兼容。
+    for name in ("futures_rank_table_cffex", "get_cffex_rank_table"):
+        fetch = getattr(ak, name, None)
+        if fetch is None:
+            continue
+        if "symbols" in inspect.signature(fetch).parameters:
+            return fetch(date=day.replace("-", ""), symbols=",".join(VARIETIES))
+        return fetch(date=day.replace("-", ""), vars_list=list(VARIETIES))
+    raise RuntimeError(
+        "akshare 中未找到中金所持仓排名接口（futures_rank_table_cffex / get_cffex_rank_table）"
+    )
 
 
-def fetch_with_retry(day: str, fetcher, *, attempts: int = RETRY_ATTEMPTS, sleep=time.sleep):
+def fetch_with_retry(
+    day: str, fetcher, *, attempts: int = RETRY_ATTEMPTS, sleep=time.sleep
+):
     last_error: Exception | None = None
     for attempt in range(1, attempts + 1):
         try:
@@ -241,17 +287,20 @@ def aggregate_day(frame: pd.DataFrame) -> dict:
     同一 rank 号的多头会员和空头会员可能完全不同，不可混用。
     """
     ranked = frame[
-        (frame["rank"] >= 1) & (frame["rank"] <= MAX_RANK)
-        & frame["long_party_name"].notna() & frame["short_party_name"].notna()
+        (frame["rank"] >= 1)
+        & (frame["rank"] <= MAX_RANK)
+        & frame["long_party_name"].notna()
+        & frame["short_party_name"].notna()
     ].copy()
     totals = frame[frame["rank"] == TOTAL_RANK]
 
     result: dict[str, dict] = {"varieties": {}, "unmapped": set()}
     # 收集未映射的会员名（多头 + 空头）
-    all_names = set(ranked["long_party_name"].unique()) | set(ranked["short_party_name"].unique())
+    all_names = set(ranked["long_party_name"].unique()) | set(
+        ranked["short_party_name"].unique()
+    )
     result["unmapped"] = {
-        base_name(name) for name in all_names
-        if canonical_member(name) is None
+        base_name(name) for name in all_names if canonical_member(name) is None
     }
 
     for variety in VARIETIES:
@@ -259,11 +308,15 @@ def aggregate_day(frame: pd.DataFrame) -> dict:
         if block.empty:
             continue
         # 多头：按 long_party_name 归集
-        long_per_member = block.groupby("long_party_name", as_index=False)["long_oi"].sum()
+        long_per_member = block.groupby("long_party_name", as_index=False)[
+            "long_oi"
+        ].sum()
         long_per_member["group"] = long_per_member["long_party_name"].map(group_of)
         long_by_group = long_per_member.groupby("group")["long_oi"].sum()
         # 空头：按 short_party_name 归集
-        short_per_member = block.groupby("short_party_name", as_index=False)["short_oi"].sum()
+        short_per_member = block.groupby("short_party_name", as_index=False)[
+            "short_oi"
+        ].sum()
         short_per_member["group"] = short_per_member["short_party_name"].map(group_of)
         short_by_group = short_per_member.groupby("group")["short_oi"].sum()
 
@@ -293,7 +346,9 @@ def aggregate_day(frame: pd.DataFrame) -> dict:
 
 def day_views(aggregated: dict) -> dict[str, dict[str, dict]]:
     """展开为 {view: {group: {long, short}}}；`all` 为各品种手数直接相加。"""
-    views: dict[str, dict[str, dict]] = {view: {gid: {"long": 0, "short": 0} for gid, _ in GROUPS} for view in VIEWS}
+    views: dict[str, dict[str, dict]] = {
+        view: {gid: {"long": 0, "short": 0} for gid, _ in GROUPS} for view in VIEWS
+    }
     for variety, payload in aggregated["varieties"].items():
         for gid, _ in GROUPS:
             values = payload["groups"][gid]
@@ -311,7 +366,9 @@ def classify(net_change, next_ret) -> str:
     return SAME if (net_change > 0) == (next_ret > 0) else HEDGE
 
 
-def build_series(dates: list[str], day_map: dict[str, dict], closes: list[float | None]) -> dict:
+def build_series(
+    dates: list[str], day_map: dict[str, dict], closes: list[float | None]
+) -> dict:
     next_returns: list[float | None] = []
     for index in range(len(dates)):
         if index + 1 < len(dates) and closes[index] and closes[index + 1]:
@@ -342,9 +399,13 @@ def build_series(dates: list[str], day_map: dict[str, dict], closes: list[float 
             for index in range(len(dates)):
                 current = net_arr[index]
                 previous = net_arr[index - 1] if index > 0 else None
-                chg = None if current is None or previous is None else current - previous
+                chg = (
+                    None if current is None or previous is None else current - previous
+                )
                 chg_arr.append(chg)
-                rel_arr.append(NO_DATA if current is None else classify(chg, next_returns[index]))
+                rel_arr.append(
+                    NO_DATA if current is None else classify(chg, next_returns[index])
+                )
             series[gid][view] = {
                 "long": long_arr,
                 "short": short_arr,
@@ -367,7 +428,9 @@ def summarize(dates: list[str], series: dict) -> dict:
             pending = relation.count(PENDING)
             no_data = relation.count(NO_DATA)
             decided = same + hedge
-            decided_days = [day for day, code in zip(dates, relation) if code in (SAME, HEDGE)]
+            decided_days = [
+                day for day, code in zip(dates, relation) if code in (SAME, HEDGE)
+            ]
             stats[gid][view] = {
                 "rate": (same / decided) if decided else None,
                 "rate_unit": "fraction",
@@ -383,9 +446,14 @@ def summarize(dates: list[str], series: dict) -> dict:
     return stats
 
 
-def build_payload(*, limit: int | None = None, fetcher=None, force: bool = False,
-                  benchmark: pd.DataFrame | None = None,
-                  market_index: pd.DataFrame | None = None) -> dict:
+def build_payload(
+    *,
+    limit: int | None = None,
+    fetcher=None,
+    force: bool = False,
+    benchmark: pd.DataFrame | None = None,
+    market_index: pd.DataFrame | None = None,
+) -> dict:
     bench = benchmark if benchmark is not None else load_benchmark()
     if bench.empty:
         raise RuntimeError("缺少沪深300 日线，无法确定交易日历")
@@ -429,13 +497,24 @@ def build_payload(*, limit: int | None = None, fetcher=None, force: bool = False
         "as_of": as_of,
         "generated_at": datetime.now(CN).isoformat(timespec="seconds"),
         "algorithm_version": ALGORITHM_VERSION,
-        "window": {"start": dates[0] if dates else None, "end": dates[-1] if dates else None,
-                   "years": WINDOW_YEARS},
-        "varieties": [{"code": code, "name": VARIETY_LABELS[code]} for code in VARIETIES],
+        "window": {
+            "start": dates[0] if dates else None,
+            "end": dates[-1] if dates else None,
+            "years": WINDOW_YEARS,
+        },
+        "varieties": [
+            {"code": code, "name": VARIETY_LABELS[code]} for code in VARIETIES
+        ],
         "institutions": [
-            {"id": gid, "name": name,
-             "note": ("前 20 会员中该主体的全部持仓" if gid != "others"
-                      else "前 20 会员中除国泰君安、中信期货外的合计")}
+            {
+                "id": gid,
+                "name": name,
+                "note": (
+                    "前 20 会员中该主体的全部持仓"
+                    if gid != "others"
+                    else "前 20 会员中除国泰君安、中信期货外的合计"
+                ),
+            }
             for gid, name in GROUPS
         ],
         "aggregation_note": AGGREGATION_NOTE,
@@ -457,8 +536,12 @@ def build_payload(*, limit: int | None = None, fetcher=None, force: bool = False
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="构建机构多空单产物（中金所前 20 会员持仓排名）")
-    parser.add_argument("--limit", type=int, default=None, help="仅构建最近 N 个交易日（调试用）")
+    parser = argparse.ArgumentParser(
+        description="构建机构多空单产物（中金所前 20 会员持仓排名）"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=None, help="仅构建最近 N 个交易日（调试用）"
+    )
     parser.add_argument("--force", action="store_true", help="忽略缓存重新抓取")
     parser.add_argument("--dry-run", action="store_true", help="只构建不落盘")
     args = parser.parse_args()
@@ -466,10 +549,18 @@ def main() -> None:
     started = time.time()
     payload = build_payload(limit=args.limit, force=args.force)
     elapsed = time.time() - started
-    print(f"构建完成：{payload['quality']['cached_days']}/{payload['quality']['trading_days']} 个交易日，"
-          f"缺失 {len(payload['quality']['missing_dates'])} 个，耗时 {elapsed:.1f}s")
+    print(
+        f"构建完成：{payload['quality']['cached_days']}/{payload['quality']['trading_days']} 个交易日，"
+        f"缺失 {len(payload['quality']['missing_dates'])} 个，耗时 {elapsed:.1f}s"
+    )
     if args.dry_run:
-        print(json.dumps({gid: payload["stats"][gid]["all"] for gid, _ in GROUPS}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {gid: payload["stats"][gid]["all"] for gid, _ in GROUPS},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
         return
     protected_write(OUTPUT_NAME, payload, compact_arrays=True)
 
