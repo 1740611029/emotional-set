@@ -35677,8 +35677,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-19",
-          "days": 3,
+          "end_date": "2026-11-20",
+          "days": 4,
           "has_divergence": true
         }
       ]
@@ -52294,8 +52294,8 @@
         },
         {
           "start_date": "2026-11-17",
-          "end_date": "2026-11-19",
-          "days": 3,
+          "end_date": "2026-11-20",
+          "days": 4,
           "has_divergence": false
         }
       ]

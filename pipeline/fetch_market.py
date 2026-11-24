@@ -230,16 +230,23 @@ INDEX_COLUMNS = [
 
 
 def fetch_index_daily_sina(code: str) -> pd.DataFrame:
-    """单只指数新浪公开日线（akshare stock_zh_index_daily）。
+    """单只指数新浪公开日线（akshare 新浪指数日线接口）。
 
     2026-11-14 起的指数生产源：一次返回全历史，接口温和（实测 0.4s），无已知封禁。
     返回列对齐 INDEX_COLUMNS（date/open/close/high/low/volume，date 为字符串）；
     新浪不提供成交额字段，指数信号算法只用 OHLC 与成交量，不受影响。
     换源经用户 2026-11-14 授权：可用性优先于口径延续（算法后续另行重写）。
+    2026-11-23 留痕：akshare 1.20.44 将 stock_zh_index_daily 更名为
+    index_zh_daily_sina；实测同源新浪、参数 symbol 与返回列均未变，数据口径不变。
+    此处按运行环境择优取名，兼容 requirements 的 akshare>=1.17 下限。
     """
     if not LIMITER.acquire("sina", line="index-daily"):
         raise RuntimeError("新浪限流冷却中，跳过指数日线请求（统一限速器）")
-    frame = call_with_retry(ak.stock_zh_index_daily, symbol=code)
+    # akshare >=1.20.44 移除了旧名；新旧接口同源同参同列，按可用者选择。
+    fetcher = getattr(ak, "index_zh_daily_sina", None)
+    if fetcher is None:  # akshare < 1.20.44 环境仍用旧接口名
+        fetcher = ak.stock_zh_index_daily
+    frame = call_with_retry(fetcher, symbol=code)
     if frame is None or frame.empty:
         raise ValueError(f"新浪 {code} 指数日线返回空数据")
     frame = frame.copy()
