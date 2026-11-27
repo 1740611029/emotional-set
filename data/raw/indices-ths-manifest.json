@@ -3,36 +3,36 @@
     "code": "sh000001",
     "name": "上证指数",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 8772,
+    "rows": 8773,
     "start": "1990-12-19",
-    "end": "2026-11-26",
+    "end": "2026-11-27",
     "path": "data\\raw\\indices-ths\\sh000001.csv"
   },
   {
     "code": "sz399006",
     "name": "创业板指",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 4004,
+    "rows": 4005,
     "start": "2010-06-01",
-    "end": "2026-11-26",
+    "end": "2026-11-27",
     "path": "data\\raw\\indices-ths\\sz399006.csv"
   },
   {
     "code": "sh000688",
     "name": "科创50",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 1672,
+    "rows": 1673,
     "start": "2020-01-02",
-    "end": "2026-11-26",
+    "end": "2026-11-27",
     "path": "data\\raw\\indices-ths\\sh000688.csv"
   },
   {
     "code": "sh000300",
     "name": "沪深300",
     "source": "新浪公开指数日线（不复权）",
-    "rows": 6039,
+    "rows": 6040,
     "start": "2002-01-04",
-    "end": "2026-11-26",
+    "end": "2026-11-27",
     "path": "data\\raw\\indices-ths\\sh000300.csv"
   }
 ]

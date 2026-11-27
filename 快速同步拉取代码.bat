@@ -33,7 +33,7 @@ del "%TEMP%\emotional-set-status.txt" >nul 2>&1
 
 if "%DIRTY%"=="0" goto CLEAN
 echo [清理] 工作区存在 %DIRTY% 个未提交改动，将全部撤销后拉取最新代码 ...
-git reset --hard HEAD -- . ":(exclude)*.bat"
+git restore --source=HEAD --staged --worktree :/ ":(exclude)*.bat"
 git clean -fd -e *.bat
 echo [清理] 本地改动已撤销。
 
