@@ -442,14 +442,20 @@ def main(argv: list[str] | None = None) -> int:
     def _wait_and_open() -> None:
         url = _url(host, port)
         health = _url(host, port, "/api/health")
-        for _ in range(60):
+        # 服务不再在 startup 里阻塞补齐，正常 2-3 秒就绪；留足冷启动与前端构建余量。
+        for attempt in range(120):
             try:
                 with urllib.request.urlopen(health, timeout=2):
                     webbrowser.open(url)
                     return
             except Exception:
+                if attempt and attempt % 15 == 0:
+                    print(
+                        f"  服务仍在启动，等待就绪后自动打开 {url}（数据补齐在后台进行）",
+                        flush=True,
+                    )
                 time.sleep(1)
-        print("[WARN] 服务未就绪，未自动打开浏览器。")
+        print(f"[WARN] 服务仍未就绪，请稍后手动打开 {url}")
 
     if not args.no_open:
         threading.Thread(target=_wait_and_open, daemon=True).start()

@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-23",
-  "generated_at": "2026-11-24T17:08:56",
+  "as_of": "2026-11-26",
+  "generated_at": "2026-11-27T16:53:11",
   "algorithm_version": "etf-volume-spike-v1.2",
   "threshold_amount": 10000000000.0,
   "cluster_gap_days": 2,
@@ -863,6 +863,27 @@
       "etf_codes": ["588000", "159915"],
       "total_amount": 24865907102.0,
       "state": "下跌底部区"
+    },
+    {
+      "date": "2026-11-24",
+      "level": "L2",
+      "etf_codes": ["588000", "159915"],
+      "total_amount": 27478463942.0,
+      "state": "下跌底部区"
+    },
+    {
+      "date": "2026-11-25",
+      "level": "L1",
+      "etf_codes": ["159915"],
+      "total_amount": 12208183133.0,
+      "state": "下跌底部区"
+    },
+    {
+      "date": "2026-11-26",
+      "level": "L1",
+      "etf_codes": ["159915"],
+      "total_amount": 12942412821.0,
+      "state": "下跌底部区"
     }
   ],
   "events": [
@@ -1092,8 +1113,8 @@
     },
     {
       "start_date": "2026-11-11",
-      "end_date": "2026-11-23",
-      "days": 9,
+      "end_date": "2026-11-26",
+      "days": 12,
       "level": "L1",
       "state": "下跌底部区",
       "peak_amount": 81288807006.0

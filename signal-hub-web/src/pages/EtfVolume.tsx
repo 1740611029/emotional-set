@@ -9,6 +9,11 @@ import { usePageMeta } from '../data/PageMetaProvider';
 import { formatTimestamp } from '../lib/formatTimestamp';
 import { sliceEtfSeriesToView } from '../lib/etfVolumeSeries';
 import { buildShareFlowView, formatSignedYi, sumRecent } from '../lib/etfShareFlow';
+import { BroadInflow6yChart } from '../components/BroadInflow6yChart';
+import { useBroadInflow6y } from '../hooks/useBroadInflow6y';
+import {
+  buildBroadInflow6yView, formatCumYi, formatSignedYi as formatSignedYi6y,
+} from '../lib/broadInflow6y';
 
 export function EtfVolume() {
   const { data, error, isLoading, refresh } = useEtfVolumeSeries();
@@ -24,6 +29,13 @@ export function EtfVolume() {
     () => (flow && flow.data_state !== 'preparing' ? buildShareFlowView(flow) : null),
     [flow],
   );
+  // 页尾 6 年折线图：独立数据线与独立产物，与上方柱状图互不依赖
+  const { data: broad6y, error: broad6yError, isLoading: broad6yLoading } = useBroadInflow6y();
+  const broad6yView = useMemo(
+    () => (broad6y && broad6y.data_state !== 'preparing' ? buildBroadInflow6yView(broad6y) : null),
+    [broad6y],
+  );
+  const hasBroad6y = Boolean(broad6yView && broad6yView.dates.length > 0);
 
   const hasData = Boolean(data && data.data_state !== 'preparing' && data.dates.length > 0);
   const hasFlow = Boolean(flowView && flowView.dates.length > 0);
@@ -144,6 +156,73 @@ export function EtfVolume() {
             <EtfAmountLinesChart view={view} loading={isLoading} />
           </div>
         </>
+      )}
+
+      {/* 页尾：宽基 ETF 申购净流入·近 6 年（逐日动态池，累计 + 日频双面板折线）
+          独立数据线与独立产物，与上方柱状图互不影响 */}
+      {broad6yError && (
+        <div className="mt-8">
+          <Notice tone="warn">6 年净流入刷新失败：{broad6yError}。{broad6y ? '当前保留最近一次成功数据。' : '暂无可展示数据，请重试。'}</Notice>
+        </div>
+      )}
+      {broad6y?.data_state === 'preparing' && (
+        <div className="glass-card rounded-2xl p-6 mt-8">
+          <EmptyState text="6 年宽基申购净流入数据准备中" hint={broad6y.stale_reason ?? '份额与单位净值落盘完成后将在此展示，页面不会以占位数值替代'} />
+        </div>
+      )}
+      {hasBroad6y && broad6y && broad6yView && (
+        <div className="glass-card rounded-2xl p-6 mt-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-4">
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-1">宽基 ETF 申购净流入·近 6 年</h3>
+              <p className="text-xs text-slate-400">
+                上：累计净流入（左轴，亿元）与上证指数（右轴）；下：日频净流入（零轴居中）。拖动图表下方横向滑块筛选时间范围
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-end gap-x-6 gap-y-2">
+              <div className="text-right">
+                <div className="text-xs text-slate-400">区间累计</div>
+                <div className={`text-lg font-bold ${broad6y.stats.cum_yi >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                  {formatCumYi(broad6y.stats.cum_yi)}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-slate-400">昨日净流入</div>
+                <div className={`text-lg font-bold ${(broad6y.stats.last_day_yi ?? 0) >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                  {broad6y.stats.last_day_yi === null ? '—' : `${formatSignedYi6y(broad6y.stats.last_day_yi)} 亿`}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-slate-400">近{broad6y.stats.last_60d_days}日净流入</div>
+                <div className={`text-lg font-bold ${broad6y.stats.last_60d_yi >= 0 ? 'text-coral-500' : 'text-brand-500'}`}>
+                  {formatSignedYi6y(broad6y.stats.last_60d_yi)} 亿
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-slate-400">区间宽基池</div>
+                <div className="text-lg font-bold text-slate-700">
+                  {broad6y.coverage.min_pool}~{broad6y.coverage.max_pool} 只
+                </div>
+              </div>
+            </div>
+          </div>
+          <BroadInflow6yChart view={broad6yView} loading={broad6yLoading && !broad6y} />
+          <div className="mt-2 space-y-1 text-xs text-slate-400">
+            <p>
+              口径：Σ(份额变化×单位净值)，宽基池按当日交易所份额快照的基金简称逐日动态判定，
+              池只数随市场从 {broad6y.coverage.min_pool} 只扩张到 {broad6y.coverage.max_pool} 只；
+              覆盖 {broad6y.coverage.start} ~ {broad6y.coverage.end}（{broad6y.coverage.trading_days} 个交易日）。
+            </p>
+            <p>
+              与上方柱状图口径不同（本图为逐日动态池、柱状图为 2025 年起单日固化池），同一天数值可能不一致，
+              两图各自独立、不可直接相减。
+            </p>
+            <p>
+              累计曲线后段更陡含池扩张与市场规模增长的结构性因素，不能直接读作「资金加速流入」；
+              份额拆分/合并日已拦截 {broad6y.anomalies.split_skipped} 次不计入。
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

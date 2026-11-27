@@ -56,6 +56,8 @@ CFFEX_RAW = RAW / "cffex"
 REFRESH_STATE = RAW / "refresh-state.json"
 # 宽基 ETF 申购净流入：纯展示层产物，与 ETF 日线（6 只成交额）是两条独立数据线
 ETF_SHARE_FLOW_OUTPUT = ROOT / "data" / "etf-share-flow.json"
+# 宽基 ETF 申购净流入·近 6 年（逐日动态池）：独立产物，与上方柱状图口径不同、互不影响
+BROAD_INFLOW_6Y_OUTPUT = ROOT / "data" / "broad-inflow-6y.json"
 MIN_INDEX_ROWS = 1250
 STALE_SECTOR_LAG_DAYS = 60  # 板块本地尾部落后超过该交易天数视为已停更，不再请求
 CN = ZoneInfo("Asia/Shanghai")
@@ -396,11 +398,29 @@ def update_sectors(progress: Progress | None = None) -> int:
 def update_institutions(progress: Progress | None = None) -> dict:
     """机构持仓增量更新：独立产物，失败只记录日志，不阻断指数与板块刷新。"""
     progress = progress or Progress()
-    progress.update("institutions", "更新机构持仓")
     try:
-        from institution_positions import build_payload  # noqa: PLC0415
+        from institution_positions import (  # noqa: PLC0415
+            build_payload,
+            reusable_payload,
+        )
         from io_utils import protected_write  # noqa: PLC0415
 
+        # 机构数据每交易日只多一行，而整包重建要逐日重算 6 年窗口（727 天，约 4-6
+        # 分钟纯 CPU）。源尚未发布新交易日时没有新增数据，直接复用现有产物，避免
+        # 每次启动/每轮补齐都白花这几分钟（2026-11-27 启动长时间卡住的直接原因之一）。
+        cached = reusable_payload()
+        if cached is not None:
+            progress.update(
+                "institutions",
+                f"机构持仓无新增交易日（缓存到 {cached['as_of']}），复用现有产物",
+            )
+            return {
+                "status": "ok",
+                "as_of": cached["as_of"],
+                "missing": len(cached["quality"]["missing_dates"]),
+                "reused": True,
+            }
+        progress.update("institutions", "更新机构持仓")
         payload = build_payload()
         protected_write("institution-positions.json", payload, compact_arrays=True)
         return {
@@ -464,6 +484,7 @@ def refresh_daily(progress: Progress | None = None) -> dict:
     institutions = update_institutions(progress)
     etf = update_etf(progress)
     share_flow = update_etf_share_flow(progress)
+    broad_inflow = update_broad_inflow_6y(progress)
     display = update_display_snapshots(progress)
     progress.update("ready", f"指数 {len(indices)} 个、板块 {sectors} 个有更新")
     return {
@@ -472,6 +493,7 @@ def refresh_daily(progress: Progress | None = None) -> dict:
         "institutions": institutions,
         "etf": etf,
         "etf_share_flow": share_flow,
+        "etf_broad_inflow_6y": broad_inflow,
         "display": display,
     }
 
@@ -526,6 +548,18 @@ def _etf_share_flow_date() -> str | None:
     return str(value) if value else None
 
 
+def _broad_inflow_6y_date() -> str | None:
+    """6 年版宽基净流入产物的 as_of；产物缺失或损坏返回 None 触发补齐。"""
+    if not BROAD_INFLOW_6Y_OUTPUT.exists():
+        return None
+    try:
+        payload = json.loads(BROAD_INFLOW_6Y_OUTPUT.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    value = payload.get("as_of")
+    return str(value) if value else None
+
+
 def latest_local_dates() -> dict[str, str | None]:
     """各数据线本地最后日期：指数取最小（信号 3 指数 + 基准沪深300 全集口径；
     index-signals 的 as_of 仍只按信号 3 指数计算，不受基准影响）、板块取最大、
@@ -540,6 +574,7 @@ def latest_local_dates() -> dict[str, str | None]:
         "institutions": cffex[-1].stem if cffex else None,
         "etf": _etf_ready_date(),
         "etf_share_flow": _etf_share_flow_date(),
+        "etf_broad_inflow_6y": _broad_inflow_6y_date(),
     }
 
 
@@ -644,6 +679,28 @@ def update_etf_share_flow(progress: Progress | None = None) -> dict:
     return result
 
 
+def update_broad_inflow_6y(progress: Progress | None = None) -> dict:
+    """宽基 ETF 申购净流入·近 6 年（逐日动态池）增量刷新（只读展示层）。
+
+    与 `update_etf_share_flow` 相互独立：独立产物、独立缓存、独立失败边界。
+    未建库时返回 uninitialized，不触发全量抓取；失败只告警，不阻断其余数据线。
+    """
+    progress = progress or Progress()
+    try:
+        from fetch_broad_inflow_6y import update_broad_inflow_6y as refresh  # noqa: PLC0415
+
+        result = refresh()
+    except Exception as exc:  # noqa: BLE001  # 展示层失败不得阻断主链
+        detail = f"{type(exc).__name__}: {exc}"
+        print(f"[bootstrap] 6 年宽基净流入更新失败（已跳过）：{detail}", flush=True)
+        return {"status": "failed", "error": detail}
+    if result.get("status") == "updated":
+        progress.update("etf_broad_inflow_6y", f"6 年净流入更新至 {result['as_of']}")
+    elif result.get("error"):
+        print(f"[bootstrap] 6 年宽基净流入更新告警：{result['error']}", flush=True)
+    return result
+
+
 def ensure_fresh_data(
     progress: Progress | None = None,
     *,
@@ -729,6 +786,9 @@ def _ensure_fresh_data_core(
     if "etf_share_flow" in targets:
         refreshed["etf_share_flow"] = update_etf_share_flow(progress)
         _record_attempt(state, day, "etf_share_flow")
+    if "etf_broad_inflow_6y" in targets:
+        refreshed["etf_broad_inflow_6y"] = update_broad_inflow_6y(progress)
+        _record_attempt(state, day, "etf_broad_inflow_6y")
 
     after = data_gap()
     still = [key for key in stale if key in after["stale"]]

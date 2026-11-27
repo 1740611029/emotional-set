@@ -446,6 +446,42 @@ def summarize(dates: list[str], series: dict) -> dict:
     return stats
 
 
+def latest_cached_day() -> str | None:
+    """缓存里最新的一个交易日：cffex 原始表以日期命名。"""
+    try:
+        days = [path.stem for path in RAW_CFFEX.glob("*.csv")]
+    except OSError:
+        return None
+    return max(days) if days else None
+
+
+def existing_payload() -> dict | None:
+    """已落盘的产物；读不到或格式不对返回 None。"""
+    try:
+        payload = json.loads((DATA / OUTPUT_NAME).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def reusable_payload() -> dict | None:
+    """现有产物能否直接复用：口径版本一致，且机构缓存没有新增交易日。
+
+    机构数据每个交易日只多一行，而整包重建要把 6 年窗口逐日聚合重算（727 天约
+    4-6 分钟纯 CPU）。源尚未发布新交易日时（盘后当天还没定稿），每轮补齐都重算
+    一遍纯属浪费，会拖慢启动与后续调度。这里以「缓存最新日 == 产物 as_of」判定
+    没有新增数据；口径版本变了则照常重建。
+    """
+    payload = existing_payload()
+    if not payload:
+        return None
+    if payload.get("algorithm_version") != ALGORITHM_VERSION:
+        return None
+    if payload.get("as_of") != latest_cached_day():
+        return None
+    return payload
+
+
 def build_payload(
     *,
     limit: int | None = None,

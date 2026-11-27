@@ -34,7 +34,7 @@
   ],
   "universe_snapshot": {
     "接口校验": "通过",
-    "校验日期": "2026-11-24"
+    "校验日期": "2026-11-27"
   },
   "boards": [
     {
@@ -42,9 +42,9 @@
       "name": "科创50ETF华夏",
       "index": "科创50",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 1460,
+      "rows": 1463,
       "start": "2020-11-16",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\588000.csv"
     },
@@ -53,9 +53,9 @@
       "name": "创业板ETF易方达",
       "index": "创业板指",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 3629,
+      "rows": 3632,
       "start": "2011-12-09",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\159915.csv"
     },
@@ -64,9 +64,9 @@
       "name": "沪深300ETF华泰柏瑞",
       "index": "沪深300",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 3521,
+      "rows": 3524,
       "start": "2012-05-28",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\510300.csv"
     },
@@ -75,9 +75,9 @@
       "name": "上证50ETF华夏",
       "index": "上证50",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 5286,
+      "rows": 5289,
       "start": "2005-02-23",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\510050.csv"
     },
@@ -86,9 +86,9 @@
       "name": "中证1000ETF南方",
       "index": "中证1000",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 2440,
+      "rows": 2443,
       "start": "2016-11-04",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\512100.csv"
     },
@@ -97,9 +97,9 @@
       "name": "中证500ETF南方",
       "index": "中证500",
       "source": "新浪 ETF 历史日线（不复权）",
-      "rows": 3324,
+      "rows": 3327,
       "start": "2013-03-15",
-      "end": "2026-11-23",
+      "end": "2026-11-26",
       "insufficient_history": false,
       "path": "data\\raw\\etf-daily\\510500.csv"
     }

@@ -400,6 +400,10 @@ class CloseRefreshTest(unittest.IsolatedAsyncioTestCase):
             mock.patch("bootstrap.update_indices") as indices,
             mock.patch("bootstrap.update_institutions"),
             mock.patch("bootstrap.update_etf"),
+            # 2026-11-27：收盘链还刷新两条只读展示线（宽基 ETF 净流入 / 近 6 年），
+            # 旧桩漏了它们，用例会真跑份额与净值接口而长时间不返回。
+            mock.patch("bootstrap.update_etf_share_flow"),
+            mock.patch("bootstrap.update_broad_inflow_6y"),
             mock.patch("bootstrap.update_display_snapshots"),
             mock.patch(
                 "build_dashboard.build_etf_volume_events",

@@ -3,6 +3,7 @@ import type {
   BloggerPosts, EtfShareFlow, EtfVolumeSeries, InstitutionPositions,
   InstitutionPositionsParams, LhbDaily, LhbOverview, LhbTraderDetail,
 } from './types';
+import type { BroadInflow6y } from '../lib/broadInflow6y';
 
 const TIMEOUT_MS = 10_000;
 
@@ -342,6 +343,56 @@ export async function fetchLhbDaily(date: string, signal?: AbortSignal): Promise
     if (error instanceof ApiError) throw error;
     if ((error as Error)?.name === 'AbortError') throw new ApiError('龙虎榜游资请求超时或已取消');
     throw new ApiError((error as Error)?.message || '龙虎榜游资请求失败');
+  } finally {
+    window.clearTimeout(timer);
+    signal?.removeEventListener('abort', forwardAbort);
+  }
+}
+
+/** 6 年宽基申购净流入结构校验：列式数组缺一即报错；202 准备中同样返回完整结构，不伪造数值。 */
+export function normalizeBroadInflow6y(payload: unknown): BroadInflow6y {
+  if (!isRecord(payload)) {
+    throw new ApiError('6 年宽基申购净流入响应不是合法对象');
+  }
+  const state = payload.data_state;
+  if (state !== 'ready' && state !== 'preparing' && state !== 'degraded') {
+    throw new ApiError('6 年宽基申购净流入响应状态非法');
+  }
+  const fields = ['dates', 'daily_inflow_yi', 'cum_inflow_yi', 'index_close', 'etf_count'];
+  const missing = fields.filter((key) => !Array.isArray((payload as Record<string, unknown>)[key]));
+  if (missing.length > 0 || !isRecord(payload.coverage) || !isRecord(payload.stats)) {
+    throw new ApiError(`6 年宽基申购净流入响应缺少 ${missing.join('/') || 'coverage/stats'}`);
+  }
+  return payload as unknown as BroadInflow6y;
+}
+
+/** 6 年宽基申购净流入：只读落盘产物，202 准备中同样解析为结构，不由客户端伪造数值。 */
+export async function fetchBroadInflow6y(signal?: AbortSignal): Promise<BroadInflow6y> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const forwardAbort = () => controller.abort();
+  signal?.addEventListener('abort', forwardAbort);
+  try {
+    const response = await fetch('/api/etf/broad-inflow-6y', {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!response.ok && response.status !== 202) {
+      let detail = `6 年宽基申购净流入接口返回 ${response.status}`;
+      try {
+        const body = await response.json();
+        if (isRecord(body) && typeof body.detail === 'string') detail = body.detail;
+      } catch {
+        /* 响应体非 JSON 时保留状态码文案 */
+      }
+      throw new ApiError(detail, response.status);
+    }
+    return normalizeBroadInflow6y(await response.json());
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    if ((error as Error)?.name === 'AbortError') throw new ApiError('6 年宽基申购净流入请求超时或已取消');
+    throw new ApiError((error as Error)?.message || '6 年宽基申购净流入请求失败');
   } finally {
     window.clearTimeout(timer);
     signal?.removeEventListener('abort', forwardAbort);

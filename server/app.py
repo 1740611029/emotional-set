@@ -13,6 +13,7 @@ from . import paths
 from .blogger import load_posts as blogger_posts
 from .blogger import mark_presence as blogger_presence
 from .blogger import trigger_refresh as blogger_trigger_refresh
+from .broad_inflow_6y import BroadInflow6yStore
 from .etf_share_flow import EtfShareFlowStore
 from .etf_volume import EtfVolumeStore
 from .institutions import (
@@ -42,6 +43,8 @@ INSTITUTION_STORE = InstitutionStore()
 ETF_VOLUME_STORE = EtfVolumeStore()
 # 宽基 ETF 申购净流入：只读展示层，不参与任何信号计算
 ETF_SHARE_FLOW_STORE = EtfShareFlowStore()
+# 宽基 ETF 申购净流入近 6 年（逐日动态池）：独立产物，与上方柱状图互不影响
+BROAD_INFLOW_6Y_STORE = BroadInflow6yStore()
 # 龙虎榜知名游资：只读展示层，不参与任何信号计算
 LHB_STORE = LhbStore()
 SCHEDULER = MarketScheduler(
@@ -144,6 +147,12 @@ def etf_volume_series():
 def etf_share_flow():
     """宽基 ETF 申购净流入（列式）：只读落盘产物，未就绪返回 preparing 不返回 5xx。"""
     return ETF_SHARE_FLOW_STORE.series()
+
+
+@app.get("/api/etf/broad-inflow-6y")
+def etf_broad_inflow_6y():
+    """宽基 ETF 申购净流入近 6 年（逐日动态池）：只读落盘产物，未就绪返回 preparing 不返回 5xx。"""
+    return BROAD_INFLOW_6Y_STORE.series()
 
 
 @app.get("/api/blogger/posts")

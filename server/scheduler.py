@@ -27,7 +27,9 @@ DEFAULT_INTERVAL = 30
 # sched-v4.1：2026-11-20 收盘任务补回指数日线增量与 ETF 放量事件重建（机构页/ETF 页依赖）
 # sched-v5.0：2026-11-24 启动即补齐落后数据；盘中不再跳过调度；收盘任务按实际缺口判完成
 # sched-v5.1：2026-11-24 宽基 ETF 申购净流入纳入与其他页面一致的数据线刷新（只读展示层）
-SCHEDULER_VERSION = "sched-v5.1"
+# sched-v5.2：2026-11-27 启动补齐移出 startup（后台执行），服务立刻监听端口；
+#             机构持仓无新增交易日时复用现有产物，不再每次重算 6 年窗口
+SCHEDULER_VERSION = "sched-v5.2"
 # 收盘重算时刻声明：指数/ETF 源为新浪（全量 1 请求，定稿较早）。
 # 17:00 首试；未真的覆盖到最近已完成交易日（源未发布）不算完成，
 # 按 CLOSE_RETRY_MINUTES 间隔持续重试，直到补齐或进入下一个交易日。
@@ -41,7 +43,7 @@ CLOSE_RETRY_MINUTES = 10
 FRESH_CHECK_MINUTES = 10
 # 页面消费的数据线：启动与盘中补齐跑这四条，单线失败不影响其余线
 # etf_share_flow 为宽基 ETF 申购净流入（只读展示层），与 etf（6 只成交额日线）并列独立
-CORE_LINES = ("indices", "institutions", "etf", "etf_share_flow")
+CORE_LINES = ("indices", "institutions", "etf", "etf_share_flow", "etf_broad_inflow_6y")
 # 板块日线无页面消费且全量补齐慢（10-30 分钟），只在启动后由后台线程补齐
 SECTOR_LINES = ("sectors",)
 # 龙虎榜知名游资日更时刻：东财龙虎榜约 17:00-19:00 逐步发布，20:00 首试、22:00 兜底补试
@@ -82,6 +84,9 @@ class MarketScheduler:
         self._lhb_day: str | None = None
         self._lhb_done_slots: set[str] = set()
         self._task: asyncio.Task | None = None
+        # 启动补齐在后台线程跑：服务先监听端口，补齐完成后失效缓存让页面换新数据
+        self._bootstrap_task: asyncio.Task | None = None
+        self._bootstrapping = False
         # 定时任务开关只在进程内生效：重启服务一律恢复全开，避免"忘了开过"导致数据长期不更新
         self.task_enabled = {name: True for name in SERVER_TASKS}
         self.last_error: str | None = None
@@ -89,24 +94,46 @@ class MarketScheduler:
     # ---------- 生命周期 ----------
 
     async def start(self) -> None:
-        # 启动先判定数据是否已更新：未更新则先补齐，补齐（或失败）之后才出首屏数据
-        await asyncio.to_thread(self._bootstrap)
+        # 2026-11-27：启动不再阻塞在补齐上。
+        # 旧实现把 ensure_fresh_data 直接放在 startup 里同步跑；源尚未定稿（盘后当天
+        # 数据未发布）时机构持仓要把 6 年窗口（727 个交易日）重算一遍，其余四条线
+        # 也在反复重试，十几分钟都走不完，uvicorn 迟迟不监听 8000，start.py 等 60 秒
+        # 后放弃打开浏览器，用户看到的就是“启动不起来”。
+        # 现在服务立刻监听、页面先用上一版产物出图，补齐转后台，完成后再失效缓存。
+        self._bootstrap_task = asyncio.create_task(
+            self._bootstrap_async(), name="startup-bootstrap"
+        )
         self._task = asyncio.create_task(self._loop(), name="market-refresh")
 
+    async def _bootstrap_async(self) -> None:
+        """后台补齐：bootstrapping 标记挡住 tick 并发补齐，避免同一批文件被两处写。"""
+        self._bootstrapping = True
+        try:
+            await asyncio.to_thread(self._bootstrap)
+        except Exception as exc:  # noqa: BLE001  # 后台补齐失败只留痕，服务继续可用
+            self.last_error = f"启动补齐任务失败：{type(exc).__name__}: {exc}"
+            print(f"[scheduler] {self.last_error}", flush=True)
+        finally:
+            self._bootstrapping = False
+
     async def stop(self) -> None:
-        if self._task:
-            self._task.cancel()
+        for task in (self._task, self._bootstrap_task):
+            if task is None:
+                continue
+            task.cancel()
             try:
-                await self._task
+                await task
             except asyncio.CancelledError:
                 pass
-            self._task = None
+        self._task = None
+        self._bootstrap_task = None
 
     def _bootstrap(self) -> None:
         """启动即判定并补齐：每次启动都检查缺口，落后就补，不再等 17:00。
 
-        页面消费的三条线（指数/机构/ETF）阻塞补齐后才出首屏；板块日线无页面消费
-        且全量补齐要 10-30 分钟，交给后台线程，避免拖住启动。
+        2026-11-27：本方法由 start() 放到后台任务里跑，不再阻塞 startup——
+        页面先用上一版产物出图，补齐完成后失效缓存换新数据。
+        板块日线无页面消费且全量补齐要 10-30 分钟，仍交给独立后台线程。
         任一步失败都不阻断启动，用现有数据照常出图，失败原因留痕到 /api/health。
         """
         from bootstrap import data_gap, ensure_fresh_data  # noqa: PLC0415
@@ -233,6 +260,9 @@ class MarketScheduler:
         """
         if not self.task_enabled["close_rebuild"]:
             return
+        if self._bootstrapping:
+            # 启动补齐仍在后台线程跑，等它收尾再判缺口，避免两条链路同时补同一批文件
+            return
         if (
             self._fresh_checked_at is not None
             and now - self._fresh_checked_at < timedelta(minutes=FRESH_CHECK_MINUTES)
@@ -324,6 +354,7 @@ class MarketScheduler:
             data_gap,
             ensure_raw_data,
             update_display_snapshots,
+            update_broad_inflow_6y,
             update_etf,
             update_etf_share_flow,
             update_institutions,
@@ -338,6 +369,7 @@ class MarketScheduler:
                 await asyncio.to_thread(update_institutions, self.progress)
                 await asyncio.to_thread(update_etf, self.progress)
                 await asyncio.to_thread(update_etf_share_flow, self.progress)
+                await asyncio.to_thread(update_broad_inflow_6y, self.progress)
                 await asyncio.to_thread(update_display_snapshots, self.progress)
                 self.payloads.invalidate()
             except Exception as exc:
@@ -442,7 +474,13 @@ class MarketScheduler:
 
         gap = data_gap()
         lines = {}
-        for key in ("indices", "institutions", "etf", "etf_share_flow"):
+        for key in (
+            "indices",
+            "institutions",
+            "etf",
+            "etf_share_flow",
+            "etf_broad_inflow_6y",
+        ):
             lag = gap["lag"].get(key)
             lines[key] = {
                 "as_of": gap["local"].get(key),
